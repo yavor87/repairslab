@@ -5,6 +5,7 @@ import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,6 +25,7 @@ public class VcIfrAnaModelli extends JInternalFrame {
 	private JPanel jContentPane = null;
 	private VcMainFrame parent = null;
 	private VcJDBCTablePanel pnlTableAnaModelli = null;
+	private Connection con = null;
 
 	/**
 	 * This is the xxx default constructor
@@ -32,6 +34,7 @@ public class VcIfrAnaModelli extends JInternalFrame {
 		super();
 		Logger.getRootLogger().debug("VcIfrAnaModelli constructor...");
 		this.parent = parent;
+		this.con = CommonMetodBin.getConn();
 		initialize();
 	}
 
@@ -84,10 +87,9 @@ public class VcIfrAnaModelli extends JInternalFrame {
 		if (pnlTableAnaModelli == null) {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
-			String query = "SELECT id,nome,descModello,idMarchi,idTipoApp,flagAttivo FROM gestrip.modelli"	;
+			String query = "SELECT id,nome,descModello,idMarchi,idTipoApp,flagAttivo FROM modelli"	;
 			
-			pnlTableAnaModelli = new VcJDBCTablePanel(
-					CommonMetodBin.getInstance().openConn(),query,true){
+			pnlTableAnaModelli = new VcJDBCTablePanel(con,query,true){
 				/**
 				 * 
 				 */
@@ -96,8 +98,8 @@ public class VcIfrAnaModelli extends JInternalFrame {
 				protected void onDelete(){
 					Logger.getRootLogger().debug("Deleting...");
 					try {
-						Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
-						String query = "select count(*) from gestrip.schede " +
+						Statement smtp = con.createStatement();
+						String query = "select count(*) from schede " +
 								"where idModello = "+getValueAt(currentRow(), 0);
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
@@ -122,15 +124,15 @@ public class VcIfrAnaModelli extends JInternalFrame {
 			pnlTableAnaModelli.createControlPanel();
 			pnlTableAnaModelli.setCheckBoxColumn(5,"S","N");
 			
-			String qryLovModelli = "select id,nome,descrizione from gestrip.marchi " +
+			String qryLovModelli = "select id,nome,descrizione from marchi " +
 					"where flagAttivo = 'S'";
-			String qryRenderModelli = "select nome from gestrip.marchi " +
+			String qryRenderModelli = "select nome from marchi " +
 					"where id = ";
 			pnlTableAnaModelli.setLovColumn(3,qryLovModelli,qryRenderModelli,"id","nome",50);
 			
-			String qryLovTipoApp = "select id,nome,descrizione from gestrip.tipoapparecchiature " +
+			String qryLovTipoApp = "select id,nome,descrizione from tipoapparecchiature " +
 					"where flagAttivo = 'S'";
-			String qryRenderTipoApp = "select nome from gestrip.tipoapparecchiature " +
+			String qryRenderTipoApp = "select nome from tipoapparecchiature " +
 					"where id = ";
 			pnlTableAnaModelli.setLovColumn(4,qryLovTipoApp,qryRenderTipoApp,"id","nome",50);
 		}

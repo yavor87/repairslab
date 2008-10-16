@@ -18,6 +18,7 @@ import java.awt.Rectangle;
 
 import javax.swing.JDialog;
 import java.awt.Dimension;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -63,6 +64,7 @@ public class VcDlgDetailScheda extends JDialog {
 	private VcIfrListaSchede listaSchede = null;
 	private JCheckBox chbRiconsegnato = null;
 	private JLabel lblRiconsegnato = null;
+	private Connection con = null;
 	
 	public static enum mode{
 		insert,update,view;
@@ -76,17 +78,18 @@ public class VcDlgDetailScheda extends JDialog {
 		Logger.getRootLogger().debug("VcDlgDetailScheda constructor...");
 		this.modality = modality;
 		this.listaSchede = listaSchede;
+		this.con = CommonMetodBin.getConn();
 		DbSchedaAction lsa = new DbSchedaAction();
 		try {
 			Logger.getRootLogger().debug("Set modality...");
 			if(modality == mode.insert || idScheda==0){
-				scheda = lsa.addScheda();
+				scheda = lsa.addScheda(con);
 			}else{
-				scheda = lsa.getScheda(idScheda);
+				scheda = lsa.getScheda(con,idScheda);
 			}
 		} catch (SQLException e) {
 			Logger.getRootLogger().error("Exception in Set modality \n"+e+"\n");
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		schedaLastSavepoint = scheda.clone();
 		initialize();
@@ -102,7 +105,7 @@ public class VcDlgDetailScheda extends JDialog {
 				try {
 					Logger.getRootLogger().debug("Closing 1...");
 					save();
-					CommonMetodBin.getInstance().openConn().commit();
+					con.commit();
 					if(listaSchede!=null){
 						listaSchede.getTblList().refresh();
 					}
@@ -114,7 +117,7 @@ public class VcDlgDetailScheda extends JDialog {
 			}else if (confirm == JOptionPane.NO_OPTION){
 				try {
 					Logger.getRootLogger().debug("Closing 2...");
-					CommonMetodBin.getInstance().openConn().rollback();
+					con.rollback();
 					if(listaSchede!=null){
 						listaSchede.getTblList().refresh();
 					}
@@ -128,7 +131,7 @@ public class VcDlgDetailScheda extends JDialog {
 		}else{
 			try {
 				Logger.getRootLogger().debug("Closing 3...");
-				CommonMetodBin.getInstance().openConn().rollback();
+				con.rollback();
 				if(listaSchede!=null){
 					listaSchede.getTblList().refresh();
 				}
@@ -138,7 +141,7 @@ public class VcDlgDetailScheda extends JDialog {
 			}
 			disposing = true;
 		}
-		
+		CommonMetodBin.closeConn(con);
 		if(disposing){
 			setVisible(false);
 			dispose();
@@ -215,7 +218,7 @@ public class VcDlgDetailScheda extends JDialog {
 	 */
 	private VcPnlApparecchio getPnlApparecchio() {
 		if (pnlApparecchio == null) {
-			pnlApparecchio = new VcPnlApparecchio(modality,scheda,this);
+			pnlApparecchio = new VcPnlApparecchio(modality,scheda,this,con);
 		}
 		return pnlApparecchio;
 	}
@@ -227,7 +230,7 @@ public class VcDlgDetailScheda extends JDialog {
 	 */
 	private VcPnlDatiCLiente getPnlDatiCliente() {
 		if (pnlDatiCliente == null) {
-			pnlDatiCliente = new VcPnlDatiCLiente(modality,scheda,this);
+			pnlDatiCliente = new VcPnlDatiCLiente(modality,scheda,this,con);
 		}
 		return pnlDatiCliente;
 	}
@@ -313,7 +316,7 @@ public class VcDlgDetailScheda extends JDialog {
 					if(Integer.parseInt(txfNumScheda.getText())!=scheda.getId()){
 						try {
 							Logger.getRootLogger().debug("getTxfNumScheda focus listener...");
-							existScheda = DbSchedaAction.existScheda(Integer.parseInt(txfNumScheda.getText()));
+							existScheda = DbSchedaAction.existScheda(con,Integer.parseInt(txfNumScheda.getText()));
 							if(existScheda){
 								JOptionPane.showMessageDialog(getParent(), 
 										"Esiste già una scheda con il numero inserito.", 
@@ -455,10 +458,13 @@ public class VcDlgDetailScheda extends JDialog {
 	private void save(){
 		try {
 			Logger.getRootLogger().debug("Saving...");
-			DbSchedaAction.saveScheda(scheda);
+			DbSchedaAction.saveScheda(con,scheda);
 			schedaLastSavepoint = scheda.clone();
 		} catch (SQLException e1) {
 			Logger.getRootLogger().error("Exception in Saving \n"+e1+"\n");
+			JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),
+                    "Errore: "
+                    +e1.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE);
 			//e1.printStackTrace();
 		}
 	}
@@ -494,19 +500,19 @@ public class VcDlgDetailScheda extends JDialog {
 				try {
 					Logger.getRootLogger().debug("Print Save...");
 					save();
-					CommonMetodBin.getInstance().openConn().commit();
-					pa.callReportRicevuta(this,scheda.getId());
+					con.commit();
+					pa.callReportRicevuta(this,scheda.getId(),con);
 				} catch (SQLException e1) {
 					Logger.getRootLogger().error("Exception in Closing 1 \n"+e1+"\n");
 					//e1.printStackTrace();
 				}
 			}else if (confirm == JOptionPane.NO_OPTION){
 				Logger.getRootLogger().debug("Print No Save...");
-				pa.callReportRicevuta(this,scheda.getId());
+				pa.callReportRicevuta(this,scheda.getId(),con);
 			}
 		}else{
 			Logger.getRootLogger().debug("Print No Save...");
-			pa.callReportRicevuta(this,scheda.getId());
+			pa.callReportRicevuta(this,scheda.getId(),con);
 		}
 	}
 

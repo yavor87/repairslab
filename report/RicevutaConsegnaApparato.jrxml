@@ -45,13 +45,14 @@
 	</parameter>
 	<queryString><![CDATA[SELECT
 schede.id,
-CONCAT(clienti.nome,' ',clienti.cognome) as nome_cognome,
+clienti.nome||' '||clienti.cognome as nome_cognome,
 clienti.indirizzo,
 clienti.city,
-CONCAT(clienti.phone,' - ',clienti.mobilePhone) as phone,
+clienti.phone||' - '||clienti.mobilePhone as phone,
 schede.dataInserimento,
 tipoapparecchiature.nome as tipo,
-CONCAT(marchi.nome,' / ',modelli.nome) as modelli,
+marchi.nome||' / '||modelli.nome as modelli,
+schede.serial,
 schede.accessoriConsegnati,
 schede.statoGenerale,
 schede.difettoSegnalato,
@@ -66,36 +67,37 @@ schede.noteStampa,
 schede.dataChiusura,
 schede.pagatoDalCliente
 FROM
-gestrip.schede
-LEFT JOIN gestrip.tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id
-LEFT JOIN gestrip.marchi on schede.idMarca=marchi.id
-LEFT JOIN gestrip.modelli on schede.idModello=modelli.id
-LEFT JOIN gestrip.clienti on schede.idCliente=clienti.id
-LEFT JOIN gestrip.tiporiparazione on schede.idTiporip=tiporiparazione.id
-LEFT JOIN gestrip.tpodatiacquisto on schede.idTipoDatiAcq=tpodatiacquisto.id
-WHERE schede.id = $P{idScheda};]]></queryString>
+schede
+LEFT JOIN tipoapparecchiature on idTipoApparecchiatura=tipoapparecchiature.id
+LEFT JOIN marchi on idMarca=marchi.id
+LEFT JOIN modelli on idModello=modelli.id
+LEFT JOIN clienti on idCliente=clienti.id
+LEFT JOIN tiporiparazione on idTiporip=tiporiparazione.id
+LEFT JOIN tpodatiacquisto on idTipoDatiAcq=tpodatiacquisto.id
+WHERE schede.id = $P{idScheda}]]></queryString>
 
-	<field name="id" class="java.lang.Integer"/>
-	<field name="nome_cognome" class="java.lang.String"/>
-	<field name="indirizzo" class="java.lang.String"/>
-	<field name="city" class="java.lang.String"/>
-	<field name="phone" class="java.lang.String"/>
-	<field name="dataInserimento" class="java.sql.Date"/>
-	<field name="tipo" class="java.lang.String"/>
-	<field name="modelli" class="java.lang.String"/>
-	<field name="accessoriConsegnati" class="java.lang.String"/>
-	<field name="statoGenerale" class="java.lang.String"/>
-	<field name="difettoSegnalato" class="java.lang.String"/>
-	<field name="nomeTipoRip" class="java.lang.String"/>
-	<field name="tpda" class="java.lang.String"/>
-	<field name="numeroDatiAcq" class="java.lang.String"/>
-	<field name="dataDatiAcq" class="java.sql.Date"/>
-	<field name="costoPreventivato" class="java.lang.Float"/>
-	<field name="descrizioneRiparazione" class="java.lang.String"/>
-	<field name="nonConform" class="java.lang.String"/>
-	<field name="noteStampa" class="java.lang.String"/>
-	<field name="dataChiusura" class="java.sql.Date"/>
-	<field name="pagatoDalCliente" class="java.lang.Float"/>
+	<field name="ID" class="java.lang.Integer"/>
+	<field name="NOME_COGNOME" class="java.lang.String"/>
+	<field name="INDIRIZZO" class="java.lang.String"/>
+	<field name="CITY" class="java.lang.String"/>
+	<field name="PHONE" class="java.lang.String"/>
+	<field name="DATAINSERIMENTO" class="java.sql.Date"/>
+	<field name="TIPO" class="java.lang.String"/>
+	<field name="MODELLI" class="java.lang.String"/>
+	<field name="SERIAL" class="java.lang.String"/>
+	<field name="ACCESSORICONSEGNATI" class="java.lang.String"/>
+	<field name="STATOGENERALE" class="java.lang.String"/>
+	<field name="DIFETTOSEGNALATO" class="java.lang.String"/>
+	<field name="NOMETIPORIP" class="java.lang.String"/>
+	<field name="TPDA" class="java.lang.String"/>
+	<field name="NUMERODATIACQ" class="java.lang.String"/>
+	<field name="DATADATIACQ" class="java.sql.Date"/>
+	<field name="COSTOPREVENTIVATO" class="java.lang.Double"/>
+	<field name="DESCRIZIONERIPARAZIONE" class="java.lang.String"/>
+	<field name="NONCONFORM" class="java.lang.String"/>
+	<field name="NOTESTAMPA" class="java.lang.String"/>
+	<field name="DATACHIUSURA" class="java.sql.Date"/>
+	<field name="PAGATODALCLIENTE" class="java.lang.Double"/>
 
 		<background>
 			<band height="0"  isSplitAllowed="true" >
@@ -119,7 +121,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="304"
+						y="315"
 						width="248"
 						height="37"
 						key="rectangle-1"/>
@@ -152,7 +154,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{id}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{ID}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -191,7 +193,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{indirizzo}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{INDIRIZZO}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -230,7 +232,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{city}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{CITY}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -269,7 +271,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{dataInserimento}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{DATAINSERIMENTO}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -294,7 +296,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="167"
+						y="178"
 						width="170"
 						height="40"
 						forecolor="#000000"
@@ -308,12 +310,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{accessoriConsegnati}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ACCESSORICONSEGNATI}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="168"
+						y="179"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -333,7 +335,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="205"
+						y="216"
 						width="170"
 						height="40"
 						forecolor="#000000"
@@ -347,12 +349,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{statoGenerale}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{STATOGENERALE}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="205"
+						y="216"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -372,7 +374,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="243"
+						y="254"
 						width="170"
 						height="40"
 						forecolor="#000000"
@@ -386,12 +388,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{difettoSegnalato}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{DIFETTOSEGNALATO}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="244"
+						y="255"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -411,7 +413,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="281"
+						y="292"
 						width="169"
 						height="11"
 						forecolor="#000000"
@@ -425,12 +427,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nomeTipoRip}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NOMETIPORIP}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="281"
+						y="292"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -450,7 +452,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="291"
+						y="302"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -470,7 +472,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="111"
-						y="291"
+						y="302"
 						width="82"
 						height="11"
 						forecolor="#000000"
@@ -484,12 +486,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{numeroDatiAcq}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NUMERODATIACQ}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="205"
-						y="291"
+						y="302"
 						width="45"
 						height="11"
 						forecolor="#000000"
@@ -503,12 +505,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{dataDatiAcq}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{DATADATIACQ}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="143"
-						y="307"
+						y="318"
 						width="74"
 						height="11"
 						forecolor="#000000"
@@ -522,12 +524,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Float"><![CDATA[$F{costoPreventivato}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{COSTOPREVENTIVATO}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="48"
-						y="307"
+						y="318"
 						width="94"
 						height="11"
 						forecolor="#000000"
@@ -561,7 +563,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{descrizioneRiparazione}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{DESCRIZIONERIPARAZIONE}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -580,7 +582,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{noteStampa}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NOTESTAMPA}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -619,7 +621,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{dataChiusura}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{DATACHIUSURA}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -658,7 +660,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Float"><![CDATA[$F{pagatoDalCliente}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{PAGATODALCLIENTE}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -713,7 +715,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{phone}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{PHONE}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -783,7 +785,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{tipo}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{TIPO}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -798,7 +800,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{modelli}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MODELLI}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -843,7 +845,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<staticText>
 					<reportElement
 						x="9"
-						y="325"
+						y="336"
 						width="84"
 						height="11"
 						forecolor="#000000"
@@ -858,7 +860,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="94"
-						y="335"
+						y="346"
 						width="147"
 						height="0"
 						key="line-1"/>
@@ -879,7 +881,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nonConform}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NONCONFORM}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -904,7 +906,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="291"
+						y="302"
 						width="30"
 						height="11"
 						forecolor="#000000"
@@ -914,12 +916,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{tpda}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{TPDA}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="193"
-						y="291"
+						y="302"
 						width="12"
 						height="11"
 						forecolor="#000000"
@@ -1041,8 +1043,43 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nome_cognome}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NOME_COGNOME}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="81"
+						y="167"
+						width="170"
+						height="11"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{SERIAL}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="168"
+						width="80"
+						height="10"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-42"
+						positionType="Float"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Serial / IMEI]]></text>
+				</staticText>
 			</band>
 		</detail>
 		<columnFooter>
@@ -1063,7 +1100,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<reportElement
 						mode="Transparent"
 						x="0"
-						y="326"
+						y="337"
 						width="248"
 						height="37"
 						key="rectangle-2"/>
@@ -1096,7 +1133,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{id}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$F{ID}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1135,7 +1172,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{indirizzo}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{INDIRIZZO}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1174,7 +1211,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{city}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{CITY}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1213,7 +1250,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{dataInserimento}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{DATAINSERIMENTO}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1238,7 +1275,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="189"
+						y="200"
 						width="170"
 						height="40"
 						forecolor="#000000"
@@ -1252,12 +1289,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{accessoriConsegnati}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{ACCESSORICONSEGNATI}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="190"
+						y="201"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -1277,7 +1314,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="227"
+						y="238"
 						width="170"
 						height="40"
 						forecolor="#000000"
@@ -1291,12 +1328,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{statoGenerale}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{STATOGENERALE}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="227"
+						y="238"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -1316,7 +1353,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="265"
+						y="276"
 						width="170"
 						height="40"
 						forecolor="#000000"
@@ -1330,12 +1367,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{difettoSegnalato}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{DIFETTOSEGNALATO}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="266"
+						y="277"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -1355,7 +1392,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="303"
+						y="314"
 						width="170"
 						height="11"
 						forecolor="#000000"
@@ -1369,12 +1406,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nomeTipoRip}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NOMETIPORIP}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="303"
+						y="314"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -1394,7 +1431,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<staticText>
 					<reportElement
 						x="0"
-						y="313"
+						y="324"
 						width="80"
 						height="10"
 						forecolor="#000000"
@@ -1414,7 +1451,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="111"
-						y="313"
+						y="324"
 						width="60"
 						height="11"
 						forecolor="#000000"
@@ -1428,12 +1465,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{numeroDatiAcq}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NUMERODATIACQ}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="dd/MM/yyyy" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="182"
-						y="313"
+						y="324"
 						width="68"
 						height="11"
 						forecolor="#000000"
@@ -1447,12 +1484,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{dataDatiAcq}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{DATADATIACQ}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="143"
-						y="329"
+						y="340"
 						width="74"
 						height="11"
 						forecolor="#000000"
@@ -1466,12 +1503,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Float"><![CDATA[$F{costoPreventivato}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{COSTOPREVENTIVATO}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="48"
-						y="329"
+						y="340"
 						width="94"
 						height="11"
 						forecolor="#000000"
@@ -1505,7 +1542,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{descrizioneRiparazione}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{DESCRIZIONERIPARAZIONE}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1524,7 +1561,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{noteStampa}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NOTESTAMPA}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1563,7 +1600,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.util.Date"><![CDATA[$F{dataChiusura}]]></textFieldExpression>
+				<textFieldExpression   class="java.util.Date"><![CDATA[$F{DATACHIUSURA}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1602,7 +1639,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Float"><![CDATA[$F{pagatoDalCliente}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Double"><![CDATA[$F{PAGATODALCLIENTE}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1657,7 +1694,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{phone}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{PHONE}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1727,7 +1764,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{tipo}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{TIPO}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1742,7 +1779,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{modelli}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{MODELLI}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1787,7 +1824,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<staticText>
 					<reportElement
 						x="9"
-						y="347"
+						y="358"
 						width="84"
 						height="11"
 						forecolor="#000000"
@@ -1802,7 +1839,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<line direction="TopDown">
 					<reportElement
 						x="94"
-						y="357"
+						y="368"
 						width="147"
 						height="0"
 						key="line-4"/>
@@ -1823,7 +1860,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nonConform}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NONCONFORM}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1848,7 +1885,7 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="81"
-						y="313"
+						y="324"
 						width="30"
 						height="11"
 						forecolor="#000000"
@@ -1858,12 +1895,12 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{tpda}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{TPDA}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="170"
-						y="313"
+						y="324"
 						width="12"
 						height="11"
 						forecolor="#000000"
@@ -1985,7 +2022,42 @@ WHERE schede.id = $P{idScheda};]]></queryString>
 					<textElement>
 						<font size="7"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nome_cognome}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{NOME_COGNOME}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="191"
+						width="80"
+						height="10"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="staticText-43"
+						positionType="Float"/>
+					<box>					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Serial / IMEI]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="81"
+						y="190"
+						width="170"
+						height="11"
+						forecolor="#000000"
+						backcolor="#FFFFFF"
+						key="textField-29"/>
+					<box></box>
+					<textElement>
+						<font size="7"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{SERIAL}]]></textFieldExpression>
 				</textField>
 			</band>
 		</columnFooter>

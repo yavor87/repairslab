@@ -169,14 +169,14 @@ public class VcPnlCostiNote extends JPanel {
 	private JTextField getTxfCostoSostenuto() {
 		if (txfCostoSostenuto == null) {
 			txfCostoSostenuto = new JTextField();
-			txfCostoSostenuto.setText(scheda.getCostoInterno());
+			txfCostoSostenuto.setText(""+scheda.getCostoInterno());
 			txfCostoSostenuto.setBounds(new Rectangle(227, 42, 95, 25));
 			if(modality == mode.view){
 				txfCostoSostenuto.setEditable(false);
 			}
 			txfCostoSostenuto.addFocusListener(new java.awt.event.FocusAdapter() {
 				public void focusLost(java.awt.event.FocusEvent e) {
-					scheda.setCostoInterno(txfCostoSostenuto.getText());
+					scheda.setCostoInterno(new Float(txfCostoSostenuto.getText()));
 				}
 			});
 		}
@@ -191,14 +191,14 @@ public class VcPnlCostiNote extends JPanel {
 	private JTextField getTxfCostoDalCliente() {
 		if (txfCostoDalCliente == null) {
 			txfCostoDalCliente = new JTextField();
-			txfCostoDalCliente.setText(scheda.getPagatoDalCliente());
+			txfCostoDalCliente.setText(""+scheda.getPagatoDalCliente());
 			txfCostoDalCliente.setBounds(new Rectangle(227, 75, 95, 25));
 			if(modality == mode.view){
 				txfCostoDalCliente.setEditable(false);
 			}
 			txfCostoDalCliente.addFocusListener(new java.awt.event.FocusAdapter() {
 				public void focusLost(java.awt.event.FocusEvent e) {
-					scheda.setPagatoDalCliente(txfCostoDalCliente.getText());
+					scheda.setPagatoDalCliente(new Float(txfCostoDalCliente.getText()));
 				}
 			});
 		}
@@ -213,14 +213,14 @@ public class VcPnlCostiNote extends JPanel {
 	private JTextField getTxfCostoPreventivato() {
 		if (txfCostoPreventivato == null) {
 			txfCostoPreventivato = new JTextField();
-			txfCostoPreventivato.setText(scheda.getCostoPreventivo());
+			txfCostoPreventivato.setText(""+scheda.getCostoPreventivo());
 			txfCostoPreventivato.setBounds(new Rectangle(524, 42, 95, 25));
 			if(modality == mode.view){
 				txfCostoPreventivato.setEditable(false);
 			}
 			txfCostoPreventivato.addFocusListener(new java.awt.event.FocusAdapter() {
 				public void focusLost(java.awt.event.FocusEvent e) {
-					scheda.setCostoPreventivo(txfCostoPreventivato.getText());
+					scheda.setCostoPreventivo(new Float(txfCostoPreventivato.getText()));
 				}
 			});
 		}

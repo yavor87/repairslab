@@ -5,6 +5,7 @@ import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,6 +25,7 @@ public class VcIfrAnaTipoOggetto extends JInternalFrame {
 	private JPanel jContentPane = null;
 	private VcMainFrame parent = null;
 	private VcJDBCTablePanel pnlTableAnaTipoOggetto = null;
+	private Connection con = null;
 
 	/**
 	 * This is the xxx default constructor
@@ -32,6 +34,7 @@ public class VcIfrAnaTipoOggetto extends JInternalFrame {
 		super();
 		Logger.getRootLogger().debug("VcIfrAnaTipoOggetto constructor...");
 		this.parent = parent;
+		this.con = CommonMetodBin.getConn();
 		initialize();
 	}
 
@@ -83,35 +86,49 @@ public class VcIfrAnaTipoOggetto extends JInternalFrame {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
 			String query = "SELECT id,nome,descrizione,flagAttivo " +
-					"FROM gestrip.tipoapparecchiature"	;
+					"FROM tipoapparecchiature"	;
 			
-			pnlTableAnaTipoOggetto = new VcJDBCTablePanel(
-					CommonMetodBin.getInstance().openConn(),query,true){
+			pnlTableAnaTipoOggetto = new VcJDBCTablePanel(con,query,true){
 				/**
 				 * 
 				 */
 				private static final long serialVersionUID = 1L;
 				
 				protected void onDelete(){
+					boolean referenziato = false;
 					try {
 						Logger.getRootLogger().debug("Deleting...");
-						Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
-						String query = "select count(*) from gestrip.schede " +
+						Statement smtp = con.createStatement();
+						String query = "select count(*) from schede " +
 								"where idTipoApparecchiatura = "+getValueAt(currentRow(), 0);
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
 							int fk = rs.getInt(1);
 							if(fk>0){
-								System.out.println(fk);
-								JOptionPane.showMessageDialog(getParent(),
-										"Stato referenziato. Non è possibile la cancellazione.",
-										"Errore", JOptionPane.ERROR_MESSAGE);
-							}else{
-								deleteRow(currentRow());
+								referenziato = true;
 							}
 						}
 						rs.close();
 						smtp.close();
+						smtp = con.createStatement();
+						query = "select count(*) from modelli " +
+								"where idTipoApp = "+getValueAt(currentRow(), 0);
+						rs = smtp.executeQuery(query);
+						while(rs.next()){
+							int fk = rs.getInt(1);
+							if(fk>0){
+								referenziato = true;
+							}
+						}
+						rs.close();
+						smtp.close();
+						if(referenziato){
+							JOptionPane.showMessageDialog(getParent(),
+									"Stato referenziato. Non è possibile la cancellazione.",
+									"Errore", JOptionPane.ERROR_MESSAGE);
+						}else{
+							deleteRow(currentRow());
+						}
 					} catch (SQLException e) {
 						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n");
 						//e.printStackTrace();

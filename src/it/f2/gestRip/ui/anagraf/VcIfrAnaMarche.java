@@ -5,6 +5,7 @@ import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,6 +25,7 @@ public class VcIfrAnaMarche extends JInternalFrame {
 	private JPanel jContentPane = null;
 	private VcMainFrame parent = null;
 	private VcJDBCTablePanel pnlTableAnaMarche = null;
+	private Connection con = null;
 	
 	/**
 	 * This is the xxx default constructor
@@ -32,6 +34,7 @@ public class VcIfrAnaMarche extends JInternalFrame {
 		super();
 		Logger.getRootLogger().debug("VcIfrAnaMarche constructor...");
 		this.parent = parent;
+		this.con = CommonMetodBin.getConn();
 		initialize();
 	}
 
@@ -82,10 +85,9 @@ public class VcIfrAnaMarche extends JInternalFrame {
 		if (pnlTableAnaMarche == null) {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
-			String query = "SELECT id,nome,descrizione,flagAttivo FROM gestrip.marchi"	;
+			String query = "SELECT id,nome,descrizione,flagAttivo FROM marchi"	;
 			
-			pnlTableAnaMarche = new VcJDBCTablePanel(
-					CommonMetodBin.getInstance().openConn(),query,true){
+			pnlTableAnaMarche = new VcJDBCTablePanel(con,query,true){
 				/**
 				 * 
 				 */
@@ -95,8 +97,8 @@ public class VcIfrAnaMarche extends JInternalFrame {
 					boolean referenziato = false;
 					try {
 						Logger.getRootLogger().debug("Deleting...");
-						Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
-						String query = "select count(*) from gestrip.modelli " +
+						Statement smtp = con.createStatement();
+						String query = "select count(*) from modelli " +
 								"where idMarchi = "+getValueAt(currentRow(), 0);
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
@@ -107,8 +109,8 @@ public class VcIfrAnaMarche extends JInternalFrame {
 						}
 						rs.close();
 						smtp.close();
-						smtp = CommonMetodBin.getInstance().openConn().createStatement();
-						query = "select count(*) from gestrip.schede " +
+						smtp = con.createStatement();
+						query = "select count(*) from schede " +
 								"where idMarca = "+getValueAt(currentRow(), 0);
 						rs = smtp.executeQuery(query);
 						while(rs.next()){

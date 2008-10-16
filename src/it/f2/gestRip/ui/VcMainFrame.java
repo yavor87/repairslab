@@ -8,7 +8,6 @@
 package it.f2.gestRip.ui;
 
 import it.f2.gestRip.EnvProperties;
-import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaClienti;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaMarche;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaModelli;
@@ -51,22 +50,17 @@ public class VcMainFrame extends JFrame {
 	private JTabbedPane tbpMain = null;
 	private JMenu settingMenu = null;
 	private JMenuItem optionsMenuItem = null;
-
 	private JMenu gestMenu = null;
-
 	private JMenuItem mniStati = null;
-
 	private JMenuItem mniModelli = null;
-
 	private JMenuItem mniTipoOggetto = null;
-
 	private JMenuItem mniMarche = null;
-
 	private JMenuItem mniAnaClienti = null;
-
 	private JMenuItem mniTipoRip = null;
-
 	private JMenuItem mniTipoDatiAcq = null;
+	private int lastSelectedIndex = 0;
+	private boolean checking = false;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -222,25 +216,22 @@ public class VcMainFrame extends JFrame {
 	private JTabbedPane getTbpMain() {
 		if (tbpMain == null) {
 			tbpMain = new JTabbedPane();
-			//JInternalFrame ifr = new JInternalFrame();
 			VcIfrMain ifr = new VcIfrMain(this);
 			ifr.setTitle("Menù principale");
-			//ifr.setMaximizable(true);
-			//ifr.setClosable(true);
 			tbpMain.addTab("Menù principale", ifr);
-			/*tbpMain.addChangeListener(new javax.swing.event.ChangeListener() {
+			tbpMain.addChangeListener(new javax.swing.event.ChangeListener() {
 				public void stateChanged(javax.swing.event.ChangeEvent e) {
+					lastSelectedIndex = getTbpMain().getSelectedIndex();
 					if (getTbpMain().getSelectedIndex() != -1) {
 						JInternalFrame ifr = (JInternalFrame) getTbpMain()
 								.getSelectedComponent();
-						try {
-							VcIfrMain tx = (VcIfrMain) ifr;
-							//tx.enableUndo();
-						} catch (ClassCastException cce) {
-						}
+						
+						try{
+							((VcIfrListaSchede)ifr).getTblList().refresh();
+						}catch(ClassCastException ex){}
 					}
 				}
-			});*/
+			});
 		}
 		return tbpMain;
 	}
@@ -300,7 +291,7 @@ public class VcMainFrame extends JFrame {
 			} catch (ClassCastException cce) {
 			}
 		}
-		CommonMetodBin.getInstance().closeConn();
+		//CommonMetodBin.getInstance().closeConn();
 		EnvProperties.getInstance().setProperty(EnvProperties.WIDTH,
 				"" + this.getWidth());
 		EnvProperties.getInstance().setProperty(EnvProperties.HEIGHT,
@@ -502,13 +493,34 @@ public class VcMainFrame extends JFrame {
 		return mniAnaClienti;
 	}
 	
+	private VcIfrAnaClienti anaClienti = null;
 	private void openAnaClienti(){
-		VcIfrAnaClienti iframe = new VcIfrAnaClienti(this);
-		if(!this.isJitOpen(iframe.getClass())){
-			this.addTab("Anagrafica Clienti", iframe);
-			this.selectTab(iframe);
+		anaClienti = new VcIfrAnaClienti(this);
+		if(!this.isJitOpen(anaClienti.getClass())){
+			//this.addTab("Anagrafica Clienti", iframe);
+			getTbpMain().addTab("Anagrafica Clienti", anaClienti);
+			getTbpMain().addChangeListener(new javax.swing.event.ChangeListener() {
+				public void stateChanged(javax.swing.event.ChangeEvent e) {
+					if(checking)
+						checking = false;
+					else{
+						if (getTbpMain().getSelectedIndex() != -1) {
+							if(anaClienti.checkCompleteUpdate()){
+								lastSelectedIndex = getTbpMain().getSelectedIndex();
+							}else{
+								checking = true;
+								getTbpMain().setSelectedIndex(lastSelectedIndex);
+							}
+						}else{
+							lastSelectedIndex = getTbpMain().getSelectedIndex();
+						}
+						checking = false;
+					}
+				}
+			});
+			this.selectTab(anaClienti);
 		}else{
-			iframe.hide();
+			anaClienti.hide();
 		}
 	}
 

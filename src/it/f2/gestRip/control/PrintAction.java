@@ -4,6 +4,7 @@ import it.f2.gestRip.EnvProperties;
 import it.f2.util.ui.WindowUtil;
 
 import java.io.InputStream;
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -37,16 +38,19 @@ public class PrintAction {
 	private int nScheda;
 	private JDialog dialog = null;
 	private JFrame frame = null;
+	private Connection con = null;
 	
-	public void callReportRicevuta(JDialog parent,int nScheda){
+	public void callReportRicevuta(JDialog parent,int nScheda,Connection con){
 		this.nScheda = nScheda;
 		this.dialog = parent;
+		this.con = con;
 		initialize();
 	}
 	
-	public void callReportRicevuta(JFrame parent,int nScheda){
+	public void callReportRicevuta(JFrame parent,int nScheda,Connection con){
 		this.nScheda = nScheda;
 		this.frame = parent;
+		this.con = con;
 		initialize();
 	}
 	
@@ -69,7 +73,7 @@ public class PrintAction {
 			parameters.put("stampaDoppia", doppiaCopia);
 			
 			JasperPrint jp = JasperFillManager.fillReport(getReportRicevuta(), 
-					parameters,CommonMetodBin.getInstance().openConn());
+					parameters,con);
 			
 			// Lancio JasperViewer
 			if (jp.getPages() != null && jp.getPages().size() > 0) {

@@ -17,3 +17,5 @@ f2.infocliente=N.B.\: La riparazione comporta una garanzia di 3 (tre) mesi solo 
 Log4jConfig=conf\\log4j.properties
 Log4jLogFile=log\\log4j.log
 f2.doppiaCopia=S
+f2.db.embedded=S
+f2.db.fdbfile=
