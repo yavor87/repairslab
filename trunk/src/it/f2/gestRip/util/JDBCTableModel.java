@@ -261,8 +261,10 @@ public class JDBCTableModel extends AbstractTableModel {
         try {
             return Class.forName(set.getMetaData().getColumnClassName(column + 1));
         } catch (SQLException ex) {
+        	ex.printStackTrace();
             throw new RuntimeException(ex);
         } catch (ClassNotFoundException ex) {
+        	ex.printStackTrace();
             throw new RuntimeException(ex);
         }
     }

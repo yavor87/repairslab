@@ -56,7 +56,12 @@ public class VcJDBCTablePanel extends JPanel {
 	private String query;
 	private boolean updatable;
 	private String[] updatableColumn;
+	private mode modality = null;  //  @jve:decl-index=0:
 	private ArrayList<Object[]> params;  //  @jve:decl-index=0:
+	
+	public static enum mode{
+		update,view;
+	};
 	
 	/**
 	 * This is the default constructor
@@ -69,6 +74,7 @@ public class VcJDBCTablePanel extends JPanel {
 		this.updatable = updatable;
 		this.updatableColumn = updatableColumn;
 		this.params = params;
+		this.modality = mode.view;
 		initialize();
 	}
 	
@@ -144,10 +150,10 @@ public class VcJDBCTablePanel extends JPanel {
 		
 		getTblJDBCTable().getColumnModel().getColumn(col).
 			setCellRenderer(new LovCellRenderer(getTblJDBCTable().
-			getBackground(),lrb,queryRender,colValue,colLabel));
+			getBackground(),lrb,queryRender,colValue,con));
 		
         getTblJDBCTable().getColumnModel().getColumn(col).
-        	setCellEditor(new LovCellEditor(lrb,queryLov,colValue,colLabel));
+        	setCellEditor(new LovCellEditor(lrb,queryLov,colValue,colLabel,con));
         
         TableColumn tblCol = getTblJDBCTable().getColumnModel().getColumn(col);
         tblCol.setWidth(colPrecision);
@@ -460,6 +466,7 @@ public class VcJDBCTablePanel extends JPanel {
 			if(!this.updatable) btnEdit.setEnabled(false);
 			btnEdit.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
+					modality = mode.update;
 					int selRow = getTblJDBCTable().getSelectedRow();
 					getJtmJDBCTm().setEditable(true);
 					btnEdit.setEnabled(false);
@@ -514,30 +521,37 @@ public class VcJDBCTablePanel extends JPanel {
 			btnOk.setMargin(new Insets(2, 2, 2, 3));
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					int selRow = getTblJDBCTable().getSelectedRow();
-					try{
-						getTblJDBCTable().getCellEditor().stopCellEditing();
-					}catch(NullPointerException e1){}
-					getJtmJDBCTm().setEditable(false);
-					getBtnEdit().setEnabled(true);
-					getBtnRollback().setEnabled(false);
-					btnOk.setEnabled(false);
-					getBtnDelete().setEnabled(false);
-					getBtnRollback().setEnabled(false);
-					try {
-						Logger.getRootLogger().debug("Committing...");
-						con.commit();
-						getJtmJDBCTm().refresh();
-					} catch (SQLException e1) {
-						Logger.getRootLogger().error("Exception in Committing \n"+e1+"\n");
-						//e1.printStackTrace();
-					}
-					getTblJDBCTable().getSelectionModel().
-						setSelectionInterval(selRow, selRow);
+					commit();
 				}
 			});
 		}
 		return btnOk;
+	}
+	
+	public void commit(){
+		if(modality == mode.update){
+			int selRow = getTblJDBCTable().getSelectedRow();
+			try{
+				getTblJDBCTable().getCellEditor().stopCellEditing();
+			}catch(NullPointerException e1){}
+			getJtmJDBCTm().setEditable(false);
+			getBtnEdit().setEnabled(true);
+			getBtnRollback().setEnabled(false);
+			btnOk.setEnabled(false);
+			getBtnDelete().setEnabled(false);
+			getBtnRollback().setEnabled(false);
+			try {
+				Logger.getRootLogger().debug("Committing...");
+				con.commit();
+				getJtmJDBCTm().refresh();
+			} catch (SQLException e1) {
+				Logger.getRootLogger().error("Exception in Committing \n"+e1+"\n");
+				//e1.printStackTrace();
+			}
+			getTblJDBCTable().getSelectionModel().
+				setSelectionInterval(selRow, selRow);
+			modality = mode.view;
+		}
 	}
 
 	/**
@@ -602,29 +616,40 @@ public class VcJDBCTablePanel extends JPanel {
 			btnRollback.setEnabled(false);
 			btnRollback.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					int selRow = getTblJDBCTable().getSelectedRow();
-					try{
-						getTblJDBCTable().getCellEditor().stopCellEditing();
-					}catch(NullPointerException e1){}
-					getJtmJDBCTm().setEditable(false);
-					getBtnEdit().setEnabled(true);
-					getBtnOk().setEnabled(false);
-					getBtnDelete().setEnabled(false);
-					getBtnRollback().setEnabled(false);
-					try {
-						Logger.getRootLogger().debug("Rolbacking...");
-						con.rollback();
-						getJtmJDBCTm().refresh();
-					} catch (SQLException e1) {
-						Logger.getRootLogger().error("Exception in Rolbacking \n"+e1+"\n");
-						//e1.printStackTrace();
-					}
-					getTblJDBCTable().getSelectionModel().
-						setSelectionInterval(selRow, selRow);
+					rollback();
 				}
 			});
 		}
 		return btnRollback;
+	}
+	
+	public void rollback(){
+		if(modality == mode.update){
+			int selRow = getTblJDBCTable().getSelectedRow();
+			try{
+				getTblJDBCTable().getCellEditor().stopCellEditing();
+			}catch(NullPointerException e1){}
+			getJtmJDBCTm().setEditable(false);
+			getBtnEdit().setEnabled(true);
+			getBtnOk().setEnabled(false);
+			getBtnDelete().setEnabled(false);
+			getBtnRollback().setEnabled(false);
+			try {
+				Logger.getRootLogger().debug("Rolbacking...");
+				con.rollback();
+				getJtmJDBCTm().refresh();
+			} catch (SQLException e1) {
+				Logger.getRootLogger().error("Exception in Rolbacking \n"+e1+"\n");
+				//e1.printStackTrace();
+			}
+			getTblJDBCTable().getSelectionModel().
+				setSelectionInterval(selRow, selRow);
+		}
+		modality = mode.view;
+	}
+	
+	public mode getModality(){
+		return this.modality;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

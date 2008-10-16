@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.sql.Connection;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,13 +32,16 @@ public class LovChooser extends JPanel implements ActionListener,PropertyChangeL
 	
 	private JButton button = null;
 	private JLabel label = null;
+	private Connection con = null;
 	
-	public LovChooser(LovResultsBin lrb,String query,String colValue,String colLabel,int row){
+	public LovChooser(LovResultsBin lrb,String query,
+			String colValue,String colLabel,int row,Connection con){
 		this.query = query;
 		this.colValue = colValue;
 		this.colLabel = colLabel;
 		this.lrb = lrb;
 		this.row = row;
+		this.con = con;
 		
 		setLayout(new BorderLayout());
 		add(getButton(), BorderLayout.EAST);
@@ -47,6 +51,7 @@ public class LovChooser extends JPanel implements ActionListener,PropertyChangeL
 	private JLabel getLabel(){
 		if (label == null) {
 			label = new JLabel();
+			System.out.println(row);
 			label.setText(lrb.getLableAt(row)+"");
 		}
 		return label;
@@ -79,7 +84,7 @@ public class LovChooser extends JPanel implements ActionListener,PropertyChangeL
 	public void actionPerformed(ActionEvent arg0) {
 		LovDialog lovDialog = new LovDialog(
 				CommonMetodBin.getInstance().getMainFrame(),this,
-				query,colValue,colLabel);
+				query,colValue,colLabel,con);
 		WindowUtil.centerWindow(lovDialog);
 		lovDialog.setVisible(true);
 	}
@@ -87,7 +92,6 @@ public class LovChooser extends JPanel implements ActionListener,PropertyChangeL
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.out.println("propertyChange"+evt.getPropertyName());
-		
 	}
 	
 	public Object getValue(){

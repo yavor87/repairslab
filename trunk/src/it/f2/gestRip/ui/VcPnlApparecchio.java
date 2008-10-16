@@ -1,6 +1,5 @@
 package it.f2.gestRip.ui;
 
-import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.model.BinScheda;
 import it.f2.gestRip.ui.VcDlgDetailScheda.mode;
 import it.f2.gestRip.util.JDBCComboBoxModel;
@@ -17,6 +16,7 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import java.awt.Dimension;
+import java.sql.Connection;
 
 import javax.swing.JComboBox;
 
@@ -40,8 +40,6 @@ public class VcPnlApparecchio extends JPanel {
 	private JLabel lblTipoAppa = null;
 	private JTextField txlSerial = null;
 	private JLabel lblSerial = null;
-	private JTextField txfImei = null;
-	private JLabel lblImei = null;
 	private JLabel lblAccessoriCons = null;
 	private JScrollPane scpAccessoriCons = null;
 	private JTextPane txpAccessoriCons = null;
@@ -68,16 +66,18 @@ public class VcPnlApparecchio extends JPanel {
 	private JButton btnAddModello = null;
 	private VcDlgDetailScheda parent = null;
 	private JButton btnDelDataDA = null;
+	private Connection con = null;
 
 	/**
 	 * This is the default constructor
 	 */
-	public VcPnlApparecchio(mode modality,BinScheda scheda,VcDlgDetailScheda parent) {
+	public VcPnlApparecchio(mode modality,BinScheda scheda,VcDlgDetailScheda parent,Connection con) {
 		super();
 		Logger.getRootLogger().debug("VcPnlApparecchio constructor...");
 		this.modality = modality;
 		this.scheda = scheda;
 		this.parent = parent;
+		this.con = con;
 		initialize();
 	}
 
@@ -121,12 +121,9 @@ public class VcPnlApparecchio extends JPanel {
 		lblAccessoriCons = new JLabel();
 		lblAccessoriCons.setBounds(new Rectangle(363, 156, 194, 16));
 		lblAccessoriCons.setText("Accessori Consegnati");
-		lblImei = new JLabel();
-		lblImei.setBounds(new Rectangle(505, 105, 79, 16));
-		lblImei.setText("Imei");
 		lblSerial = new JLabel();
-		lblSerial.setBounds(new Rectangle(363, 105, 122, 16));
-		lblSerial.setText("Numero di serie");
+		lblSerial.setBounds(new Rectangle(363, 105, 246, 16));
+		lblSerial.setText("Serial / IMEI");
 		lblTipoAppa = new JLabel();
 		lblTipoAppa.setBounds(new Rectangle(363, 60, 130, 16));
 		lblTipoAppa.setText("Tipo Apparecchiatura");
@@ -149,8 +146,6 @@ public class VcPnlApparecchio extends JPanel {
 		add(lblTipoAppa, null);
 		add(getTxlSerial(), null);
 		add(lblSerial, null);
-		add(getTxfImei(), null);
-		add(lblImei, null);
 		add(lblAccessoriCons, null);
 		add(getScpAccessoriCons(), null);
 		add(getScpStatoGenerale(), null);
@@ -213,21 +208,20 @@ public class VcPnlApparecchio extends JPanel {
 			marca = 0;
 		}
 		if(tipoApp==0 && marca==0){
-			qry = "select id,nome,flagAttivo from gestrip.modelli";
+			qry = "select id,nome,flagAttivo from modelli";
 		}else if(tipoApp!=0 && marca!=0){
-			qry = "select id,nome,flagAttivo from gestrip.modelli" +
+			qry = "select id,nome,flagAttivo from modelli" +
 					" where idTipoApp = " + tipoApp +
 					" and idMarchi = " + marca;
 		}else if(tipoApp!=0 && marca==0){
-			qry = "select id,nome,flagAttivo from gestrip.modelli" +
+			qry = "select id,nome,flagAttivo from modelli" +
 			" where idTipoApp = " + tipoApp;
 		}else if(tipoApp==0 && marca!=0){
-			qry = "select id,nome,flagAttivo from gestrip.modelli" +
+			qry = "select id,nome,flagAttivo from modelli" +
 			" where idMarchi = " + marca;
 		}
 		getCmbModello().setModel(new JDBCComboBoxModel(
-				CommonMetodBin.getInstance().openConn(),qry,
-				scheda.getIdModelli()+"","S"));
+				con,qry,scheda.getIdModelli()+"","S"));
 	}
 
 	/**
@@ -239,10 +233,9 @@ public class VcPnlApparecchio extends JPanel {
 		if (cmbMarca == null) {
 			cmbMarca = new JComboBox();
 			cmbMarca.setBounds(new Rectangle(505, 75, 130, 25));
-			String qry = "select id,nome,flagAttivo from gestrip.marchi";
+			String qry = "select id,nome,flagAttivo from marchi order by nome";
 			cmbMarca.setModel(new JDBCComboBoxModel(
-					CommonMetodBin.getInstance().openConn(),qry,
-					scheda.getIdMarchi()+"","S"));
+					con,qry,scheda.getIdMarchi()+"","S"));
 			cmbMarca.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					int val = Integer.parseInt(((TypeCmb)cmbMarca.getSelectedItem()).getValue());
@@ -266,10 +259,9 @@ public class VcPnlApparecchio extends JPanel {
 		if (cmbTipoAppa == null) {
 			cmbTipoAppa = new JComboBox();
 			cmbTipoAppa.setBounds(new Rectangle(363, 75, 130, 25));
-			String qry = "select id,nome,flagAttivo from gestrip.tipoapparecchiature";
+			String qry = "select id,nome,flagAttivo from tipoapparecchiature";
 			cmbTipoAppa.setModel(new JDBCComboBoxModel(
-					CommonMetodBin.getInstance().openConn(),qry,
-					scheda.getIdTipoApparecchiature()+"","S"));
+					con,qry,scheda.getIdTipoApparecchiature()+"","S"));
 			if(modality == mode.view){
 				cmbTipoAppa.setEnabled(false);
 			}
@@ -292,7 +284,7 @@ public class VcPnlApparecchio extends JPanel {
 	private JTextField getTxlSerial() {
 		if (txlSerial == null) {
 			txlSerial = new JTextField();
-			txlSerial.setBounds(new Rectangle(363, 122, 130, 25));
+			txlSerial.setBounds(new Rectangle(363, 122, 273, 25));
 			txlSerial.setText(scheda.getSerial());
 			if(modality == mode.view){
 				txlSerial.setEditable(false);
@@ -305,28 +297,6 @@ public class VcPnlApparecchio extends JPanel {
 			});
 		}
 		return txlSerial;
-	}
-
-	/**
-	 * This method initializes txfImei	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */
-	private JTextField getTxfImei() {
-		if (txfImei == null) {
-			txfImei = new JTextField();
-			txfImei.setBounds(new Rectangle(505, 122, 130, 25));
-			txfImei.setText(scheda.getImei());
-			if(modality == mode.view){
-				txfImei.setEditable(false);
-			}
-			txfImei.addFocusListener(new java.awt.event.FocusAdapter() {
-				public void focusLost(java.awt.event.FocusEvent e) {
-					scheda.setImei(txfImei.getText());
-				}
-			});
-		}
-		return txfImei;
 	}
 
 	/**
@@ -477,10 +447,9 @@ public class VcPnlApparecchio extends JPanel {
 	private JComboBox getCmbTipoRip() {
 		if (cmbTipoRip == null) {
 			cmbTipoRip = new JComboBox();
-			String qry = "select id,nomeTipoRip,flagAttivo from gestrip.tiporiparazione";
+			String qry = "select id,nomeTipoRip,flagAttivo from tiporiparazione";
 			cmbTipoRip.setModel(new JDBCComboBoxModel(
-					CommonMetodBin.getInstance().openConn(),qry,
-					scheda.getIdTipoRiparazione()+"","S"));
+					con,qry,scheda.getIdTipoRiparazione()+"","S"));
 			cmbTipoRip.setBounds(new Rectangle(13, 42, 185, 25));
 			if (modality == mode.view) {
 				cmbTipoRip.setEnabled(false);
@@ -504,10 +473,9 @@ public class VcPnlApparecchio extends JPanel {
 		if (cmbStato == null) {
 			cmbStato = new JComboBox();
 			cmbStato.setBounds(new Rectangle(14, 114, 184, 25));
-			String qry = "select id,nomeStato,flagAttivo from gestrip.anastati";
+			String qry = "select id,nomeStato,flagAttivo from anastati";
 			cmbStato.setModel(new JDBCComboBoxModel(
-					CommonMetodBin.getInstance().openConn(),qry,
-					scheda.getIdStato()+"","S"));
+					con,qry,scheda.getIdStato()+"","S"));
 			if (modality == mode.view) {
 				cmbStato.setEnabled(false);
 			}
@@ -577,10 +545,9 @@ public class VcPnlApparecchio extends JPanel {
 	private JComboBox getCmbTipoDA() {
 		if (cmbTipoDA == null) {
 			cmbTipoDA = new JComboBox();
-			String qry = "select id,tipo from gestrip.tpodatiacquisto";
+			String qry = "select id,tipo from tpodatiacquisto";
 			cmbTipoDA.setModel(new JDBCComboBoxModel(
-					CommonMetodBin.getInstance().openConn(),qry,
-					scheda.getIdTipoDatiAcq()+""));
+					con,qry,scheda.getIdTipoDatiAcq()+""));
 			cmbTipoDA.setBounds(new Rectangle(83, 208, 180, 25));
 			if (modality == mode.view) {
 				cmbTipoDA.setEnabled(false);
@@ -620,7 +587,7 @@ public class VcPnlApparecchio extends JPanel {
 	
 	private void openDlgInsertModello(){
 		VcDlgInsertModello dlg = new VcDlgInsertModello(parent,this,
-				scheda.getIdMarchi()+"",scheda.getIdTipoApparecchiature()+"");
+				scheda.getIdMarchi()+"",scheda.getIdTipoApparecchiature()+"",con);
 		WindowUtil.centerWindow(dlg);
 		dlg.setVisible(true);
 	}

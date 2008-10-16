@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui;
 
 import it.f2.gestRip.EnvProperties;
+import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.DbSchedaAction;
 import it.f2.gestRip.control.PrintAction;
 import it.f2.util.ui.WindowUtil;
@@ -15,6 +16,7 @@ import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.swing.JEditorPane;
@@ -36,6 +38,7 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton btnModScheda = null;
 	private JButton brnStampaScheda = null;
 	private JEditorPane edpMainScreen = null;
+	private Connection con = null;
 	
 	/**
 	 * This is the xxx default constructor
@@ -44,6 +47,7 @@ public class VcIfrMain extends JInternalFrame {
 		super();
 		Logger.getRootLogger().debug("Loading Main..");
 		this.parent = parent;
+		this.con = CommonMetodBin.getConn();
 		initialize();
 	}
 
@@ -55,6 +59,15 @@ public class VcIfrMain extends JInternalFrame {
 	private void initialize() {
 		this.setSize(793, 516);
 		this.setContentPane(getJContentPane());
+		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {
+			public void internalFrameClosed(javax.swing.event.InternalFrameEvent e) {
+				close();
+			}
+		});
+	}
+	
+	private void close(){
+		CommonMetodBin.closeConn(con);
 	}
 
 	/**
@@ -155,7 +168,7 @@ public class VcIfrMain extends JInternalFrame {
 					try{
 						num = Integer.parseInt(mes);
 						try {
-							if(DbSchedaAction.existScheda(num)){
+							if(DbSchedaAction.existScheda(con,num)){
 								openDetail(VcDlgDetailScheda.mode.view,num);
 							}else{
 								JOptionPane.showMessageDialog(getParent(),
@@ -203,7 +216,7 @@ public class VcIfrMain extends JInternalFrame {
 					try{
 						num = Integer.parseInt(mes);
 						try {
-							if(DbSchedaAction.existScheda(num)){
+							if(DbSchedaAction.existScheda(con,num)){
 								openDetail(VcDlgDetailScheda.mode.update,num);
 							}else{
 								JOptionPane.showMessageDialog(getParent(),
@@ -244,7 +257,7 @@ public class VcIfrMain extends JInternalFrame {
 					try{
 						num = Integer.parseInt(mes);
 						try {
-							if(DbSchedaAction.existScheda(num)){
+							if(DbSchedaAction.existScheda(con,num)){
 								print(num);
 							}else{
 								JOptionPane.showMessageDialog(getParent(),
@@ -270,7 +283,7 @@ public class VcIfrMain extends JInternalFrame {
 	private void print(int nScheda){
 		Logger.getRootLogger().debug("printing");
 		PrintAction pa = new PrintAction();
-		pa.callReportRicevuta(this.parent,nScheda);
+		pa.callReportRicevuta(this.parent,nScheda,con);
 	}
 
 	/**

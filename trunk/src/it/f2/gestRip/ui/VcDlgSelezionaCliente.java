@@ -1,6 +1,5 @@
 package it.f2.gestRip.ui;
 
-import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
@@ -10,6 +9,8 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
+import java.sql.Connection;
+
 import javax.swing.WindowConstants;
 
 import org.apache.log4j.Logger;
@@ -26,14 +27,16 @@ public class VcDlgSelezionaCliente extends JDialog {
 	private JButton btnCanc = null;
 	private JButton btnOk = null;
 	private VcPnlDatiCLiente parent = null;
+	private Connection con = null;
 
 	/**
 	 * This is the xxx default constructor
 	 */
-	public VcDlgSelezionaCliente(JDialog dialog,VcPnlDatiCLiente parent) {
+	public VcDlgSelezionaCliente(JDialog dialog,VcPnlDatiCLiente parent,Connection con) {
 		super(dialog);
 		Logger.getRootLogger().debug("VcDlgSelezionaCliente constructor...");
 		this.parent = parent;
+		this.con = con;
 		initialize();
 	}
 
@@ -71,9 +74,9 @@ public class VcDlgSelezionaCliente extends JDialog {
 	private VcJDBCTablePanel getPnlTblCliente() {
 		if (pnlTblCliente == null) {
 			pnlTblCliente = new VcJDBCTablePanel(
-					CommonMetodBin.getInstance().openConn(),
+					con,
 					"select id,nome,cognome,azienda,city " +
-					"from gestrip.clienti",
+					"from clienti",
 					false);
 			pnlTblCliente.createControlPanel();
 		}

@@ -1,7 +1,6 @@
 package it.f2.gestRip.util;
 
-import it.f2.gestRip.control.CommonMetodBin;
-
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -18,14 +17,15 @@ public class LovResultsBin {
 	
 	private ArrayList<Object[]> resultList = null;
 	
-	public void load(JTable table,int col,String queryRender,String colValue){
+	public void load(JTable table,int col,String queryRender,String colValue,Connection con){
 		//if (resultList == null){
 			resultList = new ArrayList<Object[]>();
 			for(int i=0;i<table.getRowCount();i++){
-				String value = table.getValueAt(i, col) + "";
+				Object value = table.getValueAt(i, col);// + "";
+				if(value == null) value = "0";
 				try {
 					Logger.getRootLogger().debug("Loading...");
-					Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
+					Statement smtp = con.createStatement();
 					String queryParsed = queryRender + "'" + value + "'";
 					ResultSet rs = smtp.executeQuery(queryParsed) ;
 					Object[] lovRow = new Object[2];
@@ -38,7 +38,7 @@ public class LovResultsBin {
 					smtp.close();
 				} catch (SQLException e) {
 					Logger.getRootLogger().error("Exception in Loading \n"+e+"\n");
-					//e.printStackTrace();
+					e.printStackTrace();
 				} 
 			}
 			
@@ -47,7 +47,9 @@ public class LovResultsBin {
 	
 	public Object getLableAt(int row){
 		Object[] result = resultList.get(row);
-		return result[1];
+		Object label = result[1];
+		if(label == null) label = "";
+		return label;
 	}
 	
 	public Object getValueAt(int row){

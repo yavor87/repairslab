@@ -5,6 +5,7 @@ import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,6 +25,7 @@ public class VcIfrAnaTipoDatiAcq extends JInternalFrame {
 	private JPanel jContentPane = null;
 	private VcMainFrame parent = null;
 	private VcJDBCTablePanel pnlTableAnaTipoDatiAcq = null;
+	private Connection con = null;
 
 	/**
 	 * This is the xxx default constructor
@@ -32,6 +34,7 @@ public class VcIfrAnaTipoDatiAcq extends JInternalFrame {
 		super();
 		Logger.getRootLogger().debug("VcDlgDetailScheda constructor...");
 		this.parent = parent;
+		this.con = CommonMetodBin.getConn();
 		initialize();
 	}
 
@@ -83,10 +86,10 @@ public class VcIfrAnaTipoDatiAcq extends JInternalFrame {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
 			String query = "SELECT id,tipo " +
-					"FROM gestrip.tpodatiacquisto"	;
+					"FROM tpodatiacquisto"	;
 			
 			pnlTableAnaTipoDatiAcq = new VcJDBCTablePanel(
-					CommonMetodBin.getInstance().openConn(),query,true){
+					con,query,true){
 				/**
 				 * 
 				 */
@@ -95,8 +98,8 @@ public class VcIfrAnaTipoDatiAcq extends JInternalFrame {
 				protected void onDelete(){
 					try {
 						Logger.getRootLogger().debug("Deleting...");
-						Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
-						String query = "select count(*) from gestrip.schede " +
+						Statement smtp = con.createStatement();
+						String query = "select count(*) from schede " +
 								"where idTipoApparecchiatura = "+getValueAt(currentRow(), 0);
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){

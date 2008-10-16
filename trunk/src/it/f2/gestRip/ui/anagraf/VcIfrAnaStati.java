@@ -5,6 +5,7 @@ import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,6 +25,7 @@ public class VcIfrAnaStati extends JInternalFrame {
 	private JPanel jContentPane = null;
 	private VcMainFrame parent = null;
 	private VcJDBCTablePanel pnlTableAnaStati = null;
+	private Connection con = null;
 	/**
 	 * This is the xxx default constructor
 	 */
@@ -31,6 +33,7 @@ public class VcIfrAnaStati extends JInternalFrame {
 		super();
 		Logger.getRootLogger().debug("VcIfrAnaStati constructor...");
 		this.parent = parent;
+		con = CommonMetodBin.getConn();
 		initialize();
 	}
 
@@ -59,7 +62,7 @@ public class VcIfrAnaStati extends JInternalFrame {
 	}
 	
 	private void close(){
-		//CommonMetodBin.getInstance().closeConn();
+		CommonMetodBin.closeConn(con);
 		parent.closeTab(this);
 	}
 
@@ -87,10 +90,9 @@ public class VcIfrAnaStati extends JInternalFrame {
 			//String[] updatableCol = {"nomeStato","descrizione","flagAttivo"};
 			
 			pnlTableAnaStati = new VcJDBCTablePanel(
-					CommonMetodBin.getInstance().openConn(),
-					"select id \"Id\",nomeStato \"Nome\",descStato \"Descrizione\", " +
-							"flagAttivo \"Attivo\" " +
-					"from gestrip.anastati",
+					con,
+					"select id ,nomeStato ,descStato, flagAttivo  " +
+					"from anastati",
 					true) {
 
 				/**
@@ -101,8 +103,8 @@ public class VcIfrAnaStati extends JInternalFrame {
 				protected void onDelete(){
 					try {
 						Logger.getRootLogger().debug("Deleting...");
-						Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
-						String query = "select count(*) from gestrip.statoscheda " +
+						Statement smtp = con.createStatement();
+						String query = "select count(*) from schede " +
 								"where idStato = "+getValueAt(currentRow(), 0);
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
@@ -120,7 +122,7 @@ public class VcIfrAnaStati extends JInternalFrame {
 						smtp.close();
 					} catch (SQLException e) {
 						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n");
-						//e.printStackTrace();
+						e.printStackTrace();
 					}					
 				}
 				

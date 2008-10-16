@@ -2,6 +2,7 @@ package it.f2.gestRip;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -43,7 +44,7 @@ public class StartApp {
 		}
 		
 		showSplash();
-
+ 
         splash.setStatus("Starting...", 10);
         
         splash.setStatus("Chech Status Server...", 30);
@@ -53,6 +54,9 @@ public class StartApp {
         	splash.setStatus("Start Server...", 50);
             startServer();
         }
+        
+        splash.setStatus("Testing Connection...", 70);
+        testConn();
         
         splash.setStatus("Loading App...", 90);
 		VcMainFrame frame = new VcMainFrame();
@@ -80,6 +84,11 @@ public class StartApp {
 		}
 		logger.info("File di log inizializzato con successo....");
 
+	}
+	
+	private static void testConn(){
+		Connection con = CommonMetodBin.getConn();
+		CommonMetodBin.closeConn(con);
 	}
 	
 	private static void startServer() {

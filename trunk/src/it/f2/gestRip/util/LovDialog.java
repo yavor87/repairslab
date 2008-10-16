@@ -1,7 +1,5 @@
 package it.f2.gestRip.util;
 
-import it.f2.gestRip.control.CommonMetodBin;
-
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import java.awt.Frame;
@@ -10,6 +8,7 @@ import javax.swing.JDialog;
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
+import java.sql.Connection;
 
 public class LovDialog extends JDialog {
 
@@ -23,16 +22,18 @@ public class LovDialog extends JDialog {
 	private LovChooser lovChoser = null;
 	private String colValue = null;
 	private String colLabel = null;
+	private Connection con = null;
 	
 	/**
 	 * @param owner
 	 */
-	public LovDialog(Frame owner,LovChooser lovChoser,String query,String colValue,String colLabel) {
+	public LovDialog(Frame owner,LovChooser lovChoser,String query,String colValue,String colLabel,Connection con) {
 		super(owner,true);
 		this.query = query;
 		this.lovChoser = lovChoser;
 		this.colValue = colValue;
 		this.colLabel = colLabel;
+		this.con = con;
 		initialize();
 	}
 
@@ -69,8 +70,7 @@ public class LovDialog extends JDialog {
 	 */
 	private VcJDBCTablePanel getPnlQuery() {
 		if (pnlQuery == null) {
-			pnlQuery = new VcJDBCTablePanel(CommonMetodBin.getInstance().openConn(),
-					query,false);
+			pnlQuery = new VcJDBCTablePanel(con,query,false);
 			pnlQuery.createControlPanel();
 		}
 		return pnlQuery;

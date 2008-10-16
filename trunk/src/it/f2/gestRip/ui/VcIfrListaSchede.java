@@ -9,6 +9,7 @@ import it.f2.util.ui.WindowUtil;
 import it.f2.util.ui.cmb.TypeCmb;
 
 import java.awt.BorderLayout;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
@@ -71,6 +72,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 	private JLabel lblTipoAppa = null;
 	private JPanel pnlList = null;
 	private JButton btnPrint = null;
+	private Connection con = null;
 	
 	/**
 	 * This is the xxx default constructor
@@ -79,6 +81,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		super();
 		Logger.getRootLogger().debug("VcIfrListaSchede constructor...");
 		this.parent = parent;
+		this.con = CommonMetodBin.getConn();
 		initialize();
 	}
 
@@ -92,7 +95,9 @@ public class VcIfrListaSchede extends JInternalFrame {
 		this.setClosable(true);
 		this.setTitle("Lista Schede");
 		this.setContentPane(getJContentPane());
-		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {
+		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {   
+		   
+			
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
@@ -107,7 +112,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 	}
 	
 	private void close(){
-		//CommonMetodBin.getInstance().closeConn();
+		CommonMetodBin.closeConn(con);
 		parent.closeTab(this);
 	}
 
@@ -196,15 +201,14 @@ public class VcIfrListaSchede extends JInternalFrame {
 				+ "clienti.nome              \"Nome Cliente\", "
 				+ "clienti.cognome           \"Cognome Cliente\" "
 				+ "FROM "
-				+ "gestrip.schede "
-				+ "LEFT JOIN gestrip.anastati on schede.idStato=anastati.id "
-				+ "LEFT JOIN gestrip.tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
-				+ "LEFT JOIN gestrip.marchi on schede.idMarca=marchi.id "
-				+ "LEFT JOIN gestrip.modelli on schede.idModello=modelli.id "
-				+ "LEFT JOIN gestrip.clienti on schede.idCliente=clienti.id ";
+				+ "schede "
+				+ "LEFT JOIN anastati on schede.idStato=anastati.id "
+				+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
+				+ "LEFT JOIN marchi on schede.idMarca=marchi.id "
+				+ "LEFT JOIN modelli on schede.idModello=modelli.id "
+				+ "LEFT JOIN clienti on schede.idCliente=clienti.id ";
 			
-			tblList = new VcJDBCTablePanel(CommonMetodBin.getInstance()
-					.openConn(), qry, false,null,null);
+			tblList = new VcJDBCTablePanel(con, qry, false,null,null);
 			
 			tblList.createControlPanel();
 		}
@@ -286,8 +290,8 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (confirm == JOptionPane.OK_OPTION){
 			try {
 				Logger.getRootLogger().debug("Removing...");
-				DbSchedaAction.removeScheda(id_scheda);
-				CommonMetodBin.getInstance().openConn().commit();
+				DbSchedaAction.removeScheda(con,id_scheda);
+				con.commit();
 				getTblList().refresh();
 			} catch (SQLException e) {
 				Logger.getRootLogger().error("Exception in Removing \n"+e+"\n");
@@ -430,12 +434,12 @@ public class VcIfrListaSchede extends JInternalFrame {
 						+ "clienti.nome              \"Nome Cliente\", "
 						+ "clienti.cognome           \"Cognome Cliente\" "
 						+ "FROM "
-						+ "gestrip.schede "
-						+ "LEFT JOIN gestrip.anastati on schede.idStato=anastati.id "
-						+ "LEFT JOIN gestrip.tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
-						+ "LEFT JOIN gestrip.marchi on schede.idMarca=marchi.id "
-						+ "LEFT JOIN gestrip.modelli on schede.idModello=modelli.id "
-						+ "LEFT JOIN gestrip.clienti on schede.idCliente=clienti.id "
+						+ "schede "
+						+ "LEFT JOIN anastati on schede.idStato=anastati.id "
+						+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
+						+ "LEFT JOIN marchi on schede.idMarca=marchi.id "
+						+ "LEFT JOIN modelli on schede.idModello=modelli.id "
+						+ "LEFT JOIN clienti on schede.idCliente=clienti.id "
 						+ "WHERE " 
 						+ (filterNScheda ? "schede.id = :id AND " : "" )
 						+ (filterIdstato ? "schede.idStato = :idSta AND " : "" )
@@ -514,10 +518,9 @@ public class VcIfrListaSchede extends JInternalFrame {
 	private JComboBox getCmbStato() {
 		if (cmbStato == null) {
 			cmbStato = new JComboBox();
-			String qry = "select id,nomeStato,flagAttivo from gestrip.anastati";
+			String qry = "select id,nomeStato,flagAttivo from anastati";
 			cmbStato.setModel(new JDBCComboBoxModel(
-					CommonMetodBin.getInstance().openConn(),qry,
-					0+"","S"));
+					con,qry,0+"","S"));
 			cmbStato.setBounds(new Rectangle(123, 50, 87, 25));
 			TypeCmb tAll = new TypeCmb();
 			tAll.setValue("999");
@@ -553,12 +556,12 @@ public class VcIfrListaSchede extends JInternalFrame {
 						+ "clienti.nome              \"Nome Cliente\", "
 						+ "clienti.cognome           \"Cognome Cliente\" "
 						+ "FROM "
-						+ "gestrip.schede "
-						+ "LEFT JOIN gestrip.anastati on schede.idStato=anastati.id "
-						+ "LEFT JOIN gestrip.tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
-						+ "LEFT JOIN gestrip.marchi on schede.idMarca=marchi.id "
-						+ "LEFT JOIN gestrip.modelli on schede.idModello=modelli.id "
-						+ "LEFT JOIN gestrip.clienti on schede.idCliente=clienti.id ";
+						+ "schede "
+						+ "LEFT JOIN anastati on schede.idStato=anastati.id "
+						+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
+						+ "LEFT JOIN marchi on schede.idMarca=marchi.id "
+						+ "LEFT JOIN modelli on schede.idModello=modelli.id "
+						+ "LEFT JOIN clienti on schede.idCliente=clienti.id ";
 					getTblList().setQuery(qry);
 					getTblList().setParameters(null);
 					getTblList().refresh();
@@ -656,10 +659,9 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (cmbTipoAppa == null) {
 			cmbTipoAppa = new JComboBox();
 			cmbTipoAppa.setBounds(new Rectangle(733, 50, 120, 25));
-			String qry = "select id,nome,flagAttivo from gestrip.tipoapparecchiature";
+			String qry = "select id,nome,flagAttivo from tipoapparecchiature";
 			cmbTipoAppa.setModel(new JDBCComboBoxModel(
-					CommonMetodBin.getInstance().openConn(),qry,
-					"","S"));
+					con,qry,"","S"));
 			TypeCmb tAll = new TypeCmb();
 			tAll.setValue("999");
 			tAll.setDesc("TUTTI");
@@ -708,7 +710,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 	private void print(int nScheda){
 		Logger.getRootLogger().debug("printing");
 		PrintAction pa = new PrintAction();
-		pa.callReportRicevuta(this.parent,nScheda);
+		pa.callReportRicevuta(this.parent,nScheda,con);
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

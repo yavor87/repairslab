@@ -9,6 +9,7 @@ import it.f2.util.ui.WindowUtil;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Rectangle;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -55,6 +56,7 @@ public class VcPnlDatiCLiente extends JPanel {
 	private JButton btnCanc = null;
 	private int newIdClienteAppo = 0;
 	private modeCliente modalityCliente = modeCliente.view;  //  @jve:decl-index=0:
+	private Connection con = null;
 	
 	public static enum modeCliente{
 		insert,update,view;
@@ -63,12 +65,13 @@ public class VcPnlDatiCLiente extends JPanel {
 	/**
 	 * This is the xxx default constructor
 	 */
-	public VcPnlDatiCLiente(mode modality,BinScheda scheda,JDialog dialog) {
+	public VcPnlDatiCLiente(mode modality,BinScheda scheda,JDialog dialog,Connection con) {
 		super();
 		Logger.getRootLogger().debug("VcPnlDatiCLiente constructor...");
 		this.modality = modality;
 		this.scheda = scheda;
 		this.dialog = dialog;
+		this.con = con;
 		initialize();
 	}
 
@@ -232,7 +235,7 @@ public class VcPnlDatiCLiente extends JPanel {
 		if(modalityCliente != modeCliente.view){
 			try {
 				Logger.getRootLogger().debug("existCliente...");
-				int idCliente = DbSchedaAction.existCliente(
+				int idCliente = DbSchedaAction.existCliente(con,
 						getTxfNome().getText(), getTxfCognome().getText());
 				if(idCliente>0){
 					
@@ -339,7 +342,7 @@ public class VcPnlDatiCLiente extends JPanel {
 	}
 	
 	private void openDlgSelezionaCliente(){
-		VcDlgSelezionaCliente dlg = new VcDlgSelezionaCliente(dialog,this);
+		VcDlgSelezionaCliente dlg = new VcDlgSelezionaCliente(dialog,this,con);
 		WindowUtil.centerWindow(dlg);
 		dlg.setVisible(true);
 	}
@@ -348,7 +351,7 @@ public class VcPnlDatiCLiente extends JPanel {
 		DbSchedaAction dbSchedaAction = new DbSchedaAction();
 		try {
 			Logger.getRootLogger().debug("Selecting cliente...");
-			BinCliente binCliente = dbSchedaAction.getCliente(idCliente);
+			BinCliente binCliente = dbSchedaAction.getCliente(con,idCliente);
 			scheda.setBinCliente(binCliente);
 			refreshData(scheda.getBinCliente());
 			setViewMode();
@@ -453,7 +456,7 @@ public class VcPnlDatiCLiente extends JPanel {
 		try {
 			Logger.getRootLogger().debug("Inserting Cliente...");
 			//scheda.setBinCliente(DbSchedaAction.addCliente());
-			BinCliente binCliente = DbSchedaAction.addCliente();
+			BinCliente binCliente = DbSchedaAction.addCliente(con);
 			newIdClienteAppo = binCliente.getId();
 			refreshData(binCliente);
 			setInsertMode();
@@ -522,7 +525,7 @@ public class VcPnlDatiCLiente extends JPanel {
 						scheda.getBinCliente().setId(newIdClienteAppo);
 						try {
 							Logger.getRootLogger().debug("getBtnOk ins...");
-							DbSchedaAction.insCliente(scheda.getBinCliente());
+							DbSchedaAction.insCliente(con,scheda.getBinCliente());
 						} catch (SQLException e1) {
 							Logger.getRootLogger().error("Exception getBtnOk ins \n"+e1+"\n");
 							//e1.printStackTrace();
@@ -530,7 +533,7 @@ public class VcPnlDatiCLiente extends JPanel {
 					} else if (modalityCliente == modeCliente.update){
 						try {
 							Logger.getRootLogger().debug("getBtnOk upd...");
-							DbSchedaAction.saveCliente(scheda.getBinCliente());
+							DbSchedaAction.saveCliente(con,scheda.getBinCliente());
 						} catch (SQLException e1) {
 							Logger.getRootLogger().error("Exception getBtnOk upd \n"+e1+"\n");
 							//e1.printStackTrace();

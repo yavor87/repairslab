@@ -1,11 +1,11 @@
 package it.f2.gestRip.ui;
 
-import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.util.JDBCComboBoxModel;
 import it.f2.util.ui.cmb.TypeCmb;
 
 import javax.swing.JPanel;
 import java.awt.Rectangle;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,11 +39,12 @@ public class VcDlgInsertModello extends JDialog {
 	private JLabel lbDescMod = null;
 	private JTextField txfDescMod = null;
 	private VcPnlApparecchio parent = null;
+	private Connection con = null;
 
 	/**
 	 * @param owner
 	 */
-	public VcDlgInsertModello(JDialog owner,VcPnlApparecchio parent,String marca,String tipoAppa) {
+	public VcDlgInsertModello(JDialog owner,VcPnlApparecchio parent,String marca,String tipoAppa,Connection con) {
 		super(owner,true);
 		Logger.getRootLogger().debug("VcDlgInsertModello constructor...");
 		this.marca = marca;
@@ -113,10 +114,9 @@ public class VcDlgInsertModello extends JDialog {
 		if (cmbTipoAppa == null) {
 			cmbTipoAppa = new JComboBox();
 			cmbTipoAppa.setBounds(new Rectangle(145, 27, 190, 25));
-			String qry = "select id,nome,flagAttivo from gestrip.tipoapparecchiature";
+			String qry = "select id,nome,flagAttivo from tipoapparecchiature";
 			cmbTipoAppa.setModel(new JDBCComboBoxModel(
-					CommonMetodBin.getInstance().openConn(),qry,
-					tipoAppa,"S"));
+					con,qry,tipoAppa,"S"));
 		}
 		return cmbTipoAppa;
 	}
@@ -130,10 +130,9 @@ public class VcDlgInsertModello extends JDialog {
 		if (cmbMarca == null) {
 			cmbMarca = new JComboBox();
 			cmbMarca.setBounds(new Rectangle(145, 58, 190, 25));
-			String qry = "select id,nome,flagAttivo from gestrip.marchi";
+			String qry = "select id,nome,flagAttivo from marchi";
 			cmbMarca.setModel(new JDBCComboBoxModel(
-					CommonMetodBin.getInstance().openConn(),qry,
-					marca,"S"));
+					con,qry,marca,"S"));
 		}
 		return cmbMarca;
 	}
@@ -180,10 +179,10 @@ public class VcDlgInsertModello extends JDialog {
 			int idMarca = 0;
 			int idAppa = 0;
 			try{
-				idMarca = Integer.parseInt(((TypeCmb)getCmbTipoAppa().getSelectedItem()).getValue());
+				idMarca = Integer.parseInt(((TypeCmb)getCmbMarca().getSelectedItem()).getValue());
 			}catch(NullPointerException e){}
 			try{
-				idAppa = Integer.parseInt(((TypeCmb)getCmbMarca().getSelectedItem()).getValue());
+				idAppa = Integer.parseInt(((TypeCmb)getCmbTipoAppa().getSelectedItem()).getValue());
 			}catch(NullPointerException e){}
 			
 			if (modello == null || modello.equalsIgnoreCase("")){
@@ -197,8 +196,8 @@ public class VcDlgInsertModello extends JDialog {
 			}else{
 				//verifica esistenza modello
 				int id = 0;
-				Statement smtpMod = CommonMetodBin.getInstance().openConn().createStatement();
-				String qryMod = "select id from gestrip.modelli " +
+				Statement smtpMod = con.createStatement();
+				String qryMod = "select id from modelli " +
 						"where idMarchi = "+idMarca+" " +
 						"and idTipoApp = "+idAppa+" " +
 						"and nome = '"+modello+"'";
@@ -218,8 +217,8 @@ public class VcDlgInsertModello extends JDialog {
 					this.dispose();
 				}else{
 					//reperimento id
-					Statement smtpId = CommonMetodBin.getInstance().openConn().createStatement();
-					String qryId = "select max(id) from gestrip.modelli";
+					Statement smtpId = con.createStatement();
+					String qryId = "select max(id) from modelli";
 					ResultSet rsId = smtpId.executeQuery(qryId);
 					while (rsId.next()) {
 						id = rsId.getInt(1);
@@ -229,8 +228,8 @@ public class VcDlgInsertModello extends JDialog {
 					id++;
 					
 					//inserimento
-					Statement smtpIns = CommonMetodBin.getInstance().openConn().createStatement();
-					String ins = "insert into gestrip.modelli " +
+					Statement smtpIns = con.createStatement();
+					String ins = "insert into modelli " +
 							"(id,nome,descModello,idMarchi,idTipoApp,flagAttivo) " +
 							"values("+id+",'"+modello+"','"+descModello+"',"+idMarca+","+idAppa+",'S') ";
 					//System.out.println(ins);

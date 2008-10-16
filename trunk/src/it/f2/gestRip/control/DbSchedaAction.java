@@ -3,6 +3,7 @@ package it.f2.gestRip.control;
 import it.f2.gestRip.model.BinCliente;
 import it.f2.gestRip.model.BinScheda;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,22 +14,22 @@ public class DbSchedaAction {
 	public DbSchedaAction(){
 	}
 	
-	public BinScheda getScheda(int nrScheda) throws SQLException{
+	public BinScheda getScheda(Connection con,int nrScheda) throws SQLException{
 		BinScheda binScheda = null;
-		Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
+		Statement smtp = con.createStatement();
 		String qry = "select id,idCliente,idStato,idTipoRip,accessoriConsegnati,statoGenerale," +
 				"difettoSegnalato,nonConform,descrizioneRiparazione," +
 				"noteStampa,noteUsoInterno,costoPreventivato,costoInterno," +
 				"pagatoDalCliente,dataInserimento,dataChiusura,imei,serial," +
 				"idTipoApparecchiatura,idModello,idMarca,numeroDatiAcq,dataDatiAcq,idTipoDatiAcq " +
-				"from gestrip.schede where id = " + nrScheda;
+				"from schede where id = " + nrScheda;
 		ResultSet rs = smtp.executeQuery(qry);
 		while (rs.next()) {
 			binScheda = new BinScheda();
 			int id = rs.getInt("id");
 			binScheda.setOrigId(id);
 			binScheda.setId(id);
-			binScheda.setBinCliente(getCliente(rs.getInt("idCliente")));
+			binScheda.setBinCliente(getCliente(con,rs.getInt("idCliente")));
 			binScheda.setIdStato(rs.getInt("idStato"));
 			binScheda.setIdTipoRiparazione(rs.getInt("idTipoRip"));
 			binScheda.setAccessoriConsegnati(rs.getString("accessoriConsegnati"));
@@ -38,12 +39,12 @@ public class DbSchedaAction {
 			binScheda.setDescrizioneRiparazione(rs.getString("descrizioneRiparazione"));
 			binScheda.setNoteStampa(rs.getString("noteStampa"));
 			binScheda.setNoteUsoInterno(rs.getString("noteUsoInterno"));
-			binScheda.setCostoPreventivo(rs.getString("costoPreventivato"));
-			binScheda.setCostoInterno(rs.getString("costoInterno"));
-			binScheda.setPagatoDalCliente(rs.getString("pagatoDalCliente"));
+			binScheda.setCostoPreventivo(rs.getFloat("costoPreventivato"));
+			binScheda.setCostoInterno(rs.getFloat("costoInterno"));
+			binScheda.setPagatoDalCliente(rs.getFloat("pagatoDalCliente"));
 			binScheda.setDataInserimento(rs.getDate("dataInserimento"));
 			binScheda.setDataChiusura(rs.getDate("dataChiusura"));
-			binScheda.setImei(rs.getString("imei"));
+			//binScheda.setImei(rs.getString("imei"));
 			binScheda.setSerial(rs.getString("serial"));
 			binScheda.setIdTipoApparecchiature(rs.getInt("idTipoApparecchiatura"));
 			binScheda.setIdModelli(rs.getInt("idModello"));
@@ -57,12 +58,12 @@ public class DbSchedaAction {
 		return binScheda;
 	}
 	
-	public BinCliente getCliente(int idCliente) throws SQLException{
+	public BinCliente getCliente(Connection con,int idCliente) throws SQLException{
 		BinCliente binCliente = null;
-		Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
+		Statement smtp = con.createStatement();
 		String qry = "select id,nome,cognome,pIva,azienda,phone,mobilePhone," +
 				"email,indirizzo,city " +
-				"from gestrip.clienti where id = " + idCliente;
+				"from clienti where id = " + idCliente;
 		ResultSet rs = smtp.executeQuery(qry);
 		while (rs.next()) {
 			binCliente = new BinCliente();
@@ -103,8 +104,8 @@ public class DbSchedaAction {
 		return binCliente;
 	}
 	
-	public static void saveScheda(BinScheda scheda) throws SQLException{
-		Statement smtpScheda = CommonMetodBin.getInstance().openConn().createStatement();
+	public static void saveScheda(Connection con,BinScheda scheda) throws SQLException{
+		Statement smtpScheda = con.createStatement();
 		
 		String updDataInsScheda = "";
 		if (scheda.getDataInserimento()==null)
@@ -124,7 +125,7 @@ public class DbSchedaAction {
 		else
 			updDataDAScheda = "dataDatiAcq='"+scheda.getDataDatiAcq()+"',";
 		
-		String updScheda = "update gestrip.schede set " +
+		String updScheda = "update schede set " +
 			"id="+scheda.getId()+"," +
 			"idCliente="+scheda.getBinCliente().getId()+"," +
 			"idStato="+scheda.getIdStato()+"," +
@@ -141,7 +142,6 @@ public class DbSchedaAction {
 			"pagatoDalCliente="+scheda.getPagatoDalCliente()+"," +
 			updDataInsScheda +
 			updDataChiuScheda +
-			"imei='"+getParsedString(scheda.getImei())+"'," +
 			"serial='"+getParsedString(scheda.getSerial())+"'," +
 			"idTipoApparecchiatura="+scheda.getIdTipoApparecchiature()+"," +
 			"idModello="+scheda.getIdModelli()+"," +
@@ -153,15 +153,15 @@ public class DbSchedaAction {
 		//System.out.println(updScheda);
 		smtpScheda.executeUpdate(updScheda);
 		smtpScheda.close();
-		CommonMetodBin.getInstance().openConn().commit();
+		con.commit();
 	}
 	
-	public BinScheda addScheda() throws SQLException{
+	public BinScheda addScheda(Connection con) throws SQLException{
 		BinScheda binScheda = new BinScheda();
 		
 		int id = 0;
-		Statement smtpMaxId = CommonMetodBin.getInstance().openConn().createStatement();
-		String qryMaxId = "select max(id) from gestrip.schede ";
+		Statement smtpMaxId = con.createStatement();
+		String qryMaxId = "select max(id) from schede ";
 		ResultSet rsMaxId = smtpMaxId.executeQuery(qryMaxId);
 		while (rsMaxId.next()) {
 			id = rsMaxId.getInt(1);
@@ -182,12 +182,11 @@ public class DbSchedaAction {
 		binScheda.setDescrizioneRiparazione("");
 		binScheda.setNoteStampa("");
 		binScheda.setNoteUsoInterno("");
-		binScheda.setCostoPreventivo("0");
-		binScheda.setCostoInterno("0");
-		binScheda.setPagatoDalCliente("0");
+		binScheda.setCostoPreventivo(new Float(0));
+		binScheda.setCostoInterno(new Float(0));
+		binScheda.setPagatoDalCliente(new Float(0));
 		binScheda.setDataInserimento(new java.sql.Date(new Date().getTime()));
 		binScheda.setDataChiusura(null);
-		binScheda.setImei("");
 		binScheda.setSerial("");
 		binScheda.setIdTipoApparecchiature(0);
 		binScheda.setIdModelli(0);
@@ -196,24 +195,39 @@ public class DbSchedaAction {
 		binScheda.setDataDatiAcq(null);
 		binScheda.setIdTipoDatiAcq(0);
 		
-		Statement smtpIns = CommonMetodBin.getInstance().openConn().createStatement();
-		String ins = "insert into gestrip.schede " +
+		Statement smtpIns = con.createStatement();
+		String ins = "insert into schede " +
 				"(id,idCliente,idStato," +
 				"idTipoRip,accessoriConsegnati,statoGenerale," +
 				"difettoSegnalato,nonConform,descrizioneRiparazione," +
 				"noteStampa,noteUsoInterno,costoPreventivato," +
 				"costoInterno,pagatoDalCliente,dataInserimento," +
-				"dataChiusura,imei,serial," +
+				"dataChiusura,serial," +
 				"idTipoApparecchiatura,idModello,idMarca," +
 				"numeroDatiAcq,dataDatiAcq,idTipoDatiAcq) " +
-				"values ("+binScheda.getId()+","+binScheda.getBinCliente().getId()+","+binScheda.getIdStato()+"," +
-						binScheda.getIdTipoRiparazione()+",'"+binScheda.getAccessoriConsegnati()+"','"+binScheda.getStatoGenerale()+"'," +
-						"'"+binScheda.getDifettoSegnalato()+"','"+binScheda.getNonConformita()+"','"+binScheda.getDescrizioneRiparazione()+"'," +
-						"'"+binScheda.getNoteStampa()+"','"+binScheda.getNoteUsoInterno()+"','"+binScheda.getCostoPreventivo()+"'," +
-						"'"+binScheda.getCostoInterno()+"','"+binScheda.getPagatoDalCliente()+"','"+binScheda.getDataInserimento()+"'," +
-						binScheda.getDataChiusura()+",'"+binScheda.getImei()+"','"+binScheda.getSerial()+"'," +
-						binScheda.getIdTipoApparecchiature()+","+binScheda.getIdModelli()+","+binScheda.getIdMarchi()+"," +
-						"'"+binScheda.getNumDatiAcq()+"',"+binScheda.getDataDatiAcq()+","+binScheda.getIdTipoDatiAcq()+")";
+				"values ("+binScheda.getId()+","+
+						binScheda.getBinCliente().getId()+","+
+						binScheda.getIdStato()+"," +
+						binScheda.getIdTipoRiparazione()+",'"+
+						binScheda.getAccessoriConsegnati()+"'," +
+						"'"+binScheda.getStatoGenerale()+"'," +
+						"'"+binScheda.getDifettoSegnalato()+"'," +
+						"'"+binScheda.getNonConformita()+"'," +
+						"'"+binScheda.getDescrizioneRiparazione()+"'," +
+						"'"+binScheda.getNoteStampa()+"'," +
+						"'"+binScheda.getNoteUsoInterno()+"',"+
+						binScheda.getCostoPreventivo()+"," +
+						binScheda.getCostoInterno()+","+
+						binScheda.getPagatoDalCliente()+"," +
+						"'"+binScheda.getDataInserimento()+"'," +
+						binScheda.getDataChiusura()+"," +
+						"'"+binScheda.getSerial()+"'," +
+						binScheda.getIdTipoApparecchiature()+","+
+						binScheda.getIdModelli()+","+
+						binScheda.getIdMarchi()+"," +
+						"'"+binScheda.getNumDatiAcq()+"',"+
+						binScheda.getDataDatiAcq()+","+
+						binScheda.getIdTipoDatiAcq()+")";
 		//System.out.println(ins);
 		smtpIns.executeUpdate(ins);
 		smtpIns.close();
@@ -221,19 +235,19 @@ public class DbSchedaAction {
 		return binScheda;
 	}
 	
-	public static void removeScheda(int idScheda) throws SQLException{
-		Statement smtpDel = CommonMetodBin.getInstance().openConn().createStatement();
-		String del = "delete from gestrip.schede " +
+	public static void removeScheda(Connection con,int idScheda) throws SQLException{
+		Statement smtpDel = con.createStatement();
+		String del = "delete from schede " +
 				"where id = "+idScheda;
 		//System.out.println(del);
 		smtpDel.executeUpdate(del);
 		smtpDel.close();
 	}
 	
-	public static boolean existScheda(int idScheda) throws SQLException{
-		Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
+	public static boolean existScheda(Connection con,int idScheda) throws SQLException{
+		Statement smtp = con.createStatement();
 		String qry = "select count(id) " +
-				"from gestrip.schede where id = " + idScheda;
+				"from schede where id = " + idScheda;
 		ResultSet rs = smtp.executeQuery(qry);
 		int c = 0;
 		while (rs.next()) {
@@ -261,12 +275,12 @@ public class DbSchedaAction {
 		return binCliente;
 	}
 	
-	public static BinCliente addCliente() throws SQLException{
+	public static BinCliente addCliente(Connection con) throws SQLException{
 		BinCliente binCliente = new BinCliente();
 		
 		int id = 0;
-		Statement smtpMaxId = CommonMetodBin.getInstance().openConn().createStatement();
-		String qryMaxId = "select max(id) from gestrip.clienti ";
+		Statement smtpMaxId = con.createStatement();
+		String qryMaxId = "select max(id) from clienti ";
 		ResultSet rsMaxId = smtpMaxId.executeQuery(qryMaxId);
 		while (rsMaxId.next()) {
 			id = rsMaxId.getInt(1);
@@ -289,9 +303,9 @@ public class DbSchedaAction {
 		return binCliente;
 	}
 	
-	public static void insCliente(BinCliente binCliente) throws SQLException{
-		Statement smtpIns = CommonMetodBin.getInstance().openConn().createStatement();
-		String ins = "insert into gestrip.clienti " +
+	public static void insCliente(Connection con,BinCliente binCliente) throws SQLException{
+		Statement smtpIns = con.createStatement();
+		String ins = "insert into clienti " +
 				"(id,nome,cognome," +
 				"pIva,azienda,phone," +
 				"mobilePhone,email," +
@@ -305,9 +319,9 @@ public class DbSchedaAction {
 		smtpIns.close();
 	}
 	
-	public static void saveCliente(BinCliente binCliente) throws SQLException{
-		Statement smtpIns = CommonMetodBin.getInstance().openConn().createStatement();
-		String ins = "update gestrip.clienti set " +
+	public static void saveCliente(Connection con,BinCliente binCliente) throws SQLException{
+		Statement smtpIns = con.createStatement();
+		String ins = "update clienti set " +
 				"pIva='"+getParsedString(binCliente.getPIva())+"'," +
 				"azienda='"+getParsedString(binCliente.getAzienda())+"'," +
 				"phone='"+getParsedString(binCliente.getPhone())+"'," +
@@ -321,10 +335,10 @@ public class DbSchedaAction {
 		smtpIns.close();
 	}
 	
-	public static int existCliente(String nome,String cognome) throws SQLException{
-		Statement smtp = CommonMetodBin.getInstance().openConn().createStatement();
+	public static int existCliente(Connection con,String nome,String cognome) throws SQLException{
+		Statement smtp = con.createStatement();
 		String qry = "select id " +
-				"from gestrip.clienti " +
+				"from clienti " +
 				"where nome = '"+nome+"' " +
 				"and cognome = '"+cognome+"' ";
 		ResultSet rs = smtp.executeQuery(qry);

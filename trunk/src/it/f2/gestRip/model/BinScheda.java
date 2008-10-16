@@ -113,27 +113,27 @@ public class BinScheda implements Cloneable{
 		this.noteUsoInterno = value;
 	}
 	
-	private String costoPreventivo;
-	public String getCostoPreventivo(){
+	private Float costoPreventivo;
+	public Float getCostoPreventivo(){
 		return costoPreventivo;
 	}
-	public void setCostoPreventivo(String value){
+	public void setCostoPreventivo(Float value){
 		this.costoPreventivo = value;
 	}
 	
-	private String costoInterno;
-	public String getCostoInterno(){
+	private Float costoInterno;
+	public Float getCostoInterno(){
 		return costoInterno;
 	}
-	public void setCostoInterno(String value){
+	public void setCostoInterno(Float value){
 		this.costoInterno = value;
 	}
 	
-	private String pagatoDalCliente;
-	public String getPagatoDalCliente(){
+	private Float pagatoDalCliente;
+	public Float getPagatoDalCliente(){
 		return pagatoDalCliente;
 	}
-	public void setPagatoDalCliente(String value){
+	public void setPagatoDalCliente(Float value){
 		this.pagatoDalCliente = value;
 	}
 	
@@ -151,14 +151,6 @@ public class BinScheda implements Cloneable{
 	}
 	public void setDataChiusura(java.sql.Date value){
 		this.dataChiusura = value;
-	}
-	
-	private String imei;
-	public String getImei(){
-		return imei;
-	}
-	public void setImei(String value){
-		this.imei = value;
 	}
 	
 	private String serial;
@@ -241,7 +233,7 @@ public class BinScheda implements Cloneable{
 						.getIdTipoApparecchiature()
 				&& this.getIdTipoDatiAcq() == bs.getIdTipoDatiAcq()
 				&& this.getIdTipoRiparazione() == bs.getIdTipoRiparazione()
-				&& this.getImei().equals(bs.getImei())
+				//&& this.getImei().equals(bs.getImei())
 				&& this.getNonConformita().equals(bs.getNonConformita())
 				&& this.getNoteStampa().equals(bs.getNoteStampa())
 				&& this.getNoteUsoInterno().equals(bs.getNoteUsoInterno())
