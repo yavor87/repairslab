@@ -9,17 +9,19 @@ import it.f2.gestRip.model.BinScheda;
 import java.awt.BorderLayout;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import java.awt.Rectangle;
 
 import javax.swing.JDialog;
 import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.swing.SwingConstants;
@@ -29,6 +31,9 @@ import javax.swing.JButton;
 import java.awt.FlowLayout;
 import javax.swing.WindowConstants;
 import javax.swing.JCheckBox;
+import javax.swing.text.DefaultFormatter;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import org.apache.log4j.Logger;
 
@@ -46,7 +51,7 @@ public class VcDlgDetailScheda extends JDialog {
 	private VcPnlRiparazione pnlRiparazione = null;
 	private JPanel pnlTesta = null;
 	private JLabel lblSchedaN = null;
-	private JTextField txfNumScheda = null;
+	private JFormattedTextField txfNumScheda = null;
 	private JLabel lblDataApertura = null;
 	private JDateChooser txfDataApertura = null;
 	
@@ -302,36 +307,47 @@ public class VcDlgDetailScheda extends JDialog {
 	 * 	
 	 * @return javax.swing.JTextField	
 	 */
-	private JTextField getTxfNumScheda() {
+	private JFormattedTextField getTxfNumScheda() {
 		if (txfNumScheda == null) {
-			txfNumScheda = new JTextField();
+			txfNumScheda = new JFormattedTextField(scheda.getId());
+			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0"));
+		    fmt.setValueClass(Integer.class);
+		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
+		    txfNumScheda.setFormatterFactory(fmtFactory);
 			txfNumScheda.setBounds(new Rectangle(121, 9, 72, 25));
 			txfNumScheda.setText(scheda.getId()+"");
 			if (modality == mode.view){
 				txfNumScheda.setEditable(false);
 			}
+			txfNumScheda.setFocusLostBehavior(JFormattedTextField.PERSIST);
 			txfNumScheda.addFocusListener(new java.awt.event.FocusAdapter() {
 				public void focusLost(java.awt.event.FocusEvent e) {
 					boolean existScheda;
-					if(Integer.parseInt(txfNumScheda.getText())!=scheda.getId()){
-						try {
+					try {
+						txfNumScheda.commitEdit();
+						int val = (Integer)txfNumScheda.getValue();
+						if (val!=scheda.getId()){
 							Logger.getRootLogger().debug("getTxfNumScheda focus listener...");
-							existScheda = DbSchedaAction.existScheda(con,Integer.parseInt(txfNumScheda.getText()));
+							existScheda = DbSchedaAction.existScheda(con,val);
 							if(existScheda){
 								JOptionPane.showMessageDialog(getParent(), 
 										"Esiste già una scheda con il numero inserito.", 
 										"Errore", JOptionPane.ERROR_MESSAGE);
-								txfNumScheda.setText(scheda.getId()+"");
+								txfNumScheda.setValue(scheda.getId());
 							}else{
-								scheda.setId(Integer.parseInt(txfNumScheda.getText()));
+								scheda.setId(val);
 							}
-						} catch (NumberFormatException e1) {
-							Logger.getRootLogger().error("Exception in getTxfNumScheda focus listener \n"+e1+"\n");
-							//e1.printStackTrace();
-						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception in getTxfNumScheda focus listener \n"+e1+"\n");
-							//e1.printStackTrace();
 						}
+						
+					} catch (ParseException e1) {
+						JOptionPane.showMessageDialog(getParent(),
+								"Valore errato. ",
+								"Warning", JOptionPane.WARNING_MESSAGE);
+						txfNumScheda.setValue(scheda.getId());
+					} catch (SQLException e1) {
+						Logger.getRootLogger().error("Exception in getTxfNumScheda focus listener \n"+e1+"\n");
+						//e1.printStackTrace();
+						txfNumScheda.setValue(scheda.getId());
 					}
 					
 				}

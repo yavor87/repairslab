@@ -309,6 +309,7 @@ public class VcMainFrame extends JFrame {
 		if (settingMenu == null) {
 			settingMenu = new JMenu();
 			settingMenu.setText("Strumenti");
+			settingMenu.add(getMniSchedeDeleted());
 			settingMenu.add(getOptionsMenuItem());
 		}
 		return settingMenu;
@@ -494,6 +495,8 @@ public class VcMainFrame extends JFrame {
 	}
 	
 	private VcIfrAnaClienti anaClienti = null;
+
+	private JMenuItem mniSchedeDeleted = null;
 	private void openAnaClienti(){
 		anaClienti = new VcIfrAnaClienti(this);
 		if(!this.isJitOpen(anaClienti.getClass())){
@@ -574,6 +577,36 @@ public class VcMainFrame extends JFrame {
 		VcIfrAnaTipoDatiAcq iframe = new VcIfrAnaTipoDatiAcq(this);
 		if(!this.isJitOpen(iframe.getClass())){
 			this.addTab("Anagrafica Tipo Dati Acquisto", iframe);
+			this.selectTab(iframe);
+		}else{
+			iframe.hide();
+		}
+	}
+
+	/**
+	 * This method initializes mniSchedeDeleted	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getMniSchedeDeleted() {
+		if (mniSchedeDeleted == null) {
+			mniSchedeDeleted = new JMenuItem();
+			mniSchedeDeleted.setText("Cestino Schede Cancellate");
+			mniSchedeDeleted.setIcon(new ImageIcon(getClass().getResource(
+				"/it/f2/gestRip/ui/img/trashcan_full.png")));
+			mniSchedeDeleted.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					openSchedeDeleted();
+				}
+			});
+		}
+		return mniSchedeDeleted;
+	}
+	
+	private void openSchedeDeleted(){
+		VcIfrDeletedSchede iframe = new VcIfrDeletedSchede(this);
+		if(!this.isJitOpen(iframe.getClass())){
+			this.addTab("Cestino Schede Cancellate", iframe);
 			this.selectTab(iframe);
 		}else{
 			iframe.hide();

@@ -219,7 +219,8 @@ public class BinScheda implements Cloneable{
 				&& this.getAccessoriConsegnati().equals(
 						bs.getAccessoriConsegnati())
 				&& this.getBinCliente().sameData(bs.getBinCliente())
-				&& this.getCostoInterno().equals(bs.getCostoInterno())
+				&& this.getCostoInterno() == bs.getCostoInterno()
+				&& this.getCostoPreventivo() == bs.getCostoPreventivo()
 				&& this.getDataChiusura() == bs.getDataChiusura()
 				&& this.getDataDatiAcq() == bs.getDataDatiAcq()
 				&& this.getDataInserimento() == bs.getDataInserimento()
@@ -229,16 +230,15 @@ public class BinScheda implements Cloneable{
 				&& this.getIdMarchi() == bs.getIdMarchi()
 				&& this.getIdModelli() == bs.getIdModelli()
 				&& this.getIdStato() == bs.getIdStato()
-				&& this.getIdTipoApparecchiature() == bs
-						.getIdTipoApparecchiature()
+				&& this.getIdTipoApparecchiature() == bs.getIdTipoApparecchiature()
 				&& this.getIdTipoDatiAcq() == bs.getIdTipoDatiAcq()
 				&& this.getIdTipoRiparazione() == bs.getIdTipoRiparazione()
-				//&& this.getImei().equals(bs.getImei())
 				&& this.getNonConformita().equals(bs.getNonConformita())
 				&& this.getNoteStampa().equals(bs.getNoteStampa())
 				&& this.getNoteUsoInterno().equals(bs.getNoteUsoInterno())
 				&& this.getNumDatiAcq().equals(bs.getNumDatiAcq())
-				&& this.getPagatoDalCliente().equals(bs.getPagatoDalCliente())
+				&& this.getPagatoDalCliente() == bs.getPagatoDalCliente()
+				
 				&& this.getSerial().equals(bs.getSerial())
 				&& this.getStatoGenerale().equals(bs.getStatoGenerale())) {
 			System.out.print(this.getBinCliente().getEmail()+"-"+bs.getBinCliente().getEmail());

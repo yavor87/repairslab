@@ -244,6 +244,35 @@ public class DbSchedaAction {
 		smtpDel.close();
 	}
 	
+	public static void svuotaCestinoScheda(Connection con) throws SQLException{
+		Statement smtpDel = con.createStatement();
+		String del = "delete from schede " +
+				"where deleted = 'S' ";
+		//System.out.println(del);
+		smtpDel.executeUpdate(del);
+		smtpDel.close();
+	}
+	
+	public static void cestinaScheda(Connection con,int idScheda) throws SQLException{
+		Statement smtpDel = con.createStatement();
+		String upd = "update schede " +
+				"set deleted = 'S' " +
+				"where id = "+idScheda;
+		//System.out.println(upd);
+		smtpDel.executeUpdate(upd);
+		smtpDel.close();
+	}
+	
+	public static void ripristinaScheda(Connection con,int idScheda) throws SQLException{
+		Statement smtpDel = con.createStatement();
+		String upd = "update schede " +
+				"set deleted = null " +
+				"where id = "+idScheda;
+		//System.out.println(upd);
+		smtpDel.executeUpdate(upd);
+		smtpDel.close();
+	}
+	
 	public static boolean existScheda(Connection con,int idScheda) throws SQLException{
 		Statement smtp = con.createStatement();
 		String qry = "select count(id) " +
