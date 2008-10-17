@@ -96,8 +96,6 @@ public class VcIfrListaSchede extends JInternalFrame {
 		this.setTitle("Lista Schede");
 		this.setContentPane(getJContentPane());
 		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {   
-		   
-			
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
@@ -162,8 +160,10 @@ public class VcIfrListaSchede extends JInternalFrame {
 				"/it/f2/gestRip/ui/img/view_remove.png")));
 			btnView.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
-					openDetail(VcDlgDetailScheda.mode.view,id_scheda);
+					try{
+						int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
+						openDetail(VcDlgDetailScheda.mode.view,id_scheda);
+					}catch(IndexOutOfBoundsException ex){}
 				}
 			});
 		}
@@ -206,7 +206,8 @@ public class VcIfrListaSchede extends JInternalFrame {
 				+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
 				+ "LEFT JOIN marchi on schede.idMarca=marchi.id "
 				+ "LEFT JOIN modelli on schede.idModello=modelli.id "
-				+ "LEFT JOIN clienti on schede.idCliente=clienti.id ";
+				+ "LEFT JOIN clienti on schede.idCliente=clienti.id "
+				+ "WHERE schede.deleted is null ";
 			
 			tblList = new VcJDBCTablePanel(con, qry, false,null,null);
 			
@@ -228,8 +229,10 @@ public class VcIfrListaSchede extends JInternalFrame {
 				"/it/f2/gestRip/ui/img/edit.png")));
 			btnEdit.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
-					openDetail(VcDlgDetailScheda.mode.update,id_scheda);
+					try{
+						int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
+						openDetail(VcDlgDetailScheda.mode.update,id_scheda);
+					}catch(IndexOutOfBoundsException ex){}
 				}
 			});
 		}
@@ -283,21 +286,23 @@ public class VcIfrListaSchede extends JInternalFrame {
 	}
 	
 	private void deleteScheda(){
-		int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
-		int confirm = JOptionPane.showConfirmDialog(getParent(),
-				"La scheda di riparazione n."+id_scheda+" verrà eliminata in modo definitivo. Si desidera procedere?",
-				"Info", JOptionPane.OK_CANCEL_OPTION);
-		if (confirm == JOptionPane.OK_OPTION){
-			try {
-				Logger.getRootLogger().debug("Removing...");
-				DbSchedaAction.removeScheda(con,id_scheda);
-				con.commit();
-				getTblList().refresh();
-			} catch (SQLException e) {
-				Logger.getRootLogger().error("Exception in Removing \n"+e+"\n");
-				//e.printStackTrace();
+		try{
+			int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
+			int confirm = JOptionPane.showConfirmDialog(getParent(),
+					"La scheda di riparazione n."+id_scheda+" verrà spostata nel cestino schede. Si desidera procedere?",
+					"Info", JOptionPane.OK_CANCEL_OPTION);
+			if (confirm == JOptionPane.OK_OPTION){
+				try {
+					Logger.getRootLogger().debug("Removing...");
+					DbSchedaAction.cestinaScheda(con,id_scheda);
+					con.commit();
+					getTblList().refresh();
+				} catch (SQLException e) {
+					Logger.getRootLogger().error("Exception in Removing \n"+e+"\n");
+					//e.printStackTrace();
+				}
 			}
-		}
+		}catch(IndexOutOfBoundsException ex){}
 	}
 
 	/**
@@ -449,7 +454,8 @@ public class VcIfrListaSchede extends JInternalFrame {
 						+ (filterDataUsc ? "schede.dataInserimento <= :dataUsc AND " : "")
 						+ (filterSerial ? "schede.serial like :serial AND " : "")
 						+ (filterIdTipoAppa ? "schede.idTipoApparecchiatura = :idTipoAppa AND " : "" )
-						+ "1=1 ";
+						+ "1=1 "
+						+ "AND schede.deleted is null ";
 					//System.out.println(qry);
 					getTblList().setQuery(qry);
 					
@@ -561,7 +567,8 @@ public class VcIfrListaSchede extends JInternalFrame {
 						+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
 						+ "LEFT JOIN marchi on schede.idMarca=marchi.id "
 						+ "LEFT JOIN modelli on schede.idModello=modelli.id "
-						+ "LEFT JOIN clienti on schede.idCliente=clienti.id ";
+						+ "LEFT JOIN clienti on schede.idCliente=clienti.id "
+						+ "WHERE schede.deleted is null ";
 					getTblList().setQuery(qry);
 					getTblList().setParameters(null);
 					getTblList().refresh();
@@ -699,8 +706,10 @@ public class VcIfrListaSchede extends JInternalFrame {
 				"/it/f2/gestRip/ui/img/fileprint.png")));
 			btnPrint.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
-					print(id_scheda);
+					try{
+						int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
+						print(id_scheda);
+					}catch(IndexOutOfBoundsException ex){}
 				}
 			});
 		}

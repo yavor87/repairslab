@@ -50,6 +50,7 @@ public class VcDlgInsertModello extends JDialog {
 		this.marca = marca;
 		this.tipoAppa = tipoAppa;
 		this.parent = parent;
+		this.con = con;
 		initialize();
 	}
 

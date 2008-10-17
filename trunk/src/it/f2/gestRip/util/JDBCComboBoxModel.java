@@ -76,7 +76,7 @@ public class JDBCComboBoxModel extends DefaultComboBoxModel{
 			smtp.close();
 		} catch (SQLException e) {
 			Logger.getRootLogger().error("Exception in Inizializing \n"+e+"\n");
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		
 		this.setSelectedItem(selected);

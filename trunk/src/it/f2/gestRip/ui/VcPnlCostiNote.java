@@ -4,13 +4,18 @@ import it.f2.gestRip.model.BinScheda;
 import it.f2.gestRip.ui.VcDlgDetailScheda.mode;
 
 import java.awt.Rectangle;
-
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.text.DefaultFormatter;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import org.apache.log4j.Logger;
 
@@ -29,9 +34,9 @@ public class VcPnlCostiNote extends JPanel {
 	private JTextPane txpNoteStampa = null;
 	private JScrollPane scpNoteInterno = null;
 	private JTextPane txpNoteInterno = null;
-	private JTextField txfCostoSostenuto = null;
-	private JTextField txfCostoDalCliente = null;
-	private JTextField txfCostoPreventivato = null;
+	private JFormattedTextField txfCostoSostenuto = null;
+	private JFormattedTextField txfCostoDalCliente = null;
+	private JFormattedTextField txfCostoPreventivato = null;
 	
 	private mode modality = null;
 	private BinScheda scheda = null;
@@ -166,17 +171,29 @@ public class VcPnlCostiNote extends JPanel {
 	 * 
 	 * @return javax.swing.JTextField
 	 */
-	private JTextField getTxfCostoSostenuto() {
+	private JFormattedTextField getTxfCostoSostenuto() {
 		if (txfCostoSostenuto == null) {
-			txfCostoSostenuto = new JTextField();
-			txfCostoSostenuto.setText(""+scheda.getCostoInterno());
+			txfCostoSostenuto = new JFormattedTextField(scheda.getCostoInterno());
+			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00"));
+		    fmt.setValueClass(Float.class);
+		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
+		    txfCostoSostenuto.setFormatterFactory(fmtFactory);
 			txfCostoSostenuto.setBounds(new Rectangle(227, 42, 95, 25));
 			if(modality == mode.view){
 				txfCostoSostenuto.setEditable(false);
 			}
+			txfCostoSostenuto.setFocusLostBehavior(JFormattedTextField.PERSIST);
 			txfCostoSostenuto.addFocusListener(new java.awt.event.FocusAdapter() {
 				public void focusLost(java.awt.event.FocusEvent e) {
-					scheda.setCostoInterno(new Float(txfCostoSostenuto.getText()));
+					try {
+						txfCostoSostenuto.commitEdit();
+						scheda.setCostoInterno((Float)txfCostoSostenuto.getValue());
+					} catch (ParseException e1) {
+						JOptionPane.showMessageDialog(getParent(),
+								"Valore errato. ",
+								"Warning", JOptionPane.WARNING_MESSAGE);
+						txfCostoSostenuto.setValue(scheda.getCostoInterno());
+					}
 				}
 			});
 		}
@@ -188,21 +205,33 @@ public class VcPnlCostiNote extends JPanel {
 	 * 
 	 * @return javax.swing.JTextField
 	 */
-	private JTextField getTxfCostoDalCliente() {
+	private JFormattedTextField getTxfCostoDalCliente() {
 		if (txfCostoDalCliente == null) {
-			txfCostoDalCliente = new JTextField();
-			txfCostoDalCliente.setText(""+scheda.getPagatoDalCliente());
-			txfCostoDalCliente.setBounds(new Rectangle(227, 75, 95, 25));
+			txfCostoDalCliente = new JFormattedTextField(scheda.getPagatoDalCliente());
+			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00"));
+		    fmt.setValueClass(Float.class);
+		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
+		    txfCostoDalCliente.setFormatterFactory(fmtFactory);
+		    txfCostoDalCliente.setBounds(new Rectangle(227, 75, 95, 25));
 			if(modality == mode.view){
 				txfCostoDalCliente.setEditable(false);
 			}
+			txfCostoDalCliente.setFocusLostBehavior(JFormattedTextField.PERSIST);
 			txfCostoDalCliente.addFocusListener(new java.awt.event.FocusAdapter() {
 				public void focusLost(java.awt.event.FocusEvent e) {
-					scheda.setPagatoDalCliente(new Float(txfCostoDalCliente.getText()));
+					try {
+						txfCostoDalCliente.commitEdit();
+						scheda.setPagatoDalCliente((Float)txfCostoDalCliente.getValue());
+					} catch (ParseException e1) {
+						JOptionPane.showMessageDialog(getParent(),
+								"Valore errato. ",
+								"Warning", JOptionPane.WARNING_MESSAGE);
+						txfCostoDalCliente.setValue(scheda.getPagatoDalCliente());
+					}
 				}
-			});
+			});			
 		}
-		return txfCostoDalCliente;
+		return txfCostoDalCliente;		
 	}
 
 	/**
@@ -210,19 +239,31 @@ public class VcPnlCostiNote extends JPanel {
 	 * 
 	 * @return javax.swing.JTextField
 	 */
-	private JTextField getTxfCostoPreventivato() {
+	private JFormattedTextField getTxfCostoPreventivato() {
 		if (txfCostoPreventivato == null) {
-			txfCostoPreventivato = new JTextField();
-			txfCostoPreventivato.setText(""+scheda.getCostoPreventivo());
-			txfCostoPreventivato.setBounds(new Rectangle(524, 42, 95, 25));
+			txfCostoPreventivato = new JFormattedTextField(scheda.getCostoPreventivo());
+			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00"));
+		    fmt.setValueClass(Float.class);
+		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
+		    txfCostoPreventivato.setFormatterFactory(fmtFactory);
+		    txfCostoPreventivato.setBounds(new Rectangle(524, 42, 95, 25));
 			if(modality == mode.view){
 				txfCostoPreventivato.setEditable(false);
 			}
+			txfCostoPreventivato.setFocusLostBehavior(JFormattedTextField.PERSIST);
 			txfCostoPreventivato.addFocusListener(new java.awt.event.FocusAdapter() {
 				public void focusLost(java.awt.event.FocusEvent e) {
-					scheda.setCostoPreventivo(new Float(txfCostoPreventivato.getText()));
+					try {
+						txfCostoPreventivato.commitEdit();
+						scheda.setCostoPreventivo((Float)txfCostoPreventivato.getValue());
+					} catch (ParseException e1) {
+						JOptionPane.showMessageDialog(getParent(),
+								"Valore errato. ",
+								"Warning", JOptionPane.WARNING_MESSAGE);
+						txfCostoPreventivato.setValue(scheda.getCostoPreventivo());
+					}
 				}
-			});
+			});		
 		}
 		return txfCostoPreventivato;
 	}

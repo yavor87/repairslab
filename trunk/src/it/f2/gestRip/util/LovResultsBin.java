@@ -26,7 +26,13 @@ public class LovResultsBin {
 				try {
 					Logger.getRootLogger().debug("Loading...");
 					Statement smtp = con.createStatement();
-					String queryParsed = queryRender + "'" + value + "'";
+					String queryParsed = "";
+					try{
+						int numVal = Integer.parseInt(value+"");
+						queryParsed = queryRender + numVal;
+					}catch(ClassCastException e){
+						queryParsed = queryRender + "'" + value + "'";
+					}
 					ResultSet rs = smtp.executeQuery(queryParsed) ;
 					Object[] lovRow = new Object[2];
 					lovRow[0] = value;
