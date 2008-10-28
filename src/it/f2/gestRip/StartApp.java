@@ -169,7 +169,8 @@ public class StartApp {
 	      input.close();
 	    }
 	    catch (Exception err) {
-	      err.printStackTrace();
+	    	//err.printStackTrace();
+	    	logger.error("Exception in Remove process running \n"+err+"\n");
 	    }
 	    return processes;
 	  }

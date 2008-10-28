@@ -248,7 +248,6 @@ public class VcJDBCTablePanel extends JPanel {
 			
 			tblJDBCTable.getSelectionModel().addListSelectionListener(
 				new ListSelectionListener() {
-					@Override
 					public void valueChanged(ListSelectionEvent arg0) {
 						getTxfRecNum().setText(""+(getTblJDBCTable().getSelectedRow()+1));
 					}

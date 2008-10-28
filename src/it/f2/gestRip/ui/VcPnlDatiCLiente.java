@@ -107,7 +107,7 @@ public class VcPnlDatiCLiente extends JPanel {
 		lblCitta = new JLabel();
 		lblCitta.setBounds(new Rectangle(aPoint, 220, aPoint, 16));
 		lblCitta.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCitta.setText("Città");
+		lblCitta.setText("CittÃ ");
 		lblNome = new JLabel();
 		lblNome.setBounds(new Rectangle(aPoint, 70, aPoint, 16));
 		lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -240,7 +240,7 @@ public class VcPnlDatiCLiente extends JPanel {
 				if(idCliente>0){
 					
 					int confirm = JOptionPane.showConfirmDialog(getParent(),
-							"Esiste già un cliente con queste caratteristiche. Vuoi selezionarlo?",
+							"Esiste giï¿½ un cliente con queste caratteristiche. Vuoi selezionarlo?",
 							"Info", JOptionPane.YES_NO_OPTION);
 					if (confirm == JOptionPane.OK_OPTION){
 						selezionaCliente(idCliente);

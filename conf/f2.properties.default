@@ -1,9 +1,8 @@
-#Tue Mar 21 14:21:36 CET 2006
 f2.height=600
 f2.width=800
+f2.propFileName=conf\\f2.properties
 f2.filelogo.file=conf\\logo64.png
 f2.app.name=RepairsLab
-f2.propFileName=conf\\f2.properties
 f2.app.version=1.0.1a2
 f2.lookandfeel=javax.swing.plaf.metal.MetalLookAndFeel
 f2.db.driver=org.firebirdsql.jdbc.FBDriver
