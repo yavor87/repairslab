@@ -32,7 +32,6 @@ public class LovCellEditor extends AbstractCellEditor implements TableCellEditor
 		this.lrb = lrb;
 	}
 
-	@Override
 	public Component getTableCellEditorComponent(JTable table, 
             Object value, 
             boolean isSelected, 
@@ -56,7 +55,6 @@ public class LovCellEditor extends AbstractCellEditor implements TableCellEditor
         
 	}
 
-	@Override
 	public Object getCellEditorValue() {
 		return component.getValue();
 	}

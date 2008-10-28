@@ -295,7 +295,7 @@ public class VcIfrMain extends JInternalFrame {
 		if (edpMainScreen == null) {
 			File html = new File(
 				"conf"+
-				EnvProperties.getInstance().getProperty(EnvProperties.FILE_SEPARETOR)+
+				EnvProperties.FILE_SEPARETOR+
 				"mainScreen.html");
 			edpMainScreen = new JEditorPane();
 			edpMainScreen.setContentType("text/html");

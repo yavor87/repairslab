@@ -2,7 +2,7 @@
  * @author FERRAF01
  * 
  * Questa classe rappresenta il JFrame Standard.
- * la parte grafica è stata costruita con Eclipse Visual Editor.
+ * la parte grafica ï¿½ stata costruita con Eclipse Visual Editor.
  */
 
 package it.f2.gestRip.ui;
@@ -217,8 +217,8 @@ public class VcMainFrame extends JFrame {
 		if (tbpMain == null) {
 			tbpMain = new JTabbedPane();
 			VcIfrMain ifr = new VcIfrMain(this);
-			ifr.setTitle("Menù principale");
-			tbpMain.addTab("Menù principale", ifr);
+			ifr.setTitle("MenÃ¹ principale");
+			tbpMain.addTab("MenÃ¹ principale", ifr);
 			tbpMain.addChangeListener(new javax.swing.event.ChangeListener() {
 				public void stateChanged(javax.swing.event.ChangeEvent e) {
 					lastSelectedIndex = getTbpMain().getSelectedIndex();
@@ -254,7 +254,7 @@ public class VcMainFrame extends JFrame {
 	}
 
 	/**
-	 * Questo metodo permette di inserire un nuovo tab e se il parametro file è
+	 * Questo metodo permette di inserire un nuovo tab e se il parametro file ï¿½
 	 * inizializzato inserisce nel nuovo tab l'oggetto DwbDocument.
 	 * 
 	 * @param file

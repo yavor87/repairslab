@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 /**
  * Questa classe ha patern Singleton e valorizza le costanti e
- * proprietà da utilizzare in tutta l'applicazione.
+ * proprietï¿½ da utilizzare in tutta l'applicazione.
  * 
  * @author ferraf01
  *
@@ -19,9 +19,8 @@ import org.apache.log4j.Logger;
 
 public class EnvProperties {
 
-	public static String FILE_SEPARETOR = "file.separetor";
-	public static String LINE_SEPARETOR = "line.separetor";
-	public static String HOME = "f2.home";
+	public static String FILE_SEPARETOR = System.getProperty("file.separator");
+	public static String LINE_SEPARETOR = System.getProperty("line.separator");
 	public static String PROP_FILE_NAME = "f2.propFileName";
 	public static String DEFAULT_LANGUAGE = "f2.language.file";
 	public static String LOOK = "f2.lookandfeel";
@@ -47,7 +46,7 @@ public class EnvProperties {
 	private static EnvProperties instance;
 
 	/**
-	 * Questo metodo inizializza tutte le proprietà se non è
+	 * Questo metodo inizializza tutte le proprietï¿½ se non ï¿½
 	 * stato ancora fatto.
 	 * 
 	 * @return
@@ -60,13 +59,19 @@ public class EnvProperties {
 	}
 
 	/**
-	 * Questo metodo ritorna il valore della proprietà richiesto.
+	 * Questo metodo ritorna il valore della proprietï¿½ richiesto.
 	 * 
 	 * @param propName
 	 * @return
 	 */
 	public String getProperty(String propName) {
-		return this.getProperties().getProperty(propName);
+		String result = this.getProperties().getProperty(propName);
+		if(result != null){
+			if (result.indexOf("\\")>0 || result.indexOf("/")>0){
+				return result.replace("\\", EnvProperties.FILE_SEPARETOR);
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -82,22 +87,19 @@ public class EnvProperties {
 	}
 
 	/**
-	 * Questo metodo effettua il caricamento di tutte le proprietà
-	 * sia da file di property che da proprietà di sistema.
+	 * Questo metodo effettua il caricamento di tutte le proprietï¿½
+	 * sia da file di property che da proprietï¿½ di sistema.
 	 */
 	public void loadProperties() {
 		this.properties = new Properties();
 		try {
-			this.properties.put("file.separetor", System
+			/*this.properties.put("file.separetor", System
 					.getProperty("file.separator"));
 			this.properties.put("line.separator", System
-					.getProperty("line.separator"));
-
-			String _f2Home = System.getProperty("user.home");
-			this.properties.put("f2.home", _f2Home);
+					.getProperty("line.separator"));*/
 
 			this.properties.put("f2.propFileName", "conf"
-					+ this.getProperty(EnvProperties.FILE_SEPARETOR)
+					+ EnvProperties.FILE_SEPARETOR
 					+ "f2.properties");
 
 			this.properties.load(new FileInputStream(this
@@ -120,7 +122,7 @@ public class EnvProperties {
 	}
 
 	/**
-	 * Questo metodo effettua il salvataggio di tutte le proprietà
+	 * Questo metodo effettua il salvataggio di tutte le proprietï¿½
 	 * sul file di property.
 	 */
 	public void saveFileProperty() {
@@ -145,7 +147,7 @@ public class EnvProperties {
 
 	/**
 	 * Questo metodo pulisce, cancella tutti i valori
-	 * già settati.
+	 * giï¿½ settati.
 	 */
 	public void clear() {
 		this.properties = null;

@@ -80,7 +80,6 @@ public class LovChooser extends JPanel implements ActionListener,PropertyChangeL
 		return button;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		LovDialog lovDialog = new LovDialog(
 				CommonMetodBin.getInstance().getMainFrame(),this,
@@ -89,7 +88,6 @@ public class LovChooser extends JPanel implements ActionListener,PropertyChangeL
 		lovDialog.setVisible(true);
 	}
 
-	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		System.out.println("propertyChange"+evt.getPropertyName());
 	}

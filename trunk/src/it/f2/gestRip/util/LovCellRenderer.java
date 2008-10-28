@@ -30,7 +30,6 @@ public class LovCellRenderer extends JLabel implements TableCellRenderer {
 		label = new JTextField();
 	}
 
-	@Override
 	public Component getTableCellRendererComponent(			
 			JTable table, 
 			Object value,

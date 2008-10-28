@@ -328,8 +328,7 @@ public class VcDlgOptions extends JDialog {
 				TypeCmb seledted = null;
 				/* Caricamento da file di property */
 				String path = "conf"
-						+ EnvProperties.getInstance().getProperty(
-								EnvProperties.FILE_SEPARETOR)
+						+ EnvProperties.FILE_SEPARETOR
 						+ "LookAndFeel.properties";
 				FileInputStream in = new FileInputStream(path);
 				looks.load(in);
