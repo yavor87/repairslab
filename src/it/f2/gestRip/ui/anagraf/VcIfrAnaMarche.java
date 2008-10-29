@@ -2,6 +2,7 @@ package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.ui.VcMainFrame;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
@@ -32,7 +33,7 @@ public class VcIfrAnaMarche extends JInternalFrame {
 	 */
 	public VcIfrAnaMarche(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("VcIfrAnaMarche constructor...");
+		Logger.getRootLogger().debug("VcIfrAnaMarche constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = CommonMetodBin.getConn();
 		initialize();
@@ -46,16 +47,16 @@ public class VcIfrAnaMarche extends JInternalFrame {
 	private void initialize() {
 		this.setSize(300, 200);
 		this.setClosable(true);
-		this.setTitle("Anagrafica Marche");
+		this.setTitle(Messages.getString("VcIfrAnaMarche.titleBrands")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
-						Logger.getRootLogger().debug("Closing...");
+						Logger.getRootLogger().debug("Closing..."); //$NON-NLS-1$
 						close();
 					}catch(Exception e1){
-						Logger.getRootLogger().error("Exception in Closing \n"+e1+"\n");
+						Logger.getRootLogger().error("Exception in Closing \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 					}
 				}
@@ -85,7 +86,7 @@ public class VcIfrAnaMarche extends JInternalFrame {
 		if (pnlTableAnaMarche == null) {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
-			String query = "SELECT id,nome,descrizione,flagAttivo FROM marchi"	;
+			String query = "SELECT id,nome,descrizione,flagAttivo FROM marchi"	; //$NON-NLS-1$
 			
 			pnlTableAnaMarche = new VcJDBCTablePanel(con,query,true){
 				/**
@@ -96,10 +97,10 @@ public class VcIfrAnaMarche extends JInternalFrame {
 				protected void onDelete(){
 					boolean referenziato = false;
 					try {
-						Logger.getRootLogger().debug("Deleting...");
+						Logger.getRootLogger().debug("Deleting..."); //$NON-NLS-1$
 						Statement smtp = con.createStatement();
-						String query = "select count(*) from modelli " +
-								"where idMarchi = "+getValueAt(currentRow(), 0);
+						String query = "select count(*) from modelli " + //$NON-NLS-1$
+								"where idMarchi = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
 							int fk = rs.getInt(1);
@@ -110,8 +111,8 @@ public class VcIfrAnaMarche extends JInternalFrame {
 						rs.close();
 						smtp.close();
 						smtp = con.createStatement();
-						query = "select count(*) from schede " +
-								"where idMarca = "+getValueAt(currentRow(), 0);
+						query = "select count(*) from schede " + //$NON-NLS-1$
+								"where idMarca = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						rs = smtp.executeQuery(query);
 						while(rs.next()){
 							int fk = rs.getInt(1);
@@ -123,19 +124,19 @@ public class VcIfrAnaMarche extends JInternalFrame {
 						smtp.close();
 						if(referenziato){
 							JOptionPane.showMessageDialog(getParent(),
-									"Stato referenziato. Non è possibile la cancellazione.",
-									"Errore", JOptionPane.ERROR_MESSAGE);
+									Messages.getString("VcIfrAnaMarche.msgReferenced"), //$NON-NLS-1$
+									Messages.getString("VcIfrAnaMarche.msgTitleError"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 						}else{
 							deleteRow(currentRow());
 						}
 					} catch (SQLException e) {
-						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n");
+						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						//e.printStackTrace();
 					}					
 				}
 			};
 			pnlTableAnaMarche.createControlPanel();
-			pnlTableAnaMarche.setCheckBoxColumn(3,"S","N");
+			pnlTableAnaMarche.setCheckBoxColumn(3,"S","N"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return pnlTableAnaMarche;
 	}

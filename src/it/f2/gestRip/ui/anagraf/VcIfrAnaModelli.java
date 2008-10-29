@@ -2,6 +2,7 @@ package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.ui.VcMainFrame;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
@@ -32,7 +33,7 @@ public class VcIfrAnaModelli extends JInternalFrame {
 	 */
 	public VcIfrAnaModelli(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("VcIfrAnaModelli constructor...");
+		Logger.getRootLogger().debug("VcIfrAnaModelli constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = CommonMetodBin.getConn();
 		initialize();
@@ -46,16 +47,16 @@ public class VcIfrAnaModelli extends JInternalFrame {
 	private void initialize() {
 		this.setSize(300, 200);
 		this.setClosable(true);
-		this.setTitle("Anagrafica Modelli");
+		this.setTitle(Messages.getString("VcIfrAnaModelli.titleModels")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
-						Logger.getRootLogger().debug("Closing...");
+						Logger.getRootLogger().debug("Closing..."); //$NON-NLS-1$
 						close();
 					}catch(Exception e1){
-						Logger.getRootLogger().error("Exception in Set modality \n"+e1+"\n");
+						Logger.getRootLogger().error("Exception in Set modality \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 					}
 				}
@@ -87,7 +88,7 @@ public class VcIfrAnaModelli extends JInternalFrame {
 		if (pnlTableAnaModelli == null) {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
-			String query = "SELECT id,nome,descModello,idMarchi,idTipoApp,flagAttivo FROM modelli"	;
+			String query = "SELECT id,nome,descModello,idMarchi,idTipoApp,flagAttivo FROM modelli"	; //$NON-NLS-1$
 			
 			pnlTableAnaModelli = new VcJDBCTablePanel(con,query,true){
 				/**
@@ -96,19 +97,19 @@ public class VcIfrAnaModelli extends JInternalFrame {
 				private static final long serialVersionUID = 1L;
 				
 				protected void onDelete(){
-					Logger.getRootLogger().debug("Deleting...");
+					Logger.getRootLogger().debug("Deleting..."); //$NON-NLS-1$
 					try {
 						Statement smtp = con.createStatement();
-						String query = "select count(*) from schede " +
-								"where idModello = "+getValueAt(currentRow(), 0);
+						String query = "select count(*) from schede " + //$NON-NLS-1$
+								"where idModello = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
 							int fk = rs.getInt(1);
 							if(fk>0){
 								System.out.println(fk);
 								JOptionPane.showMessageDialog(getParent(),
-										"Stato referenziato. Non è possibile la cancellazione.",
-										"Errore", JOptionPane.ERROR_MESSAGE);
+										Messages.getString("VcIfrAnaModelli.msgReferenced"), //$NON-NLS-1$
+										Messages.getString("VcIfrAnaModelli.msgTitleError"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 							}else{
 								deleteRow(currentRow());
 							}
@@ -116,25 +117,25 @@ public class VcIfrAnaModelli extends JInternalFrame {
 						rs.close();
 						smtp.close();
 					} catch (SQLException e) {
-						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n");
+						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						e.printStackTrace();
 					}					
 				}
 			};
 			pnlTableAnaModelli.createControlPanel();
-			pnlTableAnaModelli.setCheckBoxColumn(5,"S","N");
+			pnlTableAnaModelli.setCheckBoxColumn(5,"S","N"); //$NON-NLS-1$ //$NON-NLS-2$
 			
-			String qryLovModelli = "select id,nome,descrizione from marchi " +
-					"where flagAttivo = 'S'";
-			String qryRenderModelli = "select nome from marchi " +
-					"where id = ";
-			pnlTableAnaModelli.setLovColumn(3,qryLovModelli,qryRenderModelli,"id","nome",50);
+			String qryLovModelli = "select id,nome,descrizione from marchi " + //$NON-NLS-1$
+					"where flagAttivo = 'S'"; //$NON-NLS-1$
+			String qryRenderModelli = "select nome from marchi " + //$NON-NLS-1$
+					"where id = "; //$NON-NLS-1$
+			pnlTableAnaModelli.setLovColumn(3,qryLovModelli,qryRenderModelli,"id","nome",50); //$NON-NLS-1$ //$NON-NLS-2$
 			
-			String qryLovTipoApp = "select id,nome,descrizione from tipoapparecchiature " +
-					"where flagAttivo = 'S'";
-			String qryRenderTipoApp = "select nome from tipoapparecchiature " +
-					"where id = ";
-			pnlTableAnaModelli.setLovColumn(4,qryLovTipoApp,qryRenderTipoApp,"id","nome",50);
+			String qryLovTipoApp = "select id,nome,descrizione from tipoapparecchiature " + //$NON-NLS-1$
+					"where flagAttivo = 'S'"; //$NON-NLS-1$
+			String qryRenderTipoApp = "select nome from tipoapparecchiature " + //$NON-NLS-1$
+					"where id = "; //$NON-NLS-1$
+			pnlTableAnaModelli.setLovColumn(4,qryLovTipoApp,qryRenderTipoApp,"id","nome",50); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return pnlTableAnaModelli;
 	}

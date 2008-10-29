@@ -2,6 +2,7 @@ package it.f2.gestRip.ui;
 
 import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.ui.messages.Messages;
 
 import java.awt.Frame;
 import java.awt.Rectangle;
@@ -49,10 +50,10 @@ public class VcDlgAdvancedOptions extends JDialog {
 	 */
 	public VcDlgAdvancedOptions(Frame owner) {
 		super(owner, true);
-		Logger.getRootLogger().debug("VcDlgAdvancedOptions constructor...");
+		Logger.getRootLogger().debug("VcDlgAdvancedOptions constructor..."); //$NON-NLS-1$
 		initialize();
 		if(EnvProperties.getInstance().getProperty(
-				EnvProperties.DB_ISEMBEDDED).equalsIgnoreCase("S")){
+				EnvProperties.DB_ISEMBEDDED).equalsIgnoreCase("S")){ //$NON-NLS-1$
 			setEmbedded();
 		}else{
 			setNonEmbedded();
@@ -78,29 +79,29 @@ public class VcDlgAdvancedOptions extends JDialog {
 		if (jContentPane == null) {
 			lblServerProc = new JLabel();
 			lblServerProc.setBounds(new Rectangle(7, 63, 132, 15));
-			lblServerProc.setText("Processo Server");
+			lblServerProc.setText("Processo Server"); //$NON-NLS-1$
 			lblStartCmd = new JLabel();
 			lblStartCmd.setBounds(new Rectangle(8, 13, 126, 16));
-			lblStartCmd.setText("Comando di avvio");
+			lblStartCmd.setText("Comando di avvio"); //$NON-NLS-1$
 			lblDBOptions = new JLabel();
 			lblDBOptions.setBounds(new Rectangle(46, 126, 119, 16));
-			lblDBOptions.setText("COnfigurazione DB");
+			lblDBOptions.setText(Messages.getString("VcDlgAdvancedOptions.lblDbConfig")); //$NON-NLS-1$
 			LblJdbcPsw = new JLabel();
 			LblJdbcPsw.setBounds(new Rectangle(7, 249, 90, 16));
-			LblJdbcPsw.setText("JDBC Passw");
+			LblJdbcPsw.setText(Messages.getString("VcDlgAdvancedOptions.lblJDBCPassw")); //$NON-NLS-1$
 			lblJdbcUser = new JLabel();
 			lblJdbcUser.setBounds(new Rectangle(7, 219, 90, 16));
-			lblJdbcUser.setText("JDBC User");
+			lblJdbcUser.setText(Messages.getString("VcDlgAdvancedOptions.lblJDBCUser")); //$NON-NLS-1$
 			lblJdbcUrl = new JLabel();
 			lblJdbcUrl.setBounds(new Rectangle(7, 189, 90, 16));
-			lblJdbcUrl.setText("JDBC Url");
+			lblJdbcUrl.setText(Messages.getString("VcDlgAdvancedOptions.lblJDBCUrl")); //$NON-NLS-1$
 			lblJdbcDriver = new JLabel();
 			lblJdbcDriver.setBounds(new Rectangle(7, 159, 90, 16));
-			lblJdbcDriver.setText("JDBC Driver");
+			lblJdbcDriver.setText(Messages.getString("VcDlgAdvancedOptions.lblJDBCDriver")); //$NON-NLS-1$
 			lblGenerali = new JLabel();
 			lblGenerali.setBounds(new Rectangle(8, 120, 30, 30));
-			lblGenerali.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/Options30.png")));
-			lblGenerali.setText("");
+			lblGenerali.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/Options30.png"))); //$NON-NLS-1$
+			lblGenerali.setText(""); //$NON-NLS-1$
 			lblGenerali.setHorizontalAlignment(SwingConstants.CENTER);
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
@@ -195,8 +196,8 @@ public class VcDlgAdvancedOptions extends JDialog {
 		if (btnCanc == null) {
 			btnCanc = new JButton();
 			btnCanc.setBounds(new Rectangle(210, 328, 96, 25));
-			btnCanc.setText("Annulla");
-			btnCanc.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/button_cancel.png")));
+			btnCanc.setText(Messages.getString("VcDlgAdvancedOptions.btnCanc")); //$NON-NLS-1$
+			btnCanc.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					dispose();
@@ -215,8 +216,8 @@ public class VcDlgAdvancedOptions extends JDialog {
 		if (btnOk == null) {
 			btnOk = new JButton();
 			btnOk.setBounds(new Rectangle(310, 328, 85, 25));
-			btnOk.setText("Salva");
-			btnOk.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/filesave.png")));
+			btnOk.setText(Messages.getString("VcDlgAdvancedOptions.btnSave")); //$NON-NLS-1$
+			btnOk.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/filesave.png"))); //$NON-NLS-1$
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					save();
@@ -234,7 +235,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	
 	@SuppressWarnings("deprecation")
 	private void test(){
-		String testConnection = "";
+		String testConnection = ""; //$NON-NLS-1$
 		if(getCkbEmbedded().isSelected()){
 			testConnection = CommonMetodBin.getInstance().testEmbConn();
 		}else{
@@ -244,20 +245,20 @@ public class VcDlgAdvancedOptions extends JDialog {
 				getTxpJdbcUser().getText(), getTxpJdbcPsw().getText());
 		}
 		
-		String msg = "";
+		String msg = ""; //$NON-NLS-1$
 		int confirm = 0;
-		if (testConnection.equals("Ok")){
-			msg = "Test Connessione Avvenuto con successo. "+
-				" \n Vuoi salvare la modifica?";
+		if (testConnection.equals(Messages.getString("VcDlgAdvancedOptions.btnOk"))){ //$NON-NLS-1$
+			msg = Messages.getString("VcDlgAdvancedOptions.msgTestOk1")+ //$NON-NLS-1$
+				Messages.getString("VcDlgAdvancedOptions.msgTestOk2"); //$NON-NLS-1$
 			confirm = JOptionPane.showConfirmDialog(getParent(),
-					msg,"Info", 
+					msg,Messages.getString("VcDlgAdvancedOptions.msgTitleInfo"),  //$NON-NLS-1$
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.INFORMATION_MESSAGE);
 		}else{
-			msg = "Test Connessione Fallito: "+testConnection+
-				" \n Vuoi salvare la modifica lo stesso?";
+			msg = Messages.getString("VcDlgAdvancedOptions.msgTestFailed1")+testConnection+ //$NON-NLS-1$
+				Messages.getString("VcDlgAdvancedOptions.msgTestFailed2"); //$NON-NLS-1$
 			confirm = JOptionPane.showConfirmDialog(getParent(),
-					msg,"Warning", 
+					msg,Messages.getString("VcDlgAdvancedOptions.msgTitleWarning"),  //$NON-NLS-1$
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE);
 		}
@@ -282,20 +283,20 @@ public class VcDlgAdvancedOptions extends JDialog {
 				EnvProperties.DB_USER,getTxpJdbcUser().getText());
 		String psw = getTxpJdbcPsw().getText();
 		//System.out.println("updateConf:"+psw);
-		if (psw == null) psw = "";
+		if (psw == null) psw = ""; //$NON-NLS-1$
 		//System.out.println("updateConf:"+psw);
 		EnvProperties.getInstance().setProperty(
 				EnvProperties.DB_PASSW,psw);
 				
-		String emb = "N";
-		if(getCkbEmbedded().isSelected()) emb = "S";
+		String emb = "N"; //$NON-NLS-1$
+		if(getCkbEmbedded().isSelected()) emb = "S"; //$NON-NLS-1$
 		EnvProperties.getInstance().setProperty(
 				EnvProperties.DB_ISEMBEDDED,emb);
 		
 		EnvProperties.getInstance().saveFileProperty();
 		JOptionPane.showMessageDialog(getParent(),
-				"Le modifiche saranno attive dal prossimo riavvio. ",
-				"Info", JOptionPane.INFORMATION_MESSAGE);
+				Messages.getString("VcDlgAdvancedOptions.msgRestart"), //$NON-NLS-1$
+				Messages.getString("VcDlgAdvancedOptions.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 	}
 
 	/**
@@ -337,7 +338,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 		if (ckbEmbedded == null) {
 			ckbEmbedded = new JCheckBox();
 			ckbEmbedded.setBounds(new Rectangle(6, 285, 178, 24));
-			ckbEmbedded.setText("Embedded Server");
+			ckbEmbedded.setText(Messages.getString("VcDlgAdvancedOptions.lblEmbeddedServer")); //$NON-NLS-1$
 			ckbEmbedded.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					if(ckbEmbedded.isSelected()){
@@ -360,7 +361,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 		if (btnTestConn == null) {
 			btnTestConn = new JButton();
 			btnTestConn.setBounds(new Rectangle(91, 328, 87, 25));
-			btnTestConn.setText("Test");
+			btnTestConn.setText(Messages.getString("VcDlgAdvancedOptions.btnlTest")); //$NON-NLS-1$
 			btnTestConn.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					test();

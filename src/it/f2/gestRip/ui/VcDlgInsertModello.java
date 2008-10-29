@@ -1,5 +1,6 @@
 package it.f2.gestRip.ui;
 
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.JDBCComboBoxModel;
 import it.f2.util.ui.cmb.TypeCmb;
 
@@ -46,7 +47,7 @@ public class VcDlgInsertModello extends JDialog {
 	 */
 	public VcDlgInsertModello(JDialog owner,VcPnlApparecchio parent,String marca,String tipoAppa,Connection con) {
 		super(owner,true);
-		Logger.getRootLogger().debug("VcDlgInsertModello constructor...");
+		Logger.getRootLogger().debug("VcDlgInsertModello constructor..."); //$NON-NLS-1$
 		this.marca = marca;
 		this.tipoAppa = tipoAppa;
 		this.parent = parent;
@@ -62,7 +63,7 @@ public class VcDlgInsertModello extends JDialog {
 	private void initialize() {
 		this.setSize(370, 233);
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		this.setTitle("Inserisci Modello");
+		this.setTitle(Messages.getString("VcDlgInsertModello.titleInsModel")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 	}
 
@@ -76,19 +77,19 @@ public class VcDlgInsertModello extends JDialog {
 			lbDescMod = new JLabel();
 			lbDescMod.setBounds(new Rectangle(2, 121, 135, 16));
 			lbDescMod.setHorizontalAlignment(SwingConstants.RIGHT);
-			lbDescMod.setText("Descrizione");
+			lbDescMod.setText(Messages.getString("VcDlgInsertModello.lblDesc")); //$NON-NLS-1$
 			lblModello = new JLabel();
 			lblModello.setBounds(new Rectangle(3, 92, 135, 16));
 			lblModello.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblModello.setText("Modello");
+			lblModello.setText(Messages.getString("VcDlgInsertModello.lblModel")); //$NON-NLS-1$
 			lblMarca = new JLabel();
 			lblMarca.setBounds(new Rectangle(3, 62, 135, 16));
 			lblMarca.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblMarca.setText("Marca");
+			lblMarca.setText(Messages.getString("VcDlgInsertModello.lblBrand")); //$NON-NLS-1$
 			lblTipoAppa = new JLabel();
 			lblTipoAppa.setBounds(new Rectangle(4, 31, 135, 16));
 			lblTipoAppa.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblTipoAppa.setText("Tipo Apparecchiatura");
+			lblTipoAppa.setText(Messages.getString("VcDlgInsertModello.lblEqpType")); //$NON-NLS-1$
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(getCmbTipoAppa(), null);
@@ -115,9 +116,9 @@ public class VcDlgInsertModello extends JDialog {
 		if (cmbTipoAppa == null) {
 			cmbTipoAppa = new JComboBox();
 			cmbTipoAppa.setBounds(new Rectangle(145, 27, 190, 25));
-			String qry = "select id,nome,flagAttivo from tipoapparecchiature";
+			String qry = "select id,nome,flagAttivo from tipoapparecchiature"; //$NON-NLS-1$
 			cmbTipoAppa.setModel(new JDBCComboBoxModel(
-					con,qry,tipoAppa,"S"));
+					con,qry,tipoAppa,"S")); //$NON-NLS-1$
 		}
 		return cmbTipoAppa;
 	}
@@ -131,9 +132,9 @@ public class VcDlgInsertModello extends JDialog {
 		if (cmbMarca == null) {
 			cmbMarca = new JComboBox();
 			cmbMarca.setBounds(new Rectangle(145, 58, 190, 25));
-			String qry = "select id,nome,flagAttivo from marchi";
+			String qry = "select id,nome,flagAttivo from marchi"; //$NON-NLS-1$
 			cmbMarca.setModel(new JDBCComboBoxModel(
-					con,qry,marca,"S"));
+					con,qry,marca,"S")); //$NON-NLS-1$
 		}
 		return cmbMarca;
 	}
@@ -160,9 +161,9 @@ public class VcDlgInsertModello extends JDialog {
 		if (btnOk == null) {
 			btnOk = new JButton();
 			btnOk.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/button_ok.png")));
+				"/it/f2/gestRip/ui/img/button_ok.png"))); //$NON-NLS-1$
 			btnOk.setBounds(new Rectangle(95, 163, 85, 25));
-			btnOk.setText("Ok");
+			btnOk.setText(Messages.getString("VcDlgInsertModello.btnOk")); //$NON-NLS-1$
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					inserisci();
@@ -174,7 +175,7 @@ public class VcDlgInsertModello extends JDialog {
 	
 	private void inserisci(){
 		try {
-			Logger.getRootLogger().debug("Inserisci...");
+			Logger.getRootLogger().debug("Inserisci..."); //$NON-NLS-1$
 			String modello = getTxfModello().getText();
 			String descModello = getTxfDescMod().getText();
 			int idMarca = 0;
@@ -186,22 +187,22 @@ public class VcDlgInsertModello extends JDialog {
 				idAppa = Integer.parseInt(((TypeCmb)getCmbTipoAppa().getSelectedItem()).getValue());
 			}catch(NullPointerException e){}
 			
-			if (modello == null || modello.equalsIgnoreCase("")){
+			if (modello == null || modello.equalsIgnoreCase("")){ //$NON-NLS-1$
 				JOptionPane.showMessageDialog(getParent(),
-						"Nessun nuovo modello inserito. Richiesto nome modello.",
-						"Info", JOptionPane.INFORMATION_MESSAGE);
+						Messages.getString("VcDlgInsertModello.msgErrModel"), //$NON-NLS-1$
+						Messages.getString("VcDlgInsertModello.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 			}else if(idMarca == 0 || idAppa == 0){
 				JOptionPane.showMessageDialog(getParent(),
-						"Nessun nuovo modello inserito. Richiesti tipo apparato e marca.",
-						"Info", JOptionPane.INFORMATION_MESSAGE);
+						Messages.getString("VcDlgInsertModello.msgErrEqpBrand"), //$NON-NLS-1$
+						Messages.getString("VcDlgInsertModello.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 			}else{
 				//verifica esistenza modello
 				int id = 0;
 				Statement smtpMod = con.createStatement();
-				String qryMod = "select id from modelli " +
-						"where idMarchi = "+idMarca+" " +
-						"and idTipoApp = "+idAppa+" " +
-						"and nome = '"+modello+"'";
+				String qryMod = "select id from modelli " + //$NON-NLS-1$
+						"where idMarchi = "+idMarca+" " + //$NON-NLS-1$ //$NON-NLS-2$
+						"and idTipoApp = "+idAppa+" " + //$NON-NLS-1$ //$NON-NLS-2$
+						"and nome = '"+modello+"'"; //$NON-NLS-1$ //$NON-NLS-2$
 				ResultSet rsMod = smtpMod.executeQuery(qryMod);
 				while (rsMod.next()) {
 					id = rsMod.getInt(1);
@@ -211,15 +212,15 @@ public class VcDlgInsertModello extends JDialog {
 				
 				if (id > 0){
 					JOptionPane.showMessageDialog(getParent(),
-							"Nessun nuovo modello inserito. Modello già esistente.",
-							"Info", JOptionPane.INFORMATION_MESSAGE);
+							Messages.getString("VcDlgInsertModello.msgErrModelExist"), //$NON-NLS-1$
+							Messages.getString("VcDlgInsertModello.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 					parent.inserisciNuovoModello(idAppa,idMarca,id,modello);
 					this.setVisible(false);
 					this.dispose();
 				}else{
 					//reperimento id
 					Statement smtpId = con.createStatement();
-					String qryId = "select max(id) from modelli";
+					String qryId = "select max(id) from modelli"; //$NON-NLS-1$
 					ResultSet rsId = smtpId.executeQuery(qryId);
 					while (rsId.next()) {
 						id = rsId.getInt(1);
@@ -230,9 +231,9 @@ public class VcDlgInsertModello extends JDialog {
 					
 					//inserimento
 					Statement smtpIns = con.createStatement();
-					String ins = "insert into modelli " +
-							"(id,nome,descModello,idMarchi,idTipoApp,flagAttivo) " +
-							"values("+id+",'"+modello+"','"+descModello+"',"+idMarca+","+idAppa+",'S') ";
+					String ins = "insert into modelli " + //$NON-NLS-1$
+							"(id,nome,descModello,idMarchi,idTipoApp,flagAttivo) " + //$NON-NLS-1$
+							"values("+id+",'"+modello+"','"+descModello+"',"+idMarca+","+idAppa+",'S') "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 					//System.out.println(ins);
 					smtpIns.executeUpdate(ins);
 					smtpIns.close();
@@ -242,7 +243,7 @@ public class VcDlgInsertModello extends JDialog {
 				}
 			}
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Inserisci \n"+e+"\n");
+			Logger.getRootLogger().error("Exception in Inserisci \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			//e.printStackTrace();
 		}
 
@@ -257,9 +258,9 @@ public class VcDlgInsertModello extends JDialog {
 		if (btnCanc == null) {
 			btnCanc = new JButton();
 			btnCanc.setBounds(new Rectangle(189, 163, 85, 25));
-			btnCanc.setText("Canc");
+			btnCanc.setText(Messages.getString("VcDlgInsertModello.btnCanc")); //$NON-NLS-1$
 			btnCanc.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/button_cancel.png")));
+				"/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					setVisible(false);

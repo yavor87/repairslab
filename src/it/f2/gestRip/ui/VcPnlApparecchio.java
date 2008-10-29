@@ -2,6 +2,7 @@ package it.f2.gestRip.ui;
 
 import it.f2.gestRip.model.BinScheda;
 import it.f2.gestRip.ui.VcDlgDetailScheda.mode;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.JDBCComboBoxModel;
 import it.f2.util.ui.WindowUtil;
 import it.f2.util.ui.cmb.TypeCmb;
@@ -73,7 +74,7 @@ public class VcPnlApparecchio extends JPanel {
 	 */
 	public VcPnlApparecchio(mode modality,BinScheda scheda,VcDlgDetailScheda parent,Connection con) {
 		super();
-		Logger.getRootLogger().debug("VcPnlApparecchio constructor...");
+		Logger.getRootLogger().debug("VcPnlApparecchio constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.scheda = scheda;
 		this.parent = parent;
@@ -89,53 +90,53 @@ public class VcPnlApparecchio extends JPanel {
 	private void initialize() {
         lblDataDa = new JLabel();
         lblDataDa.setBounds(new Rectangle(15, 275, 67, 16));
-        lblDataDa.setText("Data:");
+        lblDataDa.setText(Messages.getString("VcPnlApparecchio.lblPurchasingData")); //$NON-NLS-1$
         lblDataDa.setHorizontalAlignment(SwingConstants.RIGHT);
         lblNumDa = new JLabel();
         lblNumDa.setBounds(new Rectangle(14, 245, 67, 16));
-        lblNumDa.setText("Numero:");
+        lblNumDa.setText(Messages.getString("VcPnlApparecchio.lblPurchasingNum")); //$NON-NLS-1$
         lblNumDa.setHorizontalAlignment(SwingConstants.RIGHT);
         lblTipoDa = new JLabel();
         lblTipoDa.setBounds(new Rectangle(22, 213, 58, 16));
         lblTipoDa.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblTipoDa.setText("Tipo:");
+        lblTipoDa.setText(Messages.getString("VcPnlApparecchio.lblPurchasingType")); //$NON-NLS-1$
         lblDatiAcquisto = new JLabel();
         lblDatiAcquisto.setBounds(new Rectangle(18, 180, 208, 16));
-        lblDatiAcquisto.setText("Dati di acquisto");
+        lblDatiAcquisto.setText(Messages.getString("VcPnlApparecchio.lblPurchasing")); //$NON-NLS-1$
         lblStatoRip = new JLabel();
         lblStatoRip.setBounds(new Rectangle(15, 93, 171, 16));
-        lblStatoRip.setText("Stato Riparazione");
+        lblStatoRip.setText(Messages.getString("VcPnlApparecchio.lblState")); //$NON-NLS-1$
         lblTipoRip = new JLabel();
         lblTipoRip.setBounds(new Rectangle(13, 27, 146, 16));
-        lblTipoRip.setText("Tipo Riparazione");
+        lblTipoRip.setText(Messages.getString("VcPnlApparecchio.lblRepairsType")); //$NON-NLS-1$
         this.setSize(new Dimension(818, 572));
         lblNonConformita = new JLabel();
 		lblNonConformita.setBounds(new Rectangle(363, 357, 189, 16));
-		lblNonConformita.setText("Non Conformità");
+		lblNonConformita.setText(Messages.getString("VcPnlApparecchio.lblNonComplilance")); //$NON-NLS-1$
 		lblDifettoSegnalato = new JLabel();
 		lblDifettoSegnalato.setBounds(new Rectangle(10, 342, 299, 16));
-		lblDifettoSegnalato.setText("Difetto Segnalato");
+		lblDifettoSegnalato.setText(Messages.getString("VcPnlApparecchio.lblDefectReported")); //$NON-NLS-1$
 		lblStatoGenerale = new JLabel();
 		lblStatoGenerale.setBounds(new Rectangle(363, 250, 231, 16));
-		lblStatoGenerale.setText("Stato generale");
+		lblStatoGenerale.setText(Messages.getString("VcPnlApparecchio.lblGeneralStatement")); //$NON-NLS-1$
 		lblAccessoriCons = new JLabel();
 		lblAccessoriCons.setBounds(new Rectangle(363, 156, 194, 16));
-		lblAccessoriCons.setText("Accessori Consegnati");
+		lblAccessoriCons.setText(Messages.getString("VcPnlApparecchio.lblAccessoriesDelivered")); //$NON-NLS-1$
 		lblSerial = new JLabel();
 		lblSerial.setBounds(new Rectangle(363, 105, 246, 16));
-		lblSerial.setText("Serial / IMEI");
+		lblSerial.setText(Messages.getString("VcPnlApparecchio.lblSerial")); //$NON-NLS-1$
 		lblTipoAppa = new JLabel();
 		lblTipoAppa.setBounds(new Rectangle(363, 60, 130, 16));
-		lblTipoAppa.setText("Tipo Apparecchiatura");
+		lblTipoAppa.setText(Messages.getString("VcPnlApparecchio.lblEqpType")); //$NON-NLS-1$
 		lblMarca = new JLabel();
 		lblMarca.setBounds(new Rectangle(505, 60, 102, 16));
-		lblMarca.setText("Marca");
+		lblMarca.setText(Messages.getString("VcPnlApparecchio.lblBrand")); //$NON-NLS-1$
 		lblModello = new JLabel();
 		lblModello.setBounds(new Rectangle(645, 60, 112, 16));
-		lblModello.setText("Modello");
+		lblModello.setText(Messages.getString("VcPnlApparecchio.lblModel")); //$NON-NLS-1$
 		lblAppar1 = new JLabel();
 		lblAppar1.setBounds(new Rectangle(363, 27, 195, 16));
-		lblAppar1.setText("Apparecchio ricevuto");
+		lblAppar1.setText(Messages.getString("VcPnlApparecchio.lblEqpReceived")); //$NON-NLS-1$
 		setLayout(null);
 		add(lblAppar1, null);
 		add(getCmbModello(), null);
@@ -194,7 +195,7 @@ public class VcPnlApparecchio extends JPanel {
 	
 	private void loadCmbModello(){
 		//getCmbModello().removeAll();
-		String qry = "";
+		String qry = ""; //$NON-NLS-1$
 		int tipoApp = 0;
 		try{
 			tipoApp = Integer.parseInt(((TypeCmb)cmbTipoAppa.getSelectedItem()).getValue());
@@ -208,20 +209,20 @@ public class VcPnlApparecchio extends JPanel {
 			marca = 0;
 		}
 		if(tipoApp==0 && marca==0){
-			qry = "select id,nome,flagAttivo from modelli";
+			qry = "select id,nome,flagAttivo from modelli"; //$NON-NLS-1$
 		}else if(tipoApp!=0 && marca!=0){
-			qry = "select id,nome,flagAttivo from modelli" +
-					" where idTipoApp = " + tipoApp +
-					" and idMarchi = " + marca;
+			qry = "select id,nome,flagAttivo from modelli" + //$NON-NLS-1$
+					" where idTipoApp = " + tipoApp + //$NON-NLS-1$
+					" and idMarchi = " + marca; //$NON-NLS-1$
 		}else if(tipoApp!=0 && marca==0){
-			qry = "select id,nome,flagAttivo from modelli" +
-			" where idTipoApp = " + tipoApp;
+			qry = "select id,nome,flagAttivo from modelli" + //$NON-NLS-1$
+			" where idTipoApp = " + tipoApp; //$NON-NLS-1$
 		}else if(tipoApp==0 && marca!=0){
-			qry = "select id,nome,flagAttivo from modelli" +
-			" where idMarchi = " + marca;
+			qry = "select id,nome,flagAttivo from modelli" + //$NON-NLS-1$
+			" where idMarchi = " + marca; //$NON-NLS-1$
 		}
 		getCmbModello().setModel(new JDBCComboBoxModel(
-				con,qry,scheda.getIdModelli()+"","S"));
+				con,qry,scheda.getIdModelli()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -233,9 +234,9 @@ public class VcPnlApparecchio extends JPanel {
 		if (cmbMarca == null) {
 			cmbMarca = new JComboBox();
 			cmbMarca.setBounds(new Rectangle(505, 75, 130, 25));
-			String qry = "select id,nome,flagAttivo from marchi order by nome";
+			String qry = "select id,nome,flagAttivo from marchi order by nome"; //$NON-NLS-1$
 			cmbMarca.setModel(new JDBCComboBoxModel(
-					con,qry,scheda.getIdMarchi()+"","S"));
+					con,qry,scheda.getIdMarchi()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			cmbMarca.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					int val = Integer.parseInt(((TypeCmb)cmbMarca.getSelectedItem()).getValue());
@@ -259,9 +260,9 @@ public class VcPnlApparecchio extends JPanel {
 		if (cmbTipoAppa == null) {
 			cmbTipoAppa = new JComboBox();
 			cmbTipoAppa.setBounds(new Rectangle(363, 75, 130, 25));
-			String qry = "select id,nome,flagAttivo from tipoapparecchiature";
+			String qry = "select id,nome,flagAttivo from tipoapparecchiature"; //$NON-NLS-1$
 			cmbTipoAppa.setModel(new JDBCComboBoxModel(
-					con,qry,scheda.getIdTipoApparecchiature()+"","S"));
+					con,qry,scheda.getIdTipoApparecchiature()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			if(modality == mode.view){
 				cmbTipoAppa.setEnabled(false);
 			}
@@ -447,9 +448,9 @@ public class VcPnlApparecchio extends JPanel {
 	private JComboBox getCmbTipoRip() {
 		if (cmbTipoRip == null) {
 			cmbTipoRip = new JComboBox();
-			String qry = "select id,nomeTipoRip,flagAttivo from tiporiparazione";
+			String qry = "select id,nomeTipoRip,flagAttivo from tiporiparazione"; //$NON-NLS-1$
 			cmbTipoRip.setModel(new JDBCComboBoxModel(
-					con,qry,scheda.getIdTipoRiparazione()+"","S"));
+					con,qry,scheda.getIdTipoRiparazione()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			cmbTipoRip.setBounds(new Rectangle(13, 42, 185, 25));
 			if (modality == mode.view) {
 				cmbTipoRip.setEnabled(false);
@@ -473,9 +474,9 @@ public class VcPnlApparecchio extends JPanel {
 		if (cmbStato == null) {
 			cmbStato = new JComboBox();
 			cmbStato.setBounds(new Rectangle(14, 114, 184, 25));
-			String qry = "select id,nomeStato,flagAttivo from anastati";
+			String qry = "select id,nomeStato,flagAttivo from anastati"; //$NON-NLS-1$
 			cmbStato.setModel(new JDBCComboBoxModel(
-					con,qry,scheda.getIdStato()+"","S"));
+					con,qry,scheda.getIdStato()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			if (modality == mode.view) {
 				cmbStato.setEnabled(false);
 			}
@@ -524,7 +525,7 @@ public class VcPnlApparecchio extends JPanel {
 			if (modality == mode.view){
 				txfDAData.setEnabled(false);
 			}
-			txfDAData.addPropertyChangeListener("date",
+			txfDAData.addPropertyChangeListener("date", //$NON-NLS-1$
 					new java.beans.PropertyChangeListener() {
 						public void propertyChange(java.beans.PropertyChangeEvent e) {
 							if (txfDAData.getDate() == null)
@@ -545,9 +546,9 @@ public class VcPnlApparecchio extends JPanel {
 	private JComboBox getCmbTipoDA() {
 		if (cmbTipoDA == null) {
 			cmbTipoDA = new JComboBox();
-			String qry = "select id,tipo from tpodatiacquisto";
+			String qry = "select id,tipo from tpodatiacquisto"; //$NON-NLS-1$
 			cmbTipoDA.setModel(new JDBCComboBoxModel(
-					con,qry,scheda.getIdTipoDatiAcq()+""));
+					con,qry,scheda.getIdTipoDatiAcq()+"")); //$NON-NLS-1$
 			cmbTipoDA.setBounds(new Rectangle(83, 208, 180, 25));
 			if (modality == mode.view) {
 				cmbTipoDA.setEnabled(false);
@@ -572,7 +573,7 @@ public class VcPnlApparecchio extends JPanel {
 			btnAddModello = new JButton();
 			btnAddModello.setBounds(new Rectangle(776, 75, 25, 25));
 			btnAddModello.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/edit_add.png")));
+				"/it/f2/gestRip/ui/img/edit_add.png"))); //$NON-NLS-1$
 			btnAddModello.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openDlgInsertModello();
@@ -587,7 +588,7 @@ public class VcPnlApparecchio extends JPanel {
 	
 	private void openDlgInsertModello(){
 		VcDlgInsertModello dlg = new VcDlgInsertModello(parent,this,
-				scheda.getIdMarchi()+"",scheda.getIdTipoApparecchiature()+"",con);
+				scheda.getIdMarchi()+"",scheda.getIdTipoApparecchiature()+"",con); //$NON-NLS-1$ //$NON-NLS-2$
 		WindowUtil.centerWindow(dlg);
 		dlg.setVisible(true);
 	}
@@ -597,7 +598,7 @@ public class VcPnlApparecchio extends JPanel {
 		selectCmbValue(getCmbTipoAppa(), idAppa);
 		if(!selectCmbValue(getCmbModello(), idModello)){
 			TypeCmb c = new TypeCmb();
-			c.setValue(idModello+"");
+			c.setValue(idModello+""); //$NON-NLS-1$
 			c.setDesc(nomeModello);
 			getCmbModello().addItem(c);
 			selectCmbValue(getCmbModello(), idModello);
@@ -608,7 +609,7 @@ public class VcPnlApparecchio extends JPanel {
 		boolean selezionato = false;
 		for (int i=0;i<cmb.getItemCount();i++) {
 			TypeCmb c = (TypeCmb)cmb.getItemAt(i);
-			if (c.getValue().equals(val+"")){
+			if (c.getValue().equals(val+"")){ //$NON-NLS-1$
 				cmb.setSelectedIndex(i);
 				selezionato = true;
 			}
@@ -626,7 +627,7 @@ public class VcPnlApparecchio extends JPanel {
 			btnDelDataDA = new JButton();
 			btnDelDataDA.setBounds(new Rectangle(238, 272, 25, 25));
 			btnDelDataDA.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/edit_remove.png")));
+				"/it/f2/gestRip/ui/img/edit_remove.png"))); //$NON-NLS-1$
 			if(modality==mode.view){
 				btnDelDataDA.setEnabled(false);
 			}

@@ -40,6 +40,7 @@ public class EnvProperties {
 	public static String INDIRIZZO = "f2.indirizzo";
 	public static String INFOCLIENTE = "f2.infocliente";
 	public static String DOPPIACOPIA = "f2.doppiaCopia";
+	public static String LANGUAGE = "f2.language";
 
 	/* Singleton */
 	private Properties properties;

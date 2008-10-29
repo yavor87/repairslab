@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui;
 
 import it.f2.gestRip.EnvProperties;
+import it.f2.gestRip.ui.messages.Messages;
 
 import javax.swing.ImageIcon;
 
@@ -45,19 +46,19 @@ public class VcSplashScreen extends JWindow {
 			lblVersion = new JLabel();
 			lblVersion.setBounds(new Rectangle(123, 143, 257, 28));
 			lblVersion.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblVersion.setText("Versione: "+
+			lblVersion.setText(Messages.getString("VcSplashScreen.version")+ //$NON-NLS-1$
 					EnvProperties.getInstance().getProperty(
 					EnvProperties.VERSION));
 			lblGestRip = new JLabel();
 			lblGestRip.setBounds(new Rectangle(123, 75, 256, 65));
-			lblGestRip.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 24));
+			lblGestRip.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 24)); //$NON-NLS-1$
 			lblGestRip.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblGestRip.setText(EnvProperties.getInstance().getProperty(
 					EnvProperties.APPNAME));
 			iblIcon = new JLabel();
 			iblIcon.setBounds(new Rectangle(4, 6, 98, 101));
 			iblIcon.setIcon(new ImageIcon(getClass().
-					getResource("img/logo64.png")));
+					getResource("img/logo64.png"))); //$NON-NLS-1$
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.setSize(new Dimension(294, 255));

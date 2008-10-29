@@ -2,6 +2,7 @@ package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.ui.VcMainFrame;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
@@ -32,7 +33,7 @@ public class VcIfrAnaTipoRip extends JInternalFrame {
 	 */
 	public VcIfrAnaTipoRip(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("VcIfrAnaTipoRip constructor...");
+		Logger.getRootLogger().debug("VcIfrAnaTipoRip constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = CommonMetodBin.getConn();
 		initialize();
@@ -46,16 +47,16 @@ public class VcIfrAnaTipoRip extends JInternalFrame {
 	private void initialize() {
 		this.setSize(517, 388);
 		this.setClosable(true);
-		this.setTitle("Anagrafica Tipologia Riparazione");
+		this.setTitle(Messages.getString("VcIfrAnaTipoRip.titleRepairType")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
-						Logger.getRootLogger().debug("Closing...");
+						Logger.getRootLogger().debug("Closing..."); //$NON-NLS-1$
 						close();
 					}catch(Exception e1){
-						Logger.getRootLogger().error("Exception in Closing \n"+e1+"\n");
+						Logger.getRootLogger().error("Exception in Closing \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 					}
 				}
@@ -85,8 +86,8 @@ public class VcIfrAnaTipoRip extends JInternalFrame {
 		if (pnlTableAnaTipoRip == null) {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
-			String query = "SELECT id,nomeTipoRip,descTipoRip,flagAttivo " +
-					"FROM tiporiparazione"	;
+			String query = "SELECT id,nomeTipoRip,descTipoRip,flagAttivo " + //$NON-NLS-1$
+					"FROM tiporiparazione"	; //$NON-NLS-1$
 			
 			pnlTableAnaTipoRip = new VcJDBCTablePanel(
 					con,query,true){
@@ -97,18 +98,18 @@ public class VcIfrAnaTipoRip extends JInternalFrame {
 				
 				protected void onDelete(){
 					try {
-						Logger.getRootLogger().debug("Deleting...");
+						Logger.getRootLogger().debug("Deleting..."); //$NON-NLS-1$
 						Statement smtp = con.createStatement();
-						String query = "select count(*) from schede " +
-								"where idTipoRip = "+getValueAt(currentRow(), 0);
+						String query = "select count(*) from schede " + //$NON-NLS-1$
+								"where idTipoRip = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
 							int fk = rs.getInt(1);
 							if(fk>0){
 								System.out.println(fk);
 								JOptionPane.showMessageDialog(getParent(),
-										"Stato referenziato. Non è possibile la cancellazione.",
-										"Errore", JOptionPane.ERROR_MESSAGE);
+										Messages.getString("VcIfrAnaTipoRip.msgReferenced"), //$NON-NLS-1$
+										Messages.getString("VcIfrAnaTipoRip.msgTitleError"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 							}else{
 								deleteRow(currentRow());
 							}
@@ -116,13 +117,13 @@ public class VcIfrAnaTipoRip extends JInternalFrame {
 						rs.close();
 						smtp.close();
 					} catch (SQLException e) {
-						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n");
+						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						e.printStackTrace();
 					}					
 				}
 			};
 			pnlTableAnaTipoRip.createControlPanel();
-			pnlTableAnaTipoRip.setCheckBoxColumn(3,"S","N");
+			pnlTableAnaTipoRip.setCheckBoxColumn(3,"S","N"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return pnlTableAnaTipoRip;
 	}

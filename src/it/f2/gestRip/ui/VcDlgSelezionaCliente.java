@@ -1,5 +1,6 @@
 package it.f2.gestRip.ui;
 
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
@@ -34,7 +35,7 @@ public class VcDlgSelezionaCliente extends JDialog {
 	 */
 	public VcDlgSelezionaCliente(JDialog dialog,VcPnlDatiCLiente parent,Connection con) {
 		super(dialog);
-		Logger.getRootLogger().debug("VcDlgSelezionaCliente constructor...");
+		Logger.getRootLogger().debug("VcDlgSelezionaCliente constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = con;
 		initialize();
@@ -75,8 +76,8 @@ public class VcDlgSelezionaCliente extends JDialog {
 		if (pnlTblCliente == null) {
 			pnlTblCliente = new VcJDBCTablePanel(
 					con,
-					"select id,nome,cognome,azienda,city " +
-					"from clienti",
+					"select id,nome,cognome,azienda,city " + //$NON-NLS-1$
+					"from clienti", //$NON-NLS-1$
 					false);
 			pnlTblCliente.createControlPanel();
 		}
@@ -106,7 +107,7 @@ public class VcDlgSelezionaCliente extends JDialog {
 	private JButton getBtnCanc() {
 		if (btnCanc == null) {
 			btnCanc = new JButton();
-			btnCanc.setText("Canc");
+			btnCanc.setText(Messages.getString("VcDlgSelezionaCliente.btnCanc")); //$NON-NLS-1$
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					setVisible(false);
@@ -125,11 +126,11 @@ public class VcDlgSelezionaCliente extends JDialog {
 	private JButton getBtnOk() {
 		if (btnOk == null) {
 			btnOk = new JButton();
-			btnOk.setText("Ok");
+			btnOk.setText(Messages.getString("VcDlgSelezionaCliente.btnOk")); //$NON-NLS-1$
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					int id = Integer.parseInt(getPnlTblCliente().getValueAt(
-							getPnlTblCliente().currentRow(), 0)+"");
+							getPnlTblCliente().currentRow(), 0)+""); //$NON-NLS-1$
 					parent.selezionaCliente(id);
 					setVisible(false);
 					dispose();

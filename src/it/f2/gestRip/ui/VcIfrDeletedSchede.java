@@ -2,6 +2,7 @@ package it.f2.gestRip.ui;
 
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.DbSchedaAction;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.JDBCComboBoxModel;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 import it.f2.util.ui.WindowUtil;
@@ -74,7 +75,7 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	 */
 	public VcIfrDeletedSchede(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("VcIfrListaSchede constructor...");
+		Logger.getRootLogger().debug("VcIfrListaSchede constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = CommonMetodBin.getConn();
 		initialize();
@@ -88,16 +89,16 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	private void initialize() {
 		this.setSize(901, 571);
 		this.setClosable(true);
-		this.setTitle("Lista Schede");
+		this.setTitle(Messages.getString("VcIfrDeletedSchede.titleDeletedListSheet")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {   
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
-						Logger.getRootLogger().debug("Closing...");
+						Logger.getRootLogger().debug("Closing..."); //$NON-NLS-1$
 						close();
 					}catch(Exception e1){
-						Logger.getRootLogger().error("Exception in Closing \n"+e+"\n");
+						Logger.getRootLogger().error("Exception in Closing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 					}
 				}
@@ -149,9 +150,9 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	private JButton getBtnView() {
 		if (btnView == null) {
 			btnView = new JButton();
-			btnView.setText("Visualizza Scheda");
+			btnView.setText(Messages.getString("VcIfrDeletedSchede.btnShowSheet")); //$NON-NLS-1$
 			btnView.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/view_remove.png")));
+				"/it/f2/gestRip/ui/img/view_remove.png"))); //$NON-NLS-1$
 			btnView.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					try{
@@ -184,24 +185,24 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	 */
 	public VcJDBCTablePanel getTblList() {
 		if (tblList == null) {
-			String qry = "SELECT "
-				+ "schede.id                 \"Numero\", "
-				+ "anastati.nomeStato        \"Stato\", "
-				+ "schede.dataInserimento    \"Data Ingresso\", "
-				+ "schede.dataChiusura       \"Data Chiusura\", "
-				+ "tipoapparecchiature.nome  \"Tipo\", "
-				+ "marchi.nome               \"Marca\", "
-				+ "modelli.nome              \"Modello\", "
-				+ "clienti.nome              \"Nome Cliente\", "
-				+ "clienti.cognome           \"Cognome Cliente\" "
-				+ "FROM "
-				+ "schede "
-				+ "LEFT JOIN anastati on schede.idStato=anastati.id "
-				+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
-				+ "LEFT JOIN marchi on schede.idMarca=marchi.id "
-				+ "LEFT JOIN modelli on schede.idModello=modelli.id "
-				+ "LEFT JOIN clienti on schede.idCliente=clienti.id "
-				+ "WHERE schede.deleted = 'S' ";
+			String qry = "SELECT " //$NON-NLS-1$
+				+ "schede.id                 \"Numero\", " //$NON-NLS-1$
+				+ "anastati.nomeStato        \"Stato\", " //$NON-NLS-1$
+				+ "schede.dataInserimento    \"Data Ingresso\", " //$NON-NLS-1$
+				+ "schede.dataChiusura       \"Data Chiusura\", " //$NON-NLS-1$
+				+ "tipoapparecchiature.nome  \"Tipo\", " //$NON-NLS-1$
+				+ "marchi.nome               \"Marca\", " //$NON-NLS-1$
+				+ "modelli.nome              \"Modello\", " //$NON-NLS-1$
+				+ "clienti.nome              \"Nome Cliente\", " //$NON-NLS-1$
+				+ "clienti.cognome           \"Cognome Cliente\" " //$NON-NLS-1$
+				+ "FROM " //$NON-NLS-1$
+				+ "schede " //$NON-NLS-1$
+				+ "LEFT JOIN anastati on schede.idStato=anastati.id " //$NON-NLS-1$
+				+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id " //$NON-NLS-1$
+				+ "LEFT JOIN marchi on schede.idMarca=marchi.id " //$NON-NLS-1$
+				+ "LEFT JOIN modelli on schede.idModello=modelli.id " //$NON-NLS-1$
+				+ "LEFT JOIN clienti on schede.idCliente=clienti.id " //$NON-NLS-1$
+				+ "WHERE schede.deleted = 'S' "; //$NON-NLS-1$
 			
 			tblList = new VcJDBCTablePanel(con, qry, false,null,null);
 			
@@ -224,9 +225,9 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	private JButton getBtnDelete() {
 		if (btnDelete == null) {
 			btnDelete = new JButton();
-			btnDelete.setText("Elimina Scheda");
+			btnDelete.setText(Messages.getString("VcIfrDeletedSchede.btnDelSheet")); //$NON-NLS-1$
 			btnDelete.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/delete_table_row.png")));
+				"/it/f2/gestRip/ui/img/delete_table_row.png"))); //$NON-NLS-1$
 			btnDelete.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					deleteScheda();
@@ -240,16 +241,16 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 		try{
 			int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
 			int confirm = JOptionPane.showConfirmDialog(getParent(),
-					"La scheda di riparazione n."+id_scheda+" verrà eliminata in modo definitivo. Si desidera procedere?",
-					"Info", JOptionPane.OK_CANCEL_OPTION);
+					Messages.getString("VcIfrDeletedSchede.msgDelSheet1")+id_scheda+Messages.getString("VcIfrDeletedSchede.msgDelSheet2"), //$NON-NLS-1$ //$NON-NLS-2$
+					Messages.getString("VcIfrDeletedSchede.msgTitleInfo"), JOptionPane.OK_CANCEL_OPTION); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
-					Logger.getRootLogger().debug("Removing...");
+					Logger.getRootLogger().debug("Removing..."); //$NON-NLS-1$
 					DbSchedaAction.removeScheda(con,id_scheda);
 					con.commit();
 					getTblList().refresh();
 				} catch (SQLException e) {
-					Logger.getRootLogger().error("Exception in Removing \n"+e+"\n");
+					Logger.getRootLogger().error("Exception in Removing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					//e.printStackTrace();
 				}
 			}
@@ -266,32 +267,32 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 			lblTipoAppa = new JLabel();
 			lblTipoAppa.setBounds(new Rectangle(609, 53, 124, 16));
 			lblTipoAppa.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblTipoAppa.setText("Tipo Apparecchio");
+			lblTipoAppa.setText(Messages.getString("VcIfrDeletedSchede.lblFilterEqp")); //$NON-NLS-1$
 			lblSerial = new JLabel();
 			lblSerial.setBounds(new Rectangle(643, 27, 89, 16));
 			lblSerial.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblSerial.setText("Num di serie");
+			lblSerial.setText(Messages.getString("VcIfrDeletedSchede.lblFilterSerial")); //$NON-NLS-1$
 			lblDIA = new JLabel();
 			lblDIA.setBounds(new Rectangle(452, 27, 38, 16));
 			lblDIA.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblDIA.setText("a");
+			lblDIA.setText(Messages.getString("VcIfrDeletedSchede.lblFilterTo")); //$NON-NLS-1$
 			lblDataIng = new JLabel();
 			lblDataIng.setBounds(new Rectangle(182, 28, 132, 16));
 			lblDataIng.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblDataIng.setText("Data ingresso da");
+			lblDataIng.setText(Messages.getString("VcIfrDeletedSchede.lblFilterEntryDate")); //$NON-NLS-1$
 			lblParRic = new JLabel();
 			lblParRic.setBounds(new Rectangle(6, 6, 157, 16));
-			lblParRic.setText("Parametri di ricerca");
+			lblParRic.setText(Messages.getString("VcIfrDeletedSchede.lblFilterSearchParam")); //$NON-NLS-1$
 			lblNum = new JLabel();
 			lblNum.setBounds(new Rectangle(6, 28, 76, 12));
 			lblNum.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblNum.setText("N. Scheda");
+			lblNum.setText(Messages.getString("VcIfrDeletedSchede.lblFilterSheetNum")); //$NON-NLS-1$
 			lblNomeCogn = new JLabel();
 			lblNomeCogn.setBounds(new Rectangle(218, 53, 121, 20));
 			lblNomeCogn.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblNomeCogn.setText("Nome e Cognome");
+			lblNomeCogn.setText(Messages.getString("VcIfrDeletedSchede.lblFilterNameSur")); //$NON-NLS-1$
 			lblStatoRip = new JLabel();
-			lblStatoRip.setText("Stato Riparazione");
+			lblStatoRip.setText(Messages.getString("VcIfrDeletedSchede.lblFilterState")); //$NON-NLS-1$
 			lblStatoRip.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblStatoRip.setBounds(new Rectangle(8, 55, 111, 16));
 			pnlFilter = new JPanel();
@@ -328,9 +329,9 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	private JButton getBtnFind() {
 		if (btnFind == null) {
 			btnFind = new JButton();
-			btnFind.setText("Applica Filtro");
+			btnFind.setText(Messages.getString("VcIfrDeletedSchede.btnlFilterApply")); //$NON-NLS-1$
 			btnFind.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/button_ok.png")));
+				"/it/f2/gestRip/ui/img/button_ok.png"))); //$NON-NLS-1$
 			btnFind.setBounds(new Rectangle(6, 80, 135, 26));
 			btnFind.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -372,90 +373,90 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 					
 					boolean filterNScheda = (nScheda!=0);
 					boolean filterIdstato = (idStato!=999);
-					boolean filterCognome = (!getTxfCognome().getText().equals(""));
-					boolean filterNome = (!getTxfNome().getText().equals(""));
+					boolean filterCognome = (!getTxfCognome().getText().equals("")); //$NON-NLS-1$
+					boolean filterNome = (!getTxfNome().getText().equals("")); //$NON-NLS-1$
 					boolean filterDataIng = (dataIns!=null);
 					boolean filterDataUsc = (dataUsc!=null);
-					boolean filterSerial = (!getTxfSerial().getText().equals(""));
+					boolean filterSerial = (!getTxfSerial().getText().equals("")); //$NON-NLS-1$
 					boolean filterIdTipoAppa = (idTipoAppa!=999);
 					
-					String qry = "SELECT "
-						+ "schede.id                 \"Numero\", "
-						+ "anastati.nomeStato        \"Stato\", "
-						+ "schede.dataInserimento    \"Data Ingresso\", "
-						+ "schede.dataChiusura       \"Data Chiusura\", "
-						+ "tipoapparecchiature.nome  \"Tipo\", "
-						+ "marchi.nome               \"Marca\", "
-						+ "modelli.nome              \"Modello\", "
-						+ "clienti.nome              \"Nome Cliente\", "
-						+ "clienti.cognome           \"Cognome Cliente\" "
-						+ "FROM "
-						+ "schede "
-						+ "LEFT JOIN anastati on schede.idStato=anastati.id "
-						+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
-						+ "LEFT JOIN marchi on schede.idMarca=marchi.id "
-						+ "LEFT JOIN modelli on schede.idModello=modelli.id "
-						+ "LEFT JOIN clienti on schede.idCliente=clienti.id "
-						+ "WHERE " 
-						+ (filterNScheda ? "schede.id = :id AND " : "" )
-						+ (filterIdstato ? "schede.idStato = :idSta AND " : "" )
-						+ (filterCognome ? "clienti.cognome like :cognome AND " : "") 
-						+ (filterNome ? "clienti.nome like :nome AND " : "")
-						+ (filterDataIng ? "schede.dataInserimento >= :dataIns AND " : "")
-						+ (filterDataUsc ? "schede.dataInserimento <= :dataUsc AND " : "")
-						+ (filterSerial ? "schede.serial like :serial AND " : "")
-						+ (filterIdTipoAppa ? "schede.idTipoApparecchiatura = :idTipoAppa AND " : "" )
-						+ "1=1 "
-						+ "AND schede.deleted = 'S' ";
+					String qry = "SELECT " //$NON-NLS-1$
+						+ "schede.id                 \"Numero\", " //$NON-NLS-1$
+						+ "anastati.nomeStato        \"Stato\", " //$NON-NLS-1$
+						+ "schede.dataInserimento    \"Data Ingresso\", " //$NON-NLS-1$
+						+ "schede.dataChiusura       \"Data Chiusura\", " //$NON-NLS-1$
+						+ "tipoapparecchiature.nome  \"Tipo\", " //$NON-NLS-1$
+						+ "marchi.nome               \"Marca\", " //$NON-NLS-1$
+						+ "modelli.nome              \"Modello\", " //$NON-NLS-1$
+						+ "clienti.nome              \"Nome Cliente\", " //$NON-NLS-1$
+						+ "clienti.cognome           \"Cognome Cliente\" " //$NON-NLS-1$
+						+ "FROM " //$NON-NLS-1$
+						+ "schede " //$NON-NLS-1$
+						+ "LEFT JOIN anastati on schede.idStato=anastati.id " //$NON-NLS-1$
+						+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id " //$NON-NLS-1$
+						+ "LEFT JOIN marchi on schede.idMarca=marchi.id " //$NON-NLS-1$
+						+ "LEFT JOIN modelli on schede.idModello=modelli.id " //$NON-NLS-1$
+						+ "LEFT JOIN clienti on schede.idCliente=clienti.id " //$NON-NLS-1$
+						+ "WHERE "  //$NON-NLS-1$
+						+ (filterNScheda ? "schede.id = :id AND " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterIdstato ? "schede.idStato = :idSta AND " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterCognome ? "clienti.cognome like :cognome AND " : "")  //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterNome ? "clienti.nome like :nome AND " : "") //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterDataIng ? "schede.dataInserimento >= :dataIns AND " : "") //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterDataUsc ? "schede.dataInserimento <= :dataUsc AND " : "") //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterSerial ? "schede.serial like :serial AND " : "") //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterIdTipoAppa ? "schede.idTipoApparecchiatura = :idTipoAppa AND " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+						+ "1=1 " //$NON-NLS-1$
+						+ "AND schede.deleted = 'S' "; //$NON-NLS-1$
 					//System.out.println(qry);
 					getTblList().setQuery(qry);
 					
 					ArrayList<Object[]> params1 = new ArrayList<Object[]>();
 					if (filterNScheda) {
 						Object[] pId = new Object[2];
-						pId[0] = "id";
+						pId[0] = "id"; //$NON-NLS-1$
 						pId[1] = nScheda;
 						params1.add(pId);
 					}
 					if (filterIdstato) {
 						Object[] pStato = new Object[2];
-						pStato[0] = "idSta";
+						pStato[0] = "idSta"; //$NON-NLS-1$
 						pStato[1] = idStato;
 						params1.add(pStato);
 					}
 					if (filterCognome) {
 						Object[] pCognome = new Object[2];
-						pCognome[0] = "cognome";
+						pCognome[0] = "cognome"; //$NON-NLS-1$
 						pCognome[1] = getTxfCognome().getText();
 						params1.add(pCognome);
 					}
 					if (filterNome) {
 						Object[] pNome = new Object[2];
-						pNome[0] = "nome";
+						pNome[0] = "nome"; //$NON-NLS-1$
 						pNome[1] = getTxfNome().getText();
 						params1.add(pNome);
 					}
 					if (filterDataIng) {
 						Object[] pDi = new Object[2];
-						pDi[0] = "dataIns";
+						pDi[0] = "dataIns"; //$NON-NLS-1$
 						pDi[1] = dataIns;
 						params1.add(pDi);
 					}
 					if (filterDataUsc) {
 						Object[] pDu = new Object[2];
-						pDu[0] = "dataUsc";
+						pDu[0] = "dataUsc"; //$NON-NLS-1$
 						pDu[1] = dataUsc;
 						params1.add(pDu);
 					}
 					if (filterSerial) {
 						Object[] pSer = new Object[2];
-						pSer[0] = "serial";
+						pSer[0] = "serial"; //$NON-NLS-1$
 						pSer[1] = getTxfSerial().getText();
 						params1.add(pSer);
 					}
 					if (filterIdTipoAppa) {
 						Object[] pTa = new Object[2];
-						pTa[0] = "idTipoAppa";
+						pTa[0] = "idTipoAppa"; //$NON-NLS-1$
 						pTa[1] = idTipoAppa;
 						params1.add(pTa);
 					}
@@ -475,13 +476,13 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	private JComboBox getCmbStato() {
 		if (cmbStato == null) {
 			cmbStato = new JComboBox();
-			String qry = "select id,nomeStato,flagAttivo from anastati";
+			String qry = "select id,nomeStato,flagAttivo from anastati"; //$NON-NLS-1$
 			cmbStato.setModel(new JDBCComboBoxModel(
-					con,qry,0+"","S"));
+					con,qry,0+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			cmbStato.setBounds(new Rectangle(123, 50, 87, 25));
 			TypeCmb tAll = new TypeCmb();
-			tAll.setValue("999");
-			tAll.setDesc("TUTTI");
+			tAll.setValue("999"); //$NON-NLS-1$
+			tAll.setDesc(Messages.getString("VcIfrDeletedSchede.cmbStatusAll")); //$NON-NLS-1$
 			cmbStato.addItem(tAll);
 			cmbStato.setSelectedItem(tAll);
 		}
@@ -496,41 +497,41 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	private JButton getBtnReset() {
 		if (btnReset == null) {
 			btnReset = new JButton();
-			btnReset.setText("Cancella Filtro");
+			btnReset.setText(Messages.getString("VcIfrDeletedSchede.btnFilterReset")); //$NON-NLS-1$
 			btnReset.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/button_cancel.png")));
+				"/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnReset.setBounds(new Rectangle(150, 80, 135, 26));
 			btnReset.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String qry = "SELECT "
-						+ "schede.id                 \"Numero\", "
-						+ "anastati.nomeStato        \"Stato\", "
-						+ "schede.dataInserimento    \"Data Ingresso\", "
-						+ "schede.dataChiusura       \"Data Chiusura\", "
-						+ "tipoapparecchiature.nome  \"Tipo\", "
-						+ "marchi.nome               \"Marca\", "
-						+ "modelli.nome              \"Modello\", "
-						+ "clienti.nome              \"Nome Cliente\", "
-						+ "clienti.cognome           \"Cognome Cliente\" "
-						+ "FROM "
-						+ "schede "
-						+ "LEFT JOIN anastati on schede.idStato=anastati.id "
-						+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id "
-						+ "LEFT JOIN marchi on schede.idMarca=marchi.id "
-						+ "LEFT JOIN modelli on schede.idModello=modelli.id "
-						+ "LEFT JOIN clienti on schede.idCliente=clienti.id "
-						+ "WHERE schede.deleted = 'S' ";
+					String qry = "SELECT " //$NON-NLS-1$
+						+ "schede.id                 \"Numero\", " //$NON-NLS-1$
+						+ "anastati.nomeStato        \"Stato\", " //$NON-NLS-1$
+						+ "schede.dataInserimento    \"Data Ingresso\", " //$NON-NLS-1$
+						+ "schede.dataChiusura       \"Data Chiusura\", " //$NON-NLS-1$
+						+ "tipoapparecchiature.nome  \"Tipo\", " //$NON-NLS-1$
+						+ "marchi.nome               \"Marca\", " //$NON-NLS-1$
+						+ "modelli.nome              \"Modello\", " //$NON-NLS-1$
+						+ "clienti.nome              \"Nome Cliente\", " //$NON-NLS-1$
+						+ "clienti.cognome           \"Cognome Cliente\" " //$NON-NLS-1$
+						+ "FROM " //$NON-NLS-1$
+						+ "schede " //$NON-NLS-1$
+						+ "LEFT JOIN anastati on schede.idStato=anastati.id " //$NON-NLS-1$
+						+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id " //$NON-NLS-1$
+						+ "LEFT JOIN marchi on schede.idMarca=marchi.id " //$NON-NLS-1$
+						+ "LEFT JOIN modelli on schede.idModello=modelli.id " //$NON-NLS-1$
+						+ "LEFT JOIN clienti on schede.idCliente=clienti.id " //$NON-NLS-1$
+						+ "WHERE schede.deleted = 'S' "; //$NON-NLS-1$
 					getTblList().setQuery(qry);
 					getTblList().setParameters(null);
 					getTblList().refresh();
 					
-					getTxfNumeroScheda().setText("");
+					getTxfNumeroScheda().setText(""); //$NON-NLS-1$
 					getCmbStato().setSelectedIndex(getCmbStato().getModel().getSize()-1);
 					getTxfDataIngresso().setDate(null);
 					getTxfDataUscita().setDate(null);
-					getTxfCognome().setText("");
-					getTxfNome().setText("");
-					getTxfSerial().setText("");
+					getTxfCognome().setText(""); //$NON-NLS-1$
+					getTxfNome().setText(""); //$NON-NLS-1$
+					getTxfSerial().setText(""); //$NON-NLS-1$
 					getCmbTipoAppa().setSelectedIndex(getCmbTipoAppa().getModel().getSize()-1);
 				}
 			});
@@ -547,7 +548,7 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 		if (txfCognome == null) {
 			txfCognome = new JTextField();
 			txfCognome.setSize(152, 25);
-			txfCognome.setText("");
+			txfCognome.setText(""); //$NON-NLS-1$
 			txfCognome.setLocation(new Point(446, 50));
 		}
 		return txfCognome;
@@ -617,12 +618,12 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 		if (cmbTipoAppa == null) {
 			cmbTipoAppa = new JComboBox();
 			cmbTipoAppa.setBounds(new Rectangle(733, 50, 120, 25));
-			String qry = "select id,nome,flagAttivo from tipoapparecchiature";
+			String qry = "select id,nome,flagAttivo from tipoapparecchiature"; //$NON-NLS-1$
 			cmbTipoAppa.setModel(new JDBCComboBoxModel(
-					con,qry,"","S"));
+					con,qry,"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			TypeCmb tAll = new TypeCmb();
-			tAll.setValue("999");
-			tAll.setDesc("TUTTI");
+			tAll.setValue("999"); //$NON-NLS-1$
+			tAll.setDesc(Messages.getString("VcIfrDeletedSchede.cmbTypeEqpAll")); //$NON-NLS-1$
 			cmbTipoAppa.addItem(tAll);
 			cmbTipoAppa.setSelectedItem(tAll);
 		}
@@ -652,9 +653,9 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	private JButton getBtnRipristina() {
 		if (btnRipristina == null) {
 			btnRipristina = new JButton();
-			btnRipristina.setText("Ripristina");
+			btnRipristina.setText(Messages.getString("VcIfrDeletedSchede.btnRestoreSheet")); //$NON-NLS-1$
 			btnRipristina.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/undo.png")));
+				"/it/f2/gestRip/ui/img/undo.png"))); //$NON-NLS-1$
 			btnRipristina.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					ripristinaScheda();
@@ -668,16 +669,16 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 		try{
 			int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
 			int confirm = JOptionPane.showConfirmDialog(getParent(),
-					"La scheda di riparazione n."+id_scheda+" verrà ripristinata. Si desidera procedere?",
-					"Info", JOptionPane.OK_CANCEL_OPTION);
+					Messages.getString("VcIfrDeletedSchede.msgRestoreSheet1")+id_scheda+Messages.getString("VcIfrDeletedSchede.msgRestoreSheet2"), //$NON-NLS-1$ //$NON-NLS-2$
+					Messages.getString("VcIfrDeletedSchede.msgTitleInfo"), JOptionPane.OK_CANCEL_OPTION); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
-					Logger.getRootLogger().debug("Removing...");
+					Logger.getRootLogger().debug("Removing..."); //$NON-NLS-1$
 					DbSchedaAction.ripristinaScheda(con,id_scheda);
 					con.commit();
 					getTblList().refresh();
 				} catch (SQLException e) {
-					Logger.getRootLogger().error("Exception in Removing \n"+e+"\n");
+					Logger.getRootLogger().error("Exception in Removing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					//e.printStackTrace();
 				}
 			}
@@ -692,9 +693,9 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	private JButton getBtnSvuota() {
 		if (btnSvuota == null) {
 			btnSvuota = new JButton();
-			btnSvuota.setText("Svuota");
+			btnSvuota.setText(Messages.getString("VcIfrDeletedSchede.msgEmptySheet")); //$NON-NLS-1$
 			btnSvuota.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/trashcan_empty.png")));
+				"/it/f2/gestRip/ui/img/trashcan_empty.png"))); //$NON-NLS-1$
 			btnSvuota.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					svuota();
@@ -706,16 +707,16 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	
 	private void svuota(){
 		int confirm = JOptionPane.showConfirmDialog(getParent(),
-				"Tutto il contenuto del Cestino Schede di Riparazione verrà eliminata in modo definitivo. Si desidera procedere?",
-				"Info", JOptionPane.OK_CANCEL_OPTION);
+				Messages.getString("VcIfrDeletedSchede.msgEnptySheet1"), //$NON-NLS-1$
+				Messages.getString("VcIfrDeletedSchede.msgEnptySheet2"), JOptionPane.OK_CANCEL_OPTION); //$NON-NLS-1$
 		if (confirm == JOptionPane.OK_OPTION){
 			try {
-				Logger.getRootLogger().debug("Removing...");
+				Logger.getRootLogger().debug("Removing..."); //$NON-NLS-1$
 				DbSchedaAction.svuotaCestinoScheda(con);
 				con.commit();
 				getTblList().refresh();
 			} catch (SQLException e) {
-				Logger.getRootLogger().error("Exception in Removing \n"+e+"\n");
+				Logger.getRootLogger().error("Exception in Removing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			}
 		}

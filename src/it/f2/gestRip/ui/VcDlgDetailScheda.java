@@ -5,6 +5,7 @@ import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.DbSchedaAction;
 import it.f2.gestRip.control.PrintAction;
 import it.f2.gestRip.model.BinScheda;
+import it.f2.gestRip.ui.messages.Messages;
 
 import java.awt.BorderLayout;
 
@@ -80,20 +81,20 @@ public class VcDlgDetailScheda extends JDialog {
 	 */
 	public VcDlgDetailScheda(VcMainFrame parent,VcIfrListaSchede listaSchede,mode modality,int idScheda) {
 		super(parent,true);
-		Logger.getRootLogger().debug("VcDlgDetailScheda constructor...");
+		Logger.getRootLogger().debug("VcDlgDetailScheda constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.listaSchede = listaSchede;
 		this.con = CommonMetodBin.getConn();
 		DbSchedaAction lsa = new DbSchedaAction();
 		try {
-			Logger.getRootLogger().debug("Set modality...");
+			Logger.getRootLogger().debug("Set modality..."); //$NON-NLS-1$
 			if(modality == mode.insert || idScheda==0){
 				scheda = lsa.addScheda(con);
 			}else{
 				scheda = lsa.getScheda(con,idScheda);
 			}
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Set modality \n"+e+"\n");
+			Logger.getRootLogger().error("Exception in Set modality \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			e.printStackTrace();
 		}
 		schedaLastSavepoint = scheda.clone();
@@ -104,30 +105,30 @@ public class VcDlgDetailScheda extends JDialog {
 		boolean disposing = false;
 		if(modality != mode.view && !scheda.sameData(schedaLastSavepoint)){
 			int confirm = JOptionPane.showConfirmDialog(getParent(),
-					"Vuoi salvare le modifiche effettuate.",
-					"Info", JOptionPane.INFORMATION_MESSAGE);
+					Messages.getString("VcDlgDetailScheda.msgSave"), //$NON-NLS-1$
+					Messages.getString("VcDlgDetailScheda.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
-					Logger.getRootLogger().debug("Closing 1...");
+					Logger.getRootLogger().debug("Closing 1..."); //$NON-NLS-1$
 					save();
 					con.commit();
 					if(listaSchede!=null){
 						listaSchede.getTblList().refresh();
 					}
 				} catch (SQLException e1) {
-					Logger.getRootLogger().error("Exception in Closing 1 \n"+e1+"\n");
+					Logger.getRootLogger().error("Exception in Closing 1 \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					//e1.printStackTrace();
 				}
 				disposing = true;
 			}else if (confirm == JOptionPane.NO_OPTION){
 				try {
-					Logger.getRootLogger().debug("Closing 2...");
+					Logger.getRootLogger().debug("Closing 2..."); //$NON-NLS-1$
 					con.rollback();
 					if(listaSchede!=null){
 						listaSchede.getTblList().refresh();
 					}
 				} catch (SQLException e1) {
-					Logger.getRootLogger().error("Exception in Closing 2 \n"+e1+"\n");
+					Logger.getRootLogger().error("Exception in Closing 2 \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					//e1.printStackTrace();
 				}
 				setVisible(false);
@@ -135,13 +136,13 @@ public class VcDlgDetailScheda extends JDialog {
 			}
 		}else{
 			try {
-				Logger.getRootLogger().debug("Closing 3...");
+				Logger.getRootLogger().debug("Closing 3..."); //$NON-NLS-1$
 				con.rollback();
 				if(listaSchede!=null){
 					listaSchede.getTblList().refresh();
 				}
 			} catch (SQLException e1) {
-				Logger.getRootLogger().error("Exception in Closing 3 \n"+e1+"\n");
+				Logger.getRootLogger().error("Exception in Closing 3 \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				//e1.printStackTrace();
 			}
 			disposing = true;
@@ -161,7 +162,7 @@ public class VcDlgDetailScheda extends JDialog {
 	private void initialize() {
 		this.setSize(831, 600);
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		this.setTitle("Scheda Apparecchio");
+		this.setTitle(Messages.getString("VcDlgDetailScheda.titleDetailSheet")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
@@ -194,10 +195,10 @@ public class VcDlgDetailScheda extends JDialog {
 	private JTabbedPane getTbpSchedaApp() {
 		if (tbpSchedaApp == null) {
 			tbpSchedaApp = new JTabbedPane();
-			tbpSchedaApp.addTab("Apparecchio in riparazione", null, getPnlApparecchio(), null);
-			tbpSchedaApp.addTab("Dati Cliente", null, getPnlDatiCliente(), null);
-			tbpSchedaApp.addTab("Costi & Note", null, getPnlCostiNote(), null);
-			tbpSchedaApp.addTab("Riparazione", null, getPnlRiparazione(), null);
+			tbpSchedaApp.addTab(Messages.getString("VcDlgDetailScheda.tabEqp"), null, getPnlApparecchio(), null); //$NON-NLS-1$
+			tbpSchedaApp.addTab(Messages.getString("VcDlgDetailScheda.tabCustomer"), null, getPnlDatiCliente(), null); //$NON-NLS-1$
+			tbpSchedaApp.addTab(Messages.getString("VcDlgDetailScheda.tabCostNote"), null, getPnlCostiNote(), null); //$NON-NLS-1$
+			tbpSchedaApp.addTab(Messages.getString("VcDlgDetailScheda.tabRepairDetail"), null, getPnlRiparazione(), null); //$NON-NLS-1$
 			tbpSchedaApp.addChangeListener(new javax.swing.event.ChangeListener() {
 				public void stateChanged(javax.swing.event.ChangeEvent e) {
 					if(tbpSchedaApp.getSelectedIndex() < 1){
@@ -273,17 +274,17 @@ public class VcDlgDetailScheda extends JDialog {
 		if (pnlTesta == null) {
 			lblRiconsegnato = new JLabel();
 			lblRiconsegnato.setBounds(new Rectangle(720, 14, 98, 16));
-			lblRiconsegnato.setText("Riconsegnato");
+			lblRiconsegnato.setText(Messages.getString("VcDlgDetailScheda.lblReturned")); //$NON-NLS-1$
 			lblDataChiusura = new JLabel();
 			lblDataChiusura.setBounds(new Rectangle(444, 14, 118, 16));
 			lblDataChiusura.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblDataChiusura.setText("Data riconsegna:");
+			lblDataChiusura.setText(Messages.getString("VcDlgDetailScheda.lblReturnedDate")); //$NON-NLS-1$
 			lblDataApertura = new JLabel();
 			lblDataApertura.setBounds(new Rectangle(202, 11, 103, 16));
 			lblDataApertura.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblDataApertura.setText("Data Ingresso:");
+			lblDataApertura.setText(Messages.getString("VcDlgDetailScheda.lblEntryDate")); //$NON-NLS-1$
 			lblSchedaN = new JLabel();
-			lblSchedaN.setText("Scheda Numero: ");
+			lblSchedaN.setText(Messages.getString("VcDlgDetailScheda.lblSheetNum")); //$NON-NLS-1$
 			lblSchedaN.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblSchedaN.setBounds(new Rectangle(6, 11, 111, 16));
 			pnlTesta = new JPanel();
@@ -310,12 +311,12 @@ public class VcDlgDetailScheda extends JDialog {
 	private JFormattedTextField getTxfNumScheda() {
 		if (txfNumScheda == null) {
 			txfNumScheda = new JFormattedTextField(scheda.getId());
-			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0"));
+			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0")); //$NON-NLS-1$
 		    fmt.setValueClass(Integer.class);
 		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
 		    txfNumScheda.setFormatterFactory(fmtFactory);
 			txfNumScheda.setBounds(new Rectangle(121, 9, 72, 25));
-			txfNumScheda.setText(scheda.getId()+"");
+			txfNumScheda.setText(scheda.getId()+""); //$NON-NLS-1$
 			if (modality == mode.view){
 				txfNumScheda.setEditable(false);
 			}
@@ -327,12 +328,12 @@ public class VcDlgDetailScheda extends JDialog {
 						txfNumScheda.commitEdit();
 						int val = (Integer)txfNumScheda.getValue();
 						if (val!=scheda.getId()){
-							Logger.getRootLogger().debug("getTxfNumScheda focus listener...");
+							Logger.getRootLogger().debug("getTxfNumScheda focus listener..."); //$NON-NLS-1$
 							existScheda = DbSchedaAction.existScheda(con,val);
 							if(existScheda){
 								JOptionPane.showMessageDialog(getParent(), 
-										"Esiste già una scheda con il numero inserito.", 
-										"Errore", JOptionPane.ERROR_MESSAGE);
+										Messages.getString("VcDlgDetailScheda.msgNumberExist"),  //$NON-NLS-1$
+										Messages.getString("VcDlgDetailScheda.msgTitleError"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 								txfNumScheda.setValue(scheda.getId());
 							}else{
 								scheda.setId(val);
@@ -341,11 +342,11 @@ public class VcDlgDetailScheda extends JDialog {
 						
 					} catch (ParseException e1) {
 						JOptionPane.showMessageDialog(getParent(),
-								"Valore errato. ",
-								"Warning", JOptionPane.WARNING_MESSAGE);
+								Messages.getString("VcDlgDetailScheda.msgValueError"), //$NON-NLS-1$
+								Messages.getString("VcDlgDetailScheda.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 						txfNumScheda.setValue(scheda.getId());
 					} catch (SQLException e1) {
-						Logger.getRootLogger().error("Exception in getTxfNumScheda focus listener \n"+e1+"\n");
+						Logger.getRootLogger().error("Exception in getTxfNumScheda focus listener \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 						txfNumScheda.setValue(scheda.getId());
 					}
@@ -369,7 +370,7 @@ public class VcDlgDetailScheda extends JDialog {
 			if (modality == mode.view){
 				txfDataApertura.setEnabled(false);
 			}
-			txfDataApertura.addPropertyChangeListener("date",
+			txfDataApertura.addPropertyChangeListener("date", //$NON-NLS-1$
 				new java.beans.PropertyChangeListener() {
 					public void propertyChange(java.beans.PropertyChangeEvent e) {
 						scheda.setDataInserimento(new java.sql.Date(txfDataApertura.getDate().getTime()));
@@ -392,7 +393,7 @@ public class VcDlgDetailScheda extends JDialog {
 			if (modality == mode.view){
 				txfDataChiusura.setEnabled(false);
 			}
-			txfDataChiusura.addPropertyChangeListener("date",
+			txfDataChiusura.addPropertyChangeListener("date", //$NON-NLS-1$
 				new java.beans.PropertyChangeListener() {
 					public void propertyChange(java.beans.PropertyChangeEvent e) {
 						if (txfDataChiusura.getDate() == null)
@@ -431,9 +432,9 @@ public class VcDlgDetailScheda extends JDialog {
 	private JButton getBtnNext() {
 		if (btnNext == null) {
 			btnNext = new JButton();
-			btnNext.setText("Avanti");
+			btnNext.setText(Messages.getString("VcDlgDetailScheda.btnNext")); //$NON-NLS-1$
 			btnNext.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/forward.png")));
+				"/it/f2/gestRip/ui/img/forward.png"))); //$NON-NLS-1$
 			btnNext.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					getTbpSchedaApp().setSelectedIndex(
@@ -456,9 +457,9 @@ public class VcDlgDetailScheda extends JDialog {
 	private JButton getBtnSalva() {
 		if (btnSalva == null) {
 			btnSalva = new JButton();
-			btnSalva.setText("Salva");
+			btnSalva.setText(Messages.getString("VcDlgDetailScheda.btnSave")); //$NON-NLS-1$
 			btnSalva.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/filesave.png")));
+				"/it/f2/gestRip/ui/img/filesave.png"))); //$NON-NLS-1$
 			if(modality == mode.view){
 				btnSalva.setEnabled(false);
 			}
@@ -473,14 +474,14 @@ public class VcDlgDetailScheda extends JDialog {
 	
 	private void save(){
 		try {
-			Logger.getRootLogger().debug("Saving...");
+			Logger.getRootLogger().debug("Saving..."); //$NON-NLS-1$
 			DbSchedaAction.saveScheda(con,scheda);
 			schedaLastSavepoint = scheda.clone();
 		} catch (SQLException e1) {
-			Logger.getRootLogger().error("Exception in Saving \n"+e1+"\n");
+			Logger.getRootLogger().error("Exception in Saving \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),
-                    "Errore: "
-                    +e1.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE);
+                    "Errore: " //$NON-NLS-1$
+                    +e1.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 			//e1.printStackTrace();
 		}
 	}
@@ -493,9 +494,9 @@ public class VcDlgDetailScheda extends JDialog {
 	private JButton getBtnPrint() {
 		if (btnPrint == null) {
 			btnPrint = new JButton();
-			btnPrint.setText("Stampa");
+			btnPrint.setText(Messages.getString("VcDlgDetailScheda.btnPrint")); //$NON-NLS-1$
 			btnPrint.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/fileprint.png")));
+				"/it/f2/gestRip/ui/img/fileprint.png"))); //$NON-NLS-1$
 			btnPrint.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					print();
@@ -506,28 +507,28 @@ public class VcDlgDetailScheda extends JDialog {
 	}
 	
 	private void print(){
-		Logger.getRootLogger().debug("printing");
+		Logger.getRootLogger().debug("printing"); //$NON-NLS-1$
 		PrintAction pa = new PrintAction();
 		if(modality != mode.view && !scheda.sameData(schedaLastSavepoint)){
 			int confirm = JOptionPane.showConfirmDialog(getParent(),
-					"Vuoi salvare le modifiche effettuate.",
-					"Info", JOptionPane.INFORMATION_MESSAGE);
+					Messages.getString("VcDlgDetailScheda.msgSaving"), //$NON-NLS-1$
+					Messages.getString("VcDlgDetailScheda.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
-					Logger.getRootLogger().debug("Print Save...");
+					Logger.getRootLogger().debug("Print Save..."); //$NON-NLS-1$
 					save();
 					con.commit();
 					pa.callReportRicevuta(this,scheda.getId(),con);
 				} catch (SQLException e1) {
-					Logger.getRootLogger().error("Exception in Closing 1 \n"+e1+"\n");
+					Logger.getRootLogger().error("Exception in Closing 1 \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 					//e1.printStackTrace();
 				}
 			}else if (confirm == JOptionPane.NO_OPTION){
-				Logger.getRootLogger().debug("Print No Save...");
+				Logger.getRootLogger().debug("Print No Save..."); //$NON-NLS-1$
 				pa.callReportRicevuta(this,scheda.getId(),con);
 			}
 		}else{
-			Logger.getRootLogger().debug("Print No Save...");
+			Logger.getRootLogger().debug("Print No Save..."); //$NON-NLS-1$
 			pa.callReportRicevuta(this,scheda.getId(),con);
 		}
 	}
@@ -540,9 +541,9 @@ public class VcDlgDetailScheda extends JDialog {
 	private JButton getBtnPrev() {
 		if (btnPrev == null) {
 			btnPrev = new JButton();
-			btnPrev.setText("Indietro");
+			btnPrev.setText(Messages.getString("VcDlgDetailScheda.btnPrev")); //$NON-NLS-1$
 			btnPrev.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/back.png")));
+				"/it/f2/gestRip/ui/img/back.png"))); //$NON-NLS-1$
 			btnPrev.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					getTbpSchedaApp().setSelectedIndex(
@@ -564,9 +565,9 @@ public class VcDlgDetailScheda extends JDialog {
 	private JButton getBtnCanc() {
 		if (btnCanc == null) {
 			btnCanc = new JButton();
-			btnCanc.setText("Chiudi");
+			btnCanc.setText(Messages.getString("VcDlgDetailScheda.btnClose")); //$NON-NLS-1$
 			btnCanc.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/button_cancel.png")));
+				"/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					close();

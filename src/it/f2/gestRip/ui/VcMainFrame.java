@@ -15,6 +15,7 @@ import it.f2.gestRip.ui.anagraf.VcIfrAnaStati;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaTipoDatiAcq;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaTipoOggetto;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaTipoRip;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.util.ui.WindowUtil;
 
 import java.awt.BorderLayout;
@@ -66,7 +67,7 @@ public class VcMainFrame extends JFrame {
 	 */
 	public VcMainFrame() {
 		super();
-		Logger.getRootLogger().debug("VcMainFrame constructor...");
+		Logger.getRootLogger().debug("VcMainFrame constructor..."); //$NON-NLS-1$
 		initialize();
 	}
 	
@@ -78,7 +79,7 @@ public class VcMainFrame extends JFrame {
 	private void initialize() {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				getClass().getResource("/it/f2/gestRip/ui/img/logo64.png")));
+				getClass().getResource("/it/f2/gestRip/ui/img/logo64.png"))); //$NON-NLS-1$
 		this.setJMenuBar(getJJMenuBar());
 		this.setSize(442, 300);
 		this.setSize(Integer.parseInt(EnvProperties.getInstance().getProperty(
@@ -131,7 +132,7 @@ public class VcMainFrame extends JFrame {
 	private JMenu getFileMenu() {
 		if (fileMenu == null) {
 			fileMenu = new JMenu();
-			fileMenu.setText("File");
+			fileMenu.setText(Messages.getString("VcMainFrame.mnuFile")); //$NON-NLS-1$
 			fileMenu.addSeparator();
 			fileMenu.addSeparator();
 			fileMenu.addSeparator();
@@ -148,7 +149,7 @@ public class VcMainFrame extends JFrame {
 	private JMenu getHelpMenu() {
 		if (helpMenu == null) {
 			helpMenu = new JMenu();
-			helpMenu.setText("Help");
+			helpMenu.setText(Messages.getString("VcMainFrame.mnuHelp")); //$NON-NLS-1$
 			helpMenu.add(getAboutMenuItem());
 		}
 		return helpMenu;
@@ -162,7 +163,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getExitMenuItem() {
 		if (exitMenuItem == null) {
 			exitMenuItem = new JMenuItem();
-			exitMenuItem.setText("Exit");
+			exitMenuItem.setText(Messages.getString("VcMainFrame.mnuExit")); //$NON-NLS-1$
 			exitMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					onClosing();
@@ -180,7 +181,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getAboutMenuItem() {
 		if (aboutMenuItem == null) {
 			aboutMenuItem = new JMenuItem();
-			aboutMenuItem.setText("About");
+			aboutMenuItem.setText(Messages.getString("VcMainFrame.mnuAbout")); //$NON-NLS-1$
 			aboutMenuItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					openDlgAbout();
@@ -217,8 +218,8 @@ public class VcMainFrame extends JFrame {
 		if (tbpMain == null) {
 			tbpMain = new JTabbedPane();
 			VcIfrMain ifr = new VcIfrMain(this);
-			ifr.setTitle("Menù principale");
-			tbpMain.addTab("Menù principale", ifr);
+			ifr.setTitle(Messages.getString("VcMainFrame.ifrTitMain")); //$NON-NLS-1$
+			tbpMain.addTab(Messages.getString("VcMainFrame.ifrTabMain"), ifr); //$NON-NLS-1$
 			tbpMain.addChangeListener(new javax.swing.event.ChangeListener() {
 				public void stateChanged(javax.swing.event.ChangeEvent e) {
 					lastSelectedIndex = getTbpMain().getSelectedIndex();
@@ -293,9 +294,9 @@ public class VcMainFrame extends JFrame {
 		}
 		//CommonMetodBin.getInstance().closeConn();
 		EnvProperties.getInstance().setProperty(EnvProperties.WIDTH,
-				"" + this.getWidth());
+				"" + this.getWidth()); //$NON-NLS-1$
 		EnvProperties.getInstance().setProperty(EnvProperties.HEIGHT,
-				"" + this.getHeight());
+				"" + this.getHeight()); //$NON-NLS-1$
 		EnvProperties.getInstance().saveFileProperty();
 		System.exit(0);
 	}
@@ -308,7 +309,7 @@ public class VcMainFrame extends JFrame {
 	private JMenu getSettingMenu() {
 		if (settingMenu == null) {
 			settingMenu = new JMenu();
-			settingMenu.setText("Strumenti");
+			settingMenu.setText(Messages.getString("VcMainFrame.mnuTools")); //$NON-NLS-1$
 			settingMenu.add(getMniSchedeDeleted());
 			settingMenu.add(getOptionsMenuItem());
 		}
@@ -323,9 +324,9 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getOptionsMenuItem() {
 		if (optionsMenuItem == null) {
 			optionsMenuItem = new JMenuItem();
-			optionsMenuItem.setText("Opzioni");
+			optionsMenuItem.setText(Messages.getString("VcMainFrame.mnuOptions")); //$NON-NLS-1$
 			optionsMenuItem.setIcon(new ImageIcon(getClass().getResource(
-					"/it/f2/gestRip/ui/img/Options16.png")));
+					"/it/f2/gestRip/ui/img/Options16.png"))); //$NON-NLS-1$
 			optionsMenuItem
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -353,7 +354,7 @@ public class VcMainFrame extends JFrame {
 	private JMenu getGestMenu() {
 		if (gestMenu == null) {
 			gestMenu = new JMenu();
-			gestMenu.setText("Gestione");
+			gestMenu.setText(Messages.getString("VcMainFrame.mnuManage")); //$NON-NLS-1$
 			gestMenu.add(getMniAnaClienti());
 			gestMenu.add(getMniStati());
 			gestMenu.add(getMniTipoRip());
@@ -373,7 +374,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getMniStati() {
 		if (mniStati == null) {
 			mniStati = new JMenuItem();
-			mniStati.setText("Stati");
+			mniStati.setText(Messages.getString("VcMainFrame.mnuState")); //$NON-NLS-1$
 			mniStati.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openAnaStati();
@@ -385,7 +386,7 @@ public class VcMainFrame extends JFrame {
 	private void openAnaStati(){
 		VcIfrAnaStati iframe = new VcIfrAnaStati(this);
 		if(!this.isJitOpen(iframe.getClass())){
-			this.addTab("Anagrafica stati", iframe);
+			this.addTab(Messages.getString("VcMainFrame.tabState"), iframe); //$NON-NLS-1$
 			this.selectTab(iframe);
 		}else{
 			iframe.hide();
@@ -400,7 +401,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getMniModelli() {
 		if (mniModelli == null) {
 			mniModelli = new JMenuItem();
-			mniModelli.setText("Anagrafica Modelli");
+			mniModelli.setText(Messages.getString("VcMainFrame.mnuModels")); //$NON-NLS-1$
 			mniModelli.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openAnaModelli();
@@ -413,7 +414,7 @@ public class VcMainFrame extends JFrame {
 	private void openAnaModelli(){
 		VcIfrAnaModelli iframe = new VcIfrAnaModelli(this);
 		if(!this.isJitOpen(iframe.getClass())){
-			this.addTab("Anagrafica Modelli", iframe);
+			this.addTab(Messages.getString("VcMainFrame.tabModels"), iframe); //$NON-NLS-1$
 			this.selectTab(iframe);
 		}else{
 			iframe.hide();
@@ -428,7 +429,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getMniTipoOggetto() {
 		if (mniTipoOggetto == null) {
 			mniTipoOggetto = new JMenuItem();
-			mniTipoOggetto.setText("Anagrafica Tipo Oggetto");
+			mniTipoOggetto.setText(Messages.getString("VcMainFrame.mnuTypeObj")); //$NON-NLS-1$
 			mniTipoOggetto.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openAnaTipoOggetto();
@@ -441,7 +442,7 @@ public class VcMainFrame extends JFrame {
 	private void openAnaTipoOggetto(){
 		VcIfrAnaTipoOggetto iframe = new VcIfrAnaTipoOggetto(this);
 		if(!this.isJitOpen(iframe.getClass())){
-			this.addTab("Anagrafica Tipologia Oggetti", iframe);
+			this.addTab(Messages.getString("VcMainFrame.tabTypeObj"), iframe); //$NON-NLS-1$
 			this.selectTab(iframe);
 		}else{
 			iframe.hide();
@@ -456,7 +457,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getMniMarche() {
 		if (mniMarche == null) {
 			mniMarche = new JMenuItem();
-			mniMarche.setText("Anagrafica Marchi");
+			mniMarche.setText(Messages.getString("VcMainFrame.mnuBrands")); //$NON-NLS-1$
 			mniMarche.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openAnaMarche();
@@ -469,7 +470,7 @@ public class VcMainFrame extends JFrame {
 	private void openAnaMarche(){
 		VcIfrAnaMarche iframe = new VcIfrAnaMarche(this);
 		if(!this.isJitOpen(iframe.getClass())){
-			this.addTab("Anagrafica Marchi", iframe);
+			this.addTab(Messages.getString("VcMainFrame.tabBrands"), iframe); //$NON-NLS-1$
 			this.selectTab(iframe);
 		}else{
 			iframe.hide();
@@ -484,7 +485,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getMniAnaClienti() {
 		if (mniAnaClienti == null) {
 			mniAnaClienti = new JMenuItem();
-			mniAnaClienti.setText("Anagrafica Clienti");
+			mniAnaClienti.setText(Messages.getString("VcMainFrame.mnuCustomers")); //$NON-NLS-1$
 			mniAnaClienti.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openAnaClienti();
@@ -501,7 +502,7 @@ public class VcMainFrame extends JFrame {
 		anaClienti = new VcIfrAnaClienti(this);
 		if(!this.isJitOpen(anaClienti.getClass())){
 			//this.addTab("Anagrafica Clienti", iframe);
-			getTbpMain().addTab("Anagrafica Clienti", anaClienti);
+			getTbpMain().addTab(Messages.getString("VcMainFrame.tabCustomers"), anaClienti); //$NON-NLS-1$
 			getTbpMain().addChangeListener(new javax.swing.event.ChangeListener() {
 				public void stateChanged(javax.swing.event.ChangeEvent e) {
 					if(checking)
@@ -535,7 +536,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getMniTipoRip() {
 		if (mniTipoRip == null) {
 			mniTipoRip = new JMenuItem();
-			mniTipoRip.setText("Anagragica Tipo Riparazione");
+			mniTipoRip.setText(Messages.getString("VcMainFrame.mnuRepairsType")); //$NON-NLS-1$
 			mniTipoRip.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openAnaTipoRip();
@@ -548,7 +549,7 @@ public class VcMainFrame extends JFrame {
 	private void openAnaTipoRip(){
 		VcIfrAnaTipoRip iframe = new VcIfrAnaTipoRip(this);
 		if(!this.isJitOpen(iframe.getClass())){
-			this.addTab("Anagrafica Tipologia Riparazione", iframe);
+			this.addTab(Messages.getString("VcMainFrame.tabRepairsType"), iframe); //$NON-NLS-1$
 			this.selectTab(iframe);
 		}else{
 			iframe.hide();
@@ -563,7 +564,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getMniTipoDatiAcq() {
 		if (mniTipoDatiAcq == null) {
 			mniTipoDatiAcq = new JMenuItem();
-			mniTipoDatiAcq.setText("Anagrafica Tipo Dati Acquisto");
+			mniTipoDatiAcq.setText(Messages.getString("VcMainFrame.mnuPurchasingData")); //$NON-NLS-1$
 			mniTipoDatiAcq.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openAnaTipoDatiAcq();
@@ -576,7 +577,7 @@ public class VcMainFrame extends JFrame {
 	private void openAnaTipoDatiAcq(){
 		VcIfrAnaTipoDatiAcq iframe = new VcIfrAnaTipoDatiAcq(this);
 		if(!this.isJitOpen(iframe.getClass())){
-			this.addTab("Anagrafica Tipo Dati Acquisto", iframe);
+			this.addTab(Messages.getString("VcMainFrame.tabPurchasingData"), iframe); //$NON-NLS-1$
 			this.selectTab(iframe);
 		}else{
 			iframe.hide();
@@ -591,9 +592,9 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem getMniSchedeDeleted() {
 		if (mniSchedeDeleted == null) {
 			mniSchedeDeleted = new JMenuItem();
-			mniSchedeDeleted.setText("Cestino Schede Cancellate");
+			mniSchedeDeleted.setText(Messages.getString("VcMainFrame.mnuTrashSheet")); //$NON-NLS-1$
 			mniSchedeDeleted.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/trashcan_full.png")));
+				"/it/f2/gestRip/ui/img/trashcan_full.png"))); //$NON-NLS-1$
 			mniSchedeDeleted.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openSchedeDeleted();
@@ -606,7 +607,7 @@ public class VcMainFrame extends JFrame {
 	private void openSchedeDeleted(){
 		VcIfrDeletedSchede iframe = new VcIfrDeletedSchede(this);
 		if(!this.isJitOpen(iframe.getClass())){
-			this.addTab("Cestino Schede Cancellate", iframe);
+			this.addTab(Messages.getString("VcMainFrame.tabTrashSheet"), iframe); //$NON-NLS-1$
 			this.selectTab(iframe);
 		}else{
 			iframe.hide();
