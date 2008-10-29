@@ -2,6 +2,7 @@ package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.ui.VcMainFrame;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
 
 import java.awt.BorderLayout;
@@ -32,7 +33,7 @@ public class VcIfrAnaTipoOggetto extends JInternalFrame {
 	 */
 	public VcIfrAnaTipoOggetto(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("VcIfrAnaTipoOggetto constructor...");
+		Logger.getRootLogger().debug("VcIfrAnaTipoOggetto constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = CommonMetodBin.getConn();
 		initialize();
@@ -46,16 +47,16 @@ public class VcIfrAnaTipoOggetto extends JInternalFrame {
 	private void initialize() {
 		this.setSize(517, 388);
 		this.setClosable(true);
-		this.setTitle("Anagrafica Tipologia Apparecchiatura");
+		this.setTitle(Messages.getString("VcIfrAnaTipoOggetto.titleEqpType")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
-						Logger.getRootLogger().debug("Closing...");
+						Logger.getRootLogger().debug("Closing..."); //$NON-NLS-1$
 						close();
 					}catch(Exception e1){
-						Logger.getRootLogger().error("Exception in Closing \n"+e1+"\n");
+						Logger.getRootLogger().error("Exception in Closing \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 					}
 				}
@@ -85,8 +86,8 @@ public class VcIfrAnaTipoOggetto extends JInternalFrame {
 		if (pnlTableAnaTipoOggetto == null) {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
-			String query = "SELECT id,nome,descrizione,flagAttivo " +
-					"FROM tipoapparecchiature"	;
+			String query = "SELECT id,nome,descrizione,flagAttivo " + //$NON-NLS-1$
+					"FROM tipoapparecchiature"	; //$NON-NLS-1$
 			
 			pnlTableAnaTipoOggetto = new VcJDBCTablePanel(con,query,true){
 				/**
@@ -97,10 +98,10 @@ public class VcIfrAnaTipoOggetto extends JInternalFrame {
 				protected void onDelete(){
 					boolean referenziato = false;
 					try {
-						Logger.getRootLogger().debug("Deleting...");
+						Logger.getRootLogger().debug("Deleting..."); //$NON-NLS-1$
 						Statement smtp = con.createStatement();
-						String query = "select count(*) from schede " +
-								"where idTipoApparecchiatura = "+getValueAt(currentRow(), 0);
+						String query = "select count(*) from schede " + //$NON-NLS-1$
+								"where idTipoApparecchiatura = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
 							int fk = rs.getInt(1);
@@ -111,8 +112,8 @@ public class VcIfrAnaTipoOggetto extends JInternalFrame {
 						rs.close();
 						smtp.close();
 						smtp = con.createStatement();
-						query = "select count(*) from modelli " +
-								"where idTipoApp = "+getValueAt(currentRow(), 0);
+						query = "select count(*) from modelli " + //$NON-NLS-1$
+								"where idTipoApp = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						rs = smtp.executeQuery(query);
 						while(rs.next()){
 							int fk = rs.getInt(1);
@@ -124,19 +125,19 @@ public class VcIfrAnaTipoOggetto extends JInternalFrame {
 						smtp.close();
 						if(referenziato){
 							JOptionPane.showMessageDialog(getParent(),
-									"Stato referenziato. Non è possibile la cancellazione.",
-									"Errore", JOptionPane.ERROR_MESSAGE);
+									Messages.getString("VcIfrAnaTipoOggetto.msgReferenced"), //$NON-NLS-1$
+									Messages.getString("VcIfrAnaTipoOggetto.msgTitleError"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 						}else{
 							deleteRow(currentRow());
 						}
 					} catch (SQLException e) {
-						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n");
+						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 						//e.printStackTrace();
 					}					
 				}
 			};
 			pnlTableAnaTipoOggetto.createControlPanel();
-			pnlTableAnaTipoOggetto.setCheckBoxColumn(3,"S","N");
+			pnlTableAnaTipoOggetto.setCheckBoxColumn(3,"S","N"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return pnlTableAnaTipoOggetto;
 	}

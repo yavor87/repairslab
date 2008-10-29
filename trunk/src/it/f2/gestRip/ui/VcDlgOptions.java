@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui;
 
 import it.f2.gestRip.EnvProperties;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.util.ui.WindowUtil;
 import it.f2.util.ui.cmb.TypeCmb;
 
@@ -64,12 +65,14 @@ public class VcDlgOptions extends JDialog {
 	private Frame parent = null;
 	private JCheckBox chbNoDoppiaCopia = null;
 	private JLabel lblNoDoppiaCopia = null;
+	private JComboBox cmbLanguage = null;
+	private JLabel lblLanguage = null;
 	/**
 	 * This is the default constructor
 	 */
 	public VcDlgOptions(Frame owner) {
 		super(owner, true);
-		Logger.getRootLogger().debug("VcDlgOptions constructor...");
+		Logger.getRootLogger().debug("VcDlgOptions constructor..."); //$NON-NLS-1$
 		this.parent = owner;
 		initialize();
 	}
@@ -80,8 +83,8 @@ public class VcDlgOptions extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(612, 532);
-		this.setTitle("Opzioni");
+		this.setSize(612, 538);
+		this.setTitle(Messages.getString("VcDlgOptions.titleOptions")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 	}
 
@@ -106,15 +109,18 @@ public class VcDlgOptions extends JDialog {
 	 */
 	private JPanel getPnlSettings() {
 		if (pnlSettings == null) {
+			lblLanguage = new JLabel();
+			lblLanguage.setBounds(new Rectangle(350, 405, 162, 16));
+			lblLanguage.setText(Messages.getString("VcDlgOptions.language")); //$NON-NLS-1$
 			lblNoDoppiaCopia = new JLabel();
 			lblNoDoppiaCopia.setBounds(new Rectangle(44, 363, 358, 20));
-			lblNoDoppiaCopia.setText("Non Stampare in Doppia Copia");
+			lblNoDoppiaCopia.setText(Messages.getString("VcDlgOptions.lblDuplicatePrint")); //$NON-NLS-1$
 			lblIndirizzo = new JLabel();
 			lblIndirizzo.setBounds(new Rectangle(9, 255, 460, 18));
-			lblIndirizzo.setText("Info indirizzo e telefono scheda stampata");
+			lblIndirizzo.setText(Messages.getString("VcDlgOptions.lblInfoAddress")); //$NON-NLS-1$
 			lblInfoCliente = new JLabel();
 			lblInfoCliente.setBounds(new Rectangle(10, 148, 430, 18));
-			lblInfoCliente.setText("Informazioni per il cliente sulla scheda di manutenzione");
+			lblInfoCliente.setText(Messages.getString("VcDlgOptions.lblInfoCustomer")); //$NON-NLS-1$
 			lblLogo = new JLabel();
 			lblLogo.setBounds(new Rectangle(10, 10, 238, 125));
 			lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
@@ -123,25 +129,25 @@ public class VcDlgOptions extends JDialog {
 				lblLogo.setIcon(new ImageIcon(getFileLogo().getPath()));
 			}catch(NullPointerException e){
 				lblLogo.setIcon(new ImageIcon(getClass().getResource(
-					"/it/f2/gestRip/ui/img/logo64.png")));
+					"/it/f2/gestRip/ui/img/logo64.png"))); //$NON-NLS-1$
 			}
 			lblLookAndFeel = new JLabel();
 			lblLookAndFeel.setBounds(new Rectangle(72, 405, 135, 16));
-			lblLookAndFeel.setFont(new java.awt.Font("Dialog",
+			lblLookAndFeel.setFont(new java.awt.Font("Dialog", //$NON-NLS-1$
 					java.awt.Font.BOLD, 12));
-			lblLookAndFeel.setText("Look And Feel");
+			lblLookAndFeel.setText(Messages.getString("VcDlgOptions.lblLookAndFeel")); //$NON-NLS-1$
 			lblImgStyle = new JLabel();
 			lblImgStyle.setBounds(new Rectangle(14, 405, 51, 44));
 			lblImgStyle.setIcon(new ImageIcon(getClass().getResource(
-					"/it/f2/gestRip/ui/img/style.png")));
+					"/it/f2/gestRip/ui/img/style.png"))); //$NON-NLS-1$
 			lblImgStyle
 					.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-			lblImgStyle.setText("");
+			lblImgStyle.setText(""); //$NON-NLS-1$
 			lblFileLogo = new JLabel();
 			lblFileLogo.setBounds(new Rectangle(255, 13, 138, 16));
-			lblFileLogo.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD,
+			lblFileLogo.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, //$NON-NLS-1$
 					12));
-			lblFileLogo.setText("Logo");
+			lblFileLogo.setText(Messages.getString("VcDlgOptions.lblLogo")); //$NON-NLS-1$
 			pnlSettings = new JPanel();
 			pnlSettings.setLayout(null);
 			pnlSettings.add(lblFileLogo, null);
@@ -160,6 +166,8 @@ public class VcDlgOptions extends JDialog {
 			pnlSettings.add(getBtnAdvOpt(), null);
 			pnlSettings.add(getChbNoDoppiaCopia(), null);
 			pnlSettings.add(lblNoDoppiaCopia, null);
+			pnlSettings.add(getCmbLanguage(), null);
+			pnlSettings.add(lblLanguage, null);
 		}
 		return pnlSettings;
 	}
@@ -173,7 +181,7 @@ public class VcDlgOptions extends JDialog {
 		if (btnDefDir == null) {
 			btnDefDir = new JButton();
 			btnDefDir.setBounds(new Rectangle(496, 100, 94, 25));
-			btnDefDir.setText("Seleziona");
+			btnDefDir.setText(Messages.getString("VcDlgOptions.btnSelect")); //$NON-NLS-1$
 			btnDefDir.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					selectFileLogo();
@@ -196,14 +204,14 @@ public class VcDlgOptions extends JDialog {
 		jfc.setAcceptAllFileFilterUsed(false);
 		jfc.setFileSelectionMode(javax.swing.JFileChooser.FILES_ONLY);
 
-		int response = jfc.showDialog(this, "Seleziona");
+		int response = jfc.showDialog(this, Messages.getString("VcDlgOptions.dlgTitleSelect")); //$NON-NLS-1$
 
 		if (response == JFileChooser.APPROVE_OPTION) {
 			File file = jfc.getSelectedFile();
 			if (file != null) {
 				if (file.isFile()) {
 					setFileLogo(file);
-					String curPath = new File("").getAbsolutePath();
+					String curPath = new File("").getAbsolutePath(); //$NON-NLS-1$
 					String filePath = getFileLogo().getAbsolutePath();
 					try{
 						if(filePath.substring(0,curPath.length()).
@@ -259,8 +267,8 @@ public class VcDlgOptions extends JDialog {
 			btnOk = new JButton();
 			btnOk.setBounds(new Rectangle(231, 469, 93, 29));
 			btnOk.setIcon(new ImageIcon(getClass().getResource(
-					"/it/f2/gestRip/ui/img/filesave.png")));
-			btnOk.setText("Salva");
+					"/it/f2/gestRip/ui/img/filesave.png"))); //$NON-NLS-1$
+			btnOk.setText(Messages.getString("VcDlgOptions.btnSave")); //$NON-NLS-1$
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					save();
@@ -280,8 +288,8 @@ public class VcDlgOptions extends JDialog {
 			btnCanc = new JButton();
 			btnCanc.setBounds(new Rectangle(126, 469, 99, 29));
 			btnCanc.setIcon(new ImageIcon(getClass().getResource(
-					"/it/f2/gestRip/ui/img/button_cancel.png")));
-			btnCanc.setText("Annulla");
+					"/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
+			btnCanc.setText(Messages.getString("VcDlgOptions.btnCanc")); //$NON-NLS-1$
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					close();
@@ -324,19 +332,19 @@ public class VcDlgOptions extends JDialog {
 					});
 			Properties looks = new Properties();
 			try {
-				Logger.getRootLogger().debug("getCmbLookAndFeel...");
+				Logger.getRootLogger().debug("getCmbLookAndFeel..."); //$NON-NLS-1$
 				TypeCmb seledted = null;
 				/* Caricamento da file di property */
-				String path = "conf"
+				String path = "conf" //$NON-NLS-1$
 						+ EnvProperties.FILE_SEPARETOR
-						+ "LookAndFeel.properties";
+						+ "LookAndFeel.properties"; //$NON-NLS-1$
 				FileInputStream in = new FileInputStream(path);
 				looks.load(in);
 				Enumeration<?> enumeration = looks.propertyNames();
 				loadCmbFlag = true;
 				while (enumeration.hasMoreElements()) {
 					String propName = (String) enumeration.nextElement();
-					String[] propVals = looks.getProperty(propName).split("~");
+					String[] propVals = looks.getProperty(propName).split("~"); //$NON-NLS-1$
 					TypeCmb cmb1 = new TypeCmb();
 					cmb1.setDesc(propVals[0]);
 					cmb1.setValue(propVals[1]);
@@ -361,10 +369,10 @@ public class VcDlgOptions extends JDialog {
 					cmbLookAndFeel.setSelectedItem(seledted);
 				loadCmbFlag = false;
 			} catch (FileNotFoundException e) {
-				Logger.getRootLogger().error("Exception getCmbLookAndFeel \n"+e+"\n");
+				Logger.getRootLogger().error("Exception getCmbLookAndFeel \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			} catch (IOException e) {
-				Logger.getRootLogger().error("Exception getCmbLookAndFeel \n"+e+"\n");
+				Logger.getRootLogger().error("Exception getCmbLookAndFeel \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			}
 		}
@@ -383,11 +391,11 @@ public class VcDlgOptions extends JDialog {
 				EnvProperties.getInstance().setProperty(EnvProperties.LOOK,
 						cmb.getValue());
 				JOptionPane.showMessageDialog(getParent(),
-						"Salvare e riavviare "
+						Messages.getString("VcDlgOptions.msgRestart1") //$NON-NLS-1$
 								+ EnvProperties.getInstance().getProperty(
 										EnvProperties.APPNAME)
-								+ " per visualizzare in nuovo LookAndFeel",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+								+ Messages.getString("VcDlgOptions.msgRestart2"), //$NON-NLS-1$
+						Messages.getString("VcDlgOptions.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 			}
 		}
 	}
@@ -401,7 +409,7 @@ public class VcDlgOptions extends JDialog {
 		if (txpFileLogo == null) {
 			txpFileLogo = new JTextPane();
 			txpFileLogo.setBounds(new Rectangle(255, 33, 332, 62));
-			txpFileLogo.setFont(new java.awt.Font("Dialog",
+			txpFileLogo.setFont(new java.awt.Font("Dialog", //$NON-NLS-1$
 					java.awt.Font.PLAIN, 12));
 			txpFileLogo.setEditable(false);
 			txpFileLogo.setText(EnvProperties.getInstance().getProperty(
@@ -487,7 +495,7 @@ public class VcDlgOptions extends JDialog {
 		if (btnAdvOpt == null) {
 			btnAdvOpt = new JButton();
 			btnAdvOpt.setBounds(new Rectangle(333, 469, 140, 29));
-			btnAdvOpt.setText("Opzioni Avanzate");
+			btnAdvOpt.setText(Messages.getString("VcDlgOptions.btnAdvOpt")); //$NON-NLS-1$
 			btnAdvOpt.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					VcDlgAdvancedOptions dlgAo = new VcDlgAdvancedOptions(parent);
@@ -510,20 +518,51 @@ public class VcDlgOptions extends JDialog {
 			chbNoDoppiaCopia.setBounds(new Rectangle(14, 364, 24, 21));
 			String ck =  EnvProperties.getInstance().getProperty(
 					EnvProperties.DOPPIACOPIA);
-			if(ck.equals("N"))
+			if(ck.equals("N")) //$NON-NLS-1$
 				chbNoDoppiaCopia.setSelected(true);
 			chbNoDoppiaCopia.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					if(chbNoDoppiaCopia.isSelected())
 						EnvProperties.getInstance().setProperty(
-								EnvProperties.DOPPIACOPIA, "N");
+								EnvProperties.DOPPIACOPIA, "N"); //$NON-NLS-1$
 					else
 						EnvProperties.getInstance().setProperty(
-								EnvProperties.DOPPIACOPIA, "S");
+								EnvProperties.DOPPIACOPIA, "S"); //$NON-NLS-1$
 				}
 			});
 		}
 		return chbNoDoppiaCopia;
+	}
+
+	/**
+	 * This method initializes cmbLanguage	
+	 * 	
+	 * @return javax.swing.JComboBox	
+	 */
+	private JComboBox getCmbLanguage() {
+		if (cmbLanguage == null) {
+			cmbLanguage = new JComboBox();
+			cmbLanguage.setBounds(new Rectangle(350, 422, 205, 24));
+			String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE);
+			TypeCmb cmb1 = new TypeCmb();
+			cmb1.setDesc("English");
+			cmb1.setValue("en");
+			cmbLanguage.addItem(cmb1);
+			TypeCmb cmb2 = new TypeCmb();
+			cmb2.setDesc("Italiano");
+			cmb2.setValue("it");
+			cmbLanguage.addItem(cmb2);
+			if(selVal.equals("it")) cmbLanguage.setSelectedItem(cmb2);
+			else cmbLanguage.setSelectedItem(cmb1);
+			
+			cmbLanguage.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					EnvProperties.getInstance().setProperty(EnvProperties.LANGUAGE, 
+							((TypeCmb)cmbLanguage.getSelectedItem()).getValue());
+				}
+			});
+		}
+		return cmbLanguage;
 	}
 
 } //  @jve:decl-index=0:visual-constraint="10,10"

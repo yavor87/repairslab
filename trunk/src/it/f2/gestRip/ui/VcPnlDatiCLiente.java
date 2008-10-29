@@ -4,6 +4,7 @@ import it.f2.gestRip.control.DbSchedaAction;
 import it.f2.gestRip.model.BinCliente;
 import it.f2.gestRip.model.BinScheda;
 import it.f2.gestRip.ui.VcDlgDetailScheda.mode;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.util.ui.WindowUtil;
 
 import javax.swing.JPanel;
@@ -67,7 +68,7 @@ public class VcPnlDatiCLiente extends JPanel {
 	 */
 	public VcPnlDatiCLiente(mode modality,BinScheda scheda,JDialog dialog,Connection con) {
 		super();
-		Logger.getRootLogger().debug("VcPnlDatiCLiente constructor...");
+		Logger.getRootLogger().debug("VcPnlDatiCLiente constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.scheda = scheda;
 		this.dialog = dialog;
@@ -87,39 +88,39 @@ public class VcPnlDatiCLiente extends JPanel {
 		lblMobile = new JLabel();
 		lblMobile.setBounds(new Rectangle(aPoint, 160, aPoint, 16));
 		lblMobile.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMobile.setText("Mobile");
+		lblMobile.setText(Messages.getString("VcPnlDatiCLiente.lblMobile")); //$NON-NLS-1$
 		lblTelefono = new JLabel();
 		lblTelefono.setBounds(new Rectangle(aPoint, 130, aPoint, 16));
 		lblTelefono.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblTelefono.setText("Telefono");
+		lblTelefono.setText(Messages.getString("VcPnlDatiCLiente.lblPhone")); //$NON-NLS-1$
 		lblPiva = new JLabel();
 		lblPiva.setBounds(new Rectangle(aPoint, 310, aPoint, 16));
 		lblPiva.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblPiva.setText("Partita IVA");
+		lblPiva.setText(Messages.getString("VcPnlDatiCLiente.lblVat")); //$NON-NLS-1$
 		lblAzienda = new JLabel();
 		lblAzienda.setBounds(new Rectangle(aPoint, 280, aPoint, 16));
 		lblAzienda.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblAzienda.setText("Azienda");
+		lblAzienda.setText(Messages.getString("VcPnlDatiCLiente.lblCompany")); //$NON-NLS-1$
 		lblIndirizzo = new JLabel();
 		lblIndirizzo.setBounds(new Rectangle(aPoint, 190, aPoint, 16));
 		lblIndirizzo.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblIndirizzo.setText("Indirizzo");
+		lblIndirizzo.setText(Messages.getString("VcPnlDatiCLiente.lblAddress")); //$NON-NLS-1$
 		lblCitta = new JLabel();
 		lblCitta.setBounds(new Rectangle(aPoint, 220, aPoint, 16));
 		lblCitta.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCitta.setText("Città");
+		lblCitta.setText(Messages.getString("VcPnlDatiCLiente.lblCity")); //$NON-NLS-1$
 		lblNome = new JLabel();
 		lblNome.setBounds(new Rectangle(aPoint, 70, aPoint, 16));
 		lblNome.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNome.setText("Nome");
+		lblNome.setText(Messages.getString("VcPnlDatiCLiente.lblName")); //$NON-NLS-1$
 		lblCognome = new JLabel();
 		lblCognome.setBounds(new Rectangle(aPoint, 100, aPoint, 16));
 		lblCognome.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCognome.setText("Cognome");
+		lblCognome.setText(Messages.getString("VcPnlDatiCLiente.lblSur")); //$NON-NLS-1$
 		lblMail = new JLabel();
 		lblMail.setBounds(new Rectangle(aPoint, 250, aPoint, 16));
 		lblMail.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblMail.setText("Email");
+		lblMail.setText(Messages.getString("VcPnlDatiCLiente.lblEmail")); //$NON-NLS-1$
 		this.add(getTxfNome(), null);
 		this.add(getTxfCognome(), null);
 		add(lblMail, null);
@@ -234,24 +235,24 @@ public class VcPnlDatiCLiente extends JPanel {
 	private void existCliente(){
 		if(modalityCliente != modeCliente.view){
 			try {
-				Logger.getRootLogger().debug("existCliente...");
+				Logger.getRootLogger().debug("existCliente..."); //$NON-NLS-1$
 				int idCliente = DbSchedaAction.existCliente(con,
 						getTxfNome().getText(), getTxfCognome().getText());
 				if(idCliente>0){
 					
 					int confirm = JOptionPane.showConfirmDialog(getParent(),
-							"Esiste gi� un cliente con queste caratteristiche. Vuoi selezionarlo?",
-							"Info", JOptionPane.YES_NO_OPTION);
+							Messages.getString("VcPnlDatiCLiente.msgCustomerExixt"), //$NON-NLS-1$
+							Messages.getString("VcPnlDatiCLiente.msgTitleInfo"), JOptionPane.YES_NO_OPTION); //$NON-NLS-1$
 					if (confirm == JOptionPane.OK_OPTION){
 						selezionaCliente(idCliente);
 					}else if (confirm == JOptionPane.NO_OPTION){
-						getTxfNome().setText("");
-						getTxfCognome().setText("");
+						getTxfNome().setText(""); //$NON-NLS-1$
+						getTxfCognome().setText(""); //$NON-NLS-1$
 					}
 					
 				}
 			} catch (SQLException e) {
-				Logger.getRootLogger().error("Exception existCliente \n"+e+"\n");
+				Logger.getRootLogger().error("Exception existCliente \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			}
 		}
@@ -326,9 +327,9 @@ public class VcPnlDatiCLiente extends JPanel {
 		if (btnSelezionaCliente == null) {
 			btnSelezionaCliente = new JButton();
 			btnSelezionaCliente.setBounds(new Rectangle(560, 120, 160, 30));
-			btnSelezionaCliente.setText("Seleziona Cliente");
+			btnSelezionaCliente.setText(Messages.getString("VcPnlDatiCLiente.btnSelectCustomer")); //$NON-NLS-1$
 			btnSelezionaCliente.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/openterm.png")));
+				"/it/f2/gestRip/ui/img/openterm.png"))); //$NON-NLS-1$
 			if(modality == mode.view){
 				btnSelezionaCliente.setEnabled(false);
 			}
@@ -350,13 +351,13 @@ public class VcPnlDatiCLiente extends JPanel {
 	public void selezionaCliente(int idCliente){
 		DbSchedaAction dbSchedaAction = new DbSchedaAction();
 		try {
-			Logger.getRootLogger().debug("Selecting cliente...");
+			Logger.getRootLogger().debug("Selecting cliente..."); //$NON-NLS-1$
 			BinCliente binCliente = dbSchedaAction.getCliente(con,idCliente);
 			scheda.setBinCliente(binCliente);
 			refreshData(scheda.getBinCliente());
 			setViewMode();
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception Selecting cliente \n"+e+"\n");
+			Logger.getRootLogger().error("Exception Selecting cliente \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			//e.printStackTrace();
 		}
 	}
@@ -382,9 +383,9 @@ public class VcPnlDatiCLiente extends JPanel {
 		if (btnInserisciCliente == null) {
 			btnInserisciCliente = new JButton();
 			btnInserisciCliente.setBounds(new Rectangle(560, 165, 160, 30));
-			btnInserisciCliente.setText("Inserisci Cliente");
+			btnInserisciCliente.setText(Messages.getString("VcPnlDatiCLiente.btnInsCustomer")); //$NON-NLS-1$
 			btnInserisciCliente.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/edit_add.png")));
+				"/it/f2/gestRip/ui/img/edit_add.png"))); //$NON-NLS-1$
 			if(modality == mode.view){
 				btnInserisciCliente.setEnabled(false);
 			}
@@ -454,14 +455,14 @@ public class VcPnlDatiCLiente extends JPanel {
 	
 	private void inserisciCliente(){
 		try {
-			Logger.getRootLogger().debug("Inserting Cliente...");
+			Logger.getRootLogger().debug("Inserting Cliente..."); //$NON-NLS-1$
 			//scheda.setBinCliente(DbSchedaAction.addCliente());
 			BinCliente binCliente = DbSchedaAction.addCliente(con);
 			newIdClienteAppo = binCliente.getId();
 			refreshData(binCliente);
 			setInsertMode();
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Inserting Cliente \n"+e+"\n");
+			Logger.getRootLogger().error("Exception in Inserting Cliente \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			//e.printStackTrace();
 		}
 	}
@@ -479,9 +480,9 @@ public class VcPnlDatiCLiente extends JPanel {
 		if (btnEditCliente == null) {
 			btnEditCliente = new JButton();
 			btnEditCliente.setBounds(new Rectangle(560, 210, 160, 30));
-			btnEditCliente.setText("Modifica dati Cliente");
+			btnEditCliente.setText(Messages.getString("VcPnlDatiCLiente.btnUpdCustomer")); //$NON-NLS-1$
 			btnEditCliente.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/edit.png")));
+				"/it/f2/gestRip/ui/img/edit.png"))); //$NON-NLS-1$
 			if(modality == mode.view || scheda.getBinCliente().getId() == 0){
 				btnEditCliente.setEnabled(false);
 			}
@@ -504,9 +505,9 @@ public class VcPnlDatiCLiente extends JPanel {
 			btnOk = new JButton();
 			btnOk.setBounds(new Rectangle(249, 357, 85, 30));
 			btnOk.setEnabled(false);
-			btnOk.setText("Ok");
+			btnOk.setText(Messages.getString("VcPnlDatiCLiente.btnOk")); //$NON-NLS-1$
 			btnOk.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/button_ok.png")));
+				"/it/f2/gestRip/ui/img/button_ok.png"))); //$NON-NLS-1$
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					
@@ -524,18 +525,18 @@ public class VcPnlDatiCLiente extends JPanel {
 						//inserimento in bin scheda
 						scheda.getBinCliente().setId(newIdClienteAppo);
 						try {
-							Logger.getRootLogger().debug("getBtnOk ins...");
+							Logger.getRootLogger().debug("getBtnOk ins..."); //$NON-NLS-1$
 							DbSchedaAction.insCliente(con,scheda.getBinCliente());
 						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception getBtnOk ins \n"+e1+"\n");
+							Logger.getRootLogger().error("Exception getBtnOk ins \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							//e1.printStackTrace();
 						}
 					} else if (modalityCliente == modeCliente.update){
 						try {
-							Logger.getRootLogger().debug("getBtnOk upd...");
+							Logger.getRootLogger().debug("getBtnOk upd..."); //$NON-NLS-1$
 							DbSchedaAction.saveCliente(con,scheda.getBinCliente());
 						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception getBtnOk upd \n"+e1+"\n");
+							Logger.getRootLogger().error("Exception getBtnOk upd \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							//e1.printStackTrace();
 						}
 					}
@@ -558,9 +559,9 @@ public class VcPnlDatiCLiente extends JPanel {
 			btnCanc = new JButton();
 			btnCanc.setBounds(new Rectangle(345, 357, 85, 30));
 			btnCanc.setEnabled(false);
-			btnCanc.setText("Canc");
+			btnCanc.setText(Messages.getString("VcPnlDatiCLiente.btnCanc")); //$NON-NLS-1$
 			btnCanc.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/button_cancel.png")));
+				"/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					setViewMode();

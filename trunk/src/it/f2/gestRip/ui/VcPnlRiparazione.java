@@ -2,6 +2,7 @@ package it.f2.gestRip.ui;
 
 import it.f2.gestRip.model.BinScheda;
 import it.f2.gestRip.ui.VcDlgDetailScheda.mode;
+import it.f2.gestRip.ui.messages.Messages;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -25,7 +26,7 @@ public class VcPnlRiparazione extends JPanel {
 	 */
 	public VcPnlRiparazione(mode modality,BinScheda scheda) {
 		super();
-		Logger.getRootLogger().debug("VcDlgDetailScheda constructor...");
+		Logger.getRootLogger().debug("VcDlgDetailScheda constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.scheda = scheda;
 		initialize();
@@ -41,7 +42,7 @@ public class VcPnlRiparazione extends JPanel {
 		this.setLayout(null);
 		lblRiparazione = new JLabel();
 		lblRiparazione.setBounds(new Rectangle(205, 66, 279, 16));
-		lblRiparazione.setText("Descrizione Riparazione");
+		lblRiparazione.setText(Messages.getString("VcPnlRiparazione.lblDescRepair")); //$NON-NLS-1$
 		add(lblRiparazione, null);
 		add(getScpRiparazione(), null);
 	}

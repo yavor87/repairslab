@@ -2,6 +2,7 @@ package it.f2.gestRip.ui;
 
 import it.f2.gestRip.model.BinScheda;
 import it.f2.gestRip.ui.VcDlgDetailScheda.mode;
+import it.f2.gestRip.ui.messages.Messages;
 
 import java.awt.Rectangle;
 import java.text.DecimalFormat;
@@ -46,7 +47,7 @@ public class VcPnlCostiNote extends JPanel {
 	 */
 	public VcPnlCostiNote(mode modality,BinScheda scheda) {
 		super();
-		Logger.getRootLogger().debug("VcPnlCostiNote constructor...");
+		Logger.getRootLogger().debug("VcPnlCostiNote constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.scheda = scheda;
 		initialize();
@@ -63,23 +64,23 @@ public class VcPnlCostiNote extends JPanel {
 		lblCostoPreventivato = new JLabel();
 		lblCostoPreventivato.setBounds(new Rectangle(371, 46, 147, 16));
 		lblCostoPreventivato.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCostoPreventivato.setText("Costo Preventivato");
+		lblCostoPreventivato.setText(Messages.getString("VcPnlCostiNote.lblExsistimetedCost")); //$NON-NLS-1$
 		lblCostoDalCliente = new JLabel();
 		lblCostoDalCliente.setBounds(new Rectangle(80, 77, 136, 16));
 		lblCostoDalCliente.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCostoDalCliente.setText("Addebitato al Cliente");
+		lblCostoDalCliente.setText(Messages.getString("VcPnlCostiNote.lblChargedToCust")); //$NON-NLS-1$
 		lblCostoSostenuto = new JLabel();
 		lblCostoSostenuto.setBounds(new Rectangle(72, 44, 142, 16));
 		lblCostoSostenuto.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCostoSostenuto.setText("Sostenuto");
+		lblCostoSostenuto.setText(Messages.getString("VcPnlCostiNote.lblSupportedCost")); //$NON-NLS-1$
 		lblCosti = new JLabel();
 		lblCosti.setBounds(new Rectangle(39, 14, 79, 16));
-		lblCosti.setText("Costi");
+		lblCosti.setText(Messages.getString("VcPnlCostiNote.lblCosts")); //$NON-NLS-1$
 		lblNoteInterne = new JLabel();
 		lblNoteInterne.setBounds(new Rectangle(74, 285, 309, 16));
-		lblNoteInterne.setText("Note per uso interno");
+		lblNoteInterne.setText(Messages.getString("VcPnlCostiNote.lblInternalNote")); //$NON-NLS-1$
 		lblNotePerStampa = new JLabel();
-		lblNotePerStampa.setText("Note per la stampa");
+		lblNotePerStampa.setText(Messages.getString("VcPnlCostiNote.PrintNote")); //$NON-NLS-1$
 		lblNotePerStampa.setBounds(new Rectangle(74, 138, 300, 16));
 		setLayout(null);
 		add(lblNotePerStampa, null);
@@ -174,7 +175,7 @@ public class VcPnlCostiNote extends JPanel {
 	private JFormattedTextField getTxfCostoSostenuto() {
 		if (txfCostoSostenuto == null) {
 			txfCostoSostenuto = new JFormattedTextField(scheda.getCostoInterno());
-			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00"));
+			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00")); //$NON-NLS-1$
 		    fmt.setValueClass(Float.class);
 		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
 		    txfCostoSostenuto.setFormatterFactory(fmtFactory);
@@ -190,8 +191,8 @@ public class VcPnlCostiNote extends JPanel {
 						scheda.setCostoInterno((Float)txfCostoSostenuto.getValue());
 					} catch (ParseException e1) {
 						JOptionPane.showMessageDialog(getParent(),
-								"Valore errato. ",
-								"Warning", JOptionPane.WARNING_MESSAGE);
+								Messages.getString("VcPnlCostiNote.msgValueError"), //$NON-NLS-1$
+								Messages.getString("VcPnlCostiNote.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 						txfCostoSostenuto.setValue(scheda.getCostoInterno());
 					}
 				}
@@ -208,7 +209,7 @@ public class VcPnlCostiNote extends JPanel {
 	private JFormattedTextField getTxfCostoDalCliente() {
 		if (txfCostoDalCliente == null) {
 			txfCostoDalCliente = new JFormattedTextField(scheda.getPagatoDalCliente());
-			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00"));
+			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00")); //$NON-NLS-1$
 		    fmt.setValueClass(Float.class);
 		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
 		    txfCostoDalCliente.setFormatterFactory(fmtFactory);
@@ -224,8 +225,8 @@ public class VcPnlCostiNote extends JPanel {
 						scheda.setPagatoDalCliente((Float)txfCostoDalCliente.getValue());
 					} catch (ParseException e1) {
 						JOptionPane.showMessageDialog(getParent(),
-								"Valore errato. ",
-								"Warning", JOptionPane.WARNING_MESSAGE);
+								Messages.getString("VcPnlCostiNote.msgValueError"), //$NON-NLS-1$
+								Messages.getString("VcPnlCostiNote.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 						txfCostoDalCliente.setValue(scheda.getPagatoDalCliente());
 					}
 				}
@@ -242,7 +243,7 @@ public class VcPnlCostiNote extends JPanel {
 	private JFormattedTextField getTxfCostoPreventivato() {
 		if (txfCostoPreventivato == null) {
 			txfCostoPreventivato = new JFormattedTextField(scheda.getCostoPreventivo());
-			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00"));
+			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00")); //$NON-NLS-1$
 		    fmt.setValueClass(Float.class);
 		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
 		    txfCostoPreventivato.setFormatterFactory(fmtFactory);
@@ -258,8 +259,8 @@ public class VcPnlCostiNote extends JPanel {
 						scheda.setCostoPreventivo((Float)txfCostoPreventivato.getValue());
 					} catch (ParseException e1) {
 						JOptionPane.showMessageDialog(getParent(),
-								"Valore errato. ",
-								"Warning", JOptionPane.WARNING_MESSAGE);
+								Messages.getString("VcPnlCostiNote.msgValueError"), //$NON-NLS-1$
+								Messages.getString("VcPnlCostiNote.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 						txfCostoPreventivato.setValue(scheda.getCostoPreventivo());
 					}
 				}

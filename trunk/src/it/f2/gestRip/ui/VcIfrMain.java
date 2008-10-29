@@ -4,6 +4,7 @@ import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.DbSchedaAction;
 import it.f2.gestRip.control.PrintAction;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.util.ui.WindowUtil;
 
 import javax.swing.ImageIcon;
@@ -45,7 +46,7 @@ public class VcIfrMain extends JInternalFrame {
 	 */
 	public VcIfrMain(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("Loading Main..");
+		Logger.getRootLogger().debug("Loading Main.."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = CommonMetodBin.getConn();
 		initialize();
@@ -93,9 +94,9 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton getBtnInsScheda() {
 		if (btnInsScheda == null) {
 			btnInsScheda = new JButton();
-			btnInsScheda.setText("Nuova Scheda");
+			btnInsScheda.setText(Messages.getString("VcIfrMain.btnNewSheet")); //$NON-NLS-1$
 			btnInsScheda.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/newtodo.png")));
+				"/it/f2/gestRip/ui/img/newtodo.png"))); //$NON-NLS-1$
 			btnInsScheda.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					VcDlgDetailScheda dialog = new VcDlgDetailScheda(parent,null,VcDlgDetailScheda.mode.insert,0);
@@ -115,14 +116,14 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton getBtnListaSchede() {
 		if (btnListaSchede == null) {
 			btnListaSchede = new JButton();
-			btnListaSchede.setText("Lista Schede");
+			btnListaSchede.setText(Messages.getString("VcIfrMain.btnListSheet")); //$NON-NLS-1$
 			btnListaSchede.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/view_detailed.png")));
+				"/it/f2/gestRip/ui/img/view_detailed.png"))); //$NON-NLS-1$
 			btnListaSchede.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					VcIfrListaSchede iframe = new VcIfrListaSchede(parent);
 					if(!parent.isJitOpen(iframe.getClass())){
-						parent.addTab("Lista Schede", iframe);
+						parent.addTab(Messages.getString("VcIfrMain.tabListSheet"), iframe); //$NON-NLS-1$
 						parent.selectTab(iframe);
 					}else{
 						iframe.hide();
@@ -158,12 +159,12 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton getBtnViewScheda() {
 		if (btnViewScheda == null) {
 			btnViewScheda = new JButton();
-			btnViewScheda.setText("Visualizza Scheda");
+			btnViewScheda.setText(Messages.getString("VcIfrMain.btnShowSheet")); //$NON-NLS-1$
 			btnViewScheda.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/fileopen.png")));
+				"/it/f2/gestRip/ui/img/fileopen.png"))); //$NON-NLS-1$
 			btnViewScheda.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String mes = JOptionPane.showInputDialog(getParent(),"Inserire numero Scheda di riparazione");
+					String mes = JOptionPane.showInputDialog(getParent(),Messages.getString("VcIfrMain.msgIsnNumberSheet")); //$NON-NLS-1$
 					int num = 0;
 					try{
 						num = Integer.parseInt(mes);
@@ -172,18 +173,18 @@ public class VcIfrMain extends JInternalFrame {
 								openDetail(VcDlgDetailScheda.mode.view,num);
 							}else{
 								JOptionPane.showMessageDialog(getParent(),
-										"Scheda inesistente.",
-										"Warning", JOptionPane.WARNING_MESSAGE);
+										Messages.getString("VcIfrMain.msgSheetNotExist"), //$NON-NLS-1$
+										Messages.getString("VcIfrMain.msgWarningTit"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 							}
 						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception in Connectiond DB \n"+e+"\n");
+							Logger.getRootLogger().error("Exception in Connectiond DB \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							//e1.printStackTrace();
 						}
 						
 					}catch(NumberFormatException ex){
 						JOptionPane.showMessageDialog(getParent(),
-								"Numero scheda non valido.",
-								"Warning", JOptionPane.WARNING_MESSAGE);
+								Messages.getString("VcIfrMain.msgSheetNumberNotValid"), //$NON-NLS-1$
+								Messages.getString("VcIfrMain.msgWarningTit"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 					}
 				}
 			});
@@ -206,12 +207,12 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton getBtnModScheda() {
 		if (btnModScheda == null) {
 			btnModScheda = new JButton();
-			btnModScheda.setText("Modifica Scheda");
+			btnModScheda.setText(Messages.getString("VcIfrMain.btnUpdSheet")); //$NON-NLS-1$
 			btnModScheda.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/kate.png")));
+				"/it/f2/gestRip/ui/img/kate.png"))); //$NON-NLS-1$
 			btnModScheda.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String mes = JOptionPane.showInputDialog(getParent(),"Inserire numero Scheda di riparazione");
+					String mes = JOptionPane.showInputDialog(getParent(),Messages.getString("VcIfrMain.msgIsnNumberSheet")); //$NON-NLS-1$
 					int num = 0;
 					try{
 						num = Integer.parseInt(mes);
@@ -220,18 +221,18 @@ public class VcIfrMain extends JInternalFrame {
 								openDetail(VcDlgDetailScheda.mode.update,num);
 							}else{
 								JOptionPane.showMessageDialog(getParent(),
-										"Scheda inesistente.",
-										"Warning", JOptionPane.WARNING_MESSAGE);
+										Messages.getString("VcIfrMain.msgSheetNotExist"), //$NON-NLS-1$
+										Messages.getString("VcIfrMain.msgWarningTit"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 							}
 						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception in Connectiond DB \n"+e+"\n");
+							Logger.getRootLogger().error("Exception in Connectiond DB \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							//e1.printStackTrace();
 						}
 						
 					}catch(NumberFormatException ex){
 						JOptionPane.showMessageDialog(getParent(),
-								"Numero scheda non valido.",
-								"Warning", JOptionPane.WARNING_MESSAGE);
+								Messages.getString("VcIfrMain.msgSheetNumberNotValid"), //$NON-NLS-1$
+								Messages.getString("VcIfrMain.msgWarningTit"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 					}
 				}
 			});
@@ -247,12 +248,12 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton getBrnStampaScheda() {
 		if (brnStampaScheda == null) {
 			brnStampaScheda = new JButton();
-			brnStampaScheda.setText("Stampa Scheda");
+			brnStampaScheda.setText(Messages.getString("VcIfrMain.btnPrintSheet")); //$NON-NLS-1$
 			brnStampaScheda.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/fileprint_.png")));
+				"/it/f2/gestRip/ui/img/fileprint_.png"))); //$NON-NLS-1$
 			brnStampaScheda.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String mes = JOptionPane.showInputDialog(getParent(),"Inserire numero Scheda di riparazione");
+					String mes = JOptionPane.showInputDialog(getParent(),Messages.getString("VcIfrMain.msgIsnNumberSheet")); //$NON-NLS-1$
 					int num = 0;
 					try{
 						num = Integer.parseInt(mes);
@@ -261,18 +262,18 @@ public class VcIfrMain extends JInternalFrame {
 								print(num);
 							}else{
 								JOptionPane.showMessageDialog(getParent(),
-										"Scheda inesistente.",
-										"Warning", JOptionPane.WARNING_MESSAGE);
+										Messages.getString("VcIfrMain.msgSheetNotExist"), //$NON-NLS-1$
+										Messages.getString("VcIfrMain.msgWarningTit"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 							}
 						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception in Connectiond DB \n"+e+"\n");
+							Logger.getRootLogger().error("Exception in Connectiond DB \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 							//e1.printStackTrace();
 						}
 						
 					}catch(NumberFormatException ex){
 						JOptionPane.showMessageDialog(getParent(),
-								"Numero scheda non valido.",
-								"Warning", JOptionPane.WARNING_MESSAGE);
+								Messages.getString("VcIfrMain.msgSheetNumberNotValid"), //$NON-NLS-1$
+								Messages.getString("VcIfrMain.msgWarningTit"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 					}
 				}
 			});
@@ -281,7 +282,7 @@ public class VcIfrMain extends JInternalFrame {
 	}
 	
 	private void print(int nScheda){
-		Logger.getRootLogger().debug("printing");
+		Logger.getRootLogger().debug("printing"); //$NON-NLS-1$
 		PrintAction pa = new PrintAction();
 		pa.callReportRicevuta(this.parent,nScheda,con);
 	}
@@ -294,19 +295,19 @@ public class VcIfrMain extends JInternalFrame {
 	private JEditorPane getEdpMainScreen() {
 		if (edpMainScreen == null) {
 			File html = new File(
-				"conf"+
+				"conf"+ //$NON-NLS-1$
 				EnvProperties.FILE_SEPARETOR+
-				"mainScreen.html");
+				"mainScreen.html"); //$NON-NLS-1$
 			edpMainScreen = new JEditorPane();
-			edpMainScreen.setContentType("text/html");
+			edpMainScreen.setContentType("text/html"); //$NON-NLS-1$
 			try {
-				Logger.getRootLogger().debug("Setting main html page...");
+				Logger.getRootLogger().debug("Setting main html page..."); //$NON-NLS-1$
 				edpMainScreen.setPage(html.toURI().toURL());
 			} catch (MalformedURLException e) {
-				Logger.getRootLogger().error("Exception in Setting main html page\n"+e+"\n");
+				Logger.getRootLogger().error("Exception in Setting main html page\n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			} catch (IOException e) {
-				Logger.getRootLogger().error("Exception in Setting main html page\n"+e+"\n");
+				Logger.getRootLogger().error("Exception in Setting main html page\n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			}
 			edpMainScreen.setEditable(false);
