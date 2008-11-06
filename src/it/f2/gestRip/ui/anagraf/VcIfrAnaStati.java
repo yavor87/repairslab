@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.control.QryUtil;
 import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
@@ -91,10 +92,7 @@ public class VcIfrAnaStati extends JInternalFrame {
 			//String[] updatableCol = {"nomeStato","descrizione","flagAttivo"};
 			
 			pnlTableAnaStati = new VcJDBCTablePanel(
-					con,
-					"select id ,nomeStato ,descStato, flagAttivo  " + //$NON-NLS-1$
-					"from anastati", //$NON-NLS-1$
-					true) {
+					con,QryUtil.QRY_ANA_STATI,true) {
 
 				/**
 				 * 
@@ -128,7 +126,10 @@ public class VcIfrAnaStati extends JInternalFrame {
 				}
 				
 			};
-			
+			pnlTableAnaStati.setColumnLabel(0, Messages.getString("VcIfrAnaStati.qryId"));
+			pnlTableAnaStati.setColumnLabel(1, Messages.getString("VcIfrAnaStati.qryName"));
+			pnlTableAnaStati.setColumnLabel(2, Messages.getString("VcIfrAnaStati.qryDesc"));
+			pnlTableAnaStati.setColumnLabel(3, Messages.getString("VcIfrAnaStati.qryFlag"));
 			pnlTableAnaStati.createControlPanel();
 			pnlTableAnaStati.setCheckBoxColumn(3,"S","N"); //$NON-NLS-1$ //$NON-NLS-2$
 			

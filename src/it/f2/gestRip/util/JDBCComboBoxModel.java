@@ -57,14 +57,15 @@ public class JDBCComboBoxModel extends DefaultComboBoxModel{
 				String obj = rs.getInt(1)+"";
 				el.setValue(obj+"");
 				el.setDesc(rs.getString(2));
-				
 				if(obj.equals(this.selectedValue)){
 					selected = el;
 				}
 				if (flagAttivo != null){
 					String flag = rs.getString(3);
-					if(flag.equals(this.flagAttivo)||obj.equals(this.selectedValue)){
-						this.addElement(el);
+					if(flag!=null){
+						if(flag.equals(this.flagAttivo)||obj.equals(this.selectedValue)){
+							this.addElement(el);
+						}
 					}
 				}else{
 					this.addElement(el);

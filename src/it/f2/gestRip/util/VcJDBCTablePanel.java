@@ -188,6 +188,15 @@ public class VcJDBCTablePanel extends JPanel {
 		return result;
 	}
 	
+	public void setColumnLabel(int column,String value){
+		try{
+			TableColumn tblCol = tblJDBCTable.getColumnModel().getColumn(column);
+			tblCol.setHeaderValue(value);
+		}catch(ArrayIndexOutOfBoundsException e){
+			Logger.getRootLogger().debug("Non valid column header...");
+		}
+	}
+	
 	/**
 	 * This method initializes tblJDBCTable	
 	 * 	
@@ -198,33 +207,19 @@ public class VcJDBCTablePanel extends JPanel {
 			tblJDBCTable = new JTable(getJtmJDBCTm());
 			tblJDBCTable.setRowSorter(new TableRowSorter<TableModel>(getJtmJDBCTm()));
 			tblJDBCTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			tblJDBCTable.setRowHeight(25); 
-			
+			tblJDBCTable.setRowHeight(25);
 			for (int i=0;i<getJtmJDBCTm().getColumnCount();i++){
 				int colPrecision = getJtmJDBCTm().getColumnPrecision(i);
 				TableColumn tblCol = tblJDBCTable.getColumnModel().getColumn(i);
 				Class<?> colClass = getJtmJDBCTm().getColumnClass(i);
-				/*String colName = getJtmJDBCTm().getColumnName(i);
-				String colLabel = getJtmJDBCTm().getColumnNameOrig(i);
-				
-				//System.out.println(colName+" - "+colLabel);
-				if (colName.equalsIgnoreCase("idstato")){
-					tblCol.setWidth(0);
-					//tblCol.setPreferredWidth(0);
-					tblCol.setMaxWidth(0);
-					tblCol.setMinWidth(0);
-					tblCol.setResizable(false);
-				} else {*/
-					tblCol.setWidth(colPrecision);
-					tblCol.setPreferredWidth(colPrecision);
-				//}
-				
+
+				tblCol.setWidth(colPrecision);
+				tblCol.setPreferredWidth(colPrecision);
+
 				if (colClass.equals(java.sql.Date.class) || 
 						colClass.equals(java.util.Date.class)){
 					tblCol.setCellEditor(new JDateChooserCellEditor());
-				} /*else if (colClass.equals(String.class)) {
-					tblCol.setCellEditor(new F2TextCellEditor());
-				}*/
+				}
 			}
 			
 			tblJDBCTable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {

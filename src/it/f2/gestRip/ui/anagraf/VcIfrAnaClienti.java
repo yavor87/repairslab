@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.control.QryUtil;
 import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
@@ -107,9 +108,7 @@ public class VcIfrAnaClienti extends JInternalFrame {
 	private VcJDBCTablePanel getPnlTableAnaClienti() {
 		if (pnlTableAnaMarche == null) {
 			
-			String query = "SELECT * FROM clienti"	; //$NON-NLS-1$
-			
-			pnlTableAnaMarche = new VcJDBCTablePanel(con,query,true){
+			pnlTableAnaMarche = new VcJDBCTablePanel(con,QryUtil.QRY_ANA_CLIENTI,true){
 
 				/**
 				 * 
@@ -146,6 +145,16 @@ public class VcIfrAnaClienti extends JInternalFrame {
 				}
 				
 			};
+			pnlTableAnaMarche.setColumnLabel(0, Messages.getString("VcIfrAnaClienti.qryId"));
+			pnlTableAnaMarche.setColumnLabel(1, Messages.getString("VcIfrAnaClienti.qryNome"));
+			pnlTableAnaMarche.setColumnLabel(2, Messages.getString("VcIfrAnaClienti.qryCognome"));
+			pnlTableAnaMarche.setColumnLabel(3, Messages.getString("VcIfrAnaClienti.qryPiva"));
+			pnlTableAnaMarche.setColumnLabel(4, Messages.getString("VcIfrAnaClienti.qryAzienda"));
+			pnlTableAnaMarche.setColumnLabel(5, Messages.getString("VcIfrAnaClienti.qryPhone"));
+			pnlTableAnaMarche.setColumnLabel(6, Messages.getString("VcIfrAnaClienti.qryMobilePhone"));
+			pnlTableAnaMarche.setColumnLabel(7, Messages.getString("VcIfrAnaClienti.qryEmail"));
+			pnlTableAnaMarche.setColumnLabel(8, Messages.getString("VcIfrAnaClienti.qryIndirizzo"));
+			pnlTableAnaMarche.setColumnLabel(9, Messages.getString("VcIfrAnaClienti.qryCity"));
 			pnlTableAnaMarche.createControlPanel();
 		}
 		return pnlTableAnaMarche;

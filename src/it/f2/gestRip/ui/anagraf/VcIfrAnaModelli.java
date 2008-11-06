@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.control.QryUtil;
 import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
@@ -88,9 +89,7 @@ public class VcIfrAnaModelli extends JInternalFrame {
 		if (pnlTableAnaModelli == null) {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
-			String query = "SELECT id,nome,descModello,idMarchi,idTipoApp,flagAttivo FROM modelli"	; //$NON-NLS-1$
-			
-			pnlTableAnaModelli = new VcJDBCTablePanel(con,query,true){
+			pnlTableAnaModelli = new VcJDBCTablePanel(con,QryUtil.QRY_ANA_MODELLI,true){
 				/**
 				 * 
 				 */
@@ -122,6 +121,12 @@ public class VcIfrAnaModelli extends JInternalFrame {
 					}					
 				}
 			};
+			pnlTableAnaModelli.setColumnLabel(0, Messages.getString("VcIfrAnaModelli.qryId"));
+			pnlTableAnaModelli.setColumnLabel(1, Messages.getString("VcIfrAnaModelli.qryName"));
+			pnlTableAnaModelli.setColumnLabel(2, Messages.getString("VcIfrAnaModelli.qryDesc"));
+			pnlTableAnaModelli.setColumnLabel(3, Messages.getString("VcIfrAnaModelli.qryIdMarchi"));
+			pnlTableAnaModelli.setColumnLabel(4, Messages.getString("VcIfrAnaModelli.qryIdTipoApp"));
+			pnlTableAnaModelli.setColumnLabel(5, Messages.getString("VcIfrAnaModelli.qryFlag"));
 			pnlTableAnaModelli.createControlPanel();
 			pnlTableAnaModelli.setCheckBoxColumn(5,"S","N"); //$NON-NLS-1$ //$NON-NLS-2$
 			

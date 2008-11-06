@@ -2,6 +2,7 @@ package it.f2.gestRip.ui;
 
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.DbSchedaAction;
+import it.f2.gestRip.control.QryUtil;
 import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.JDBCComboBoxModel;
 import it.f2.gestRip.util.VcJDBCTablePanel;
@@ -185,27 +186,7 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	 */
 	public VcJDBCTablePanel getTblList() {
 		if (tblList == null) {
-			String qry = "SELECT " //$NON-NLS-1$
-				+ "schede.id                 \"Numero\", " //$NON-NLS-1$
-				+ "anastati.nomeStato        \"Stato\", " //$NON-NLS-1$
-				+ "schede.dataInserimento    \"Data Ingresso\", " //$NON-NLS-1$
-				+ "schede.dataChiusura       \"Data Chiusura\", " //$NON-NLS-1$
-				+ "tipoapparecchiature.nome  \"Tipo\", " //$NON-NLS-1$
-				+ "marchi.nome               \"Marca\", " //$NON-NLS-1$
-				+ "modelli.nome              \"Modello\", " //$NON-NLS-1$
-				+ "clienti.nome              \"Nome Cliente\", " //$NON-NLS-1$
-				+ "clienti.cognome           \"Cognome Cliente\" " //$NON-NLS-1$
-				+ "FROM " //$NON-NLS-1$
-				+ "schede " //$NON-NLS-1$
-				+ "LEFT JOIN anastati on schede.idStato=anastati.id " //$NON-NLS-1$
-				+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id " //$NON-NLS-1$
-				+ "LEFT JOIN marchi on schede.idMarca=marchi.id " //$NON-NLS-1$
-				+ "LEFT JOIN modelli on schede.idModello=modelli.id " //$NON-NLS-1$
-				+ "LEFT JOIN clienti on schede.idCliente=clienti.id " //$NON-NLS-1$
-				+ "WHERE schede.deleted = 'S' "; //$NON-NLS-1$
-			
-			tblList = new VcJDBCTablePanel(con, qry, false,null,null);
-			
+			tblList = new VcJDBCTablePanel(con, QryUtil.QRY_LISTA_SCHEDE_DEL_ALL, false,null,null);
 			tblList.createControlPanel();
 		}
 		return tblList;
@@ -380,34 +361,15 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 					boolean filterSerial = (!getTxfSerial().getText().equals("")); //$NON-NLS-1$
 					boolean filterIdTipoAppa = (idTipoAppa!=999);
 					
-					String qry = "SELECT " //$NON-NLS-1$
-						+ "schede.id                 \"Numero\", " //$NON-NLS-1$
-						+ "anastati.nomeStato        \"Stato\", " //$NON-NLS-1$
-						+ "schede.dataInserimento    \"Data Ingresso\", " //$NON-NLS-1$
-						+ "schede.dataChiusura       \"Data Chiusura\", " //$NON-NLS-1$
-						+ "tipoapparecchiature.nome  \"Tipo\", " //$NON-NLS-1$
-						+ "marchi.nome               \"Marca\", " //$NON-NLS-1$
-						+ "modelli.nome              \"Modello\", " //$NON-NLS-1$
-						+ "clienti.nome              \"Nome Cliente\", " //$NON-NLS-1$
-						+ "clienti.cognome           \"Cognome Cliente\" " //$NON-NLS-1$
-						+ "FROM " //$NON-NLS-1$
-						+ "schede " //$NON-NLS-1$
-						+ "LEFT JOIN anastati on schede.idStato=anastati.id " //$NON-NLS-1$
-						+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id " //$NON-NLS-1$
-						+ "LEFT JOIN marchi on schede.idMarca=marchi.id " //$NON-NLS-1$
-						+ "LEFT JOIN modelli on schede.idModello=modelli.id " //$NON-NLS-1$
-						+ "LEFT JOIN clienti on schede.idCliente=clienti.id " //$NON-NLS-1$
-						+ "WHERE "  //$NON-NLS-1$
-						+ (filterNScheda ? "schede.id = :id AND " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-						+ (filterIdstato ? "schede.idStato = :idSta AND " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-						+ (filterCognome ? "clienti.cognome like :cognome AND " : "")  //$NON-NLS-1$ //$NON-NLS-2$
-						+ (filterNome ? "clienti.nome like :nome AND " : "") //$NON-NLS-1$ //$NON-NLS-2$
-						+ (filterDataIng ? "schede.dataInserimento >= :dataIns AND " : "") //$NON-NLS-1$ //$NON-NLS-2$
-						+ (filterDataUsc ? "schede.dataInserimento <= :dataUsc AND " : "") //$NON-NLS-1$ //$NON-NLS-2$
-						+ (filterSerial ? "schede.serial like :serial AND " : "") //$NON-NLS-1$ //$NON-NLS-2$
-						+ (filterIdTipoAppa ? "schede.idTipoApparecchiatura = :idTipoAppa AND " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-						+ "1=1 " //$NON-NLS-1$
-						+ "AND schede.deleted = 'S' "; //$NON-NLS-1$
+					String qry = QryUtil.QRY_LISTA_SCHEDE_DEL_ALL 
+						+ (filterNScheda ? " AND schede.id = :id " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterIdstato ? " AND schede.idStato = :idSta " : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterCognome ? " AND clienti.cognome like :cognome " : "")  //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterNome ? " AND clienti.nome like :nome " : "") //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterDataIng ? " AND schede.dataInserimento >= :dataIns " : "") //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterDataUsc ? " AND schede.dataInserimento <= :dataUsc " : "") //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterSerial ? " AND schede.serial like :serial " : "") //$NON-NLS-1$ //$NON-NLS-2$
+						+ (filterIdTipoAppa ? " AND schede.idTipoApparecchiatura = :idTipoAppa " : "" ); //$NON-NLS-1$ //$NON-NLS-2$
 					//System.out.println(qry);
 					getTblList().setQuery(qry);
 					
@@ -503,25 +465,7 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 			btnReset.setBounds(new Rectangle(150, 80, 135, 26));
 			btnReset.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					String qry = "SELECT " //$NON-NLS-1$
-						+ "schede.id                 \"Numero\", " //$NON-NLS-1$
-						+ "anastati.nomeStato        \"Stato\", " //$NON-NLS-1$
-						+ "schede.dataInserimento    \"Data Ingresso\", " //$NON-NLS-1$
-						+ "schede.dataChiusura       \"Data Chiusura\", " //$NON-NLS-1$
-						+ "tipoapparecchiature.nome  \"Tipo\", " //$NON-NLS-1$
-						+ "marchi.nome               \"Marca\", " //$NON-NLS-1$
-						+ "modelli.nome              \"Modello\", " //$NON-NLS-1$
-						+ "clienti.nome              \"Nome Cliente\", " //$NON-NLS-1$
-						+ "clienti.cognome           \"Cognome Cliente\" " //$NON-NLS-1$
-						+ "FROM " //$NON-NLS-1$
-						+ "schede " //$NON-NLS-1$
-						+ "LEFT JOIN anastati on schede.idStato=anastati.id " //$NON-NLS-1$
-						+ "LEFT JOIN tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id " //$NON-NLS-1$
-						+ "LEFT JOIN marchi on schede.idMarca=marchi.id " //$NON-NLS-1$
-						+ "LEFT JOIN modelli on schede.idModello=modelli.id " //$NON-NLS-1$
-						+ "LEFT JOIN clienti on schede.idCliente=clienti.id " //$NON-NLS-1$
-						+ "WHERE schede.deleted = 'S' "; //$NON-NLS-1$
-					getTblList().setQuery(qry);
+					getTblList().setQuery(QryUtil.QRY_LISTA_SCHEDE_DEL_ALL);
 					getTblList().setParameters(null);
 					getTblList().refresh();
 					

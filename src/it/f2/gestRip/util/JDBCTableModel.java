@@ -104,8 +104,8 @@ public class JDBCTableModel extends AbstractTableModel {
 				statement.setObject((String)param[0], param[1]);
 			}
         }
-		
-		set = statement.executeQuery();
+        
+        set = statement.executeQuery();
 		
         while(set.next())
         	size++;
@@ -302,6 +302,9 @@ public class JDBCTableModel extends AbstractTableModel {
      * @throws RuntimeException DOCUMENT ME!
      */
     public void setValueAt(Object value, int row, int column) {
+    	System.out.println("row:"+row+"__column:"+column);
+    	System.out.println(getColumnName(column));
+    	System.out.println(getColumnNameOrig(column));
         if (updateable) {
             try {
             	//Logger.getRootLogger().debug("setValueAt...");
@@ -324,13 +327,12 @@ public class JDBCTableModel extends AbstractTableModel {
                 //con.commit();
             } catch (SQLException ex) {
             	Logger.getRootLogger().error("Exception in setValueAt \n"+ex+"\n");
-                //ex.printStackTrace();
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(parent, ex.getMessage(),
                     ex.getClass().getName(), JOptionPane.ERROR_MESSAGE, null);
             } catch (Exception ex) {
             	Logger.getRootLogger().error("Exception in setValueAt \n"+ex+"\n");
-                //System.err.println("debug: " + value);
-                //ex.printStackTrace();
+                ex.printStackTrace();
                 JOptionPane.showMessageDialog(parent, ex.getMessage(),
                     ex.getClass().getName(), JOptionPane.ERROR_MESSAGE, null);
             } finally {
