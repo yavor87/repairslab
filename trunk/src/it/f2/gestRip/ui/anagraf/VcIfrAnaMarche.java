@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.control.QryUtil;
 import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
@@ -86,9 +87,7 @@ public class VcIfrAnaMarche extends JInternalFrame {
 		if (pnlTableAnaMarche == null) {
 			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
 			
-			String query = "SELECT id,nome,descrizione,flagAttivo FROM marchi"	; //$NON-NLS-1$
-			
-			pnlTableAnaMarche = new VcJDBCTablePanel(con,query,true){
+			pnlTableAnaMarche = new VcJDBCTablePanel(con,QryUtil.QRY_ANA_MARCHI,true){
 				/**
 				 * 
 				 */
@@ -136,6 +135,10 @@ public class VcIfrAnaMarche extends JInternalFrame {
 				}
 			};
 			pnlTableAnaMarche.createControlPanel();
+			pnlTableAnaMarche.setColumnLabel(0, Messages.getString("VcIfrAnaMarche.qryId"));
+			pnlTableAnaMarche.setColumnLabel(1, Messages.getString("VcIfrAnaMarche.qryName"));
+			pnlTableAnaMarche.setColumnLabel(2, Messages.getString("VcIfrAnaMarche.qryDesc"));
+			pnlTableAnaMarche.setColumnLabel(3, Messages.getString("VcIfrAnaMarche.qryFlag"));
 			pnlTableAnaMarche.setCheckBoxColumn(3,"S","N"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return pnlTableAnaMarche;

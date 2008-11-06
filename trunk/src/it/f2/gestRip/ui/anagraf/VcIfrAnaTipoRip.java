@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.control.QryUtil;
 import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
@@ -84,13 +85,9 @@ public class VcIfrAnaTipoRip extends JInternalFrame {
 	
 	private VcJDBCTablePanel getPnlTableAnaTipoOggetto() {
 		if (pnlTableAnaTipoRip == null) {
-			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
-			
-			String query = "SELECT id,nomeTipoRip,descTipoRip,flagAttivo " + //$NON-NLS-1$
-					"FROM tiporiparazione"	; //$NON-NLS-1$
 			
 			pnlTableAnaTipoRip = new VcJDBCTablePanel(
-					con,query,true){
+					con,QryUtil.QRY_ANA_TIPO_RIP,true){
 				/**
 				 * 
 				 */
@@ -122,6 +119,10 @@ public class VcIfrAnaTipoRip extends JInternalFrame {
 					}					
 				}
 			};
+			pnlTableAnaTipoRip.setColumnLabel(0, Messages.getString("VcIfrAnaTipoRip.qryId"));
+			pnlTableAnaTipoRip.setColumnLabel(1, Messages.getString("VcIfrAnaTipoRip.qryName"));
+			pnlTableAnaTipoRip.setColumnLabel(2, Messages.getString("VcIfrAnaTipoRip.qryDesc"));
+			pnlTableAnaTipoRip.setColumnLabel(3, Messages.getString("VcIfrAnaTipoRip.qryFlag"));
 			pnlTableAnaTipoRip.createControlPanel();
 			pnlTableAnaTipoRip.setCheckBoxColumn(3,"S","N"); //$NON-NLS-1$ //$NON-NLS-2$
 		}

@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui.anagraf;
 
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.control.QryUtil;
 import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.ui.messages.Messages;
 import it.f2.gestRip.util.VcJDBCTablePanel;
@@ -84,13 +85,9 @@ public class VcIfrAnaTipoDatiAcq extends JInternalFrame {
 	
 	private VcJDBCTablePanel getPnlTableAnaTipoDatiAcq() {
 		if (pnlTableAnaTipoDatiAcq == null) {
-			//String[] updatableCol = {"nomeStato","descrizione","Ultima modifica"};
-			
-			String query = "SELECT id,tipo " + //$NON-NLS-1$
-					"FROM tpodatiacquisto"	; //$NON-NLS-1$
 			
 			pnlTableAnaTipoDatiAcq = new VcJDBCTablePanel(
-					con,query,true){
+					con,QryUtil.QRY_ANA_TIPO_DATI_ACQ,true){
 				/**
 				 * 
 				 */
@@ -122,6 +119,8 @@ public class VcIfrAnaTipoDatiAcq extends JInternalFrame {
 					}					
 				}
 			};
+			pnlTableAnaTipoDatiAcq.setColumnLabel(0, Messages.getString("VcIfrAnaTipoDatiAcq.qryId"));
+			pnlTableAnaTipoDatiAcq.setColumnLabel(1, Messages.getString("VcIfrAnaTipoDatiAcq.qryName"));
 			pnlTableAnaTipoDatiAcq.createControlPanel();
 		}
 		return pnlTableAnaTipoDatiAcq;
