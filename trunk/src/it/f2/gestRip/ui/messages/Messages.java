@@ -13,7 +13,7 @@ public class Messages {
 
 	private static ResourceBundle RESOURCE_BUNDLE = null;
 	
-	private static final ResourceBundle getRESOURCE_BUNDLE(){
+	public static final ResourceBundle getRESOURCE_BUNDLE(){
 		if(RESOURCE_BUNDLE==null){
 			//System.out.println("Country:"+Locale.getDefault().getCountry());
 			String language = EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE);
