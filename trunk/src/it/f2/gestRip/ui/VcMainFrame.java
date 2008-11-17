@@ -20,9 +20,14 @@ import it.f2.util.ui.WindowUtil;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -134,8 +139,6 @@ public class VcMainFrame extends JFrame {
 			fileMenu = new JMenu();
 			fileMenu.setText(Messages.getString("VcMainFrame.mnuFile")); //$NON-NLS-1$
 			fileMenu.addSeparator();
-			fileMenu.addSeparator();
-			fileMenu.addSeparator();
 			fileMenu.add(getExitMenuItem());
 		}
 		return fileMenu;
@@ -150,6 +153,14 @@ public class VcMainFrame extends JFrame {
 		if (helpMenu == null) {
 			helpMenu = new JMenu();
 			helpMenu.setText(Messages.getString("VcMainFrame.mnuHelp")); //$NON-NLS-1$
+			helpMenu.add(getMniHelpContent());
+			
+			helpMenu.addSeparator();
+			helpMenu.add(getMniSupportRequest());
+			helpMenu.add(getMnuBugs());
+			helpMenu.add(getMniWebSite());
+			
+			helpMenu.addSeparator();
 			helpMenu.add(getAboutMenuItem());
 		}
 		return helpMenu;
@@ -498,6 +509,14 @@ public class VcMainFrame extends JFrame {
 	private VcIfrAnaClienti anaClienti = null;
 
 	private JMenuItem mniSchedeDeleted = null;
+
+	private JMenuItem mniSupportRequest = null;
+
+	private JMenuItem mnuBugs = null;
+
+	private JMenuItem mniWebSite = null;
+
+	private JMenuItem mniHelpContent = null;
 	private void openAnaClienti(){
 		anaClienti = new VcIfrAnaClienti(this);
 		if(!this.isJitOpen(anaClienti.getClass())){
@@ -611,6 +630,115 @@ public class VcMainFrame extends JFrame {
 			this.selectTab(iframe);
 		}else{
 			iframe.hide();
+		}
+	}
+
+	/**
+	 * This method initializes mniSupportRequest	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getMniSupportRequest() {
+		if (mniSupportRequest == null) {
+			mniSupportRequest = new JMenuItem();
+			mniSupportRequest.setText(Messages.getString("VcMainFrame.mnuSupport")); //$NON-NLS-1$
+			mniSupportRequest.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					openUrl("http://sourceforge.net/tracker2/?atid=1116456&group_id=241576&func=browse");
+				}
+			});
+		}
+		return mniSupportRequest;
+	}
+
+	/**
+	 * This method initializes mnuBugs	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getMnuBugs() {
+		if (mnuBugs == null) {
+			mnuBugs = new JMenuItem();
+			mnuBugs.setText(Messages.getString("VcMainFrame.mnuBugs")); //$NON-NLS-1$
+			mnuBugs.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					openUrl("http://sourceforge.net/tracker2/?group_id=241576&atid=1116455");
+				}
+			});
+		}
+		return mnuBugs;
+	}
+
+	/**
+	 * This method initializes mniWebSite	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getMniWebSite() {
+		if (mniWebSite == null) {
+			mniWebSite = new JMenuItem();
+			mniWebSite.setText(Messages.getString("VcMainFrame.mniWebSite")); //$NON-NLS-1$
+			mniWebSite.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					openUrl("http://repairslab.sourceforge.net/");
+				}
+			});
+		}
+		return mniWebSite;
+	}
+
+	/**
+	 * This method initializes mniHelpContent	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getMniHelpContent() {
+		if (mniHelpContent == null) {
+			mniHelpContent = new JMenuItem();
+			mniHelpContent.setText(Messages.getString("VcMainFrame.mniHelpContent")); //$NON-NLS-1$
+			mniHelpContent.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					if(EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE).equalsIgnoreCase("it"))
+						openFile("documents"+File.separator+"RepairsLabUserManual-it.pdf");
+					else
+						openFile("documents"+File.separator+"RepairsLabUserGuide-en.pdf");
+				}
+			});
+		}
+		return mniHelpContent;
+	}
+	
+	private void openUrl(String url){
+		if (Desktop.isDesktopSupported()) {
+			Desktop desktop = Desktop.getDesktop();
+			URI uri = null;
+	        try {
+	            uri = new URI(url);
+	            desktop.browse(uri);
+	        } catch(IOException ioe) {
+	            System.out.println("The system cannot find the " + uri + 
+		    	" file specified");
+	            //ioe.printStackTrace();
+	        } catch(URISyntaxException use) {
+	            System.out.println("Illegal character in path");
+	            //use.printStackTrace();
+	        }
+
+		}
+	}
+	
+	private void openFile(String fileName){
+		if (Desktop.isDesktopSupported()) {
+			Desktop desktop = Desktop.getDesktop();
+			File file = new File(fileName);
+			try {
+				desktop.open(file);
+			} catch (IOException ioe) {
+	            //ioe.printStackTrace();
+	            System.out.println("Cannot perform the given operation "+
+	            		"to the " + file + " file");
+	        }
+
 		}
 	}
 
