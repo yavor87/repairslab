@@ -1,0 +1,32 @@
+/*stili per il layout fluido*/
+html,body{margin: 0;padding:0}
+body{font-family: arial,sans-serif;font-size: 76%}
+div#container{/*nessuna regola necessaria*/}
+
+/*stili generici, su header e footer*/
+div#header{background-color:#36C;color: #ff0}
+h1,h2{margin: 0;padding:0}
+h1{padding-left:10px;font: bold 2.3em/80px arial,sans-serif}
+h2{color: #69f;font-size: 1.5em}
+div#footer a{color:#fff;font-weight: bold;text-decoration: underline}
+
+/*stili specifici per il layout*/
+div#navigation{float: left;width: 160px;\width:170px;w\idth:160px;padding: 1em 0 0 10px}
+div#extra{float: right; width: 160px;\width:170px;w\idth:160px;;padding: 1em 5px}
+div#content{margin: 0 170px;padding: 1em 10px;
+    border-width: 0 1px; border-style:solid; border-color: #ccc;}
+div#footer{clear:both; text-align:center; padding: 5px 0;
+    background-color: #69c; color: #000}
+
+/*stili per la navigazione*/
+div#navigation ul{margin: 0;padding: 0; list-style-type: none}
+div#navigation li{margin: 0;padding: 0}
+div#navigation a{color:#369;font: normal bold 1.2em/1.4em arial,sans-serif;text-decoration: none}
+div#navigation a:hover{color: #033;text-decoration: underline}
+div#navigation a#activelink{color: #033;text-decoration: none}
+div#navigation p{font-size: 90%}
+
+/*stili per la sezione extra*/
+div#extra div.newsbox{font-size: 90%;margin-bottom: 2em}
+div#extra div.newsbox h2{color: #999;font-size: 1.2em}
+div#extra div.newsbox p{margin: 0}
