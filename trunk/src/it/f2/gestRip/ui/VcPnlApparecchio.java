@@ -104,7 +104,7 @@ public class VcPnlApparecchio extends JPanel {
         lblDatiAcquisto.setBounds(new Rectangle(18, 180, 208, 16));
         lblDatiAcquisto.setText(Messages.getString("VcPnlApparecchio.lblPurchasing")); //$NON-NLS-1$
         lblStatoRip = new JLabel();
-        lblStatoRip.setBounds(new Rectangle(15, 93, 171, 16));
+        lblStatoRip.setBounds(new Rectangle(15, 98, 171, 16));
         lblStatoRip.setText(Messages.getString("VcPnlApparecchio.lblState")); //$NON-NLS-1$
         lblTipoRip = new JLabel();
         lblTipoRip.setBounds(new Rectangle(13, 27, 146, 16));

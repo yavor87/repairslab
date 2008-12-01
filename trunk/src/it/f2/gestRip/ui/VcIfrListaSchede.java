@@ -1,5 +1,6 @@
 package it.f2.gestRip.ui;
 
+import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.DbSchedaAction;
 import it.f2.gestRip.control.PrintAction;
@@ -95,7 +96,8 @@ public class VcIfrListaSchede extends JInternalFrame {
 	private void initialize() {
 		this.setSize(901, 571);
 		this.setClosable(true);
-		this.setTitle(Messages.getString("VcIfrListaSchede.titleListSheet")); //$NON-NLS-1$
+		this.setTitle(Messages.getString("VcIfrListaSchede.titleListSheet")+
+				" "+EnvProperties.getInstance().getProperty(EnvProperties.PREFIX_NUM)); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {   
 			public void internalFrameClosed(

@@ -35,6 +35,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -699,9 +700,9 @@ public class VcMainFrame extends JFrame {
 			mniHelpContent.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if(EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE).equalsIgnoreCase("it"))
-						openFile("documents"+File.separator+"RepairsLabUserManual-it.pdf");
+						openFile("site"+File.separator+"documents"+File.separator+"RepairsLabUserManual-it.pdf");
 					else
-						openFile("documents"+File.separator+"RepairsLabUserGuide-en.pdf");
+						openFile("site"+File.separator+"documents"+File.separator+"RepairsLabUserGuide-en.pdf");
 				}
 			});
 		}
@@ -716,12 +717,17 @@ public class VcMainFrame extends JFrame {
 	            uri = new URI(url);
 	            desktop.browse(uri);
 	        } catch(IOException ioe) {
-	            System.out.println("The system cannot find the " + uri + 
-		    	" file specified");
 	            //ioe.printStackTrace();
+	        	JOptionPane.showMessageDialog(this, 
+	            		ioe.getMessage(), 
+	            		Messages.getString("VcMainFrame.msgTitleError"), 
+	            		JOptionPane.ERROR_MESSAGE);
 	        } catch(URISyntaxException use) {
-	            System.out.println("Illegal character in path");
 	            //use.printStackTrace();
+	        	JOptionPane.showMessageDialog(this, 
+	        			use.getMessage(), 
+	            		Messages.getString("VcMainFrame.msgTitleError"), 
+	            		JOptionPane.ERROR_MESSAGE);
 	        }
 
 		}
@@ -735,8 +741,16 @@ public class VcMainFrame extends JFrame {
 				desktop.open(file);
 			} catch (IOException ioe) {
 	            //ioe.printStackTrace();
-	            System.out.println("Cannot perform the given operation "+
-	            		"to the " + file + " file");
+	            JOptionPane.showMessageDialog(this, 
+	            		ioe.getMessage(), 
+	            		Messages.getString("VcMainFrame.msgTitleError"), 
+	            		JOptionPane.ERROR_MESSAGE);
+	        } catch (Exception e) {
+	            //ioe.printStackTrace();
+	            JOptionPane.showMessageDialog(this, 
+	            		e.getMessage(), 
+	            		Messages.getString("VcMainFrame.msgTitleError"), 
+	            		JOptionPane.ERROR_MESSAGE);
 	        }
 
 		}

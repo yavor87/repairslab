@@ -61,6 +61,8 @@ public class PrintAction {
 		try {
 			Map parameters = new HashMap();
 			parameters.put("idScheda", nScheda); //$NON-NLS-1$
+			parameters.put("prefixNum", EnvProperties.getInstance().getProperty( //$NON-NLS-1$
+					EnvProperties.PREFIX_NUM));
 			parameters.put("infoCliente", EnvProperties.getInstance().getProperty( //$NON-NLS-1$
 					EnvProperties.INFOCLIENTE));
 			parameters.put("indirizzoRivenditore", EnvProperties.getInstance().getProperty( //$NON-NLS-1$
