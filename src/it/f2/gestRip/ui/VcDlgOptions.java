@@ -4,6 +4,7 @@ import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.ui.messages.Messages;
 import it.f2.util.ui.WindowUtil;
 import it.f2.util.ui.cmb.TypeCmb;
+import it.f2.util.ui.textField.JTextFieldLimit;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -31,6 +32,7 @@ import javax.swing.JScrollPane;
 import org.apache.log4j.Logger;
 import javax.swing.JCheckBox;
 import java.awt.event.KeyEvent;
+import javax.swing.JTextField;
 
 /**
  * Questa classe rappresenta il JDialog per la gestione
@@ -67,6 +69,8 @@ public class VcDlgOptions extends JDialog {
 	private JLabel lblNoDoppiaCopia = null;
 	private JComboBox cmbLanguage = null;
 	private JLabel lblLanguage = null;
+	private JLabel lblPrefixNumber = null;
+	private JTextField txfPrefixNumber = null;
 	/**
 	 * This is the default constructor
 	 */
@@ -83,7 +87,7 @@ public class VcDlgOptions extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(612, 538);
+		this.setSize(612, 564);
 		this.setTitle(Messages.getString("VcDlgOptions.titleOptions")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 	}
@@ -109,17 +113,20 @@ public class VcDlgOptions extends JDialog {
 	 */
 	private JPanel getPnlSettings() {
 		if (pnlSettings == null) {
+			lblPrefixNumber = new JLabel();
+			lblPrefixNumber.setBounds(new Rectangle(11, 146, 156, 16));
+			lblPrefixNumber.setText("Prefix sheet number");
 			lblLanguage = new JLabel();
-			lblLanguage.setBounds(new Rectangle(350, 405, 162, 16));
+			lblLanguage.setBounds(new Rectangle(350, 431, 162, 16));
 			lblLanguage.setText(Messages.getString("VcDlgOptions.language")); //$NON-NLS-1$
 			lblNoDoppiaCopia = new JLabel();
-			lblNoDoppiaCopia.setBounds(new Rectangle(44, 363, 358, 20));
+			lblNoDoppiaCopia.setBounds(new Rectangle(44, 389, 358, 20));
 			lblNoDoppiaCopia.setText(Messages.getString("VcDlgOptions.lblDuplicatePrint")); //$NON-NLS-1$
 			lblIndirizzo = new JLabel();
-			lblIndirizzo.setBounds(new Rectangle(9, 255, 460, 18));
+			lblIndirizzo.setBounds(new Rectangle(9, 281, 460, 18));
 			lblIndirizzo.setText(Messages.getString("VcDlgOptions.lblInfoAddress")); //$NON-NLS-1$
 			lblInfoCliente = new JLabel();
-			lblInfoCliente.setBounds(new Rectangle(10, 148, 430, 18));
+			lblInfoCliente.setBounds(new Rectangle(10, 174, 430, 18));
 			lblInfoCliente.setText(Messages.getString("VcDlgOptions.lblInfoCustomer")); //$NON-NLS-1$
 			lblLogo = new JLabel();
 			lblLogo.setBounds(new Rectangle(10, 10, 238, 125));
@@ -132,12 +139,12 @@ public class VcDlgOptions extends JDialog {
 					"/it/f2/gestRip/ui/img/logo64.png"))); //$NON-NLS-1$
 			}
 			lblLookAndFeel = new JLabel();
-			lblLookAndFeel.setBounds(new Rectangle(72, 405, 135, 16));
+			lblLookAndFeel.setBounds(new Rectangle(72, 431, 135, 16));
 			lblLookAndFeel.setFont(new java.awt.Font("Dialog", //$NON-NLS-1$
 					java.awt.Font.BOLD, 12));
 			lblLookAndFeel.setText(Messages.getString("VcDlgOptions.lblLookAndFeel")); //$NON-NLS-1$
 			lblImgStyle = new JLabel();
-			lblImgStyle.setBounds(new Rectangle(14, 405, 51, 44));
+			lblImgStyle.setBounds(new Rectangle(14, 431, 51, 44));
 			lblImgStyle.setIcon(new ImageIcon(getClass().getResource(
 					"/it/f2/gestRip/ui/img/style.png"))); //$NON-NLS-1$
 			lblImgStyle
@@ -168,6 +175,8 @@ public class VcDlgOptions extends JDialog {
 			pnlSettings.add(lblNoDoppiaCopia, null);
 			pnlSettings.add(getCmbLanguage(), null);
 			pnlSettings.add(lblLanguage, null);
+			pnlSettings.add(lblPrefixNumber, null);
+			pnlSettings.add(getTxfPrefixNumber(), null);
 		}
 		return pnlSettings;
 	}
@@ -265,7 +274,7 @@ public class VcDlgOptions extends JDialog {
 	private JButton getBtnOk() {
 		if (btnOk == null) {
 			btnOk = new JButton();
-			btnOk.setBounds(new Rectangle(231, 469, 93, 29));
+			btnOk.setBounds(new Rectangle(231, 495, 93, 29));
 			btnOk.setIcon(new ImageIcon(getClass().getResource(
 					"/it/f2/gestRip/ui/img/filesave.png"))); //$NON-NLS-1$
 			btnOk.setText(Messages.getString("VcDlgOptions.btnSave")); //$NON-NLS-1$
@@ -286,7 +295,7 @@ public class VcDlgOptions extends JDialog {
 	private JButton getBtnCanc() {
 		if (btnCanc == null) {
 			btnCanc = new JButton();
-			btnCanc.setBounds(new Rectangle(126, 469, 99, 29));
+			btnCanc.setBounds(new Rectangle(126, 495, 99, 29));
 			btnCanc.setIcon(new ImageIcon(getClass().getResource(
 					"/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnCanc.setText(Messages.getString("VcDlgOptions.btnCanc")); //$NON-NLS-1$
@@ -322,7 +331,7 @@ public class VcDlgOptions extends JDialog {
 	private JComboBox getCmbLookAndFeel() {
 		if (cmbLookAndFeel == null) {
 			cmbLookAndFeel = new JComboBox();
-			cmbLookAndFeel.setBounds(new Rectangle(70, 422, 205, 24));
+			cmbLookAndFeel.setBounds(new Rectangle(70, 448, 205, 24));
 			cmbLookAndFeel
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -426,7 +435,7 @@ public class VcDlgOptions extends JDialog {
 	private JScrollPane getScpInfoCliente() {
 		if (scpInfoCliente == null) {
 			scpInfoCliente = new JScrollPane();
-			scpInfoCliente.setBounds(new Rectangle(9, 169, 587, 69));
+			scpInfoCliente.setBounds(new Rectangle(9, 195, 587, 69));
 			scpInfoCliente.setViewportView(getTxpInfoCliente());
 		}
 		return scpInfoCliente;
@@ -440,7 +449,7 @@ public class VcDlgOptions extends JDialog {
 	private JScrollPane getScpIndirizzo() {
 		if (scpIndirizzo == null) {
 			scpIndirizzo = new JScrollPane();
-			scpIndirizzo.setBounds(new Rectangle(9, 275, 589, 74));
+			scpIndirizzo.setBounds(new Rectangle(9, 301, 589, 74));
 			scpIndirizzo.setViewportView(getTxpIndirizzo());
 		}
 		return scpIndirizzo;
@@ -494,7 +503,7 @@ public class VcDlgOptions extends JDialog {
 	private JButton getBtnAdvOpt() {
 		if (btnAdvOpt == null) {
 			btnAdvOpt = new JButton();
-			btnAdvOpt.setBounds(new Rectangle(333, 469, 140, 29));
+			btnAdvOpt.setBounds(new Rectangle(333, 495, 140, 29));
 			btnAdvOpt.setText(Messages.getString("VcDlgOptions.btnAdvOpt")); //$NON-NLS-1$
 			btnAdvOpt.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -515,7 +524,7 @@ public class VcDlgOptions extends JDialog {
 	private JCheckBox getChbNoDoppiaCopia() {
 		if (chbNoDoppiaCopia == null) {
 			chbNoDoppiaCopia = new JCheckBox();
-			chbNoDoppiaCopia.setBounds(new Rectangle(14, 364, 24, 21));
+			chbNoDoppiaCopia.setBounds(new Rectangle(14, 390, 24, 21));
 			String ck =  EnvProperties.getInstance().getProperty(
 					EnvProperties.DOPPIACOPIA);
 			if(ck.equals("N")) //$NON-NLS-1$
@@ -542,7 +551,7 @@ public class VcDlgOptions extends JDialog {
 	private JComboBox getCmbLanguage() {
 		if (cmbLanguage == null) {
 			cmbLanguage = new JComboBox();
-			cmbLanguage.setBounds(new Rectangle(350, 422, 205, 24));
+			cmbLanguage.setBounds(new Rectangle(350, 448, 205, 24));
 			String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE);
 			TypeCmb cmb1 = new TypeCmb();
 			cmb1.setDesc("English");
@@ -563,6 +572,34 @@ public class VcDlgOptions extends JDialog {
 			});
 		}
 		return cmbLanguage;
+	}
+
+	/**
+	 * This method initializes txfPrefixNumber	
+	 * 	
+	 * @return javax.swing.JTextField	
+	 */
+	private JTextField getTxfPrefixNumber() {
+		if (txfPrefixNumber == null) {
+			txfPrefixNumber = new JTextField();
+			txfPrefixNumber.setDocument(new JTextFieldLimit(7));
+			String pref = EnvProperties.getInstance().getProperty(
+					EnvProperties.PREFIX_NUM);
+			if(pref!=null && pref.length()>7){
+				pref = pref.substring(0,7);
+				EnvProperties.getInstance().setProperty(
+						EnvProperties.PREFIX_NUM, pref);
+			}
+			txfPrefixNumber.setText(pref);
+			txfPrefixNumber.setBounds(new Rectangle(397, 144, 200, 25));
+			txfPrefixNumber.addFocusListener(new java.awt.event.FocusAdapter() {
+				public void focusLost(java.awt.event.FocusEvent e) {
+					EnvProperties.getInstance().setProperty(
+							EnvProperties.PREFIX_NUM,txfPrefixNumber.getText());
+				}
+			});
+		}
+		return txfPrefixNumber;
 	}
 
 } //  @jve:decl-index=0:visual-constraint="10,10"

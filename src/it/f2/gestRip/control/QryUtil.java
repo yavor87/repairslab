@@ -48,13 +48,6 @@ public class QryUtil {
 		" flagAttivo " +
 		" FROM tipoapparecchiature"	;
 
-	/*public static String QRY_ANA_TIPO_RIP = 
-		"SELECT " +
-		" id as \""+Messages.getString("VcIfrAnaTipoRip.qryId")+"\" ," +
-		" nomeTipoRip as \""+Messages.getString("VcIfrAnaTipoRip.qryName")+"\" ," +
-		" descTipoRip as \""+Messages.getString("VcIfrAnaTipoRip.qryDesc")+"\" ," +
-		" flagAttivo as \""+Messages.getString("VcIfrAnaTipoRip.qryFlag")+"\" " +
-		"FROM tiporiparazione"	;*/
 	public static String QRY_ANA_TIPO_RIP = 
 		"SELECT " +
 		" id," +
@@ -75,7 +68,7 @@ public class QryUtil {
 	
 	public static String QRY_LISTA_SCHEDE_ALL = 
 		"SELECT " 
-		+ " schede.id as 			  \""+Messages.getString("VcIfrListaSchede.qryId")+"\" ," 
+		+ " schede.id as \""+Messages.getString("VcIfrListaSchede.qryId")+"\" ," 
 		+ " anastati.nomeStato as \""+Messages.getString("VcIfrListaSchede.qryStato")+"\" ,"
 		+ " schede.dataInserimento as \""+Messages.getString("VcIfrListaSchede.qryInsDate")+"\" ,"
 		+ " schede.dataChiusura as \""+Messages.getString("VcIfrListaSchede.qryCloseDate")+"\" ,"

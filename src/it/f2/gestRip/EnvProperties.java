@@ -41,6 +41,7 @@ public class EnvProperties {
 	public static String INFOCLIENTE = "f2.infocliente";
 	public static String DOPPIACOPIA = "f2.doppiaCopia";
 	public static String LANGUAGE = "f2.language";
+	public static String PREFIX_NUM = "f2.prefix.num";
 
 	/* Singleton */
 	private Properties properties;
@@ -71,6 +72,9 @@ public class EnvProperties {
 			if (result.indexOf("\\")>0 || result.indexOf("/")>0){
 				return result.replace("\\", EnvProperties.FILE_SEPARETOR);
 			}
+		}else{
+			this.setProperty(propName, "");
+			result="";
 		}
 		return result;
 	}

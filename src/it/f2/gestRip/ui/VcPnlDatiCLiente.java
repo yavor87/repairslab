@@ -510,43 +510,46 @@ public class VcPnlDatiCLiente extends JPanel {
 				"/it/f2/gestRip/ui/img/button_ok.png"))); //$NON-NLS-1$
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					
-					scheda.getBinCliente().setNome(getTxfNome().getText());
-					scheda.getBinCliente().setCognome(getTxfCognome().getText());
-					scheda.getBinCliente().setPhone(getTxfTelefono().getText());
-					scheda.getBinCliente().setMobilePhone(getTxfMobile().getText());
-					scheda.getBinCliente().setIndirizzo(getTxfIndirizzo().getText());
-					scheda.getBinCliente().setCity(getTxfCitta().getText());
-					scheda.getBinCliente().setEmail(getTxfEmail().getText());
-					scheda.getBinCliente().setAzienda(getTxfAzienda().getText());
-					scheda.getBinCliente().setPIva(getTxfPiva().getText());
-					
-					if(modalityCliente == modeCliente.insert){
-						//inserimento in bin scheda
-						scheda.getBinCliente().setId(newIdClienteAppo);
-						try {
-							Logger.getRootLogger().debug("getBtnOk ins..."); //$NON-NLS-1$
-							DbSchedaAction.insCliente(con,scheda.getBinCliente());
-						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception getBtnOk ins \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
-							//e1.printStackTrace();
-						}
-					} else if (modalityCliente == modeCliente.update){
-						try {
-							Logger.getRootLogger().debug("getBtnOk upd..."); //$NON-NLS-1$
-							DbSchedaAction.saveCliente(con,scheda.getBinCliente());
-						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception getBtnOk upd \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
-							//e1.printStackTrace();
-						}
-					}
-					
-					setViewMode();
-					refreshData(scheda.getBinCliente());
+					save();
 				}
 			});
 		}
 		return btnOk;
+	}
+	
+	public void save(){
+		scheda.getBinCliente().setNome(getTxfNome().getText());
+		scheda.getBinCliente().setCognome(getTxfCognome().getText());
+		scheda.getBinCliente().setPhone(getTxfTelefono().getText());
+		scheda.getBinCliente().setMobilePhone(getTxfMobile().getText());
+		scheda.getBinCliente().setIndirizzo(getTxfIndirizzo().getText());
+		scheda.getBinCliente().setCity(getTxfCitta().getText());
+		scheda.getBinCliente().setEmail(getTxfEmail().getText());
+		scheda.getBinCliente().setAzienda(getTxfAzienda().getText());
+		scheda.getBinCliente().setPIva(getTxfPiva().getText());
+		
+		if(modalityCliente == modeCliente.insert){
+			//inserimento in bin scheda
+			scheda.getBinCliente().setId(newIdClienteAppo);
+			try {
+				Logger.getRootLogger().debug("getBtnOk ins..."); //$NON-NLS-1$
+				DbSchedaAction.insCliente(con,scheda.getBinCliente());
+			} catch (SQLException e1) {
+				Logger.getRootLogger().error("Exception getBtnOk ins \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				//e1.printStackTrace();
+			}
+		} else if (modalityCliente == modeCliente.update){
+			try {
+				Logger.getRootLogger().debug("getBtnOk upd..."); //$NON-NLS-1$
+				DbSchedaAction.saveCliente(con,scheda.getBinCliente());
+			} catch (SQLException e1) {
+				Logger.getRootLogger().error("Exception getBtnOk upd \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				//e1.printStackTrace();
+			}
+		}
+		
+		setViewMode();
+		refreshData(scheda.getBinCliente());
 	}
 
 	/**
@@ -570,6 +573,10 @@ public class VcPnlDatiCLiente extends JPanel {
 			});
 		}
 		return btnCanc;
+	}
+	
+	public modeCliente getModalityCliente(){
+		return this.modalityCliente;
 	}
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

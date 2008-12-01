@@ -1,6 +1,7 @@
 package it.f2.gestRip.ui;
 
 
+import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.DbSchedaAction;
 import it.f2.gestRip.control.PrintAction;
@@ -103,13 +104,19 @@ public class VcDlgDetailScheda extends JDialog {
 	
 	private void close(){
 		boolean disposing = false;
-		if(modality != mode.view && !scheda.sameData(schedaLastSavepoint)){
+		boolean schedaToSave = modality != mode.view && !scheda.sameData(schedaLastSavepoint);
+		boolean datiClienteToSave = getPnlDatiCliente().getModalityCliente() != VcPnlDatiCLiente.modeCliente.view; 
+		
+		if(schedaToSave || datiClienteToSave){
 			int confirm = JOptionPane.showConfirmDialog(getParent(),
 					Messages.getString("VcDlgDetailScheda.msgSave"), //$NON-NLS-1$
 					Messages.getString("VcDlgDetailScheda.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
 					Logger.getRootLogger().debug("Closing 1..."); //$NON-NLS-1$
+					if (datiClienteToSave){
+						getPnlDatiCliente().save();
+					}
 					save();
 					con.commit();
 					if(listaSchede!=null){
@@ -276,17 +283,18 @@ public class VcDlgDetailScheda extends JDialog {
 			lblRiconsegnato.setBounds(new Rectangle(720, 14, 98, 16));
 			lblRiconsegnato.setText(Messages.getString("VcDlgDetailScheda.lblReturned")); //$NON-NLS-1$
 			lblDataChiusura = new JLabel();
-			lblDataChiusura.setBounds(new Rectangle(444, 14, 118, 16));
+			lblDataChiusura.setBounds(new Rectangle(460, 14, 102, 16));
 			lblDataChiusura.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblDataChiusura.setText(Messages.getString("VcDlgDetailScheda.lblReturnedDate")); //$NON-NLS-1$
 			lblDataApertura = new JLabel();
-			lblDataApertura.setBounds(new Rectangle(202, 11, 103, 16));
+			lblDataApertura.setBounds(new Rectangle(231, 11, 90, 16));
 			lblDataApertura.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblDataApertura.setText(Messages.getString("VcDlgDetailScheda.lblEntryDate")); //$NON-NLS-1$
 			lblSchedaN = new JLabel();
-			lblSchedaN.setText(Messages.getString("VcDlgDetailScheda.lblSheetNum")); //$NON-NLS-1$
+			lblSchedaN.setText(Messages.getString("VcDlgDetailScheda.lblSheetNum")+
+					EnvProperties.getInstance().getProperty(EnvProperties.PREFIX_NUM)); //$NON-NLS-1$
 			lblSchedaN.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblSchedaN.setBounds(new Rectangle(6, 11, 111, 16));
+			lblSchedaN.setBounds(new Rectangle(3, 11, 155, 16));
 			pnlTesta = new JPanel();
 			pnlTesta.setLayout(null);
 			pnlTesta.setSize(800,200);
@@ -315,7 +323,7 @@ public class VcDlgDetailScheda extends JDialog {
 		    fmt.setValueClass(Integer.class);
 		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
 		    txfNumScheda.setFormatterFactory(fmtFactory);
-			txfNumScheda.setBounds(new Rectangle(121, 9, 72, 25));
+			txfNumScheda.setBounds(new Rectangle(160, 9, 72, 25));
 			txfNumScheda.setText(scheda.getId()+""); //$NON-NLS-1$
 			if (modality == mode.view){
 				txfNumScheda.setEditable(false);
@@ -365,7 +373,7 @@ public class VcDlgDetailScheda extends JDialog {
 	private JDateChooser getTxfDataApertura() {
 		if (txfDataApertura == null) {
 			txfDataApertura = new JDateChooser();
-			txfDataApertura.setBounds(new Rectangle(310, 9, 128, 25));
+			txfDataApertura.setBounds(new Rectangle(329, 9, 128, 25));
 			txfDataApertura.setDate(scheda.getDataInserimento());
 			if (modality == mode.view){
 				txfDataApertura.setEnabled(false);
