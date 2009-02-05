@@ -561,6 +561,10 @@ public class VcDlgOptions extends JDialog {
 			cmb2.setDesc("Italiano");
 			cmb2.setValue("it");
 			cmbLanguage.addItem(cmb2);
+			TypeCmb cmb3 = new TypeCmb();
+			cmb3.setDesc("Nederlands");
+			cmb3.setValue("nl");
+			cmbLanguage.addItem(cmb3);
 			if(selVal.equals("it")) cmbLanguage.setSelectedItem(cmb2);
 			else cmbLanguage.setSelectedItem(cmb1);
 			

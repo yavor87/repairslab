@@ -10,6 +10,7 @@ public class Messages {
 	
 	private static final String BUNDLE_NAME_it = "it.f2.gestRip.ui.messages.Messages_it"; //$NON-NLS-1$
 	private static final String BUNDLE_NAME_en = "it.f2.gestRip.ui.messages.Messages_en"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_nl = "it.f2.gestRip.ui.messages.Messages_nl"; //$NON-NLS-1$
 
 	private static ResourceBundle RESOURCE_BUNDLE = null;
 	
@@ -24,7 +25,10 @@ public class Messages {
 			if(language.equals("it")){
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_it,Locale.ITALIAN);
 				Locale.setDefault(Locale.ITALIAN);
-			}else{
+			}else if(language.equals("nl")){
+				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_nl,new Locale("nl","NL"));
+				Locale.setDefault(new Locale("nl","NL"));
+			}else {
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_en,Locale.ENGLISH);
 				Locale.setDefault(Locale.ENGLISH);
 			}
