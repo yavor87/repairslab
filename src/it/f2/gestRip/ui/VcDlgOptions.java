@@ -553,20 +553,15 @@ public class VcDlgOptions extends JDialog {
 			cmbLanguage = new JComboBox();
 			cmbLanguage.setBounds(new Rectangle(350, 448, 205, 24));
 			String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE);
-			TypeCmb cmb1 = new TypeCmb();
-			cmb1.setDesc("English");
-			cmb1.setValue("en");
-			cmbLanguage.addItem(cmb1);
-			TypeCmb cmb2 = new TypeCmb();
-			cmb2.setDesc("Italiano");
-			cmb2.setValue("it");
-			cmbLanguage.addItem(cmb2);
-			TypeCmb cmb3 = new TypeCmb();
-			cmb3.setDesc("Nederlands");
-			cmb3.setValue("nl");
-			cmbLanguage.addItem(cmb3);
-			if(selVal.equals("it")) cmbLanguage.setSelectedItem(cmb2);
-			else cmbLanguage.setSelectedItem(cmb1);
+			
+			for (String key : Messages.getLanguageMaps().keySet()) {
+				TypeCmb cmb = new TypeCmb();
+				System.out.println(key + " - " + Messages.getLanguageMaps().get(key));
+				cmb.setValue(key);
+				cmb.setDesc(Messages.getLanguageMaps().get(key));
+				cmbLanguage.addItem(cmb);
+				if(selVal.equals(key)) cmbLanguage.setSelectedItem(cmb);
+			}
 			
 			cmbLanguage.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
