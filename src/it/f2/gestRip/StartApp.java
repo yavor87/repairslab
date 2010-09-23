@@ -1,16 +1,17 @@
 package it.f2.gestRip;
 
+import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.ui.VcMainFrame;
+import it.f2.gestRip.ui.VcSplashScreen;
+import it.f2.util.ui.WindowUtil;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import it.f2.gestRip.control.CommonMetodBin;
-import it.f2.gestRip.ui.VcMainFrame;
-import it.f2.gestRip.ui.VcSplashScreen;
-import it.f2.util.ui.WindowUtil;
+import java.util.Locale;
 
 import javax.swing.UIManager;
 
@@ -36,8 +37,7 @@ public class StartApp {
 		
 		try {
 			logger.debug("Loading look&feel");
-			UIManager.setLookAndFeel(EnvProperties.getInstance().getProperty(
-					EnvProperties.LOOK));			
+			UIManager.setLookAndFeel(EnvProperties.getInstance().getProperty(EnvProperties.LOOK));			
 		} catch (Exception e) {
 			logger.error("Exception in Loading look&feel\n"+e+"\n");
 			//e.printStackTrace();
@@ -48,9 +48,12 @@ public class StartApp {
         splash.setStatus("Starting...", 10);
         
         splash.setStatus("Chech Status Server...", 30);
+        
+        splash.setStatus("Setting locale", 40);
+        String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LOCALE);
+        Locale.setDefault(new Locale(selVal.split("-")[0],selVal.split("-")[1]));
 
-        if(!checkProcess(EnvProperties.getInstance().getProperty(
-        		EnvProperties.SERVER_PROCESS))){
+        if(!checkProcess(EnvProperties.getInstance().getProperty(EnvProperties.SERVER_PROCESS))){
         	splash.setStatus("Start Server...", 50);
             startServer();
         }

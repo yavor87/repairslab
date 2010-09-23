@@ -113,27 +113,27 @@ public class BinScheda implements Cloneable{
 		this.noteUsoInterno = value;
 	}
 	
-	private Float costoPreventivo;
-	public Float getCostoPreventivo(){
+	private Number costoPreventivo;
+	public Number getCostoPreventivo(){
 		return costoPreventivo;
 	}
-	public void setCostoPreventivo(Float value){
+	public void setCostoPreventivo(Number value){
 		this.costoPreventivo = value;
 	}
 	
-	private Float costoInterno;
-	public Float getCostoInterno(){
+	private Number costoInterno;
+	public Number getCostoInterno(){
 		return costoInterno;
 	}
-	public void setCostoInterno(Float value){
+	public void setCostoInterno(Number value){
 		this.costoInterno = value;
 	}
 	
-	private Float pagatoDalCliente;
-	public Float getPagatoDalCliente(){
+	private Number pagatoDalCliente;
+	public Number getPagatoDalCliente(){
 		return pagatoDalCliente;
 	}
-	public void setPagatoDalCliente(Float value){
+	public void setPagatoDalCliente(Number value){
 		this.pagatoDalCliente = value;
 	}
 	

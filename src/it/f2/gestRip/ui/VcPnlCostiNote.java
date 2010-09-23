@@ -3,10 +3,12 @@ package it.f2.gestRip.ui;
 import it.f2.gestRip.model.BinScheda;
 import it.f2.gestRip.ui.VcDlgDetailScheda.mode;
 import it.f2.gestRip.ui.messages.Messages;
+import it.f2.gestRip.util.CurrencyFormatter;
 
 import java.awt.Rectangle;
-import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.Locale;
+
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -14,9 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
-import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 
 import org.apache.log4j.Logger;
 
@@ -175,10 +175,7 @@ public class VcPnlCostiNote extends JPanel {
 	private JFormattedTextField getTxfCostoSostenuto() {
 		if (txfCostoSostenuto == null) {
 			txfCostoSostenuto = new JFormattedTextField(scheda.getCostoInterno());
-			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00")); //$NON-NLS-1$
-		    fmt.setValueClass(Float.class);
-		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
-		    txfCostoSostenuto.setFormatterFactory(fmtFactory);
+			txfCostoSostenuto.setFormatterFactory(new DefaultFormatterFactory(new CurrencyFormatter(Locale.getDefault())));
 			txfCostoSostenuto.setBounds(new Rectangle(227, 42, 95, 25));
 			if(modality == mode.view){
 				txfCostoSostenuto.setEditable(false);
@@ -188,7 +185,7 @@ public class VcPnlCostiNote extends JPanel {
 				public void focusLost(java.awt.event.FocusEvent e) {
 					try {
 						txfCostoSostenuto.commitEdit();
-						scheda.setCostoInterno((Float)txfCostoSostenuto.getValue());
+						scheda.setCostoInterno((Number)txfCostoSostenuto.getValue());
 					} catch (ParseException e1) {
 						JOptionPane.showMessageDialog(getParent(),
 								Messages.getString("VcPnlCostiNote.msgValueError"), //$NON-NLS-1$
@@ -209,10 +206,7 @@ public class VcPnlCostiNote extends JPanel {
 	private JFormattedTextField getTxfCostoDalCliente() {
 		if (txfCostoDalCliente == null) {
 			txfCostoDalCliente = new JFormattedTextField(scheda.getPagatoDalCliente());
-			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00")); //$NON-NLS-1$
-		    fmt.setValueClass(Float.class);
-		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
-		    txfCostoDalCliente.setFormatterFactory(fmtFactory);
+			txfCostoDalCliente.setFormatterFactory(new DefaultFormatterFactory(new CurrencyFormatter(Locale.getDefault())));
 		    txfCostoDalCliente.setBounds(new Rectangle(227, 75, 95, 25));
 			if(modality == mode.view){
 				txfCostoDalCliente.setEditable(false);
@@ -222,7 +216,7 @@ public class VcPnlCostiNote extends JPanel {
 				public void focusLost(java.awt.event.FocusEvent e) {
 					try {
 						txfCostoDalCliente.commitEdit();
-						scheda.setPagatoDalCliente((Float)txfCostoDalCliente.getValue());
+						scheda.setPagatoDalCliente((Number)txfCostoDalCliente.getValue());
 					} catch (ParseException e1) {
 						JOptionPane.showMessageDialog(getParent(),
 								Messages.getString("VcPnlCostiNote.msgValueError"), //$NON-NLS-1$
@@ -243,10 +237,7 @@ public class VcPnlCostiNote extends JPanel {
 	private JFormattedTextField getTxfCostoPreventivato() {
 		if (txfCostoPreventivato == null) {
 			txfCostoPreventivato = new JFormattedTextField(scheda.getCostoPreventivo());
-			DefaultFormatter fmt = new NumberFormatter(new DecimalFormat("###0.00")); //$NON-NLS-1$
-		    fmt.setValueClass(Float.class);
-		    DefaultFormatterFactory fmtFactory = new DefaultFormatterFactory(fmt, fmt, fmt);
-		    txfCostoPreventivato.setFormatterFactory(fmtFactory);
+			txfCostoPreventivato.setFormatterFactory(new DefaultFormatterFactory(new CurrencyFormatter(Locale.getDefault())));
 		    txfCostoPreventivato.setBounds(new Rectangle(524, 42, 95, 25));
 			if(modality == mode.view){
 				txfCostoPreventivato.setEditable(false);
@@ -256,7 +247,7 @@ public class VcPnlCostiNote extends JPanel {
 				public void focusLost(java.awt.event.FocusEvent e) {
 					try {
 						txfCostoPreventivato.commitEdit();
-						scheda.setCostoPreventivo((Float)txfCostoPreventivato.getValue());
+						scheda.setCostoPreventivo((Number)txfCostoPreventivato.getValue());
 					} catch (ParseException e1) {
 						JOptionPane.showMessageDialog(getParent(),
 								Messages.getString("VcPnlCostiNote.msgValueError"), //$NON-NLS-1$

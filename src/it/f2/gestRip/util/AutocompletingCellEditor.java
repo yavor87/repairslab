@@ -17,15 +17,15 @@ import javax.swing.table.TableCellEditor;
 /**
  * Implementa un editor di cella con autocompletamento dei dati sulla base di un
  * elenco di possibili suggerimenti. Ovviamente si potrebbe implementare
- * direttamente su un JTextField e rendere quindi questa funzionalità
+ * direttamente su un JTextField e rendere quindi questa funzionalitï¿½
  * disponibile anche sui singoli campi di testo.
- * 
+ *
  * @author max
  */
 public class AutocompletingCellEditor extends AbstractCellEditor implements
 		TableCellEditor {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -41,11 +41,11 @@ public class AutocompletingCellEditor extends AbstractCellEditor implements
 	/**
 	 * Crea un nuovo oggetto impostando un vettore di possibili valori per
 	 * questo campo di testo.
-	 * 
+	 *
 	 * @param suggestions
 	 */
 	public AutocompletingCellEditor(String[] suggestions) {
-		this.choices = suggestions;
+		choices = suggestions;
 		createUI();
 	}
 
@@ -59,7 +59,8 @@ public class AutocompletingCellEditor extends AbstractCellEditor implements
 		editorComponent = new JTextField();
 		editorComponent.setBorder(null);
 		editorComponent.addKeyListener(new KeyAdapter() {
-			public void keyTyped(KeyEvent e) {
+			@Override
+            public void keyTyped(KeyEvent e) {
 				// System.out.println(e);
 				if (e.getKeyChar() == KeyEvent.VK_BACK_SPACE) {
 					deleteSelection();
@@ -82,9 +83,9 @@ public class AutocompletingCellEditor extends AbstractCellEditor implements
 		String text = editorComponent.getText();
 		text = text.substring(0, selectionStart);
 
-		System.out.println("deleteSelection(): selectionStart="
-				+ selectionStart);
-		System.out.println("deleteSelection(): text=" + text);
+//		System.out.println("deleteSelection(): selectionStart="
+//				+ selectionStart);
+//		System.out.println("deleteSelection(): text=" + text);
 
 		editorComponent.setSelectionStart(0);
 		editorComponent.setSelectionEnd(0);
@@ -109,10 +110,10 @@ public class AutocompletingCellEditor extends AbstractCellEditor implements
 	 * dall'utente, prendendo la parte iniziale del contenuto testuale del
 	 * JTextField utilizzato, fino all'inizio della selezione. Quest'ultima
 	 * identifica infatti l'inizio della parte "suggerita" dal sistema.
-	 * 
-	 * La ricerca del suggerimento è poi sequenziale, nel caso esista più di un
+	 *
+	 * La ricerca del suggerimento ï¿½ poi sequenziale, nel caso esista piï¿½ di un
 	 * valore rispondente allo stesso prefisso viene preso il primo.
-	 * 
+	 *
 	 * @return il suggerimento da visualizzare
 	 */
 	private String findSuggestion() {
@@ -124,9 +125,9 @@ public class AutocompletingCellEditor extends AbstractCellEditor implements
 		System.out.println("findSuggestion(): prefix=" + prefix);
 
 		if (prefix.length() > 0) {
-			for (int i = 0; i < choices.length; i++) {
-				if (choices[i].startsWith(prefix)) {
-					return choices[i];
+			for (String choice : choices) {
+				if (choice.startsWith(prefix)) {
+					return choice;
 				}
 			}
 		}
@@ -136,8 +137,8 @@ public class AutocompletingCellEditor extends AbstractCellEditor implements
 	/**
 	 * Imposta un suggerimento nel campo di testo avendo l'accortezza di
 	 * impostare la selezione sulla parte non digitata dall'utente, identificata
-	 * dal fatto che non è presente nella stringa prefix.
-	 * 
+	 * dal fatto che non ï¿½ presente nella stringa prefix.
+	 *
 	 * @param suggestion
 	 */
 	private void suggest(String suggestion) {
@@ -158,11 +159,11 @@ public class AutocompletingCellEditor extends AbstractCellEditor implements
 	}
 
 	/**
-	 * Questo metodo è specificato nell'interfaccia TableCellEditor e viene
+	 * Questo metodo ï¿½ specificato nell'interfaccia TableCellEditor e viene
 	 * utilizzato da JTable per richiedere un componente da utilizzare per la
 	 * modifica della cella ogni qual volta questa operazione si renda
 	 * necessaria.
-	 * 
+	 *
 	 * @return componente di modifica della cella
 	 */
 	public Component getTableCellEditorComponent(JTable table, Object value,
