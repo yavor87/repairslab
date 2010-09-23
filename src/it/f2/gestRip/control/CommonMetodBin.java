@@ -34,20 +34,18 @@ public class CommonMetodBin {
 		try {
 			Logger.getRootLogger().debug("Connecting DB...");
 			//if(con == null || con.isClosed()){
-				if(EnvProperties.getInstance().getProperty(EnvProperties.DB_ISEMBEDDED).endsWith("S")){
-					Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();		
-					con = DriverManager.getConnection(
-							"jdbc:derby:db/derby/gestrip");
-					con.setAutoCommit(false);
-				}else{
-					Class.forName(EnvProperties.getInstance().
-						getProperty(EnvProperties.DB_DRIVER)).newInstance();			
-					con = DriverManager.getConnection(
-							EnvProperties.getInstance().getProperty(EnvProperties.DB_URL), 
-							EnvProperties.getInstance().getProperty(EnvProperties.DB_USER), 
-							EnvProperties.getInstance().getProperty(EnvProperties.DB_PASSW));
-					con.setAutoCommit(false);
-				}
+			if(EnvProperties.getInstance().getProperty(EnvProperties.DB_ISEMBEDDED).endsWith("S")){
+				Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();		
+				con = DriverManager.getConnection("jdbc:derby:db/derby/gestrip");
+				con.setAutoCommit(false);
+			}else{
+				Class.forName(EnvProperties.getInstance().getProperty(EnvProperties.DB_DRIVER)).newInstance();			
+				con = DriverManager.getConnection(
+						EnvProperties.getInstance().getProperty(EnvProperties.DB_URL), 
+						EnvProperties.getInstance().getProperty(EnvProperties.DB_USER), 
+						EnvProperties.getInstance().getProperty(EnvProperties.DB_PASSW));
+				con.setAutoCommit(false);
+			}
 			//}
 		} catch (SQLException e) {
 			Logger.getRootLogger().error("Exception in Connecting DB \n"+e+"\n");

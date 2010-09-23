@@ -14,8 +14,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Logger;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -24,16 +22,16 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JRViewer;
 
+import org.apache.log4j.Logger;
+
 public class PrintAction {
 
 	public PrintAction() {
 	}
 
 	private JasperReport getReportRicevuta() throws JRException {
-		InputStream rep = getClass()
-			.getResourceAsStream("/it/f2/gestRip/report/RicevutaConsegnaApparato.jasper"); //$NON-NLS-1$
-		JasperReport jasperReport = null;
-			jasperReport = (JasperReport) JRLoader.loadObject(rep);
+		InputStream rep = getClass() .getResourceAsStream("/it/f2/gestRip/report/RicevutaConsegnaApparato.jasper"); //$NON-NLS-1$
+		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(rep);
 		return jasperReport;
 	}
 
@@ -61,25 +59,19 @@ public class PrintAction {
 		try {
 			Map parameters = new HashMap();
 			parameters.put("idScheda", nScheda); //$NON-NLS-1$
-			parameters.put("prefixNum", EnvProperties.getInstance().getProperty( //$NON-NLS-1$
-					EnvProperties.PREFIX_NUM));
-			parameters.put("infoCliente", EnvProperties.getInstance().getProperty( //$NON-NLS-1$
-					EnvProperties.INFOCLIENTE));
-			parameters.put("indirizzoRivenditore", EnvProperties.getInstance().getProperty( //$NON-NLS-1$
-					EnvProperties.INDIRIZZO));
-			parameters.put("logo", EnvProperties.getInstance().getProperty( //$NON-NLS-1$
-					EnvProperties.FILELOGO));
+			parameters.put("prefixNum", EnvProperties.getInstance().getProperty(EnvProperties.PREFIX_NUM));
+			parameters.put("infoCliente", EnvProperties.getInstance().getProperty(EnvProperties.INFOCLIENTE));
+			parameters.put("indirizzoRivenditore", EnvProperties.getInstance().getProperty(EnvProperties.INDIRIZZO));
+			parameters.put("logo", EnvProperties.getInstance().getProperty(EnvProperties.FILELOGO));
 			boolean doppiaCopia = false;
-			String optDC = EnvProperties.getInstance().getProperty(
-					EnvProperties.DOPPIACOPIA);
+			String optDC = EnvProperties.getInstance().getProperty(EnvProperties.DOPPIACOPIA);
 			if(optDC.equals("S")) //$NON-NLS-1$
 				doppiaCopia = true;
 			parameters.put("stampaDoppia", doppiaCopia); //$NON-NLS-1$
 			parameters.put(JRParameter.REPORT_LOCALE, Locale.getDefault());
-			parameters.put(JRParameter.REPORT_RESOURCE_BUNDLE,Messages.getRESOURCE_BUNDLE());
+			parameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getRESOURCE_BUNDLE());
 			
-			JasperPrint jp = JasperFillManager.fillReport(getReportRicevuta(), 
-					parameters,con);
+			JasperPrint jp = JasperFillManager.fillReport(getReportRicevuta(), parameters, con);
 			
 			// Lancio JasperViewer
 			if (jp.getPages() != null && jp.getPages().size() > 0) {

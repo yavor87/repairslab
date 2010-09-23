@@ -1,3 +1,9 @@
 Change log
 
-- Locale option
+Bug Fixed
+- ID: 3065727 fixed
+
+New Feature 
+- Currency by locale
+- Jasper report 3.7.5
+- New logo
