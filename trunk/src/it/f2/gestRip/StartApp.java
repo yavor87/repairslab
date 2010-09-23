@@ -47,9 +47,7 @@ public class StartApp {
  
         splash.setStatus("Starting...", 10);
         
-        splash.setStatus("Chech Status Server...", 30);
-        
-        splash.setStatus("Setting locale", 40);
+        splash.setStatus("Setting locale", 30);
         String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LOCALE);
         Locale.setDefault(new Locale(selVal.split("-")[0],selVal.split("-")[1]));
 
