@@ -1,10 +1,5 @@
 package it.f2.gestRip.util;
 
-import javax.swing.JOptionPane;
-import javax.swing.table.AbstractTableModel;
-
-import org.apache.log4j.Logger;
-
 import java.awt.Component;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -12,6 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
+
+import org.apache.log4j.Logger;
 
 
 /**
@@ -25,7 +25,7 @@ import java.util.Iterator;
  * @since 10/24/2002
  */
 public class JDBCTableModel extends AbstractTableModel {
-    
+
     static final long serialVersionUID = 2487661888487685951L;
 
     private Connection con = null;
@@ -82,19 +82,19 @@ public class JDBCTableModel extends AbstractTableModel {
      * @throws SQLException DOCUMENT ME!
      */
     public void refresh() throws SQLException {
-    	
+
     	if (statement != null) {
             statement.close();
         }
-        
+
         if (set != null) {
         	set.close();
         }
-        
+
         size = 0;
-        
+
         statement = new NamedParameterStatement(con, query,updateable);
-        	
+
         if(params!=null){
 	    	Iterator<Object[]> it = params.iterator();
 			while(it.hasNext()){
@@ -104,21 +104,21 @@ public class JDBCTableModel extends AbstractTableModel {
 				statement.setObject((String)param[0], param[1]);
 			}
         }
-        
+
         set = statement.executeQuery();
-		
+
         while(set.next())
         	size++;
-        
+
         set.beforeFirst();
 
         fireTableDataChanged();
     }
-    
+
     public void setParameters(ArrayList<Object[]> params){
     	this.params = params;
     }
-    
+
     public void setQuery(String query){
     	this.query = query;
     }
@@ -218,6 +218,7 @@ public class JDBCTableModel extends AbstractTableModel {
      *
      * @return DOCUMENT ME!
      */
+    @Override
     public String getColumnName(int column) {
         try {
         	//Logger.getRootLogger().debug("getColumnName...");
@@ -227,7 +228,7 @@ public class JDBCTableModel extends AbstractTableModel {
             return super.getColumnName(column);
         }
     }
-    
+
     public String getColumnNameOrig(int column) {
         try {
         	//Logger.getRootLogger().debug("getColumnNameOrig...");
@@ -237,7 +238,7 @@ public class JDBCTableModel extends AbstractTableModel {
             return super.getColumnName(column);
         }
     }
-    
+
     public int getColumnPrecision(int column){
     	try {
     		//Logger.getRootLogger().debug("getColumnPrecision...");
@@ -257,6 +258,7 @@ public class JDBCTableModel extends AbstractTableModel {
      *
      * @throws RuntimeException DOCUMENT ME!
      */
+    @Override
     public Class<?> getColumnClass(int column) {
         try {
             return Class.forName(set.getMetaData().getColumnClassName(column + 1));
@@ -277,14 +279,15 @@ public class JDBCTableModel extends AbstractTableModel {
      *
      * @return DOCUMENT ME!
      */
+    @Override
     public boolean isCellEditable(int row, int column) {
     	if (updatableColumn == null){
     		return updateable;
     	} else {
-    		for (int i=0;i<updatableColumn.length;i++){
-    			if(updatableColumn[i].equalsIgnoreCase(getColumnName(column))) {
+    		for (String element : updatableColumn) {
+    			if(element.equalsIgnoreCase(getColumnName(column))) {
     				return updateable;
-    			} else if (updatableColumn[i].equalsIgnoreCase(getColumnNameOrig(column))) {
+    			} else if (element.equalsIgnoreCase(getColumnNameOrig(column))) {
     				return updateable;
     			}
         	}
@@ -301,10 +304,11 @@ public class JDBCTableModel extends AbstractTableModel {
      *
      * @throws RuntimeException DOCUMENT ME!
      */
+    @Override
     public void setValueAt(Object value, int row, int column) {
-    	System.out.println("row:"+row+"__column:"+column);
-    	System.out.println(getColumnName(column));
-    	System.out.println(getColumnNameOrig(column));
+//    	System.out.println("row:"+row+"__column:"+column);
+//    	System.out.println(getColumnName(column));
+//    	System.out.println(getColumnNameOrig(column));
         if (updateable) {
             try {
             	//Logger.getRootLogger().debug("setValueAt...");
@@ -320,7 +324,7 @@ public class JDBCTableModel extends AbstractTableModel {
                     set.absolute(row + 1);
                     set.updateObject(column + 1, value);
                     set.updateRow();
-                	
+
                     fireTableRowsUpdated(row, row+1);
                 }
 
@@ -346,7 +350,7 @@ public class JDBCTableModel extends AbstractTableModel {
             }
         }
     }
-    
+
     public void deleteRow(int row){
     	try {
     		//Logger.getRootLogger().debug("deleteRow...");
@@ -388,6 +392,7 @@ public class JDBCTableModel extends AbstractTableModel {
      *
      * @throws Exception DOCUMENT ME!
      */
+    @Override
     protected void finalize() throws Exception {
         close();
     }

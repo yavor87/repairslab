@@ -41,6 +41,7 @@ public class EnvProperties {
 	public static String INFOCLIENTE = "f2.infocliente";
 	public static String DOPPIACOPIA = "f2.doppiaCopia";
 	public static String LANGUAGE = "f2.language";
+	public static String LOCALE = "f2.locale";
 	public static String PREFIX_NUM = "f2.prefix.num";
 
 	/* Singleton */

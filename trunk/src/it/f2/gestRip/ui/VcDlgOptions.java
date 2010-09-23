@@ -8,31 +8,34 @@ import it.f2.util.ui.textField.JTextFieldLimit;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.Locale;
 import java.util.Properties;
 
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.UIManager;
-import javax.swing.JTextPane;
-import java.awt.Rectangle;
-import javax.swing.SwingConstants;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import org.apache.log4j.Logger;
-import javax.swing.JCheckBox;
-import java.awt.event.KeyEvent;
-import javax.swing.JTextField;
 
 /**
  * Questa classe rappresenta il JDialog per la gestione
@@ -68,9 +71,12 @@ public class VcDlgOptions extends JDialog {
 	private JCheckBox chbNoDoppiaCopia = null;
 	private JLabel lblNoDoppiaCopia = null;
 	private JComboBox cmbLanguage = null;
+	private JComboBox cmbLocale = null;
 	private JLabel lblLanguage = null;
 	private JLabel lblPrefixNumber = null;
 	private JTextField txfPrefixNumber = null;
+	private JLabel lblLocale = null;
+	
 	/**
 	 * This is the default constructor
 	 */
@@ -117,8 +123,11 @@ public class VcDlgOptions extends JDialog {
 			lblPrefixNumber.setBounds(new Rectangle(11, 146, 156, 16));
 			lblPrefixNumber.setText("Prefix sheet number");
 			lblLanguage = new JLabel();
-			lblLanguage.setBounds(new Rectangle(350, 431, 162, 16));
+			lblLanguage.setBounds(new Rectangle(250, 431, 162, 16));
 			lblLanguage.setText(Messages.getString("VcDlgOptions.language")); //$NON-NLS-1$
+			lblLocale = new JLabel();
+			lblLocale.setBounds(new Rectangle(430, 431, 162, 16));
+			lblLocale.setText(Messages.getString("VcDlgOptions.locale")); //$NON-NLS-1$
 			lblNoDoppiaCopia = new JLabel();
 			lblNoDoppiaCopia.setBounds(new Rectangle(44, 389, 358, 20));
 			lblNoDoppiaCopia.setText(Messages.getString("VcDlgOptions.lblDuplicatePrint")); //$NON-NLS-1$
@@ -174,9 +183,11 @@ public class VcDlgOptions extends JDialog {
 			pnlSettings.add(getChbNoDoppiaCopia(), null);
 			pnlSettings.add(lblNoDoppiaCopia, null);
 			pnlSettings.add(getCmbLanguage(), null);
+			pnlSettings.add(getCmbLocale(), null);
 			pnlSettings.add(lblLanguage, null);
 			pnlSettings.add(lblPrefixNumber, null);
 			pnlSettings.add(getTxfPrefixNumber(), null);
+			pnlSettings.add(lblLocale, null);
 		}
 		return pnlSettings;
 	}
@@ -331,7 +342,7 @@ public class VcDlgOptions extends JDialog {
 	private JComboBox getCmbLookAndFeel() {
 		if (cmbLookAndFeel == null) {
 			cmbLookAndFeel = new JComboBox();
-			cmbLookAndFeel.setBounds(new Rectangle(70, 448, 205, 24));
+			cmbLookAndFeel.setBounds(new Rectangle(70, 448, 150, 24));
 			cmbLookAndFeel
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -551,12 +562,12 @@ public class VcDlgOptions extends JDialog {
 	private JComboBox getCmbLanguage() {
 		if (cmbLanguage == null) {
 			cmbLanguage = new JComboBox();
-			cmbLanguage.setBounds(new Rectangle(350, 448, 205, 24));
+			cmbLanguage.setBounds(new Rectangle(250, 448, 150, 24));
 			String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE);
 			
 			for (String key : Messages.getLanguageMaps().keySet()) {
 				TypeCmb cmb = new TypeCmb();
-				System.out.println(key + " - " + Messages.getLanguageMaps().get(key));
+//				System.out.println(key + " - " + Messages.getLanguageMaps().get(key));
 				cmb.setValue(key);
 				cmb.setDesc(Messages.getLanguageMaps().get(key));
 				cmbLanguage.addItem(cmb);
@@ -571,6 +582,44 @@ public class VcDlgOptions extends JDialog {
 			});
 		}
 		return cmbLanguage;
+	}
+	
+	private JComboBox getCmbLocale() {
+		if (cmbLocale == null) {
+			cmbLocale = new JComboBox();
+			cmbLocale.setBounds(new Rectangle(430, 448, 150, 24));
+			String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LOCALE);
+			
+			Locale locales[] = Locale.getAvailableLocales();
+
+			Comparator<Locale> localeComparator = new Comparator<Locale>() {
+				public int compare(Locale locale1, Locale locale2) {
+					return locale1.toString().compareTo(locale2.toString());
+				}
+			};
+			Arrays.sort(locales, localeComparator);
+
+			for (Locale loc : locales) {
+				TypeCmb cmb = new TypeCmb();
+				if (!loc.getCountry().equals("") && !loc.getLanguage().equals("")) {
+					String locId = loc.getLanguage() + "-" + loc.getCountry();
+					cmb.setValue(locId);
+					cmb.setDesc(loc.getDisplayName());
+					cmbLocale.addItem(cmb);
+					if(selVal.equals(locId)) 
+						cmbLocale.setSelectedItem(cmb);
+				}
+				
+			}
+			
+			cmbLocale.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					EnvProperties.getInstance().setProperty(EnvProperties.LOCALE, 
+							((TypeCmb)cmbLocale.getSelectedItem()).getValue());
+				}
+			});
+		}
+		return cmbLocale;
 	}
 
 	/**
