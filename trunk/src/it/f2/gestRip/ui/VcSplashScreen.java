@@ -3,15 +3,14 @@ package it.f2.gestRip.ui;
 import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.ui.messages.Messages;
 
-import javax.swing.ImageIcon;
-
-import javax.swing.JPanel;
-import javax.swing.JWindow;
-import javax.swing.JLabel;
-import javax.swing.JProgressBar;
 import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.awt.Font;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 
 public class VcSplashScreen extends JWindow {
@@ -23,7 +22,6 @@ public class VcSplashScreen extends JWindow {
 	private JPanel jContentPane = null;  //  @jve:decl-index=0:visual-constraint="520,10"
 	private JProgressBar progressBar = null;
 	private JLabel iblIcon = null;
-	private JLabel lblGestRip = null;
 	private JLabel lblVersion = null;
 
 	public VcSplashScreen() {
@@ -49,22 +47,15 @@ public class VcSplashScreen extends JWindow {
 			lblVersion.setText(Messages.getString("VcSplashScreen.version")+ //$NON-NLS-1$
 					EnvProperties.getInstance().getProperty(
 					EnvProperties.VERSION));
-			lblGestRip = new JLabel();
-			lblGestRip.setBounds(new Rectangle(123, 75, 256, 65));
-			lblGestRip.setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 24)); //$NON-NLS-1$
-			lblGestRip.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblGestRip.setText(EnvProperties.getInstance().getProperty(
-					EnvProperties.APPNAME));
 			iblIcon = new JLabel();
-			iblIcon.setBounds(new Rectangle(4, 6, 98, 101));
-			iblIcon.setIcon(new ImageIcon(getClass().
-					getResource("img/logo64.png"))); //$NON-NLS-1$
+			iblIcon.setBounds(new Rectangle(10, 6, 390, 101));
+			iblIcon.setText("");
+			iblIcon.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/RepairsLab_tr.png")));
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.setSize(new Dimension(294, 255));
 			jContentPane.add(getProgressBar(), null);
 			jContentPane.add(iblIcon, null);
-			jContentPane.add(lblGestRip, null);
 			jContentPane.add(lblVersion, null);
 		}
 		return jContentPane;
