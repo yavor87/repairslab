@@ -1,26 +1,31 @@
 package it.f2.gestRip.ui;
 
+import it.f2.gestRip.EnvConstants;
 import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.DbSchedaAction;
 import it.f2.gestRip.control.PrintAction;
 import it.f2.gestRip.ui.messages.Messages;
+import it.f2.gestRip.util.LinksUtils;
 import it.f2.util.ui.WindowUtil;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JInternalFrame;
-import javax.swing.JButton;
-import javax.swing.JToolBar;
 import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Locale;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JEditorPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 
 import org.apache.log4j.Logger;
 
@@ -117,8 +122,7 @@ public class VcIfrMain extends JInternalFrame {
 		if (btnListaSchede == null) {
 			btnListaSchede = new JButton();
 			btnListaSchede.setText(Messages.getString("VcIfrMain.btnListSheet")); //$NON-NLS-1$
-			btnListaSchede.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/view_detailed.png"))); //$NON-NLS-1$
+			btnListaSchede.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/view_detailed.png"))); //$NON-NLS-1$
 			btnListaSchede.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					VcIfrListaSchede iframe = new VcIfrListaSchede(parent);
@@ -160,8 +164,7 @@ public class VcIfrMain extends JInternalFrame {
 		if (btnViewScheda == null) {
 			btnViewScheda = new JButton();
 			btnViewScheda.setText(Messages.getString("VcIfrMain.btnShowSheet")); //$NON-NLS-1$
-			btnViewScheda.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/fileopen.png"))); //$NON-NLS-1$
+			btnViewScheda.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/fileopen.png"))); //$NON-NLS-1$
 			btnViewScheda.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					String mes = JOptionPane.showInputDialog(getParent(),Messages.getString("VcIfrMain.msgIsnNumberSheet")); //$NON-NLS-1$
@@ -294,12 +297,26 @@ public class VcIfrMain extends JInternalFrame {
 	 */
 	private JEditorPane getEdpMainScreen() {
 		if (edpMainScreen == null) {
-			File html = new File(
-				"conf"+ //$NON-NLS-1$
-				EnvProperties.FILE_SEPARETOR+
-				"mainScreen.html"); //$NON-NLS-1$
+			
+			String mainScreenFile = "mainScreen_en.html";
+			if (Locale.getDefault().equals(Locale.ITALY))
+				mainScreenFile = "mainScreen_it.html";
+			File html = new File( "resource" + EnvProperties.FILE_SEPARETOR +  mainScreenFile);
 			edpMainScreen = new JEditorPane();
 			edpMainScreen.setContentType("text/html"); //$NON-NLS-1$
+			edpMainScreen.addHyperlinkListener(new HyperlinkListener(){
+				@Override
+                public void hyperlinkUpdate(HyperlinkEvent e) {
+					if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+						if (Locale.getDefault().equals(Locale.ITALY))
+							LinksUtils.openUrl(edpMainScreen.getParent(), EnvConstants.LINK_DONATE_IT);
+						else
+							LinksUtils.openUrl(edpMainScreen.getParent(), EnvConstants.LINK_DONATE_EN);
+					}
+                }
+				
+			});
+			
 			try {
 				Logger.getRootLogger().debug("Setting main html page..."); //$NON-NLS-1$
 				edpMainScreen.setPage(html.toURI().toURL());
@@ -313,9 +330,9 @@ public class VcIfrMain extends JInternalFrame {
 			edpMainScreen.setEditable(false);
 			//HTMLEditorKit he = new HTMLEditorKit();
 			//edpMainScreen.setEditorKit(he);
+			
 		}
 		return edpMainScreen;
 	}
-
 
 }  //  @jve:decl-index=0:visual-constraint="10,10"

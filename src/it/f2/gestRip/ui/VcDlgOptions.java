@@ -8,8 +8,11 @@ import it.f2.util.ui.textField.JTextFieldLimit;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -142,10 +145,10 @@ public class VcDlgOptions extends JDialog {
 			lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
 			lblLogo.setDisplayedMnemonic(KeyEvent.VK_UNDEFINED);
 			try{
-				lblLogo.setIcon(new ImageIcon(getFileLogo().getPath()));
+				ImageIcon img = new ImageIcon(getFileLogo().getPath());
+				lblLogo.setIcon(scale(img, lblLogo.getWidth(), lblLogo.getHeight()));
 			}catch(NullPointerException e){
-				lblLogo.setIcon(new ImageIcon(getClass().getResource(
-					"/it/f2/gestRip/ui/img/logo64.png"))); //$NON-NLS-1$
+				lblLogo.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/logo64.png"))); //$NON-NLS-1$
 			}
 			lblLookAndFeel = new JLabel();
 			lblLookAndFeel.setBounds(new Rectangle(72, 431, 135, 16));
@@ -154,8 +157,7 @@ public class VcDlgOptions extends JDialog {
 			lblLookAndFeel.setText(Messages.getString("VcDlgOptions.lblLookAndFeel")); //$NON-NLS-1$
 			lblImgStyle = new JLabel();
 			lblImgStyle.setBounds(new Rectangle(14, 431, 51, 44));
-			lblImgStyle.setIcon(new ImageIcon(getClass().getResource(
-					"/it/f2/gestRip/ui/img/style.png"))); //$NON-NLS-1$
+			lblImgStyle.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/style.png"))); //$NON-NLS-1$
 			lblImgStyle
 					.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			lblImgStyle.setText(""); //$NON-NLS-1$
@@ -191,6 +193,46 @@ public class VcDlgOptions extends JDialog {
 		}
 		return pnlSettings;
 	}
+	
+	/**
+	 * Scala l'immagine alla dimensione lable
+	 * @author Fabrizio Ferraiuolo 24/set/2010 16.56.03
+	 * @param srcIcon
+	 * @param lblWidth
+	 * @param lblHeight
+	 * @return 
+	 */
+	private ImageIcon scale(ImageIcon srcIcon, int lblWidth, int lblHeight) {
+		Image src = srcIcon.getImage();
+		
+		if (src.getWidth(this) <= lblWidth && src.getHeight(this) <= lblHeight)
+			return srcIcon; // Non occorre lo stretch
+		
+		double percentW = (double)lblWidth / (double)src.getWidth(this);
+		if(percentW > 1)
+			percentW = 0;
+		
+		double percentH = (double)lblHeight / (double)src.getHeight(this);
+		if(percentH > 1)
+			percentH = 0;
+		
+		double scale = percentH;
+		if (percentW > percentH)
+			scale = percentW;
+		
+		if (scale <= 0)
+			return srcIcon;
+		
+        int w = (int)(scale*src.getWidth(this));
+        int h = (int)(scale*src.getHeight(this));
+        int type = BufferedImage.TRANSLUCENT;
+        BufferedImage dst = new BufferedImage(w, h, type);
+        Graphics2D g2 = dst.createGraphics();
+        g2.drawImage(src, 0, 0, w, h, this);
+        g2.dispose();
+        return new ImageIcon(dst);
+    }
+
 
 	/**
 	 * This method initializes btnDefDir
@@ -234,17 +276,15 @@ public class VcDlgOptions extends JDialog {
 					String curPath = new File("").getAbsolutePath(); //$NON-NLS-1$
 					String filePath = getFileLogo().getAbsolutePath();
 					try{
-						if(filePath.substring(0,curPath.length()).
-								equalsIgnoreCase(curPath)){
+						if(filePath.substring(0,curPath.length()).equalsIgnoreCase(curPath)){
 							filePath = 	filePath.substring(curPath.length()+1);
 						}
 					}catch(StringIndexOutOfBoundsException e){
 						
 					}
-					EnvProperties.getInstance().setProperty(
-							EnvProperties.FILELOGO,filePath);
+					EnvProperties.getInstance().setProperty(EnvProperties.FILELOGO,filePath);
 					this.getTxpFileLogo().setText(filePath);
-					this.lblLogo.setIcon(new ImageIcon(filePath));
+					this.lblLogo.setIcon(scale(new ImageIcon(filePath), lblLogo.getWidth(), lblLogo.getHeight()));
 				}
 			}
 		}

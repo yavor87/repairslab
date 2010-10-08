@@ -7,6 +7,7 @@
 
 package it.f2.gestRip.ui;
 
+import it.f2.gestRip.EnvConstants;
 import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaClienti;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaMarche;
@@ -16,18 +17,15 @@ import it.f2.gestRip.ui.anagraf.VcIfrAnaTipoDatiAcq;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaTipoOggetto;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaTipoRip;
 import it.f2.gestRip.ui.messages.Messages;
+import it.f2.gestRip.util.LinksUtils;
 import it.f2.util.ui.WindowUtil;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Desktop;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -35,7 +33,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -645,7 +642,7 @@ public class VcMainFrame extends JFrame {
 			mniSupportRequest.setText(Messages.getString("VcMainFrame.mnuSupport")); //$NON-NLS-1$
 			mniSupportRequest.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					openUrl("http://sourceforge.net/tracker2/?atid=1116456&group_id=241576&func=browse");
+					LinksUtils.openUrl(mniSupportRequest.getParent(), EnvConstants.LINK_SUPPORT_REQUEST);
 				}
 			});
 		}
@@ -663,7 +660,7 @@ public class VcMainFrame extends JFrame {
 			mnuBugs.setText(Messages.getString("VcMainFrame.mnuBugs")); //$NON-NLS-1$
 			mnuBugs.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					openUrl("http://sourceforge.net/tracker2/?group_id=241576&atid=1116455");
+					LinksUtils.openUrl(mnuBugs.getParent(), EnvConstants.LINK_BUG_REPORT);
 				}
 			});
 		}
@@ -681,7 +678,7 @@ public class VcMainFrame extends JFrame {
 			mniWebSite.setText(Messages.getString("VcMainFrame.mniWebSite")); //$NON-NLS-1$
 			mniWebSite.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					openUrl("http://repairslab.sourceforge.net/");
+					LinksUtils.openUrl(mniWebSite.getParent(), EnvConstants.LINK_WEBSITE);
 				}
 			});
 		}
@@ -700,60 +697,13 @@ public class VcMainFrame extends JFrame {
 			mniHelpContent.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if(EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE).equalsIgnoreCase("it"))
-						openFile("site"+File.separator+"documents"+File.separator+"RepairsLabUserManual-it.pdf");
+						LinksUtils.openFile(mniHelpContent.getParent(), "site"+File.separator+"documents"+File.separator+"RepairsLabUserManual-it.pdf");
 					else
-						openFile("site"+File.separator+"documents"+File.separator+"RepairsLabUserGuide-en.pdf");
+						LinksUtils.openFile(mniHelpContent.getParent(), "site"+File.separator+"documents"+File.separator+"RepairsLabUserGuide-en.pdf");
 				}
 			});
 		}
 		return mniHelpContent;
-	}
-	
-	private void openUrl(String url){
-		if (Desktop.isDesktopSupported()) {
-			Desktop desktop = Desktop.getDesktop();
-			URI uri = null;
-	        try {
-	            uri = new URI(url);
-	            desktop.browse(uri);
-	        } catch(IOException ioe) {
-	            //ioe.printStackTrace();
-	        	JOptionPane.showMessageDialog(this, 
-	            		ioe.getMessage(), 
-	            		Messages.getString("VcMainFrame.msgTitleError"), 
-	            		JOptionPane.ERROR_MESSAGE);
-	        } catch(URISyntaxException use) {
-	            //use.printStackTrace();
-	        	JOptionPane.showMessageDialog(this, 
-	        			use.getMessage(), 
-	            		Messages.getString("VcMainFrame.msgTitleError"), 
-	            		JOptionPane.ERROR_MESSAGE);
-	        }
-
-		}
-	}
-	
-	private void openFile(String fileName){
-		if (Desktop.isDesktopSupported()) {
-			Desktop desktop = Desktop.getDesktop();
-			File file = new File(fileName);
-			try {
-				desktop.open(file);
-			} catch (IOException ioe) {
-	            //ioe.printStackTrace();
-	            JOptionPane.showMessageDialog(this, 
-	            		ioe.getMessage(), 
-	            		Messages.getString("VcMainFrame.msgTitleError"), 
-	            		JOptionPane.ERROR_MESSAGE);
-	        } catch (Exception e) {
-	            //ioe.printStackTrace();
-	            JOptionPane.showMessageDialog(this, 
-	            		e.getMessage(), 
-	            		Messages.getString("VcMainFrame.msgTitleError"), 
-	            		JOptionPane.ERROR_MESSAGE);
-	        }
-
-		}
 	}
 
 } //  @jve:decl-index=0:visual-constraint="10,10"

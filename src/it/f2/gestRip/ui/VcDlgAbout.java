@@ -3,17 +3,17 @@ package it.f2.gestRip.ui;
 import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.ui.messages.Messages;
 
-import javax.swing.JPanel;
 import java.awt.Frame;
 import java.awt.HeadlessException;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
+import java.awt.Rectangle;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
-
-import java.awt.Rectangle;
 
 /**
  * Questa classe rappresenta il JDialog About
@@ -27,7 +27,6 @@ public class VcDlgAbout extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
 	private JLabel lblName = null;
-	private JLabel lblImg2 = null;
 	private JLabel lblAutore = null;
 	private JLabel lblVersion = null;
 	private JButton btnOk = null;
@@ -61,31 +60,26 @@ public class VcDlgAbout extends JDialog {
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 			lblVersion = new JLabel();
-			lblVersion.setBounds(new java.awt.Rectangle(192, 146, 174, 22));
+			lblVersion.setBounds(new Rectangle(8, 174, 174, 22));
 			lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 			lblVersion.setText(Messages.getString("VcDlgAbout.lblVersion") //$NON-NLS-1$
 					+ EnvProperties.getInstance().getProperty(
 							EnvProperties.VERSION));
 			lblAutore = new JLabel();
-			lblAutore.setBounds(new java.awt.Rectangle(192, 120, 174, 27));
+			lblAutore.setBounds(new Rectangle(9, 145, 174, 27));
 			lblAutore.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 			lblAutore.setText(Messages.getString("VcDlgAbout.lblAutor")); //$NON-NLS-1$
-			lblImg2 = new JLabel();
-			lblImg2.setBounds(new java.awt.Rectangle(28, 105, 141, 129));
-			lblImg2.setIcon(new ImageIcon(getClass().getResource(
-					"/it/f2/gestRip/ui/img/logo64.png"))); //$NON-NLS-1$
-			lblImg2.setText(""); //$NON-NLS-1$
 			lblName = new JLabel();
-			lblName.setBounds(new Rectangle(5, 14, 401, 80));
-			lblName.setFont(new java.awt.Font("Courier New", //$NON-NLS-1$
-					java.awt.Font.BOLD, 26));
+			lblName.setBounds(new Rectangle(5, 6, 401, 112));
+			lblName.setFont(new java.awt.Font("Courier New",java.awt.Font.BOLD, 26));
 			lblName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-			lblName.setText(EnvProperties.getInstance().getProperty(
-					EnvProperties.APPNAME));
+//			lblName.setText(EnvProperties.getInstance().getProperty(
+//					EnvProperties.APPNAME));
+			lblName.setText("");
+			lblName.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/RepairsLab_tr.png")));
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(lblName, null);
-			jContentPane.add(lblImg2, null);
 			jContentPane.add(lblAutore, null);
 			jContentPane.add(lblVersion, null);
 			jContentPane.add(getBtnOk(), null);
