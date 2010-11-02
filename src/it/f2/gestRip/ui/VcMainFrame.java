@@ -107,6 +107,7 @@ public class VcMainFrame extends JFrame {
 			jContentPane = new JPanel();
 			jContentPane.setLayout(new BorderLayout());
 			jContentPane.add(getTbpMain(), java.awt.BorderLayout.CENTER);
+			jContentPane.add(new VcPnlStatusBar(), java.awt.BorderLayout.SOUTH);
 		}
 		return jContentPane;
 	}

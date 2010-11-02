@@ -13,6 +13,7 @@ public class Messages {
 	private static final String BUNDLE_NAME_en = "it.f2.gestRip.ui.messages.Messages_en"; //$NON-NLS-1$
 	private static final String BUNDLE_NAME_nl = "it.f2.gestRip.ui.messages.Messages_nl"; //$NON-NLS-1$
 	private static final String BUNDLE_NAME_es = "it.f2.gestRip.ui.messages.Messages_es"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_th = "it.f2.gestRip.ui.messages.Messages_th"; //$NON-NLS-1$
 
 	private static ResourceBundle RESOURCE_BUNDLE = null;
 
@@ -33,6 +34,9 @@ public class Messages {
 			}else if(language.equals("es")){
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_es,new Locale("es","ES"));
 				Locale.setDefault(new Locale("es","ES"));
+			}else if(language.equals("th")){	
+				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_th,new Locale("th","TH"));
+				Locale.setDefault(new Locale("th","TH"));
 			}else {
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_en,Locale.ENGLISH);
 				Locale.setDefault(Locale.ENGLISH);
@@ -43,10 +47,11 @@ public class Messages {
 
 	public static HashMap<String, String> getLanguageMaps() {
 		HashMap<String, String> result = new HashMap<String, String>();
-		result.put("en", "English");
-		result.put("it", "Italiano");
-		result.put("nl", "Nederlands");
-		result.put("es", "Español");
+		result.put("en", Locale.ENGLISH.getDisplayLanguage()); //"English"
+		result.put("it", Locale.ITALIAN.getDisplayLanguage()); //"Italiano"
+		result.put("nl", new Locale("nl","NL").getDisplayLanguage()); // "Nederlands"
+		result.put("es", new Locale("es","ES").getDisplayLanguage()); //"Español"
+		result.put("th", new Locale("th","TH").getDisplayLanguage()); //"Thai"
 		return result;
 	}
 
