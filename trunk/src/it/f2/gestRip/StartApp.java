@@ -1,5 +1,6 @@
 package it.f2.gestRip;
 
+import it.f2.gestRip.control.CheckUpdates;
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.ui.VcSplashScreen;
@@ -52,12 +53,15 @@ public class StartApp {
         Locale.setDefault(new Locale(selVal.split("-")[0],selVal.split("-")[1]));
 
         if(!checkProcess(EnvProperties.getInstance().getProperty(EnvProperties.SERVER_PROCESS))){
-        	splash.setStatus("Start Server...", 50);
+        	splash.setStatus("Start Server...", 40);
             startServer();
         }
         
-        splash.setStatus("Testing Connection...", 70);
+        splash.setStatus("Testing Connection...", 50);
         testConn();
+        
+        splash.setStatus("Check for updates...", 80);
+        CheckUpdates.check();
         
         splash.setStatus("Loading App...", 90);
 		VcMainFrame frame = new VcMainFrame();
@@ -175,6 +179,5 @@ public class StartApp {
 	    }
 	    return processes;
 	  }
-
 	
 }
