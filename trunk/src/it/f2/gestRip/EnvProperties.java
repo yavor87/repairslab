@@ -28,7 +28,6 @@ public class EnvProperties {
 	public static String HEIGHT = "f2.height";
 	public static String FILELOGO = "f2.filelogo.file";
 	public static String APPNAME = "f2.app.name";
-	public static String VERSION = "f2.app.version";
 	public static String DB_DRIVER = "f2.db.driver";
 	public static String DB_URL = "f2.db.url";
 	public static String DB_USER = "f2.db.user";
@@ -153,7 +152,7 @@ public class EnvProperties {
 
 	/**
 	 * Questo metodo pulisce, cancella tutti i valori
-	 * gi� settati.
+	 * già settati.
 	 */
 	public void clear() {
 		this.properties = null;

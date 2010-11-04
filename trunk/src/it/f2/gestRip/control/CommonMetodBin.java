@@ -1,6 +1,7 @@
 package it.f2.gestRip.control;
 
 import it.f2.gestRip.EnvProperties;
+import it.f2.gestRip.model.BinRelease;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -172,5 +173,60 @@ public class CommonMetodBin {
 	public void setMainFrame(JFrame value){
 		mainFrame = value;
 	}
+	
+	public enum CheckStatus {
+		NOT_CHECKED,
+		LAST_UPDATE,
+		NEW_UPDATE;
+	}
+	private CheckStatus statusUpdate = CheckStatus.NOT_CHECKED;
+
+	/**
+     * @return the statusUpdate
+     */
+    public CheckStatus getStatusUpdate() {
+    	return statusUpdate;
+    }
+
+	/**
+     * @param statusUpdate the statusUpdate to set
+     */
+    public void setStatusUpdate(CheckStatus statusUpdate) {
+    	this.statusUpdate = statusUpdate;
+    }
+
+	private BinRelease actualRelease = null;
+
+	/**
+     * @return the lastRelease
+     */
+    public BinRelease getActualRelease() {
+    	return actualRelease;
+    }
+
+	/**
+     * @param lastRelease the lastRelease to set
+     */
+    public void setActualRelease(BinRelease actualRelease) {
+    	this.actualRelease = actualRelease;
+    }
+    
+    private BinRelease currentRelease = null;
+
+	/**
+     * @return the currentRelease
+     */
+    public BinRelease getCurrentRelease() {
+    	return currentRelease;
+    }
+
+	/**
+     * @param currentRelease the currentRelease to set
+     */
+    public void setCurrentRelease(BinRelease currentRelease) {
+    	this.currentRelease = currentRelease;
+    }
+    
+	
 
 }

@@ -1,6 +1,5 @@
 package it.f2.gestRip.ui;
 
-import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.ui.messages.Messages;
 
 import java.awt.Dimension;
@@ -44,9 +43,7 @@ public class VcSplashScreen extends JWindow {
 			lblVersion = new JLabel();
 			lblVersion.setBounds(new Rectangle(123, 143, 257, 28));
 			lblVersion.setHorizontalAlignment(SwingConstants.RIGHT);
-			lblVersion.setText(Messages.getString("VcSplashScreen.version")+ //$NON-NLS-1$
-					EnvProperties.getInstance().getProperty(
-					EnvProperties.VERSION));
+			lblVersion.setText(Messages.getString("VcSplashScreen.version"));
 			iblIcon = new JLabel();
 			iblIcon.setBounds(new Rectangle(10, 6, 390, 101));
 			iblIcon.setText("");
@@ -71,6 +68,11 @@ public class VcSplashScreen extends JWindow {
 	public void setStatus(String msg, int value) {
 		getProgressBar().setString(msg);
 		getProgressBar().setValue(value);
+	}
+	
+	public void setRelease(String release) {
+		lblVersion.setText(Messages.getString("VcSplashScreen.version") + release);
+		lblVersion.repaint();
 	}
 
 

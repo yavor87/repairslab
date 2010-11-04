@@ -2,6 +2,7 @@ package it.f2.gestRip;
 
 import it.f2.gestRip.control.CheckUpdates;
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.model.BinRelease;
 import it.f2.gestRip.ui.VcMainFrame;
 import it.f2.gestRip.ui.VcSplashScreen;
 import it.f2.util.ui.WindowUtil;
@@ -48,6 +49,10 @@ public class StartApp {
  
         splash.setStatus("Starting...", 10);
         
+        splash.setStatus("Get release...", 20);
+        CommonMetodBin.getInstance().setCurrentRelease(new BinRelease("1.0.4.s"));
+        splash.setRelease(CommonMetodBin.getInstance().getCurrentRelease().toString());
+        
         splash.setStatus("Setting locale", 30);
         String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LOCALE);
         Locale.setDefault(new Locale(selVal.split("-")[0],selVal.split("-")[1]));
@@ -66,6 +71,7 @@ public class StartApp {
         splash.setStatus("Loading App...", 90);
 		VcMainFrame frame = new VcMainFrame();
 		logger.debug("Application loaded...");
+		
 		CommonMetodBin.getInstance().setMainFrame(frame);
 		splash.setStatus("Started...", 100);
 		frame.setVisible(true);
