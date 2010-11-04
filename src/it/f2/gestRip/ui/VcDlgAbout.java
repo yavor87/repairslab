@@ -1,6 +1,6 @@
 package it.f2.gestRip.ui;
 
-import it.f2.gestRip.EnvProperties;
+import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.ui.messages.Messages;
 
 import java.awt.Frame;
@@ -62,11 +62,9 @@ public class VcDlgAbout extends JDialog {
 			lblVersion = new JLabel();
 			lblVersion.setBounds(new Rectangle(8, 174, 174, 22));
 			lblVersion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-			lblVersion.setText(Messages.getString("VcDlgAbout.lblVersion") //$NON-NLS-1$
-					+ EnvProperties.getInstance().getProperty(
-							EnvProperties.VERSION));
+			lblVersion.setText(Messages.getString("VcDlgAbout.lblVersion") + CommonMetodBin.getInstance().getCurrentRelease().toString());
 			lblAutore = new JLabel();
-			lblAutore.setBounds(new Rectangle(9, 145, 174, 27));
+			lblAutore.setBounds(new Rectangle(9, 145, 254, 27));
 			lblAutore.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 			lblAutore.setText(Messages.getString("VcDlgAbout.lblAutor")); //$NON-NLS-1$
 			lblName = new JLabel();
