@@ -1,9 +1,6 @@
 CHANGE LOG
 
-#####################
-### Version 1.0.4 ###
-###  xx/xx/2010   ###
-##################### 
+### Version 1.0.4 ###  xx/xx/2010   ###
 
 Bug Fixed
 - UTF-8 convertion of language files
@@ -11,11 +8,10 @@ Bug Fixed
 New Feature
 - Thai language supported
 - Status bar
+- Check for update function
 
-#####################
-### Version 1.0.3 ###
-###  19/10/2010   ###
-#####################
+
+### Version 1.0.3 ###  19/10/2010   ###
 
 Bug Fixed
 - ID: 3065727 fixed
@@ -25,5 +21,3 @@ New Feature
 - Jasper report 3.7.5
 - New logo
 - Installer exe
-
-#####################

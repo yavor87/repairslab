@@ -48,7 +48,7 @@ public class EnvProperties {
 	private static EnvProperties instance;
 
 	/**
-	 * Questo metodo inizializza tutte le propriet� se non �
+	 * Questo metodo inizializza tutte le proprietà se non è
 	 * stato ancora fatto.
 	 * 
 	 * @return
@@ -92,26 +92,16 @@ public class EnvProperties {
 	}
 
 	/**
-	 * Questo metodo effettua il caricamento di tutte le propriet�
-	 * sia da file di property che da propriet� di sistema.
+	 * Questo metodo effettua il caricamento di tutte le proprietà
+	 * sia da file di property che da proprietà di sistema.
 	 */
 	public void loadProperties() {
 		this.properties = new Properties();
 		try {
-			/*this.properties.put("file.separetor", System
-					.getProperty("file.separator"));
-			this.properties.put("line.separator", System
-					.getProperty("line.separator"));*/
-
-			this.properties.put("f2.propFileName", "conf"
-					+ EnvProperties.FILE_SEPARETOR
-					+ "f2.properties");
-
-			this.properties.load(new FileInputStream(this
-					.getProperty(EnvProperties.PROP_FILE_NAME)));
+			this.properties.put("f2.propFileName", "conf" + EnvProperties.FILE_SEPARETOR + "f2.properties");
+			this.properties.load(new FileInputStream(this.getProperty(EnvProperties.PROP_FILE_NAME)));
 
 		} catch (IOException e) {
-			//e.printStackTrace();
 			Logger.getRootLogger().error("Exception in loadProperties \n"+e+"\n");
 		}
 	}
@@ -132,8 +122,7 @@ public class EnvProperties {
 	 */
 	public void saveFileProperty() {
 		try {
-			FileOutputStream fileProp = new FileOutputStream(this
-					.getProperty(EnvProperties.PROP_FILE_NAME));
+			FileOutputStream fileProp = new FileOutputStream(this.getProperty(EnvProperties.PROP_FILE_NAME));
 			this.properties.store(fileProp, null);
 		} catch (FileNotFoundException fnf) {
 			//fnf.printStackTrace();

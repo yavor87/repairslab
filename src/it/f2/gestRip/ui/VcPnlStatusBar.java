@@ -2,6 +2,7 @@ package it.f2.gestRip.ui;
 
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.CommonMetodBin.CheckStatus;
+import it.f2.gestRip.ui.messages.Messages;
 import it.f2.util.ui.WindowUtil;
 
 import java.awt.BorderLayout;
@@ -10,7 +11,6 @@ import java.awt.Frame;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class VcPnlStatusBar extends JPanel {
@@ -26,10 +26,10 @@ public class VcPnlStatusBar extends JPanel {
 	
 	private void initialize() {
 		this.setSize(300, 16);
-		JLabel lblStatus = new JLabel();
-		lblStatus.setText(CommonMetodBin.getInstance().getStatusUpdate().name());
+//		JLabel lblStatus = new JLabel();
+//		lblStatus.setText(CommonMetodBin.getInstance().getStatusUpdate().name());
 		this.setLayout(new BorderLayout());
-		this.add(lblStatus, BorderLayout.CENTER);
+//		this.add(lblStatus, BorderLayout.CENTER);
 	    add(getBtnUpgrade(), BorderLayout.EAST);
 	}
 	
@@ -44,10 +44,10 @@ public class VcPnlStatusBar extends JPanel {
 			btnUpgrade.setPreferredSize(new Dimension(22,22));
 			if (CommonMetodBin.getInstance().getStatusUpdate().equals(CheckStatus.NEW_UPDATE)) {
 				btnUpgrade.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/software-update-available.png")));
-				btnUpgrade.setToolTipText("New update available...");
+				btnUpgrade.setToolTipText(Messages.getString("VcPnlStatusBar.tltNewVersion"));
 			} else {
 				btnUpgrade.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/system-software-update.png"))); 
-				btnUpgrade.setToolTipText("Check for updates");
+				btnUpgrade.setToolTipText(Messages.getString("VcPnlStatusBar.tltCheckUpdate"));
 			}
 			btnUpgrade.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {

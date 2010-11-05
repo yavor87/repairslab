@@ -50,7 +50,7 @@ public class StartApp {
         splash.setStatus("Starting...", 10);
         
         splash.setStatus("Get release...", 20);
-        CommonMetodBin.getInstance().setCurrentRelease(new BinRelease("1.0.4.s"));
+        CommonMetodBin.getInstance().setCurrentRelease(new BinRelease(VersionReader.getInstance().getProperty(VersionReader.VERSION)));
         splash.setRelease(CommonMetodBin.getInstance().getCurrentRelease().toString());
         
         splash.setStatus("Setting locale", 30);

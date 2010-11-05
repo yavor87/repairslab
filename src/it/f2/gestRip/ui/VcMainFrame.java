@@ -9,6 +9,8 @@ package it.f2.gestRip.ui;
 
 import it.f2.gestRip.EnvConstants;
 import it.f2.gestRip.EnvProperties;
+import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.model.BinRelease.Status;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaClienti;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaMarche;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaModelli;
@@ -62,6 +64,12 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem mniAnaClienti = null;
 	private JMenuItem mniTipoRip = null;
 	private JMenuItem mniTipoDatiAcq = null;
+	private VcIfrAnaClienti anaClienti = null;
+	private JMenuItem mniSchedeDeleted = null;
+	private JMenuItem mniSupportRequest = null;
+	private JMenuItem mnuBugs = null;
+	private JMenuItem mniWebSite = null;
+	private JMenuItem mniCheckUpdatee = null;
 	private int lastSelectedIndex = 0;
 	private boolean checking = false;
 	
@@ -81,16 +89,14 @@ public class VcMainFrame extends JFrame {
 	 */
 	private void initialize() {
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.setIconImage(Toolkit.getDefaultToolkit().getImage(
-				getClass().getResource("/it/f2/gestRip/ui/img/logo64.png"))); //$NON-NLS-1$
+		this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/it/f2/gestRip/ui/img/logo64.png"))); //$NON-NLS-1$
 		this.setJMenuBar(getJJMenuBar());
 		this.setSize(442, 300);
-		this.setSize(Integer.parseInt(EnvProperties.getInstance().getProperty(
-				EnvProperties.WIDTH)), Integer.parseInt(EnvProperties
-				.getInstance().getProperty(EnvProperties.HEIGHT)));
+		this.setSize(Integer.parseInt(EnvProperties.getInstance().getProperty(EnvProperties.WIDTH)), Integer.parseInt(EnvProperties.getInstance().getProperty(EnvProperties.HEIGHT)));
 		this.setContentPane(getJContentPane());
-		this.setTitle(EnvProperties.getInstance().getProperty(
-				EnvProperties.APPNAME));
+		String title = EnvProperties.getInstance().getProperty(EnvProperties.APPNAME);
+		title += CommonMetodBin.getInstance().getCurrentRelease().getStatus().equals(Status.RELEASE) ? "" : " - " + CommonMetodBin.getInstance().getCurrentRelease().getStatus().toString(); 
+		this.setTitle(title);
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {
 				onClosing();
@@ -158,6 +164,7 @@ public class VcMainFrame extends JFrame {
 			helpMenu.add(getMniSupportRequest());
 			helpMenu.add(getMnuBugs());
 			helpMenu.add(getMniWebSite());
+			helpMenu.add(getMniCheckUpdatee());
 			
 			helpMenu.addSeparator();
 			helpMenu.add(getAboutMenuItem());
@@ -505,16 +512,6 @@ public class VcMainFrame extends JFrame {
 		return mniAnaClienti;
 	}
 	
-	private VcIfrAnaClienti anaClienti = null;
-
-	private JMenuItem mniSchedeDeleted = null;
-
-	private JMenuItem mniSupportRequest = null;
-
-	private JMenuItem mnuBugs = null;
-
-	private JMenuItem mniWebSite = null;
-
 	private JMenuItem mniHelpContent = null;
 	private void openAnaClienti(){
 		anaClienti = new VcIfrAnaClienti(this);
@@ -668,6 +665,27 @@ public class VcMainFrame extends JFrame {
 		return mnuBugs;
 	}
 
+	/**
+	 * This method initializes mniCheckUpdatee	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getMniCheckUpdatee() {
+		if (mniCheckUpdatee == null) {
+			mniCheckUpdatee = new JMenuItem();
+			mniCheckUpdatee.setText(Messages.getString("VcMainFrame.mniCheckUpdatee")); //$NON-NLS-1$
+			final JFrame f = this;
+			mniCheckUpdatee.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					VcDlgCheckUpdate dialog = new VcDlgCheckUpdate(f);
+					WindowUtil.centerWindow(dialog);
+					dialog.setVisible(true);
+				}
+			});
+		}
+		return mniCheckUpdatee;
+	}
+	
 	/**
 	 * This method initializes mniWebSite	
 	 * 	

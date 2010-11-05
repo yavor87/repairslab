@@ -1,8 +1,11 @@
 package it.f2.gestRip.ui;
 
+import it.f2.gestRip.EnvConstants;
 import it.f2.gestRip.control.CheckUpdates;
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.control.CommonMetodBin.CheckStatus;
 import it.f2.gestRip.ui.messages.Messages;
+import it.f2.gestRip.util.LinksUtils;
 
 import java.awt.Frame;
 import java.awt.HeadlessException;
@@ -19,6 +22,7 @@ import org.apache.log4j.Logger;
 public class VcDlgCheckUpdate  extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
+	private Frame parent = null;
 	private JPanel jContentPane = null;
 	private JLabel lblName = null;
 	private JLabel lblInstalledVersion = null;
@@ -36,6 +40,7 @@ public class VcDlgCheckUpdate  extends JDialog {
 	public VcDlgCheckUpdate(Frame parent) throws HeadlessException {
 		super(parent, true);
 		Logger.getRootLogger().debug("VcDlgAbout constructor..."); //$NON-NLS-1$
+		this.parent = parent;
 		CheckUpdates.check();
 		initialize();
 	}
@@ -62,10 +67,10 @@ public class VcDlgCheckUpdate  extends JDialog {
 			lblMsg.setText(getMsg());
 			lblTxtVersioneAttuale = new JLabel();
 			lblTxtVersioneAttuale.setBounds(new Rectangle(118, 67, 108, 22));
-			lblTxtVersioneAttuale.setText("Versione attuale:");
+			lblTxtVersioneAttuale.setText(Messages.getString("VcDlgCheckUpdate.lblActualVersion"));
 			lblTxtVersioneInstallata = new JLabel();
 			lblTxtVersioneInstallata.setBounds(new Rectangle(118, 33, 116, 22));
-			lblTxtVersioneInstallata.setText("Versione installata:");
+			lblTxtVersioneInstallata.setText(Messages.getString("VcDlgCheckUpdate.lblInstalledVersion"));
 			lblActualVersion = new JLabel();
 			lblActualVersion.setBounds(new Rectangle(237, 67, 112, 22));
 			lblActualVersion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -102,10 +107,14 @@ public class VcDlgCheckUpdate  extends JDialog {
 		if (btnOk == null) {
 			btnOk = new JButton();
 			btnOk.setBounds(new Rectangle(228, 114, 103, 32));
-			btnOk.setText(Messages.getString("VcDlgAbout.btnOk")); //$NON-NLS-1$
+			String text = CommonMetodBin.getInstance().getStatusUpdate().equals(CheckStatus.NEW_UPDATE) ? Messages.getString("VcDlgCheckUpdate.btnDownload") : Messages.getString("VcDlgCheckUpdate.btnOk");
+			btnOk.setText(text); //$NON-NLS-1$
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					close();
+					if (CommonMetodBin.getInstance().getStatusUpdate().equals(CheckStatus.NEW_UPDATE))
+						LinksUtils.openUrl(parent, EnvConstants.LINK_DOWNLOAD);
+					else
+						close();
 				}
 			});
 		}
@@ -115,11 +124,11 @@ public class VcDlgCheckUpdate  extends JDialog {
 	private String getMsg() {
 		switch (CommonMetodBin.getInstance().getStatusUpdate()) {
 	        case LAST_UPDATE:
-		        return "RepairsLab è aggiornato.";
+		        return Messages.getString("VcDlgCheckUpdate.lblRLInstalled");
 	        case NEW_UPDATE:
-	        	return "Nuova versione disponibile.";
+	        	return Messages.getString("VcDlgCheckUpdate.lblRLNewVersion");
 	        case NOT_CHECKED:
-	        	return "Impossibile verificare la versione attuale.";
+	        	return Messages.getString("VcDlgCheckUpdate.lblRLCheckError");
 	        default:
 	        break;
         }
