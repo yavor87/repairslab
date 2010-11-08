@@ -19,8 +19,8 @@ import org.apache.log4j.Logger;
 
 public class EnvProperties {
 
-	public static String FILE_SEPARETOR = System.getProperty("file.separator");
-	public static String LINE_SEPARETOR = System.getProperty("line.separator");
+//	public static String FILE_SEPARETOR = System.getProperty("file.separator");
+//	public static String LINE_SEPARETOR = System.getProperty("line.separator");
 	public static String PROP_FILE_NAME = "f2.propFileName";
 	public static String DEFAULT_LANGUAGE = "f2.language.file";
 	public static String LOOK = "f2.lookandfeel";
@@ -70,7 +70,7 @@ public class EnvProperties {
 		String result = this.getProperties().getProperty(propName);
 		if(result != null){
 			if (result.indexOf("\\")>0 || result.indexOf("/")>0){
-				return result.replace("\\", EnvProperties.FILE_SEPARETOR);
+				return result.replace("\\", System.getProperty("file.separator"));
 			}
 		}else{
 			this.setProperty(propName, "");
@@ -98,7 +98,7 @@ public class EnvProperties {
 	public void loadProperties() {
 		this.properties = new Properties();
 		try {
-			this.properties.put("f2.propFileName", "conf" + EnvProperties.FILE_SEPARETOR + "f2.properties");
+			this.properties.put("f2.propFileName", "conf" + System.getProperty("file.separator") + "f2.properties");
 			this.properties.load(new FileInputStream(this.getProperty(EnvProperties.PROP_FILE_NAME)));
 
 		} catch (IOException e) {

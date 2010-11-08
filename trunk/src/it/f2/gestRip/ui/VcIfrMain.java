@@ -1,7 +1,6 @@
 package it.f2.gestRip.ui;
 
 import it.f2.gestRip.EnvConstants;
-import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.control.DbSchedaAction;
 import it.f2.gestRip.control.PrintAction;
@@ -100,8 +99,7 @@ public class VcIfrMain extends JInternalFrame {
 		if (btnInsScheda == null) {
 			btnInsScheda = new JButton();
 			btnInsScheda.setText(Messages.getString("VcIfrMain.btnNewSheet")); //$NON-NLS-1$
-			btnInsScheda.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/newtodo.png"))); //$NON-NLS-1$
+			btnInsScheda.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/newtodo.png"))); //$NON-NLS-1$
 			btnInsScheda.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					VcDlgDetailScheda dialog = new VcDlgDetailScheda(parent,null,VcDlgDetailScheda.mode.insert,0);
@@ -301,7 +299,7 @@ public class VcIfrMain extends JInternalFrame {
 			String mainScreenFile = "mainScreen_en.html";
 			if (Locale.getDefault().equals(Locale.ITALY))
 				mainScreenFile = "mainScreen_it.html";
-			File html = new File( "resource" + EnvProperties.FILE_SEPARETOR +  mainScreenFile);
+			File html = new File( "resource" + System.getProperty("file.separator") +  mainScreenFile);
 			edpMainScreen = new JEditorPane();
 			edpMainScreen.setContentType("text/html"); //$NON-NLS-1$
 			edpMainScreen.addHyperlinkListener(new HyperlinkListener(){
