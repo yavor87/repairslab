@@ -395,9 +395,7 @@ public class VcDlgOptions extends JDialog {
 				Logger.getRootLogger().debug("getCmbLookAndFeel..."); //$NON-NLS-1$
 				TypeCmb seledted = null;
 				/* Caricamento da file di property */
-				String path = "conf" //$NON-NLS-1$
-						+ EnvProperties.FILE_SEPARETOR
-						+ "LookAndFeel.properties"; //$NON-NLS-1$
+				String path = "conf" + System.getProperty("file.separator") + "LookAndFeel.properties"; //$NON-NLS-1$
 				FileInputStream in = new FileInputStream(path);
 				looks.load(in);
 				Enumeration<?> enumeration = looks.propertyNames();

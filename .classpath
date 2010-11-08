@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="lib/liquidlnf.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="lib/poi-3.6.jar"/>
+	<classpathentry kind="lib" path="lib/derbytools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

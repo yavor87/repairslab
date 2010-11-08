@@ -10,6 +10,7 @@ package it.f2.gestRip.ui;
 import it.f2.gestRip.EnvConstants;
 import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.control.CommonMetodBin;
+import it.f2.gestRip.control.DerbyDump;
 import it.f2.gestRip.model.BinRelease.Status;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaClienti;
 import it.f2.gestRip.ui.anagraf.VcIfrAnaMarche;
@@ -28,15 +29,19 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Logger;
 
@@ -70,6 +75,8 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem mnuBugs = null;
 	private JMenuItem mniWebSite = null;
 	private JMenuItem mniCheckUpdatee = null;
+	private JMenuItem mniExport = null;
+	private JMenuItem mniImport = null;
 	private int lastSelectedIndex = 0;
 	private boolean checking = false;
 	
@@ -143,6 +150,8 @@ public class VcMainFrame extends JFrame {
 		if (fileMenu == null) {
 			fileMenu = new JMenu();
 			fileMenu.setText(Messages.getString("VcMainFrame.mnuFile")); //$NON-NLS-1$
+			fileMenu.add(getMniExport());
+			fileMenu.add(getMniImport());
 			fileMenu.addSeparator();
 			fileMenu.add(getExitMenuItem());
 		}
@@ -241,12 +250,12 @@ public class VcMainFrame extends JFrame {
 				public void stateChanged(javax.swing.event.ChangeEvent e) {
 					lastSelectedIndex = getTbpMain().getSelectedIndex();
 					if (getTbpMain().getSelectedIndex() != -1) {
-						JInternalFrame ifr = (JInternalFrame) getTbpMain()
-								.getSelectedComponent();
-						
+						JInternalFrame ifr = (JInternalFrame) getTbpMain().getSelectedComponent();
 						try{
 							((VcIfrListaSchede)ifr).getTblList().refresh();
-						}catch(ClassCastException ex){}
+						}catch(ClassCastException ex){
+							
+						}
 					}
 				}
 			});
@@ -310,10 +319,8 @@ public class VcMainFrame extends JFrame {
 			}
 		}
 		//CommonMetodBin.getInstance().closeConn();
-		EnvProperties.getInstance().setProperty(EnvProperties.WIDTH,
-				"" + this.getWidth()); //$NON-NLS-1$
-		EnvProperties.getInstance().setProperty(EnvProperties.HEIGHT,
-				"" + this.getHeight()); //$NON-NLS-1$
+		EnvProperties.getInstance().setProperty(EnvProperties.WIDTH, "" + this.getWidth()); //$NON-NLS-1$
+		EnvProperties.getInstance().setProperty(EnvProperties.HEIGHT, "" + this.getHeight()); //$NON-NLS-1$
 		EnvProperties.getInstance().saveFileProperty();
 		System.exit(0);
 	}
@@ -342,14 +349,12 @@ public class VcMainFrame extends JFrame {
 		if (optionsMenuItem == null) {
 			optionsMenuItem = new JMenuItem();
 			optionsMenuItem.setText(Messages.getString("VcMainFrame.mnuOptions")); //$NON-NLS-1$
-			optionsMenuItem.setIcon(new ImageIcon(getClass().getResource(
-					"/it/f2/gestRip/ui/img/Options16.png"))); //$NON-NLS-1$
-			optionsMenuItem
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							openDialogOptions();
-						}
-					});
+			optionsMenuItem.setIcon(new ImageIcon(getClass().getResource( "/it/f2/gestRip/ui/img/Options16.png"))); //$NON-NLS-1$
+			optionsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					openDialogOptions();
+				}
+			});
 		}
 		return optionsMenuItem;
 	}
@@ -608,8 +613,7 @@ public class VcMainFrame extends JFrame {
 		if (mniSchedeDeleted == null) {
 			mniSchedeDeleted = new JMenuItem();
 			mniSchedeDeleted.setText(Messages.getString("VcMainFrame.mnuTrashSheet")); //$NON-NLS-1$
-			mniSchedeDeleted.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/trashcan_full.png"))); //$NON-NLS-1$
+			mniSchedeDeleted.setIcon(new ImageIcon(getClass().getResource( "/it/f2/gestRip/ui/img/trashcan_full.png"))); //$NON-NLS-1$
 			mniSchedeDeleted.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openSchedeDeleted();
@@ -723,6 +727,91 @@ public class VcMainFrame extends JFrame {
 			});
 		}
 		return mniHelpContent;
+	}
+	
+	/**
+	 * This method initializes mniExport	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getMniExport() {
+		if (mniExport == null) {
+			mniExport = new JMenuItem();
+			mniExport.setText(Messages.getString("VcMainFrame.mniExport")); //$NON-NLS-1$
+			final JFrame f = this;
+			mniExport.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					JFileChooser fc = new JFileChooser();
+					fc.setApproveButtonText("Export");
+					SimpleDateFormat todaysDate = new java.text.SimpleDateFormat("yyyyMMddhhmmss");
+					String decaultFileName = "RepaisLabDataExp_"+ todaysDate.format((java.util.Calendar.getInstance()).getTime()) + ".zip";
+					fc.setSelectedFile(new File(decaultFileName));
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("Zip file", "zip");
+					fc.setFileFilter(filter);
+					
+					int returnVal = fc.showOpenDialog(f);
+
+			        if (returnVal == JFileChooser.APPROVE_OPTION) {
+			            File file = fc.getSelectedFile();
+			            try {
+			            	if (file.exists()) {
+			            		int confirm = JOptionPane.showConfirmDialog(f, "Il file esiste lo vuoi sovrascrivere?", "Export action", JOptionPane.OK_CANCEL_OPTION);
+			            		if (confirm == JOptionPane.OK_OPTION) {
+			            			DerbyDump.exportInZipFile(file.getPath());
+			            			JOptionPane.showMessageDialog(f, "Export ok", "Export action", JOptionPane.INFORMATION_MESSAGE);
+			            		}
+			            	} else {
+			            		DerbyDump.exportInZipFile(file.getPath());
+			            		JOptionPane.showMessageDialog(f, "Export ok", "Export action", JOptionPane.INFORMATION_MESSAGE);
+			            	}
+			            	
+			            } catch (Exception ex) {
+			            	JOptionPane.showMessageDialog(f, "Export error: " + ex.getMessage(), "Export action", JOptionPane.ERROR_MESSAGE);
+						}
+			        }
+
+				}
+			});
+		}
+		return mniExport;
+	}
+	
+	/**
+	 * This method initializes mniImport	
+	 * 	
+	 * @return javax.swing.JMenuItem	
+	 */
+	private JMenuItem getMniImport() {
+		if (mniImport == null) {
+			mniImport = new JMenuItem();
+			mniImport.setText(Messages.getString("VcMainFrame.mniImport")); //$NON-NLS-1$
+			final JFrame f = this;
+			mniImport.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					JFileChooser fc = new JFileChooser();
+					fc.setApproveButtonText("Import");
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("Zip file", "zip");
+					fc.setFileFilter(filter);
+					
+					int returnVal = fc.showOpenDialog(f);
+
+			        if (returnVal == JFileChooser.APPROVE_OPTION) {
+			            File file = fc.getSelectedFile();
+			            try {
+			            	if (file.exists()) {
+			            		
+			            	} else {
+			            		JOptionPane.showMessageDialog(f, "Export ok", "Import action", JOptionPane.INFORMATION_MESSAGE);
+			            	}
+			            	
+			            } catch (Exception ex) {
+			            	JOptionPane.showMessageDialog(f, "Import error: " + ex.getMessage(), "Import action", JOptionPane.ERROR_MESSAGE);
+						}
+			        }
+				}
+			});
+		}
+		return mniImport;
 	}
 
 } //  @jve:decl-index=0:visual-constraint="10,10"
