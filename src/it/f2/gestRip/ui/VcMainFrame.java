@@ -742,6 +742,7 @@ public class VcMainFrame extends JFrame {
 			mniExport.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					JFileChooser fc = new JFileChooser();
+					fc.setDialogType(JFileChooser.SAVE_DIALOG);
 					fc.setApproveButtonText("Export");
 					SimpleDateFormat todaysDate = new java.text.SimpleDateFormat("yyyyMMddhhmmss");
 					String decaultFileName = "RepaisLabDataExp_"+ todaysDate.format((java.util.Calendar.getInstance()).getTime()) + ".zip";
@@ -798,14 +799,12 @@ public class VcMainFrame extends JFrame {
 			        if (returnVal == JFileChooser.APPROVE_OPTION) {
 			            File file = fc.getSelectedFile();
 			            try {
-			            	if (file.exists()) {
-			            		
-			            	} else {
-			            		JOptionPane.showMessageDialog(f, "Export ok", "Import action", JOptionPane.INFORMATION_MESSAGE);
-			            	}
+		            		DerbyDump.importFormZipFile(file.getPath());
+		            		JOptionPane.showMessageDialog(f, "Import ok", "Import action", JOptionPane.INFORMATION_MESSAGE);
 			            	
 			            } catch (Exception ex) {
 			            	JOptionPane.showMessageDialog(f, "Import error: " + ex.getMessage(), "Import action", JOptionPane.ERROR_MESSAGE);
+			            	ex.printStackTrace();
 						}
 			        }
 				}

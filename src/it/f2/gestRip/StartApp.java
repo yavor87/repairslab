@@ -50,7 +50,12 @@ public class StartApp {
         splash.setStatus("Starting...", 10);
         
         splash.setStatus("Get release...", 20);
-        CommonMetodBin.getInstance().setCurrentRelease(new BinRelease(VersionReader.getInstance().getProperty(VersionReader.VERSION)));
+        String release = "";
+        try {
+        	release = VersionReader.getInstance().getProperty(VersionReader.VERSION);
+        } catch (NullPointerException e) {
+		}
+        CommonMetodBin.getInstance().setCurrentRelease(new BinRelease(release));
         splash.setRelease(CommonMetodBin.getInstance().getCurrentRelease().toString());
         
         splash.setStatus("Setting locale", 30);
@@ -62,11 +67,11 @@ public class StartApp {
             startServer();
         }
         
-        splash.setStatus("Testing Connection...", 50);
-        testConn();
-        
-        splash.setStatus("Check for updates...", 80);
+        splash.setStatus("Check for updates...", 50);
         CheckUpdates.check();
+        
+        splash.setStatus("Testing Connection...", 80);
+        testConn();
         
         splash.setStatus("Loading App...", 90);
 		VcMainFrame frame = new VcMainFrame();
