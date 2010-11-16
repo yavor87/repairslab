@@ -33,7 +33,7 @@ public class EnvProperties {
 	public static String DB_USER = "f2.db.user";
 	public static String DB_PASSW = "f2.db.passw";
 	public static String DB_ISEMBEDDED = "f2.db.embedded";
-	public static String DB_FDBFILE = "f2.db.fdbfile";
+	public static String DB_DERBYDIR = "f2.db.derbyDir";
 	public static String START_CMD = "f2.start.cmd";
 	public static String SERVER_PROCESS = "f2.server.process";
 	public static String INDIRIZZO = "f2.indirizzo";

@@ -14,6 +14,7 @@ public class Messages {
 	private static final String BUNDLE_NAME_nl = "it.f2.gestRip.ui.messages.Messages_nl"; //$NON-NLS-1$
 	private static final String BUNDLE_NAME_es = "it.f2.gestRip.ui.messages.Messages_es"; //$NON-NLS-1$
 	private static final String BUNDLE_NAME_th = "it.f2.gestRip.ui.messages.Messages_th"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_fi = "it.f2.gestRip.ui.messages.Messages_fi"; //$NON-NLS-1$
 
 	private static ResourceBundle RESOURCE_BUNDLE = null;
 
@@ -37,6 +38,9 @@ public class Messages {
 			}else if(language.equals("th")){	
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_th,new Locale("th","TH"));
 				Locale.setDefault(new Locale("th","TH"));
+			}else if(language.equals("fi")){	
+				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_fi,new Locale("th","TH"));
+				Locale.setDefault(new Locale("fi","FI"));
 			}else {
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_en,Locale.ENGLISH);
 				Locale.setDefault(Locale.ENGLISH);
@@ -52,6 +56,7 @@ public class Messages {
 		result.put("nl", new Locale("nl","NL").getDisplayLanguage()); // "Nederlands"
 		result.put("es", new Locale("es","ES").getDisplayLanguage()); //"Español"
 		result.put("th", new Locale("th","TH").getDisplayLanguage()); //"Thai"
+		result.put("fi", new Locale("fi","FI").getDisplayLanguage()); //"Finnish"
 		return result;
 	}
 
