@@ -4,12 +4,15 @@ CHANGE LOG
 
 Bug Fixed
 - UTF-8 convertion of language files
+- ID: 3125522 fixed
 
 New Feature
 - Thai language supported
+- Finnish language supported
+- Greek language supported
 - Status bar
 - Check for update function
-- Export/Import data function
+- Export/Import data function for Derby
 
 
 ### Version 1.0.3 ###  19/10/2010   ###
