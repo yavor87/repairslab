@@ -2,9 +2,9 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RicevutaConsegnaApparato" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="30" rightMargin="30" topMargin="20" bottomMargin="20">
 	<property name="ireport.scriptlethandling" value="0"/>
 	<property name="ireport.encoding" value="UTF-8"/>
-	<property name="ireport.zoom" value="1.5"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="729"/>
+	<property name="ireport.zoom" value="1.3310000000000004"/>
+	<property name="ireport.x" value="6"/>
+	<property name="ireport.y" value="141"/>
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="java.util.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
@@ -37,7 +37,7 @@ clienti.indirizzo,
 clienti.city,
 clienti.phone||' - '||clienti.mobilePhone as phone,
 schede.dataInserimento,
-tipoapparecchiature.nome as tipo,
+tipoapparecchiature.nome as tipi,
 marchi.nome||' / '||modelli.nome as modelli,
 schede.serial,
 schede.accessoriConsegnati,
@@ -69,7 +69,7 @@ WHERE schede.id = $P{idScheda}]]>
 	<field name="CITY" class="java.lang.String"/>
 	<field name="PHONE" class="java.lang.String"/>
 	<field name="DATAINSERIMENTO" class="java.sql.Date"/>
-	<field name="TIPO" class="java.lang.String"/>
+	<field name="TIPI" class="java.lang.String"/>
 	<field name="MODELLI" class="java.lang.String"/>
 	<field name="SERIAL" class="java.lang.String"/>
 	<field name="ACCESSORICONSEGNATI" class="java.lang.String"/>
@@ -353,7 +353,7 @@ WHERE schede.id = $P{idScheda}]]>
 				</textElement>
 				<textFieldExpression class="java.util.Date"><![CDATA[$F{DATADATIACQ}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00" isBlankWhenNull="false">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement key="textField" x="143" y="318" width="74" height="11" forecolor="#000000" backcolor="#FFFFFF"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -444,7 +444,7 @@ WHERE schede.id = $P{idScheda}]]>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{REPORT_RESOURCE_BUNDLE}.getString("RicevutaConsegnaApparato.ReturnDate")]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement key="textField" x="356" y="217" width="178" height="11" forecolor="#000000" backcolor="#FFFFFF"/>
 				<box>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -531,7 +531,7 @@ WHERE schede.id = $P{idScheda}]]>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{TIPO}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{TIPI}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField" x="81" y="157" width="170" height="11" forecolor="#000000" backcolor="#FFFFFF"/>
@@ -1134,7 +1134,7 @@ WHERE schede.id = $P{idScheda}]]>
 				<textElement>
 					<font size="7"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{TIPO}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{TIPI}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement key="textField-22" x="81" y="179" width="170" height="11" forecolor="#000000" backcolor="#FFFFFF"/>

@@ -5,6 +5,7 @@ CHANGE LOG
 Bug Fixed
 - UTF-8 convertion of language files
 - ID: 3125522 fixed
+- ID: 3125986 fixed
 
 New Feature
 - Thai language supported
