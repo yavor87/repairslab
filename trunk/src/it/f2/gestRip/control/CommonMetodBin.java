@@ -37,9 +37,8 @@ public class CommonMetodBin {
 			//if(con == null || con.isClosed()){
 			if(EnvProperties.getInstance().getProperty(EnvProperties.DB_ISEMBEDDED).endsWith("S")){
 				Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();		
-				con = DriverManager.getConnection(
-						"jdbc:derby:"+EnvProperties.getInstance().getProperty(EnvProperties.DB_DERBYDIR)+System.getProperty("file.separator")+"gestrip");
-//				con = DriverManager.getConnection("jdbc:derby:db/derby/gestrip");
+//				con = DriverManager.getConnection("jdbc:derby:"+EnvProperties.getInstance().getProperty(EnvProperties.DB_DERBYDIR)+System.getProperty("file.separator")+"gestrip");
+				con = DriverManager.getConnection("jdbc:derby:db/derby/gestrip");
 				con.setAutoCommit(false);
 			}else{
 				Class.forName(EnvProperties.getInstance().getProperty(EnvProperties.DB_DRIVER)).newInstance();			

@@ -109,8 +109,7 @@ public class StartApp {
 	
 	private static void startServer() {
 		//cmd.exe /c mysql_start.bat
-		final String cmd = EnvProperties.getInstance().getProperty(
-				EnvProperties.START_CMD);
+		final String cmd = EnvProperties.getInstance().getProperty(EnvProperties.START_CMD);
 		if(cmd!=null && !cmd.equals("")){
 			new Thread(new Runnable() {
 		          public void run() {
