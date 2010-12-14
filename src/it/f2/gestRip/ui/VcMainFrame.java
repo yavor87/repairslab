@@ -28,6 +28,7 @@ import java.awt.Component;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.text.SimpleDateFormat;
 
@@ -41,6 +42,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Logger;
@@ -71,6 +73,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem mniTipoDatiAcq = null;
 	private VcIfrAnaClienti anaClienti = null;
 	private JMenuItem mniSchedeDeleted = null;
+	private JMenuItem mniStatistics = null;
 	private JMenuItem mniSupportRequest = null;
 	private JMenuItem mnuBugs = null;
 	private JMenuItem mniWebSite = null;
@@ -150,6 +153,7 @@ public class VcMainFrame extends JFrame {
 		if (fileMenu == null) {
 			fileMenu = new JMenu();
 			fileMenu.setText(Messages.getString("VcMainFrame.mnuFile")); //$NON-NLS-1$
+			fileMenu.setMnemonic('F'); // Create shortcut
 			fileMenu.add(getMniExport());
 			fileMenu.add(getMniImport());
 			fileMenu.addSeparator();
@@ -167,6 +171,7 @@ public class VcMainFrame extends JFrame {
 		if (helpMenu == null) {
 			helpMenu = new JMenu();
 			helpMenu.setText(Messages.getString("VcMainFrame.mnuHelp")); //$NON-NLS-1$
+			helpMenu.setMnemonic('H'); // Create shortcut
 			helpMenu.add(getMniHelpContent());
 			
 			helpMenu.addSeparator();
@@ -334,12 +339,14 @@ public class VcMainFrame extends JFrame {
 		if (settingMenu == null) {
 			settingMenu = new JMenu();
 			settingMenu.setText(Messages.getString("VcMainFrame.mnuTools")); //$NON-NLS-1$
+			settingMenu.setMnemonic('T'); // Create shortcut
 			settingMenu.add(getMniSchedeDeleted());
+			settingMenu.add(getMniStatistics());
 			settingMenu.add(getOptionsMenuItem());
 		}
 		return settingMenu;
 	}
-
+	
 	/**
 	 * This method initializes optionsMenuItem
 	 * 
@@ -377,6 +384,7 @@ public class VcMainFrame extends JFrame {
 		if (gestMenu == null) {
 			gestMenu = new JMenu();
 			gestMenu.setText(Messages.getString("VcMainFrame.mnuManage")); //$NON-NLS-1$
+			gestMenu.setMnemonic('M'); // Create shortcut
 			gestMenu.add(getMniAnaClienti());
 			gestMenu.add(getMniStati());
 			gestMenu.add(getMniTipoRip());
@@ -632,6 +640,39 @@ public class VcMainFrame extends JFrame {
 			iframe.hide();
 		}
 	}
+	
+	/**
+	 * Generate the menù item statistics
+	 * @author Fabrizio Ferraiuolo 14/dic/2010 11.56.03
+	 * @return 
+	 */
+	private JMenuItem getMniStatistics() {
+		if (mniStatistics == null) {
+			mniStatistics = new JMenuItem();
+			mniStatistics.setText(Messages.getString("VcIfrMain.BtnStatistic")); //$NON-NLS-1$
+			mniStatistics.setIcon(new ImageIcon(getClass().getResource( "/it/f2/gestRip/ui/img/kchart.png"))); //$NON-NLS-1$
+			mniStatistics.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					openStatistics();
+				}
+			});
+		}
+		return mniStatistics;
+	}
+	
+	/**
+	 * Open statistic tab.
+	 * @author Fabrizio Ferraiuolo 14/dic/2010 11.55.38 
+	 */
+	private void openStatistics() {
+		VcDlgStatistic iframe = new VcDlgStatistic(this);
+		if(!this.isJitOpen(iframe.getClass())){
+			this.addTab(Messages.getString("VcIfrMain.tabStatistic"), iframe); //$NON-NLS-1$
+			this.selectTab(iframe);
+		}else{
+			iframe.hide();
+		}
+	}
 
 	/**
 	 * This method initializes mniSupportRequest	
@@ -717,6 +758,7 @@ public class VcMainFrame extends JFrame {
 		if (mniHelpContent == null) {
 			mniHelpContent = new JMenuItem();
 			mniHelpContent.setText(Messages.getString("VcMainFrame.mniHelpContent")); //$NON-NLS-1$
+			mniHelpContent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 			mniHelpContent.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if(EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE).equalsIgnoreCase("it"))

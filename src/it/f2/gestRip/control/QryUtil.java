@@ -47,6 +47,12 @@ public class QryUtil {
 		" descrizione," +
 		" flagAttivo " +
 		" FROM tipoapparecchiature"	;
+	
+	public static String JASPER_ALTERNATIVO =
+		" SELECT" +
+		" id" +
+		" VERSIONE" +
+		" FROM jasper" ;
 
 	public static String QRY_ANA_TIPO_RIP = 
 		"SELECT " +
@@ -105,5 +111,18 @@ public class QryUtil {
 		+ " LEFT JOIN modelli on schede.idModello=modelli.id " 
 		+ " LEFT JOIN clienti on schede.idCliente=clienti.id "
 		+ " WHERE schede.deleted = 'S' "; 
+	
+	public static String QRY_STATISTIC =
+		"SELECT "
+		+ " id as 			  \""+Messages.getString("VcDlgStatistic.qryId")+"\" ," 
+		+ " schede.dataInserimento as \""+Messages.getString("VcIfrListaSchede.qryInsDate")+"\" ,"
+		+ " pagatoDalCliente as\""+Messages.getString("VcDlgStatistic.qrypagatoDalCliente")+"\" ,"
+		+ " costoInterno as\""+Messages.getString("VcDlgStatistic.qrycostoInterno")+"\" "
+		+ " FROM schede";
 
+	
+	
+	
+	
+	
 }

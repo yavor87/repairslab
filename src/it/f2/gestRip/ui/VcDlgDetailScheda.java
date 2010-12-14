@@ -9,35 +9,34 @@ import it.f2.gestRip.model.BinScheda;
 import it.f2.gestRip.ui.messages.Messages;
 
 import java.awt.BorderLayout;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFormattedTextField;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
-import java.awt.Rectangle;
-
-import javax.swing.JDialog;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Date;
 
-import javax.swing.SwingConstants;
-
-import com.toedter.calendar.JDateChooser;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.FlowLayout;
-import javax.swing.WindowConstants;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.text.DefaultFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import org.apache.log4j.Logger;
+
+import com.toedter.calendar.JDateChooser;
 
 public class VcDlgDetailScheda extends JDialog {
 
@@ -441,8 +440,8 @@ public class VcDlgDetailScheda extends JDialog {
 		if (btnNext == null) {
 			btnNext = new JButton();
 			btnNext.setText(Messages.getString("VcDlgDetailScheda.btnNext")); //$NON-NLS-1$
-			btnNext.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/forward.png"))); //$NON-NLS-1$
+			btnNext.setMnemonic(KeyEvent.VK_RIGHT);
+			btnNext.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/forward.png"))); //$NON-NLS-1$
 			btnNext.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					getTbpSchedaApp().setSelectedIndex(
@@ -466,8 +465,8 @@ public class VcDlgDetailScheda extends JDialog {
 		if (btnSalva == null) {
 			btnSalva = new JButton();
 			btnSalva.setText(Messages.getString("VcDlgDetailScheda.btnSave")); //$NON-NLS-1$
-			btnSalva.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/filesave.png"))); //$NON-NLS-1$
+			btnSalva.setMnemonic(KeyEvent.VK_S);
+			btnSalva.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/filesave.png"))); //$NON-NLS-1$
 			if(modality == mode.view){
 				btnSalva.setEnabled(false);
 			}
@@ -503,8 +502,8 @@ public class VcDlgDetailScheda extends JDialog {
 		if (btnPrint == null) {
 			btnPrint = new JButton();
 			btnPrint.setText(Messages.getString("VcDlgDetailScheda.btnPrint")); //$NON-NLS-1$
-			btnPrint.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/fileprint.png"))); //$NON-NLS-1$
+			btnPrint.setMnemonic(KeyEvent.VK_P);
+			btnPrint.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/fileprint.png"))); //$NON-NLS-1$
 			btnPrint.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					print();
@@ -550,8 +549,8 @@ public class VcDlgDetailScheda extends JDialog {
 		if (btnPrev == null) {
 			btnPrev = new JButton();
 			btnPrev.setText(Messages.getString("VcDlgDetailScheda.btnPrev")); //$NON-NLS-1$
-			btnPrev.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/back.png"))); //$NON-NLS-1$
+			btnPrev.setMnemonic(KeyEvent.VK_LEFT);
+			btnPrev.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/back.png"))); //$NON-NLS-1$
 			btnPrev.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					getTbpSchedaApp().setSelectedIndex(
@@ -574,8 +573,8 @@ public class VcDlgDetailScheda extends JDialog {
 		if (btnCanc == null) {
 			btnCanc = new JButton();
 			btnCanc.setText(Messages.getString("VcDlgDetailScheda.btnClose")); //$NON-NLS-1$
-			btnCanc.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
+			btnCanc.setMnemonic(KeyEvent.VK_C);
+			btnCanc.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					close();
