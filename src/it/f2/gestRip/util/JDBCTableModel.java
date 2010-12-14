@@ -47,9 +47,7 @@ public class JDBCTableModel extends AbstractTableModel {
      *
      * @throws SQLException DOCUMENT ME!
      */
-    public JDBCTableModel(Connection con, String query, boolean updateable,
-    		String[] updatableColumn, ArrayList<Object[]> params)
-        throws SQLException {
+    public JDBCTableModel(Connection con, String query, boolean updateable, String[] updatableColumn, ArrayList<Object[]> params) throws SQLException {
         this.con = con;
         this.query = query;
         this.updateable = updateable;
@@ -93,7 +91,7 @@ public class JDBCTableModel extends AbstractTableModel {
 
         size = 0;
 
-        statement = new NamedParameterStatement(con, query,updateable);
+        statement = new NamedParameterStatement(con, query, updateable);
 
         if(params!=null){
 	    	Iterator<Object[]> it = params.iterator();
@@ -113,6 +111,7 @@ public class JDBCTableModel extends AbstractTableModel {
         set.beforeFirst();
 
         fireTableDataChanged();
+        
     }
 
     public void setParameters(ArrayList<Object[]> params){

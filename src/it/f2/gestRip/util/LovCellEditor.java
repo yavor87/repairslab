@@ -23,8 +23,7 @@ public class LovCellEditor extends AbstractCellEditor implements TableCellEditor
 	private LovResultsBin lrb;
 	private Connection con = null;
 	
-	public LovCellEditor(LovResultsBin lrb,String query,
-			String colValue,String colLabel,Connection con){
+	public LovCellEditor(LovResultsBin lrb,String query, String colValue,String colLabel,Connection con){
 		this.query = query;
 		this.colValue = colValue;
 		this.colLabel = colLabel;

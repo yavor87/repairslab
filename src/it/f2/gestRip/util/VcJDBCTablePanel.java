@@ -1,31 +1,29 @@
 package it.f2.gestRip.util;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Insets;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
-
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.NumberFormat;
-import java.util.ArrayList;
-
-import javax.swing.JButton;
-import java.awt.BorderLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import java.awt.FlowLayout;
-import java.awt.Dimension;
-import java.awt.Insets;
-
-import javax.swing.JToolBar;
 
 import org.apache.log4j.Logger;
 
@@ -66,8 +64,7 @@ public class VcJDBCTablePanel extends JPanel {
 	/**
 	 * This is the default constructor
 	 */
-	public VcJDBCTablePanel(Connection con,String query,boolean updatable,
-			String[] updatableColumn, ArrayList<Object[]> params) {
+	public VcJDBCTablePanel(Connection con,String query,boolean updatable, String[] updatableColumn, ArrayList<Object[]> params) {
 		super();
 		this.con = con;
 		this.query = query;
@@ -216,8 +213,7 @@ public class VcJDBCTablePanel extends JPanel {
 				tblCol.setWidth(colPrecision);
 				tblCol.setPreferredWidth(colPrecision);
 
-				if (colClass.equals(java.sql.Date.class) || 
-						colClass.equals(java.util.Date.class)){
+				if (colClass.equals(java.sql.Date.class) || colClass.equals(java.util.Date.class)){
 					tblCol.setCellEditor(new JDateChooserCellEditor());
 				}
 			}
@@ -288,8 +284,7 @@ public class VcJDBCTablePanel extends JPanel {
 		if (btnPageUp == null) {
 			btnPageUp = new JButton();
 			btnPageUp.setToolTipText("First Record");
-			btnPageUp.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/2leftarrow.png")));
+			btnPageUp.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/2leftarrow.png")));
 			btnPageUp.setMargin(new Insets(2, 2, 2, 3));
 			btnPageUp.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -310,8 +305,7 @@ public class VcJDBCTablePanel extends JPanel {
 		if (btnRecUp == null) {
 			btnRecUp = new JButton();
 			btnRecUp.setToolTipText("Previous Record");
-			btnRecUp.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/previous.png")));
+			btnRecUp.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/previous.png")));
 			btnRecUp.setMargin(new Insets(2, 2, 2, 3));
 			btnRecUp.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -363,8 +357,7 @@ public class VcJDBCTablePanel extends JPanel {
 		if (btnRecDown == null) {
 			btnRecDown = new JButton();
 			btnRecDown.setToolTipText("Next Record");
-			btnRecDown.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/next.png")));
+			btnRecDown.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/next.png")));
 			btnRecDown.setMargin(new Insets(2, 2, 2, 3));
 			btnRecDown.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -388,8 +381,7 @@ public class VcJDBCTablePanel extends JPanel {
 		if (btnPageDown == null) {
 			btnPageDown = new JButton();
 			btnPageDown.setToolTipText("Last Record");
-			btnPageDown.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/2rightarrow.png")));
+			btnPageDown.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/2rightarrow.png")));
 			btnPageDown.setMargin(new Insets(2, 2, 2, 3));
 			btnPageDown.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -411,8 +403,7 @@ public class VcJDBCTablePanel extends JPanel {
 		if (btnRefresh == null) {
 			btnRefresh = new JButton();
 			btnRefresh.setToolTipText("Refresh");
-			btnRefresh.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/rebuild.png")));
+			btnRefresh.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/rebuild.png")));
 			btnRefresh.setMargin(new Insets(2, 2, 2, 3));
 			btnRefresh.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -454,8 +445,7 @@ public class VcJDBCTablePanel extends JPanel {
 		if (btnEdit == null) {
 			btnEdit = new JButton();
 			btnEdit.setToolTipText("Edit");
-			btnEdit.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/edit.png")));
+			btnEdit.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/edit.png")));
 			btnEdit.setMargin(new Insets(2, 2, 2, 3));
 			if(!this.updatable) btnEdit.setEnabled(false);
 			btnEdit.addActionListener(new java.awt.event.ActionListener() {
@@ -510,8 +500,7 @@ public class VcJDBCTablePanel extends JPanel {
 			btnOk = new JButton();
 			btnOk.setEnabled(false);
 			btnOk.setToolTipText("Save");
-			btnOk.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/filesave.png")));
+			btnOk.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/filesave.png")));
 			btnOk.setMargin(new Insets(2, 2, 2, 3));
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -557,8 +546,7 @@ public class VcJDBCTablePanel extends JPanel {
 		if (btnDelete == null) {
 			btnDelete = new JButton();
 			btnDelete.setToolTipText("Delete Row");
-			btnDelete.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/delete_table_row.png")));
+			btnDelete.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/delete_table_row.png")));
 			btnDelete.setMargin(new Insets(2, 2, 2, 3));
 			btnDelete.setEnabled(false);
 			btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -604,8 +592,7 @@ public class VcJDBCTablePanel extends JPanel {
 		if (btnRollback == null) {
 			btnRollback = new JButton();
 			btnRollback.setToolTipText("Save");
-			btnRollback.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/undo.png")));
+			btnRollback.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/undo.png")));
 			btnRollback.setMargin(new Insets(2, 2, 2, 3));
 			btnRollback.setEnabled(false);
 			btnRollback.addActionListener(new java.awt.event.ActionListener() {
@@ -636,8 +623,7 @@ public class VcJDBCTablePanel extends JPanel {
 				Logger.getRootLogger().error("Exception in Rolbacking \n"+e1+"\n");
 				//e1.printStackTrace();
 			}
-			getTblJDBCTable().getSelectionModel().
-				setSelectionInterval(selRow, selRow);
+			getTblJDBCTable().getSelectionModel().setSelectionInterval(selRow, selRow);
 		}
 		modality = mode.view;
 	}
