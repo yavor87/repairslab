@@ -116,10 +116,52 @@ public class QryUtil {
 		"SELECT "
 		+ " id as 			  \""+Messages.getString("VcDlgStatistic.qryId")+"\" ," 
 		+ " schede.dataInserimento as \""+Messages.getString("VcIfrListaSchede.qryInsDate")+"\" ,"
-		+ " pagatoDalCliente as\""+Messages.getString("VcDlgStatistic.qrypagatoDalCliente")+"\" ,"
-		+ " costoInterno as\""+Messages.getString("VcDlgStatistic.qrycostoInterno")+"\" "
+		+ " pagatoDalCliente as \""+Messages.getString("VcDlgStatistic.qrypagatoDalCliente")+"\" ,"
+		+ " costoInterno as \""+Messages.getString("VcDlgStatistic.qrycostoInterno")+"\",  "
+		+ " pagatoDalCliente-costoInterno as \"Ricavo\" "
 		+ " FROM schede";
 
+	public static String QRY_STATISTIC2 =
+		"SELECT "
+		+ "'Calcolo Totale' as \"Riepilogo\", " 
+		+ " SUM(pagatoDalCliente) as \"Costo Interno\", "
+		+ " SUM(costoInterno) as \"Incasso\", "
+		+ " SUM(pagatoDalCliente)-SUM(costoInterno) as \"Ricavo\" "
+		+ " FROM schede "
+		+ "UNION "
+		+ "SELECT"
+		+ "'Mese Corrente' as \"Riepilogo\", " 
+		+ " SUM(pagatoDalCliente) as \"Costo Interno\", "
+		+ " SUM(costoInterno) as \"Incasso\", "
+		+ " SUM(pagatoDalCliente)-SUM(costoInterno) as \"Ricavo\" "
+		+ " FROM " 
+		+ " schede "
+//		+ "	WHERE MONTH(dataChiusura) = MONTH(CURRENT_DATE())"
+		+ "UNION "
+		+ "SELECT"
+		+ "'Mese Precedente' as \"Riepilogo\", " 
+		+ " SUM(pagatoDalCliente) as \"Costo Interno\", "
+		+ " SUM(costoInterno) as \"Incasso\", "
+		+ " SUM(pagatoDalCliente)-SUM(costoInterno) as \"Ricavo\" "
+		+ " FROM " 
+		+ " schede ";
+//		+ "	WHERE MONTH(dataChiusura) = MONTH(CURRENT_DATE())-1 ";
+
+//	public static String QRY_STATISTIC3 =
+//		"SELECT"
+//		+ " SUM(costoInterno) as \""+Messages.getString("VcDlgStatistic.qrycostoInternoTM")+"\", "
+//		+ " SUM(pagatoDalCliente) as \""+Messages.getString("VcDlgStatistic.qrypagatoDalClienteTM")+"\" "
+//		+ " FROM " 
+//		+ " schede " ;
+////		+ "	WHERE MONTH(dataChiusura) = MONTH(CURRENT_DATE())";
+//	
+//	public static String QRY_STATISTIC4 =
+//		"SELECT"
+//		+ " SUM(costoInterno) as \""+Messages.getString("VcDlgStatistic.qrycostoInternoLM")+"\", "
+//		+ " SUM(pagatoDalCliente) as \""+Messages.getString("VcDlgStatistic.qrypagatoDalClienteLM")+"\" "
+//		+ " FROM " 
+//		+ " schede ";
+////		+ "	WHERE MONTH(dataChiusura) = MONTH(CURRENT_DATE())-1 ";
 	
 	
 	
