@@ -12,32 +12,29 @@ import it.f2.util.ui.WindowUtil;
 import it.f2.util.ui.cmb.TypeCmb;
 
 import java.awt.BorderLayout;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.sql.Date;
-
-import javax.swing.JPanel;
-import javax.swing.JInternalFrame;
-
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-
-import javax.swing.JLabel;
-import javax.swing.JComboBox;
-import javax.swing.JTextField;
-
-import com.toedter.calendar.JDateChooser;
-
-import java.awt.Rectangle;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
+
+import com.toedter.calendar.JDateChooser;
 
 public class VcIfrListaSchede extends JInternalFrame {
 
@@ -96,8 +93,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 	private void initialize() {
 		this.setSize(901, 571);
 		this.setClosable(true);
-		this.setTitle(Messages.getString("VcIfrListaSchede.titleListSheet")+
-				" "+EnvProperties.getInstance().getProperty(EnvProperties.PREFIX_NUM)); //$NON-NLS-1$
+		this.setTitle(Messages.getString("VcIfrListaSchede.titleListSheet") + " " + EnvProperties.getInstance().getProperty(EnvProperties.PREFIX_NUM)); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 		this.addInternalFrameListener(new javax.swing.event.InternalFrameAdapter() {   
 			public void internalFrameClosed(
@@ -160,8 +156,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnView == null) {
 			btnView = new JButton();
 			btnView.setText(Messages.getString("VcIfrListaSchede.btnShowSheet")); //$NON-NLS-1$
-			btnView.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/view_remove.png"))); //$NON-NLS-1$
+			btnView.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/view_remove.png"))); //$NON-NLS-1$
 			btnView.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					try{
@@ -209,8 +204,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnEdit == null) {
 			btnEdit = new JButton();
 			btnEdit.setText(Messages.getString("VcIfrListaSchede.btpUpdSheet")); //$NON-NLS-1$
-			btnEdit.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/edit.png"))); //$NON-NLS-1$
+			btnEdit.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/edit.png"))); //$NON-NLS-1$
 			btnEdit.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					try{
@@ -232,8 +226,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnNew == null) {
 			btnNew = new JButton();
 			btnNew.setText(Messages.getString("VcIfrListaSchede.btnInsSheet")); //$NON-NLS-1$
-			btnNew.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/insert_table_row.png"))); //$NON-NLS-1$
+			btnNew.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/insert_table_row.png"))); //$NON-NLS-1$
 			btnNew.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					openDetail(VcDlgDetailScheda.mode.insert,0);
@@ -258,8 +251,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnDelete == null) {
 			btnDelete = new JButton();
 			btnDelete.setText(Messages.getString("VcIfrListaSchede.btnDelSheet")); //$NON-NLS-1$
-			btnDelete.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/delete_table_row.png"))); //$NON-NLS-1$
+			btnDelete.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/delete_table_row.png"))); //$NON-NLS-1$
 			btnDelete.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					deleteScheda();
@@ -362,8 +354,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnFind == null) {
 			btnFind = new JButton();
 			btnFind.setText(Messages.getString("VcIfrListaSchede.btnFilterApply")); //$NON-NLS-1$
-			btnFind.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/button_ok.png"))); //$NON-NLS-1$
+			btnFind.setIcon(new ImageIcon(getClass().getResource( "/it/f2/gestRip/ui/img/button_ok.png"))); //$NON-NLS-1$
 			btnFind.setBounds(new Rectangle(6, 80, 135, 26));
 			btnFind.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -422,6 +413,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 						+ (filterSerial ? " AND schede.serial like :serial " : "") //$NON-NLS-1$ //$NON-NLS-2$
 						+ (filterIdTipoAppa ? " AND schede.idTipoApparecchiatura = :idTipoAppa " : "" ); //$NON-NLS-1$ //$NON-NLS-2$
 					//System.out.println(qry);
+					
 					getTblList().setQuery(qry);
 					
 					ArrayList<Object[]> params1 = new ArrayList<Object[]>();
