@@ -15,6 +15,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -156,6 +157,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnView == null) {
 			btnView = new JButton();
 			btnView.setText(Messages.getString("VcIfrListaSchede.btnShowSheet")); //$NON-NLS-1$
+			btnView.setMnemonic(KeyEvent.VK_V);
 			btnView.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/view_remove.png"))); //$NON-NLS-1$
 			btnView.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -204,6 +206,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnEdit == null) {
 			btnEdit = new JButton();
 			btnEdit.setText(Messages.getString("VcIfrListaSchede.btpUpdSheet")); //$NON-NLS-1$
+			btnEdit.setMnemonic(KeyEvent.VK_E);
 			btnEdit.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/edit.png"))); //$NON-NLS-1$
 			btnEdit.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -226,6 +229,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnNew == null) {
 			btnNew = new JButton();
 			btnNew.setText(Messages.getString("VcIfrListaSchede.btnInsSheet")); //$NON-NLS-1$
+			btnNew.setMnemonic(KeyEvent.VK_N);
 			btnNew.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/insert_table_row.png"))); //$NON-NLS-1$
 			btnNew.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -251,6 +255,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnDelete == null) {
 			btnDelete = new JButton();
 			btnDelete.setText(Messages.getString("VcIfrListaSchede.btnDelSheet")); //$NON-NLS-1$
+			btnDelete.setMnemonic(KeyEvent.VK_C);
 			btnDelete.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/delete_table_row.png"))); //$NON-NLS-1$
 			btnDelete.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -641,8 +646,8 @@ public class VcIfrListaSchede extends JInternalFrame {
 		if (btnPrint == null) {
 			btnPrint = new JButton();
 			btnPrint.setText(Messages.getString("VcIfrListaSchede.btnPrintSheet")); //$NON-NLS-1$
-			btnPrint.setIcon(new ImageIcon(getClass().getResource(
-				"/it/f2/gestRip/ui/img/fileprint.png"))); //$NON-NLS-1$
+			btnPrint.setMnemonic(KeyEvent.VK_P);
+			btnPrint.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/fileprint.png"))); //$NON-NLS-1$
 			btnPrint.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					try{

@@ -9,6 +9,9 @@ import it.f2.gestRip.util.LinksUtils;
 import it.f2.util.ui.WindowUtil;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -28,7 +31,7 @@ import javax.swing.event.HyperlinkListener;
 
 import org.apache.log4j.Logger;
 
-public class VcIfrMain extends JInternalFrame {
+public class VcIfrMain extends JInternalFrame implements ActionListener {
 
 	/**
 	 * 
@@ -42,6 +45,7 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton btnViewScheda = null;
 	private JButton btnModScheda = null;
 	private JButton brnStampaScheda = null;
+	private JButton BtnStatistic = null;
 	private JEditorPane edpMainScreen = null;
 	private Connection con = null;
 	
@@ -95,20 +99,24 @@ public class VcIfrMain extends JInternalFrame {
 	 * 	
 	 * @return javax.swing.JButton	
 	 */
+
+
 	private JButton getBtnInsScheda() {
 		if (btnInsScheda == null) {
 			btnInsScheda = new JButton();
+			btnInsScheda.setMnemonic(KeyEvent.VK_N);
 			btnInsScheda.setText(Messages.getString("VcIfrMain.btnNewSheet")); //$NON-NLS-1$
 			btnInsScheda.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/newtodo.png"))); //$NON-NLS-1$
 			btnInsScheda.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+					public void actionPerformed(java.awt.event.ActionEvent e) {
 					VcDlgDetailScheda dialog = new VcDlgDetailScheda(parent,null,VcDlgDetailScheda.mode.insert,0);
 					WindowUtil.centerWindow(dialog);
 					dialog.setVisible(true);
-				}
-			});
+				}}
+			);
 		}
 		return btnInsScheda;
+		
 	}
 
 	/**
@@ -119,6 +127,7 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton getBtnListaSchede() {
 		if (btnListaSchede == null) {
 			btnListaSchede = new JButton();
+			btnListaSchede.setMnemonic(KeyEvent.VK_L);
 			btnListaSchede.setText(Messages.getString("VcIfrMain.btnListSheet")); //$NON-NLS-1$
 			btnListaSchede.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/view_detailed.png"))); //$NON-NLS-1$
 			btnListaSchede.addActionListener(new java.awt.event.ActionListener() {
@@ -135,7 +144,7 @@ public class VcIfrMain extends JInternalFrame {
 		}
 		return btnListaSchede;
 	}
-
+	
 	/**
 	 * This method initializes tlbFunctions	
 	 * 	
@@ -161,6 +170,7 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton getBtnViewScheda() {
 		if (btnViewScheda == null) {
 			btnViewScheda = new JButton();
+			btnViewScheda.setMnemonic(KeyEvent.VK_V);
 			btnViewScheda.setText(Messages.getString("VcIfrMain.btnShowSheet")); //$NON-NLS-1$
 			btnViewScheda.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/fileopen.png"))); //$NON-NLS-1$
 			btnViewScheda.addActionListener(new java.awt.event.ActionListener() {
@@ -199,7 +209,7 @@ public class VcIfrMain extends JInternalFrame {
 		dialog.setVisible(true);
 		dialog.setVisible(closable);
 	}
-
+	   
 	/**
 	 * This method initializes btnModScheda	
 	 * 	
@@ -208,6 +218,7 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton getBtnModScheda() {
 		if (btnModScheda == null) {
 			btnModScheda = new JButton();
+			btnModScheda.setMnemonic(KeyEvent.VK_E);
 			btnModScheda.setText(Messages.getString("VcIfrMain.btnUpdSheet")); //$NON-NLS-1$
 			btnModScheda.setIcon(new ImageIcon(getClass().getResource(
 				"/it/f2/gestRip/ui/img/kate.png"))); //$NON-NLS-1$
@@ -249,6 +260,7 @@ public class VcIfrMain extends JInternalFrame {
 	private JButton getBrnStampaScheda() {
 		if (brnStampaScheda == null) {
 			brnStampaScheda = new JButton();
+			brnStampaScheda.setMnemonic(KeyEvent.VK_P);
 			brnStampaScheda.setText(Messages.getString("VcIfrMain.btnPrintSheet")); //$NON-NLS-1$
 			brnStampaScheda.setIcon(new ImageIcon(getClass().getResource(
 				"/it/f2/gestRip/ui/img/fileprint_.png"))); //$NON-NLS-1$
@@ -331,6 +343,14 @@ public class VcIfrMain extends JInternalFrame {
 			
 		}
 		return edpMainScreen;
+		
+
+	}  //  @jve:decl-index=0:visual-constraint="10,10"
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+}
