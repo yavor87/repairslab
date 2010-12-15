@@ -2,6 +2,7 @@ package it.f2.gestRip.control;
 
 import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.model.BinRelease;
+import it.f2.gestRip.ui.messages.Messages;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -52,33 +53,33 @@ public class CommonMetodBin {
 		} catch (SQLException e) {
 			Logger.getRootLogger().error("Exception in Connecting DB \n"+e+"\n");
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
-                    "Errore durante la connsessione al server: "
-                    +e.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE);
+					Messages.getString("Core.connectionErrorMsg") + " "
+                    +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		} catch (InstantiationException e) {
 			Logger.getRootLogger().error("Exception in Connecting DB \n"+e+"\n");
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
-                    "Errore durante la connsessione al server: "
-                    +e.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE);
+					Messages.getString("Core.connectionErrorMsg") + " "
+                    +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			Logger.getRootLogger().error("Exception in Connecting DB \n"+e+"\n");
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
-                    "Errore durante la connsessione al server: "
-                    +e.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE);
+					Messages.getString("Core.connectionErrorMsg") + " "
+                    +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			Logger.getRootLogger().error("Exception in Connecting DB \n"+e+"\n");
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
-                    "Errore durante la connsessione al server: "
-                    +e.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE);
+					Messages.getString("Core.connectionErrorMsg") + " "
+                    +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		}
 		return con;
 	}
 	
 	public String testServerConn(String driver,String url,String user,String psw){
-		String result = "Non Connesso";
+		String result = Messages.getString("Core.notConnected");
 		try {
 			Logger.getRootLogger().debug("Testing Connection DB...");
 			Class.forName(driver).newInstance();
@@ -99,7 +100,7 @@ public class CommonMetodBin {
 			result = "Ok";
 			
 		} catch (SQLException e) {
-			result = "Errore:"+e.getErrorCode()+":"+e.getMessage();
+			result = Messages.getString("Core.connectionErrorMsg")+e.getErrorCode()+":"+e.getMessage();
 		} catch (InstantiationException e) {
 			result = e.getMessage();
 		} catch (IllegalAccessException e) {
@@ -113,7 +114,7 @@ public class CommonMetodBin {
 	}
 	
 	public String testEmbConn(){
-		String result = "Non Connesso";
+		String result = Messages.getString("Core.notConnected");
 		try {
 			Logger.getRootLogger().debug("Testing Connection Embedded DB...");
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
@@ -134,7 +135,7 @@ public class CommonMetodBin {
 			result = "Ok";
 			
 		} catch (SQLException e) {
-			result = "Errore:"+e.getErrorCode()+":"+e.getMessage();
+			result = Messages.getString("Core.connectionErrorMsg")+e.getErrorCode()+":"+e.getMessage();
 			e.printStackTrace();
 		} catch (InstantiationException e) {
 			result = e.getMessage();
@@ -160,8 +161,8 @@ public class CommonMetodBin {
 		} catch (SQLException e) {
 			Logger.getRootLogger().error("Exception in Closing Connection DB \n"+e+"\n");
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
-                    "Errore durante la chiusura del server: "
-                    +e.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE);
+					Messages.getString("Core.connCloseErr") + " "
+                    +e.getMessage(),Messages.getString("Core.connectionErrorMsg"),JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
