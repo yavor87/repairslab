@@ -721,12 +721,13 @@ public class VcDlgOptions extends JDialog {
     private JRadioButton getRbtReportTypeDefault() {
     	if (rbtReportTypeDefault == null) {
     		rbtReportTypeDefault = new JRadioButton();
+    		final String report = "RicevutaConsegnaApparato.jasper";
+    		if (EnvProperties.getInstance().getProperty(EnvProperties.JASPER).equals(report))
+    			rbtReportTypeDefault.setSelected(true);
     		rbtReportTypeDefault.setBounds(new Rectangle(122, 489, 68, 21));
     		rbtReportTypeDefault.setText("Default");
     		rbtReportTypeDefault.addItemListener(new java.awt.event.ItemListener() {
     			public void itemStateChanged(java.awt.event.ItemEvent e) {
-    				String report = "RicevutaConsegnaApparato.jasper";
-    				EnvProperties.getInstance().setProperty(EnvProperties.JASPER, report);
     				getTxpJasper().setText(report);
     				getTxpJasper().setEnabled(false);
     			}
@@ -743,11 +744,13 @@ public class VcDlgOptions extends JDialog {
     private JRadioButton getRbtReportTypeMysql() {
     	if (rbtReportTypeMysql == null) {
     		rbtReportTypeMysql = new JRadioButton();
+    		final String report = "RicevutaConsegnaApparatoMySql.jasper";
+    		if (EnvProperties.getInstance().getProperty(EnvProperties.JASPER).equals(report))
+    			rbtReportTypeMysql.setSelected(true);
     		rbtReportTypeMysql.setBounds(new Rectangle(122, 512, 65, 24));
     		rbtReportTypeMysql.setText("MySql");
     		rbtReportTypeMysql.addItemListener(new java.awt.event.ItemListener() {
     			public void itemStateChanged(java.awt.event.ItemEvent e) {
-    				String report = "RicevutaConsegnaApparatoMySql.jasper";
     				getTxpJasper().setText(report);
     				getTxpJasper().setEnabled(false);
     			}
@@ -764,6 +767,9 @@ public class VcDlgOptions extends JDialog {
     private JRadioButton getRbtReportTypeCustom() {
     	if (rbtReportTypeCustom == null) {
     		rbtReportTypeCustom = new JRadioButton();
+    		if (!EnvProperties.getInstance().getProperty(EnvProperties.JASPER).equals("RicevutaConsegnaApparato.jasper")
+    				&& !EnvProperties.getInstance().getProperty(EnvProperties.JASPER).equals("RicevutaConsegnaApparatoMySql.jasper"))
+    			rbtReportTypeCustom.setSelected(true);
     		rbtReportTypeCustom.setBounds(new Rectangle(122, 536, 73, 24));
     		rbtReportTypeCustom.setText("Custom");
     		rbtReportTypeCustom.addItemListener(new java.awt.event.ItemListener() {
