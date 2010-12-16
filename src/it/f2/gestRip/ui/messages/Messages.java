@@ -9,14 +9,15 @@ import java.util.ResourceBundle;
 
 public class Messages {
 
-	private static final String BUNDLE_NAME_it = "it.f2.gestRip.ui.messages.Messages_it"; //$NON-NLS-1$
-	private static final String BUNDLE_NAME_en = "it.f2.gestRip.ui.messages.Messages_en"; //$NON-NLS-1$
-	private static final String BUNDLE_NAME_nl = "it.f2.gestRip.ui.messages.Messages_nl"; //$NON-NLS-1$
-	private static final String BUNDLE_NAME_es = "it.f2.gestRip.ui.messages.Messages_es"; //$NON-NLS-1$
-	private static final String BUNDLE_NAME_th = "it.f2.gestRip.ui.messages.Messages_th"; //$NON-NLS-1$
-	private static final String BUNDLE_NAME_fi = "it.f2.gestRip.ui.messages.Messages_fi"; //$NON-NLS-1$
-	private static final String BUNDLE_NAME_gr = "it.f2.gestRip.ui.messages.Messages_gr"; //$NON-NLS-1$
-	private static final String BUNDLE_NAME_pt = "it.f2.gestRip.ui.messages.Messages_pt"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_it = "it.f2.gestRip.ui.messages.Messages_it_enc"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_en = "it.f2.gestRip.ui.messages.Messages_en_enc"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_nl = "it.f2.gestRip.ui.messages.Messages_nl_enc"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_es = "it.f2.gestRip.ui.messages.Messages_es_enc"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_th = "it.f2.gestRip.ui.messages.Messages_th_enc"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_fi = "it.f2.gestRip.ui.messages.Messages_fi_enc"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_gr = "it.f2.gestRip.ui.messages.Messages_gr_enc"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_pt = "it.f2.gestRip.ui.messages.Messages_pt_enc"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_fr = "it.f2.gestRip.ui.messages.Messages_fr_enc"; //$NON-NLS-1$
 
 	private static ResourceBundle RESOURCE_BUNDLE = null;
 
@@ -49,6 +50,9 @@ public class Messages {
 			}else if(language.equals("pt")){	
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_pt,new Locale("pt","PT"));
 				Locale.setDefault(new Locale("pt","PT"));
+			}else if(language.equals("fr")){	
+				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_fr,Locale.FRENCH);
+				Locale.setDefault(Locale.FRENCH);
 			}else {
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_en,Locale.ENGLISH);
 				Locale.setDefault(Locale.ENGLISH);
@@ -67,6 +71,7 @@ public class Messages {
 		result.put("fi", new Locale("fi","FI").getDisplayLanguage()); //"Finnish"
 		result.put("el", new Locale("el","GR").getDisplayLanguage()); //"Greek"
 		result.put("pt", new Locale("pt","PT").getDisplayLanguage()); //"Portuguese"
+		result.put("fr", Locale.FRENCH.getDisplayLanguage()); //"French"
 		return result;
 	}
 

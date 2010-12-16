@@ -1,8 +1,11 @@
 package it.f2.gestRip.ui;
 
+import it.f2.gestRip.EnvConstants;
 import it.f2.gestRip.control.CommonMetodBin;
 import it.f2.gestRip.ui.messages.Messages;
+import it.f2.gestRip.util.LinksUtils;
 
+import java.awt.Component;
 import java.awt.Frame;
 import java.awt.HeadlessException;
 import java.awt.Rectangle;
@@ -30,6 +33,7 @@ public class VcDlgAbout extends JDialog {
 	private JLabel lblAutore = null;
 	private JLabel lblVersion = null;
 	private JButton btnOk = null;
+	private JButton btnTeam = null;
 	/**
 	 * Costruttore della classe
 	 * 
@@ -81,6 +85,7 @@ public class VcDlgAbout extends JDialog {
 			jContentPane.add(lblAutore, null);
 			jContentPane.add(lblVersion, null);
 			jContentPane.add(getBtnOk(), null);
+			jContentPane.add(getBtnTeam(), null);
 		}
 		return jContentPane;
 	}
@@ -110,5 +115,25 @@ public class VcDlgAbout extends JDialog {
 	private void close() {
 		this.dispose();
 	}
+
+	/**
+     * This method initializes btnTeam	
+     * 	
+     * @return javax.swing.JButton	
+     */
+    private JButton getBtnTeam() {
+    	if (btnTeam == null) {
+    		btnTeam = new JButton();
+    		btnTeam.setBounds(new Rectangle(172, 213, 99, 32));
+    		btnTeam.setText("Team");
+    		final Component parent = super.getParent();
+    		btnTeam.addActionListener(new java.awt.event.ActionListener() {
+    			public void actionPerformed(java.awt.event.ActionEvent e) {
+    				LinksUtils.openUrl(parent, EnvConstants.LINK_TEAM);
+    			}
+    		});
+    	}
+    	return btnTeam;
+    }
 
 } //  @jve:decl-index=0:visual-constraint="10,10"
