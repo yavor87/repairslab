@@ -1,0 +1,3 @@
+alter table schede drop column ...
+
+alter table schede add column deleted VARCHAR(1);
