@@ -343,7 +343,7 @@ public class VcMainFrame extends JFrame {
 			settingMenu.setText(Messages.getString("VcMainFrame.mnuTools")); //$NON-NLS-1$
 			settingMenu.setMnemonic('T'); // Create shortcut
 			settingMenu.add(getMniSchedeDeleted());
-			settingMenu.add(getMniStatistics());
+//			settingMenu.add(getMniStatistics());
 			settingMenu.add(getOptionsMenuItem());
 		}
 		return settingMenu;
@@ -800,18 +800,18 @@ public class VcMainFrame extends JFrame {
 			            File file = fc.getSelectedFile();
 			            try {
 			            	if (file.exists()) {
-			            		int confirm = JOptionPane.showConfirmDialog(f, "Il file esiste lo vuoi sovrascrivere?", "Export action", JOptionPane.OK_CANCEL_OPTION);
+			            		int confirm = JOptionPane.showConfirmDialog(f, Messages.getString("VcMainFrame.exportConfirm"), Messages.getString("VcMainFrame.exportAction"), JOptionPane.OK_CANCEL_OPTION);
 			            		if (confirm == JOptionPane.OK_OPTION) {
 			            			DerbyDump.exportInZipFile(file.getPath());
-			            			JOptionPane.showMessageDialog(f, "Export ok", "Export action", JOptionPane.INFORMATION_MESSAGE);
+			            			JOptionPane.showMessageDialog(f, Messages.getString("VcMainFrame.exportOk"), Messages.getString("VcMainFrame.exportAction"), JOptionPane.INFORMATION_MESSAGE);
 			            		}
 			            	} else {
 			            		DerbyDump.exportInZipFile(file.getPath());
-			            		JOptionPane.showMessageDialog(f, "Export ok", "Export action", JOptionPane.INFORMATION_MESSAGE);
+			            		JOptionPane.showMessageDialog(f, Messages.getString("VcMainFrame.exportOk"), Messages.getString("VcMainFrame.exportAction"), JOptionPane.INFORMATION_MESSAGE);
 			            	}
 			            	
 			            } catch (Exception ex) {
-			            	JOptionPane.showMessageDialog(f, "Export error: " + ex.getMessage(), "Export action", JOptionPane.ERROR_MESSAGE);
+			            	JOptionPane.showMessageDialog(f, Messages.getString("VcMainFrame.exportErr") + ex.getMessage(), Messages.getString("VcMainFrame.exportAction"), JOptionPane.ERROR_MESSAGE);
 						}
 			        }
 
@@ -843,11 +843,20 @@ public class VcMainFrame extends JFrame {
 			        if (returnVal == JFileChooser.APPROVE_OPTION) {
 			            File file = fc.getSelectedFile();
 			            try {
-		            		DerbyDump.importFormZipFile(file.getPath());
-		            		JOptionPane.showMessageDialog(f, "Import ok", "Import action", JOptionPane.INFORMATION_MESSAGE);
-			            	
+			            	int confirm = JOptionPane.showConfirmDialog(f, Messages.getString("VcMainFrame.importConfirm"), Messages.getString("VcMainFrame.importAction"), JOptionPane.OK_CANCEL_OPTION);
+			            	if (confirm == JOptionPane.OK_OPTION) {
+			            		int confirm2 = JOptionPane.showConfirmDialog(f, Messages.getString("VcMainFrame.importConfirm2"), Messages.getString("VcMainFrame.importAction"), JOptionPane.OK_CANCEL_OPTION);
+			            		if (confirm2 == JOptionPane.OK_OPTION) {
+			            			DerbyDump.importFormZipFile(file.getPath());
+			            			JOptionPane.showMessageDialog(f, Messages.getString("VcMainFrame.importOk"), Messages.getString("VcMainFrame.importAction"), JOptionPane.INFORMATION_MESSAGE);
+			            		} else {
+			            			JOptionPane.showMessageDialog(f, Messages.getString("VcMainFrame.importNo"), Messages.getString("VcMainFrame.importAction"), JOptionPane.INFORMATION_MESSAGE);
+			            		}
+			            	} else {
+			            		JOptionPane.showMessageDialog(f, Messages.getString("VcMainFrame.importNo"), Messages.getString("VcMainFrame.importAction"), JOptionPane.INFORMATION_MESSAGE);
+			            	}
 			            } catch (Exception ex) {
-			            	JOptionPane.showMessageDialog(f, "Import error: " + ex.getMessage(), "Import action", JOptionPane.ERROR_MESSAGE);
+			            	JOptionPane.showMessageDialog(f, Messages.getString("VcMainFrame.importErr") + ex.getMessage(), Messages.getString("VcMainFrame.importAction"), JOptionPane.ERROR_MESSAGE);
 			            	ex.printStackTrace();
 						}
 			        }

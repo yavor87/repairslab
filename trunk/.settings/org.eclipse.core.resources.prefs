@@ -1,11 +1,13 @@
-#Tue Dec 07 16:35:53 CET 2010
+#Thu Dec 16 14:48:48 CET 2010
 eclipse.preferences.version=1
+encoding//packages/translations/Messages_fr.properties=UTF-8
 encoding//packages/translations/Messages_gr.properties=UTF-8
 encoding//packages/translations/Messages_it.properties=UTF-8
 encoding//packages/translations/Messages_nl.properties=UTF-8
-encoding//src/it/f2/gestRip/ui/messages/Messages_en.properties=UTF-8
-encoding//src/it/f2/gestRip/ui/messages/Messages_es.properties=UTF-8
-encoding//src/it/f2/gestRip/ui/messages/Messages_fi.properties=UTF-8
-encoding//src/it/f2/gestRip/ui/messages/Messages_it.properties=UTF-8
-encoding//src/it/f2/gestRip/ui/messages/Messages_nl.properties=UTF-8
+encoding//packages/translations/Messages_th.properties=UTF-8
+encoding//src/it/f2/gestRip/ui/messages/Messages_en_enc.properties=UTF-8
+encoding//src/it/f2/gestRip/ui/messages/Messages_es_enc.properties=UTF-8
+encoding//src/it/f2/gestRip/ui/messages/Messages_fi_enc.properties=UTF-8
+encoding//src/it/f2/gestRip/ui/messages/Messages_it_enc.properties=UTF-8
+encoding//src/it/f2/gestRip/ui/messages/Messages_nl_enc.properties=UTF-8
 encoding/<project>=UTF-8
