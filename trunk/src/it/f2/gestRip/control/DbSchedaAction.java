@@ -136,7 +136,7 @@ public class DbSchedaAction {
 			"nonConform='"+getParsedString(scheda.getNonConformita())+"'," +
 			"descrizioneRiparazione='"+getParsedString(scheda.getDescrizioneRiparazione())+"'," +
 			"noteStampa='"+getParsedString(scheda.getNoteStampa())+"'," +
-			"noteUsoInterno='"+scheda.getNoteUsoInterno()+"'," +
+			"noteUsoInterno='"+getParsedString(scheda.getNoteUsoInterno())+"'," +
 			"costoPreventivato="+scheda.getCostoPreventivo()+"," +
 			"costoInterno="+scheda.getCostoInterno()+"," +
 			"pagatoDalCliente="+scheda.getPagatoDalCliente()+"," +
