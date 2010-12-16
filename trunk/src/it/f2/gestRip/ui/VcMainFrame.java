@@ -154,8 +154,10 @@ public class VcMainFrame extends JFrame {
 			fileMenu = new JMenu();
 			fileMenu.setText(Messages.getString("VcMainFrame.mnuFile")); //$NON-NLS-1$
 			fileMenu.setMnemonic('F'); // Create shortcut
-			fileMenu.add(getMniExport());
-			fileMenu.add(getMniImport());
+			if(EnvProperties.getInstance().getProperty(EnvProperties.DB_ISEMBEDDED).endsWith("S")){
+				fileMenu.add(getMniExport());
+				fileMenu.add(getMniImport());
+			}
 			fileMenu.addSeparator();
 			fileMenu.add(getExitMenuItem());
 		}

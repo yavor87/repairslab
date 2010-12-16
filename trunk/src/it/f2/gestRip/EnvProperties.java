@@ -42,6 +42,7 @@ public class EnvProperties {
 	public static String LANGUAGE = "f2.language";
 	public static String LOCALE = "f2.locale";
 	public static String PREFIX_NUM = "f2.prefix.num";
+	public static String JASPER = "f2.jasper";
 
 	/* Singleton */
 	private Properties properties;

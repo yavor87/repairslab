@@ -4,6 +4,10 @@ import it.f2.gestRip.EnvProperties;
 import it.f2.gestRip.ui.messages.Messages;
 import it.f2.util.ui.WindowUtil;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.util.HashMap;
@@ -30,7 +34,17 @@ public class PrintAction {
 	}
 
 	private JasperReport getReportRicevuta() throws JRException {
-		InputStream rep = getClass() .getResourceAsStream("/it/f2/gestRip/report/RicevutaConsegnaApparato.jasper"); //$NON-NLS-1$
+		InputStream rep;
+		String report = EnvProperties.getInstance().getProperty(EnvProperties.JASPER);
+		if (report.equals("RicevutaConsegnaApparato.jasper") || report.equals("RicevutaConsegnaApparatoMySql.jasper")) {
+			rep = getClass().getResourceAsStream("/it/f2/gestRip/report/"+report); //$NON-NLS-1$
+		} else {
+			try {
+	            rep = new BufferedInputStream(new FileInputStream(new File(report)));
+            } catch (FileNotFoundException e) {
+	            throw new JRException(e.getMessage());
+            } 
+		}
 		JasperReport jasperReport = (JasperReport) JRLoader.loadObject(rep);
 		return jasperReport;
 	}
