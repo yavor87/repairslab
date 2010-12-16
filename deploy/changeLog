@@ -6,6 +6,8 @@ Bug Fixed
 - UTF-8 convertion of language files
 - ID: 3125522 fixed
 - ID: 3125986 fixed
+- ID: 3134870 fixed
+- ID: 3125347 fixed
 
 New Feature
 - Thai language supported
@@ -15,7 +17,8 @@ New Feature
 - Status bar
 - Check for update function
 - Export/Import data function for Derby
-- ID: 3128741 (Satistics and shortcuts keys)
+- ID: 3128741 (Statistics and shortcuts keys)
+- ID: 3127086 (Custom print template)
 
 
 ### Version 1.0.3 ###  19/10/2010   ###

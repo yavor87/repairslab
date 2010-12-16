@@ -23,6 +23,7 @@ import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -32,6 +33,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -57,6 +59,8 @@ public class VcDlgOptions extends JDialog {
 	private File fileLogo = null;  //  @jve:decl-index=0:
 	private JButton btnOk = null;
 	private JButton btnCanc = null;
+	private JTextField txpJasper = null;
+	private JLabel lblJasper = null;
 	private JLabel lblImgStyle = null;
 	private JLabel lblLookAndFeel = null;
 	private JComboBox cmbLookAndFeel = null;
@@ -79,6 +83,10 @@ public class VcDlgOptions extends JDialog {
 	private JLabel lblPrefixNumber = null;
 	private JTextField txfPrefixNumber = null;
 	private JLabel lblLocale = null;
+	private JRadioButton rbtReportTypeDefault = null;
+	private JRadioButton rbtReportTypeMysql = null;
+	private JRadioButton rbtReportTypeCustom = null;
+	private ButtonGroup buttonGroup = null;  //  @jve:decl-index=0:visual-constraint="690,563"
 	
 	/**
 	 * This is the default constructor
@@ -96,7 +104,7 @@ public class VcDlgOptions extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(612, 564);
+		this.setSize(627, 664);
 		this.setTitle(Messages.getString("VcDlgOptions.titleOptions")); //$NON-NLS-1$
 		this.setContentPane(getJContentPane());
 	}
@@ -106,6 +114,7 @@ public class VcDlgOptions extends JDialog {
 	 * 
 	 * @return javax.swing.JPanel
 	 */
+	
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
 			jContentPane = new JPanel();
@@ -114,7 +123,7 @@ public class VcDlgOptions extends JDialog {
 		}
 		return jContentPane;
 	}
-
+	
 	/**
 	 * This method initializes pnlSettings
 	 * 
@@ -158,13 +167,11 @@ public class VcDlgOptions extends JDialog {
 			lblImgStyle = new JLabel();
 			lblImgStyle.setBounds(new Rectangle(14, 431, 51, 44));
 			lblImgStyle.setIcon(new ImageIcon(getClass().getResource("/it/f2/gestRip/ui/img/style.png"))); //$NON-NLS-1$
-			lblImgStyle
-					.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+			lblImgStyle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			lblImgStyle.setText(""); //$NON-NLS-1$
 			lblFileLogo = new JLabel();
 			lblFileLogo.setBounds(new Rectangle(255, 13, 138, 16));
-			lblFileLogo.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD, //$NON-NLS-1$
-					12));
+			lblFileLogo.setFont(new java.awt.Font("Dialog", java.awt.Font.BOLD,12)); //$NON-NLS-1$
 			lblFileLogo.setText(Messages.getString("VcDlgOptions.lblLogo")); //$NON-NLS-1$
 			pnlSettings = new JPanel();
 			pnlSettings.setLayout(null);
@@ -190,6 +197,17 @@ public class VcDlgOptions extends JDialog {
 			pnlSettings.add(lblPrefixNumber, null);
 			pnlSettings.add(getTxfPrefixNumber(), null);
 			pnlSettings.add(lblLocale, null);
+			pnlSettings.add(getTxpJasper(), null);
+			lblJasper = new JLabel();
+			lblJasper.setBounds(new Rectangle(14, 485, 98, 30));
+			lblJasper.setHorizontalAlignment(SwingConstants.RIGHT);
+			lblJasper.setText(Messages.getString("VcDlgOptions.lblJasper")); //$NON-NLS-1$
+			pnlSettings.add(lblJasper, null);
+
+			pnlSettings.add(getRbtReportTypeDefault(), null);
+			pnlSettings.add(getRbtReportTypeMysql(), null);
+			pnlSettings.add(getRbtReportTypeCustom(), null);
+			getButtonGroup();
 		}
 		return pnlSettings;
 	}
@@ -253,6 +271,7 @@ public class VcDlgOptions extends JDialog {
 		return btnDefDir;
 	}
 
+	
 	/**
 	 * Questo metodo apre il JFileChooser e permette di modificare
 	 * il valore della variabile DEFAULTEDITDIR.
@@ -285,7 +304,7 @@ public class VcDlgOptions extends JDialog {
 					EnvProperties.getInstance().setProperty(EnvProperties.FILELOGO,filePath);
 					this.getTxpFileLogo().setText(filePath);
 					this.lblLogo.setIcon(scale(new ImageIcon(filePath), lblLogo.getWidth(), lblLogo.getHeight()));
-				}
+					}
 			}
 		}
 	}
@@ -325,7 +344,7 @@ public class VcDlgOptions extends JDialog {
 	private JButton getBtnOk() {
 		if (btnOk == null) {
 			btnOk = new JButton();
-			btnOk.setBounds(new Rectangle(231, 495, 93, 29));
+			btnOk.setBounds(new Rectangle(233, 588, 93, 29));
 			btnOk.setIcon(new ImageIcon(getClass().getResource(
 					"/it/f2/gestRip/ui/img/filesave.png"))); //$NON-NLS-1$
 			btnOk.setText(Messages.getString("VcDlgOptions.btnSave")); //$NON-NLS-1$
@@ -346,7 +365,7 @@ public class VcDlgOptions extends JDialog {
 	private JButton getBtnCanc() {
 		if (btnCanc == null) {
 			btnCanc = new JButton();
-			btnCanc.setBounds(new Rectangle(126, 495, 99, 29));
+			btnCanc.setBounds(new Rectangle(128, 588, 99, 29));
 			btnCanc.setIcon(new ImageIcon(getClass().getResource(
 					"/it/f2/gestRip/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnCanc.setText(Messages.getString("VcDlgOptions.btnCanc")); //$NON-NLS-1$
@@ -370,6 +389,7 @@ public class VcDlgOptions extends JDialog {
 	 * Effettua il salvataggio di EnvProperties e richiama la chiusura.
 	 */
 	private void save() {
+		EnvProperties.getInstance().setProperty(EnvProperties.JASPER, getTxpJasper().getText());
 		EnvProperties.getInstance().saveFileProperty();
 		close();
 	}
@@ -383,8 +403,7 @@ public class VcDlgOptions extends JDialog {
 		if (cmbLookAndFeel == null) {
 			cmbLookAndFeel = new JComboBox();
 			cmbLookAndFeel.setBounds(new Rectangle(70, 448, 150, 24));
-			cmbLookAndFeel
-					.addActionListener(new java.awt.event.ActionListener() {
+			cmbLookAndFeel.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
 							setLookAndFeel((TypeCmb) cmbLookAndFeel
 									.getSelectedItem());
@@ -394,6 +413,7 @@ public class VcDlgOptions extends JDialog {
 			try {
 				Logger.getRootLogger().debug("getCmbLookAndFeel..."); //$NON-NLS-1$
 				TypeCmb seledted = null;
+				
 				/* Caricamento da file di property */
 				String path = "conf" + System.getProperty("file.separator") + "LookAndFeel.properties"; //$NON-NLS-1$
 				FileInputStream in = new FileInputStream(path);
@@ -475,7 +495,6 @@ public class VcDlgOptions extends JDialog {
 		}
 		return txpFileLogo;
 	}
-
 	/**
 	 * This method initializes scpInfoCliente	
 	 * 	
@@ -552,7 +571,7 @@ public class VcDlgOptions extends JDialog {
 	private JButton getBtnAdvOpt() {
 		if (btnAdvOpt == null) {
 			btnAdvOpt = new JButton();
-			btnAdvOpt.setBounds(new Rectangle(333, 495, 140, 29));
+			btnAdvOpt.setBounds(new Rectangle(335, 588, 140, 29));
 			btnAdvOpt.setText(Messages.getString("VcDlgOptions.btnAdvOpt")); //$NON-NLS-1$
 			btnAdvOpt.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -574,24 +593,30 @@ public class VcDlgOptions extends JDialog {
 		if (chbNoDoppiaCopia == null) {
 			chbNoDoppiaCopia = new JCheckBox();
 			chbNoDoppiaCopia.setBounds(new Rectangle(14, 390, 24, 21));
-			String ck =  EnvProperties.getInstance().getProperty(
-					EnvProperties.DOPPIACOPIA);
+			String ck =  EnvProperties.getInstance().getProperty(EnvProperties.DOPPIACOPIA);
 			if(ck.equals("N")) //$NON-NLS-1$
 				chbNoDoppiaCopia.setSelected(true);
 			chbNoDoppiaCopia.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
 					if(chbNoDoppiaCopia.isSelected())
-						EnvProperties.getInstance().setProperty(
-								EnvProperties.DOPPIACOPIA, "N"); //$NON-NLS-1$
+						EnvProperties.getInstance().setProperty(EnvProperties.DOPPIACOPIA, "N"); //$NON-NLS-1$
 					else
-						EnvProperties.getInstance().setProperty(
-								EnvProperties.DOPPIACOPIA, "S"); //$NON-NLS-1$
+						EnvProperties.getInstance().setProperty(EnvProperties.DOPPIACOPIA, "S"); //$NON-NLS-1$
 				}
 			});
 		}
 		return chbNoDoppiaCopia;
 	}
-
+	private JTextField getTxpJasper() {
+		if (txpJasper == null) {
+			txpJasper = new JTextField();
+			txpJasper.setBounds(new Rectangle(215, 536, 240, 21));
+			txpJasper.setText(EnvProperties.getInstance().getProperty(EnvProperties.JASPER));
+			if (!getRbtReportTypeCustom().isSelected())
+				txpJasper.setEnabled(false);
+		}
+		return txpJasper;
+	}
 	/**
 	 * This method initializes cmbLanguage	
 	 * 	
@@ -677,7 +702,7 @@ public class VcDlgOptions extends JDialog {
 						EnvProperties.PREFIX_NUM, pref);
 			}
 			txfPrefixNumber.setText(pref);
-			txfPrefixNumber.setBounds(new Rectangle(397, 144, 200, 25));
+			txfPrefixNumber.setBounds(new Rectangle(397, 144, 193, 25));
 			txfPrefixNumber.addFocusListener(new java.awt.event.FocusAdapter() {
 				public void focusLost(java.awt.event.FocusEvent e) {
 					EnvProperties.getInstance().setProperty(
@@ -688,4 +713,83 @@ public class VcDlgOptions extends JDialog {
 		return txfPrefixNumber;
 	}
 
+	/**
+     * This method initializes rbtReportType	
+     * 	
+     * @return javax.swing.JRadioButton	
+     */
+    private JRadioButton getRbtReportTypeDefault() {
+    	if (rbtReportTypeDefault == null) {
+    		rbtReportTypeDefault = new JRadioButton();
+    		rbtReportTypeDefault.setBounds(new Rectangle(122, 489, 68, 21));
+    		rbtReportTypeDefault.setText("Default");
+    		rbtReportTypeDefault.addItemListener(new java.awt.event.ItemListener() {
+    			public void itemStateChanged(java.awt.event.ItemEvent e) {
+    				String report = "RicevutaConsegnaApparato.jasper";
+    				EnvProperties.getInstance().setProperty(EnvProperties.JASPER, report);
+    				getTxpJasper().setText(report);
+    				getTxpJasper().setEnabled(false);
+    			}
+    		});
+    	}
+    	return rbtReportTypeDefault;
+    }
+
+	/**
+     * This method initializes rbtReportTypeMysql	
+     * 	
+     * @return javax.swing.JRadioButton	
+     */
+    private JRadioButton getRbtReportTypeMysql() {
+    	if (rbtReportTypeMysql == null) {
+    		rbtReportTypeMysql = new JRadioButton();
+    		rbtReportTypeMysql.setBounds(new Rectangle(122, 512, 65, 24));
+    		rbtReportTypeMysql.setText("MySql");
+    		rbtReportTypeMysql.addItemListener(new java.awt.event.ItemListener() {
+    			public void itemStateChanged(java.awt.event.ItemEvent e) {
+    				String report = "RicevutaConsegnaApparatoMySql.jasper";
+    				getTxpJasper().setText(report);
+    				getTxpJasper().setEnabled(false);
+    			}
+    		});
+    	}
+    	return rbtReportTypeMysql;
+    }
+
+	/**
+     * This method initializes rbtReportTypeCustom	
+     * 	
+     * @return javax.swing.JRadioButton	
+     */
+    private JRadioButton getRbtReportTypeCustom() {
+    	if (rbtReportTypeCustom == null) {
+    		rbtReportTypeCustom = new JRadioButton();
+    		rbtReportTypeCustom.setBounds(new Rectangle(122, 536, 73, 24));
+    		rbtReportTypeCustom.setText("Custom");
+    		rbtReportTypeCustom.addItemListener(new java.awt.event.ItemListener() {
+    			public void itemStateChanged(java.awt.event.ItemEvent e) {
+    				getTxpJasper().setEnabled(true);
+    			}
+    		});
+    	}
+    	return rbtReportTypeCustom;
+    }
+
+	/**
+     * This method initializes buttonGroup	
+     * 	
+     * @return javax.swing.ButtonGroup	
+     */
+    private ButtonGroup getButtonGroup() {
+    	if (buttonGroup == null) {
+    		buttonGroup = new ButtonGroup();
+    		buttonGroup.add(getRbtReportTypeCustom());
+    		buttonGroup.add(getRbtReportTypeDefault());
+    		buttonGroup.add(getRbtReportTypeMysql());
+    	}
+    	return buttonGroup;
+    }
+
 } //  @jve:decl-index=0:visual-constraint="10,10"
+
+ 	  	 
