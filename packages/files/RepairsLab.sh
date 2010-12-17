@@ -8,7 +8,7 @@ case "`uname -s`" in
 esac
 
 # ReparsLab home.
-RL_HOME='/home/fabrizio/Scrivania/RepairsLab-1.0.1a2'
+RL_HOME='/home/fabrizio/Scrivania/RepairsLab-1.0.4.0'
 
 # ReparsLab home in Unix format.
 if $cygwin ; then
