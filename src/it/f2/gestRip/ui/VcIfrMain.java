@@ -315,7 +315,6 @@ public class VcIfrMain extends JInternalFrame implements ActionListener {
 			edpMainScreen = new JEditorPane();
 			edpMainScreen.setContentType("text/html"); //$NON-NLS-1$
 			edpMainScreen.addHyperlinkListener(new HyperlinkListener(){
-				@Override
                 public void hyperlinkUpdate(HyperlinkEvent e) {
 					if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
 						if (Locale.getDefault().equals(Locale.ITALY))
@@ -347,7 +346,6 @@ public class VcIfrMain extends JInternalFrame implements ActionListener {
 
 	}  //  @jve:decl-index=0:visual-constraint="10,10"
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
