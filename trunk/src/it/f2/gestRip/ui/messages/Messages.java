@@ -1,8 +1,11 @@
 package it.f2.gestRip.ui.messages;
 
+import it.f2.gestRip.EnvConstants;
 import it.f2.gestRip.EnvProperties;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -59,6 +62,24 @@ public class Messages {
 			}
 		}
 		return RESOURCE_BUNDLE;
+	}
+	
+	public static String userGuideFileString() {
+		
+		List<String> supportedUserGuideLang = new ArrayList<String>();
+		supportedUserGuideLang.add("en");
+		supportedUserGuideLang.add("it");
+		
+		String language = EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE);
+		if(language == null){
+			language = Locale.getDefault().getLanguage();
+			EnvProperties.getInstance().setProperty(EnvProperties.LANGUAGE, language);
+		}
+		if(supportedUserGuideLang.contains(language)){
+			return EnvConstants.FILE_USER_GUIDE_PREFIX + language + EnvConstants.FILE_USER_GUIDE_SUFFIX;
+		} else {
+			return EnvConstants.FILE_USER_GUIDE_PREFIX + "en" + EnvConstants.FILE_USER_GUIDE_SUFFIX;
+		}
 	}
 
 	public static HashMap<String, String> getLanguageMaps() {

@@ -126,6 +126,10 @@ public class BinRelease {
 	    return getMajorVersion() + "." + getMinorVersion() + "." + getRevision() + "." + getRelease();
 	}
 	
+	public String getRevisionString() {
+		return getMajorVersion() + "." + getMinorVersion() + "." + getRevision();
+	}
+	
 	@Override
 	public boolean equals(Object o) {
 		BinRelease bo = (BinRelease)o;

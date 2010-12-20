@@ -763,10 +763,7 @@ public class VcMainFrame extends JFrame {
 			mniHelpContent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, 0));
 			mniHelpContent.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					if(EnvProperties.getInstance().getProperty(EnvProperties.LANGUAGE).equalsIgnoreCase("it"))
-						LinksUtils.openFile(mniHelpContent.getParent(), "site"+File.separator+"documents"+File.separator+"RepairsLabUserManual-it.pdf");
-					else
-						LinksUtils.openFile(mniHelpContent.getParent(), "site"+File.separator+"documents"+File.separator+"RepairsLabUserGuide-en.pdf");
+					LinksUtils.openFile(mniHelpContent.getParent(), Messages.userGuideFileString());
 				}
 			});
 		}
