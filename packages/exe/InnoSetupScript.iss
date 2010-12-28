@@ -5,27 +5,30 @@
 ; NOTE: The value of AppId uniquely identifies this application.
 ; Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{8604960B-CEA8-4023-AF40-3AA8CD9AE214}
-AppName=RepairsLab
-AppVersion=1.0.3
-;AppVerName=RepairsLab 1.0.3
-AppPublisher=FFERRO
+AppId={{C5ECFD3D-45FD-48CE-AC95-213179DD9E89}
+AppName=RepairsLab1.0.4
+AppVersion=1.0.4
+;AppVerName=RepairsLab1.0.4 1.0.4
+AppPublisher=Fabrizio Ferraiuolo
 AppPublisherURL=http://repairslab.sourceforge.net/
 AppSupportURL=http://repairslab.sourceforge.net/
 AppUpdatesURL=http://repairslab.sourceforge.net/
-DefaultDirName={pf}\RepairsLab
-DefaultGroupName=RepairsLab
-LicenseFile=C:\wip\eclipse\decisyon\RepairsLab\packages\zip\RepairsLab-1.0.3-002_stable\license.txt
+DefaultDirName={pf}\RepairsLab1.0.4
+DefaultGroupName=RepairsLab1.0.4
+LicenseFile=C:\wip\eclipse\decisyon\RepairsLab\packages\zip\RepairsLab-1.0.4.0\license.txt
 OutputDir=C:\wip\eclipse\decisyon\RepairsLab\packages\exe
-OutputBaseFilename=RepairsLab-1.0.3-002Setup
-SetupIconFile=C:\wip\eclipse\decisyon\RepairsLab\packages\zip\RepairsLab-1.0.3-002_stable\logo.ico
+OutputBaseFilename=RepairsLab-1.0.4.0-Setup
+SetupIconFile=C:\wip\eclipse\decisyon\RepairsLab\packages\zip\RepairsLab-1.0.4.0\logo.ico
 Compression=lzma
 SolidCompression=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "dutch"; MessagesFile: "compiler:Languages\Dutch.isl"
+Name: "finnish"; MessagesFile: "compiler:Languages\Finnish.isl"
+Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
+Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
 Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Tasks]
@@ -33,17 +36,17 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: "C:\wip\eclipse\decisyon\RepairsLab\packages\zip\RepairsLab-1.0.3-002_stable\RepairsLab.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\wip\eclipse\decisyon\RepairsLab\packages\zip\RepairsLab-1.0.3-002_stable\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\wip\eclipse\decisyon\RepairsLab\packages\zip\RepairsLab-1.0.4.0\RepairsLab.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\wip\eclipse\decisyon\RepairsLab\packages\zip\RepairsLab-1.0.4.0\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
-Name: "{group}\RepairsLab"; Filename: "{app}\RepairsLab.exe"
-Name: "{group}\{cm:ProgramOnTheWeb,RepairsLab}"; Filename: "http://repairslab.sourceforge.net/"
-Name: "{group}\{cm:UninstallProgram,RepairsLab}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\RepairsLab"; Filename: "{app}\RepairsLab.exe"; Tasks: desktopicon
-Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\RepairsLab"; Filename: "{app}\RepairsLab.exe"; Tasks: quicklaunchicon
+Name: "{group}\RepairsLab1.0.4"; Filename: "{app}\RepairsLab.exe"
+Name: "{group}\{cm:ProgramOnTheWeb,RepairsLab1.0.4}"; Filename: "http://repairslab.sourceforge.net/"
+Name: "{group}\{cm:UninstallProgram,RepairsLab1.0.4}"; Filename: "{uninstallexe}"
+Name: "{commondesktop}\RepairsLab1.0.4"; Filename: "{app}\RepairsLab.exe"; Tasks: desktopicon
+Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\RepairsLab1.0.4"; Filename: "{app}\RepairsLab.exe"; Tasks: quicklaunchicon
 
 [Run]
-Filename: "{app}\RepairsLab.exe"; Description: "{cm:LaunchProgram,RepairsLab}"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\RepairsLab.exe"; Description: "{cm:LaunchProgram,RepairsLab1.0.4}"; Flags: nowait postinstall skipifsilent
 
