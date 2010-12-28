@@ -1,197 +1,28 @@
-<?xml version="1.0"?>
-<project basedir="." default="build_from_source" name="repairslab">
-	<property file="build.properties"/>
-	<path id="repairslab.classpath">
-		<fileset dir="lib">
-			<include name="**/*.jar"/>
-		</fileset>
-	</path>
-	<delete dir="${bin.dir}" failonerror="false"/>
-	<mkdir dir="${bin.dir}"/>
-	<target name="set_buildversion" description="Sets the buildversion for the current build">
-		<exec executable="svnversion" spawn="false" dir="." output="revision.tmp">
-					<arg line="-n .."/>
-		</exec>
-		<replaceregexp file="revision.tmp" match="([0-9]*:)" replace="" byline="false"/>
-		<replaceregexp file="revision.tmp" match="[M]" replace="" byline="false"/>
-		<loadfile property="revision" srcFile="revision.tmp"/>
-		<delete file="revision.tmp"/>	
-		<exec executable="date" spawn="false" dir="." output="date.tmp">
-			<arg line="+date=%s000"/>
-		</exec>
-		<property file="date.tmp"/>
-		<delete file="date.tmp"/>
-		<delete file="src/version"/>
-		<copy file="src/version0" tofile="src/version"/>	
-		<replace file="src/version">
-			<replacefilter token="@revision@" value="${revision}"/>
-			<replacefilter token="@date@" value="${date}"/>
-		</replace>		
-		<delete file="${bin.dir}/update.channel"/>		
+<project name="RepairsLab" basedir=".">
+	<target name="compile" depends="init">
+	    <echo message="Compiling..."/>
+	    <mkdir dir="${bin.dir}"/>
+	    <javac srcdir="${src.dir}"
+	        destdir="${bin.dir}"
+	        debug="on"
+	        deprecation="on"
+	        optimize="off">
+	        <classpath >
+	            <fileset dir="${lib.dir} ">
+	                <include name="**/*.jar"/>
+	            </fileset>
+	        </classpath>
+	            <include name="*.java" />
+	    </javac>
 	</target>
-	<target name="compile">
-		<mkdir dir="${bin.dir}/icons"/>
-	    <javac nowarn="true" destdir="${bin.dir}" srcdir="src" source="1.5" target="1.5" fork="yes" memoryMaximumSize="260M" debug="true" debuglevel="lines,vars,source">
-       		<classpath refid="repairslab.classpath">
-       			
-	    	</classpath>
-        </javac>
-		<copy todir="${bin.dir}/icons" >
-			<fileset dir="src/icons"/>
-		</copy>
-        <copy file="src/version" tofile="${bin.dir}/version"/>
-	</target>
-	<target name="build_from_source" depends="set_buildversion, build"/>
-	<target name="build_dev_channel" depends="set_buildversion">
-		<echo file="${bin.dir}/update.channel" message="class=de.shandschuh.jaolt.core.updatechannel.DeveloperUpdateChannel${line.separator}"/>	
-		<antcall target="build"/>
-	</target>
-	<target name="build_auvito_channel" depends="set_buildversion">
-		<echo file="${bin.dir}/update.channel" message="class=de.shandschuh.jaolt.core.updatechannel.AuvitoUpdateChannel${line.separator}"/>	
-		<antcall target="build"/>
-		<delete file="plugins/auctionplatforms/hood.jar"/>
-		<delete file="plugins/auctionplatforms/ricardo.jar"/>
-		<delete dir="plugins/auctionplatforms/ricardo"/>
-	</target>
-	<target name="build_hood_channel" depends="set_buildversion">
-		<echo file="${bin.dir}/update.channel" message="class=de.shandschuh.jaolt.core.updatechannel.HoodUpdateChannel${line.separator}"/>	
-		<antcall target="build"/>
-		<delete file="plugins/auctionplatforms/auvito.jar"/>
-		<delete file="plugins/auctionplatforms/ricardo.jar"/>
-		<delete dir="plugins/auctionplatforms/ricardo"/>
-	</target>
-	<target name="build_sysmanaged_channel">
-		<echo file="${bin.dir}/update.channel" message="class=de.shandschuh.jaolt.core.updatechannel.SystemManagedUpdateChannel${line.separator}"/>	
-		<antcall target="build"/>
-	</target>
-	<target name="build" depends="compile">
-		<!-- Creation of jaolt.jar -->
-		<jar destfile="lib/jaolt.jar" basedir="${bin.dir}">
-			<exclude name="de/shandschuh/jaolt/launcher/**"/>
-			<exclude name="de/shandschuh/jaolt/core/auctionplatform/auvito/**"/>
-			<exclude name="de/shandschuh/jaolt/core/auctionplatform/hood/**"/>
-			<exclude name="de/shandschuh/jaolt/core/auctionplatform/ebay/**"/>
-			<exclude name="de/shandschuh/jaolt/core/auctionplatform/*AuctionPlatform.class"/>
-			<exclude name="de/shandschuh/jaolt/core/pictureuploadservice/FTP*"/>
-			<exclude name="de/shandschuh/jaolt/core/pictureuploadservice/Image*"/>
-			<exclude name="de/shandschuh/jaolt/server/**"/>
-			<exclude name="net/**"/>
-			<exclude name="com/**"/>
-			<exclude name="org/**"/>
-			<exclude name="de/shandschuh/jaolt/tools/log/**"/>
-			<exclude name="version0"/>
-		</jar><!--		
-		<jar destfile="lib/jaoltserver.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/core/**"/>
-			<manifest>
-				<attribute name="Main-Class" value="de.shandschuh.jaolt.core.server.LocalHostSocketListener"/>
-			</manifest>
-		</jar>-->
-		
 
-		<!-- Creation of launcher.jar -->
-		<jar destfile="launcher.jar" 
-					basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/launcher/**"/>
-			<include name="de/shandschuh/jaolt/tools/log/**"/>
-			<manifest>
-				<attribute name="Main-Class" value="de.shandschuh.jaolt.launcher.ApplicationLauncher"/>
-			</manifest>
-		</jar>
-		
-		<jar destfile="languageeditor.jar" 
-		                    basedir="${bin.dir}">
-		            <include name="de/shandschuh/jaolt/launcher/**"/>
-		            <include name="de/shandschuh/jaolt/tools/log/**"/>
-		            <manifest>
-		                <attribute name="Main-Class" value="de.shandschuh.jaolt.launcher.LanguageEditorLauncher"/>
-		            </manifest>
-		        </jar>
-		<jar destfile="plugins/auctionplatforms/auvito.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/core/auctionplatform/auvito/**"/>
-			<include name="de/shandschuh/jaolt/core/auctionplatform/AuvitoAuctionPlatform.class"/>
-		    <manifest>
-		    	<attribute name="Main-Class" value="de.shandschuh.jaolt.core.auctionplatform.AuvitoAuctionPlatform"/>
-		    </manifest>
-		</jar>
-		<!--
-		<jar destfile="plugins/auctionplatforms/hood.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/core/auctionplatform/hood/**"/>
-			<include name="de/shandschuh/jaolt/core/auctionplatform/HoodAuctionPlatform.class"/>
-			<manifest>
-			   	<attribute name="Main-Class" value="de.shandschuh.jaolt.core.auctionplatform.HoodAuctionPlatform"/>
-			</manifest>
-		</jar>-->
-		<jar destfile="plugins/auctionplatforms/ebay.jar" basedir="${bin.dir}">
-		    <include name="de/shandschuh/jaolt/core/auctionplatform/ebay/**"/>
-			<include name="de/shandschuh/jaolt/core/auctionplatform/EBayAuctionPlatform.class"/>
-		  	<manifest>
-		        <attribute name="Main-Class" value="de.shandschuh.jaolt.core.auctionplatform.EBayAuctionPlatform"/>
-		    </manifest>
-		</jar>
-		<!--
-		<jar destfile="plugins/auctionplatforms/ricardo.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/core/auctionplatform/ricardo/**"/>
-			<include name="de/shandschuh/jaolt/core/auctionplatform/RicardoAuctionPlatform.class"/>
-			<manifest>
-				<attribute name="Main-Class" value="de.shandschuh.jaolt.core.auctionplatform.RicardoAuctionPlatform"/>
-			</manifest>
-		</jar>
-		<mkdir dir="plugins/auctionplatforms/ricardo"/>
-		<jar destfile="plugins/auctionplatforms/ricardo/ricardosdk.jar" basedir="${bin.dir}">
-		    <include name="com/aucland/**"/>
-		</jar>-->
-		<jar destfile="lib/ekit.jar" basedir="${bin.dir}">
-		    <include name="com/hexidec/**"/>
-		    <include name="com/swabunga/spell/event/SpellCheckListener.class"/>
-		</jar>
-		<jar destfile="plugins/pictureuploadservices/imageshack.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/core/pictureuploadservice/ImageShackPictureUploadService.class"/>
-		    <manifest>
-		    	<attribute name="Main-Class" value="de.shandschuh.jaolt.core.pictureuploadservice.ImageShackPictureUploadService"/>
-		    </manifest>
-		</jar>
-		<!--
-		<jar destfile="plugins/pictureuploadservices/imagehost.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/core/pictureuploadservice/ImageHostPictureUploadService.class"/>
-		    <manifest>
-		    	<attribute name="Main-Class" value="de.shandschuh.jaolt.core.pictureuploadservice.ImageHostPictureUploadService"/>
-		    </manifest>
-		</jar>
-		-->
-		<jar destfile="plugins/pictureuploadservices/666kb.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/core/pictureuploadservice/GeizhalsATPictureUploadService.class"/>
-			<manifest>
-			  	<attribute name="Main-Class" value="de.shandschuh.jaolt.core.pictureuploadservice.GeizhalsATPictureUploadService"/>
-			</manifest>
-		</jar>
-		<!--
-		<jar destfile="plugins/shippinglabelservices/hermes.jar" basedir="${bin.dir}">
-				<include name="de/shandschuh/jaolt/core/shippinglabelservice/HermesShippingLabelService.class"/>
-				    <manifest>
-				    	<attribute name="Main-Class" value="de.shandschuh.jaolt.core.shippinglabelservice.HermesShippingLabelService"/>
-				    </manifest>
-				</jar>
-		
-		<jar destfile="plugins/pictureuploadservices/ftp.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/core/pictureuploadservice/FTPPictureUploadService.class"/>
-		    <manifest>
-		    	<attribute name="Main-Class" value="de.shandschuh.jaolt.core.pictureuploadservice.FTPPictureUploadService"/>
-		    </manifest>
-		</jar>
-		-->
-		<copy file="../wiki/Changelog.wiki" tofile="changelog.txt" failonerror="false"/>		
-	</target>
-	<target name="static_data_server" depends="build">
-		<jar destfile="lib/static_data_server.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/server/**"/>
-		</jar>
-		<jar destfile="staticdatalauncher.jar" basedir="${bin.dir}">
-			<include name="de/shandschuh/jaolt/launcher/**"/>
-			<include name="de/shandschuh/jaolt/tools/log/**"/>
-			<manifest>
-				<attribute name="Main-Class" value="de.shandschuh.jaolt.launcher.StaticDataFetcherLauncher"/>
-			</manifest>
-		</jar>
+	<target name="init" >
+	    <!-- Project Directories -->
+	    <property name="src.dir" value="${basedir}/src"/>
+	    <property name="bin.dir" value="${basedir}/bin"/>
+	    <property name="resource.dir" value="${basedir}/resource"/>
+	    <property name="deploy.dir" value="${basedir}/deploy"/>
+	    <property name="log.dir" value="${log}/temp"/>
+	    <property name="lib.dir" value="${basedir}/lib"/>
 	</target>
 </project>
