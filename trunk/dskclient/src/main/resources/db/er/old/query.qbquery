@@ -1,0 +1,90 @@
+SELECT
+schede.id                 "Numero",
+anastati.nomeStato        "Stato",
+schede.dataInserimento    "Data Ingresso",
+schede.dataChiusura       "Data Chiusura",
+tipoapparecchiature.nome  "Tipo",
+marchi.nome               "Marca",
+modelli.nome              "Modello",
+clienti.nome              "Nome Cliente",
+clienti.cognome           "Cognome Cliente"
+FROM
+gestrip.schede,
+gestrip.anastati,
+gestrip.tipoapparecchiature,
+gestrip.marchi,
+gestrip.modelli,
+gestrip.clienti
+WHERE
+schede.idStato=anastati.id AND
+schede.idTipoApparecchiatura=tipoapparecchiature.id AND
+schede.idMarca=marchi.id AND
+schede.idModello=modelli.id AND
+schede.idCliente=clienti.id;
+
+
+SELECT
+schede.id                 "Numero",
+anastati.nomeStato        "Stato",
+schede.dataInserimento    "Data Ingresso",
+schede.dataChiusura       "Data Chiusura",
+tipoapparecchiature.nome  "Tipo",
+marchi.nome               "Marca",
+modelli.nome              "Modello",
+clienti.nome              "Nome Cliente",
+clienti.cognome           "Cognome Cliente"
+FROM
+gestrip.schede
+LEFT JOIN gestrip.anastati on schede.idStato=anastati.id
+LEFT JOIN gestrip.tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id
+LEFT JOIN gestrip.marchi on schede.idMarca=marchi.id
+LEFT JOIN gestrip.modelli on schede.idModello=modelli.id
+LEFT JOIN gestrip.clienti on schede.idCliente=clienti.id;
+
+
+select 'CREAZIONE','Data Creazione',dataInserimento as data
+from gestrip.schede
+where id = 1
+union
+select anastati.nomeStato,anastati.descStato,statoscheda.data as data
+from gestrip.statoscheda RIGHT JOIN gestrip.anastati
+on statoscheda.idStato = anastati.id
+and statoscheda.id = 1
+union
+select 'COMPLETATO','Chiusura',dataChiusura as data
+from gestrip.schede
+where id = 1;
+
+--query report
+SELECT
+schede.id,
+clienti.nome,
+clienti.cognome,
+clienti.indirizzo,
+clienti.city,
+schede.dataInserimento,
+tipoapparecchiature.nome,
+marchi.nome,
+modelli.nome,
+schede.serial,
+schede.imei,
+schede.accessoriConsegnati,
+schede.statoGenerale,
+schede.difettoSegnalato,
+tiporiparazione.nomeTipoRip,
+schede.idTipoDatiAcq,
+schede.numeroDatiAcq,
+schede.dataDatiAcq,
+schede.costoPreventivato,
+schede.descrizioneRiparazione,
+schede.noteStampa,
+schede.dataChiusura,
+schede.pagatoDalCliente
+FROM
+gestrip.schede
+LEFT JOIN gestrip.tipoapparecchiature on schede.idTipoApparecchiatura=tipoapparecchiature.id
+LEFT JOIN gestrip.marchi on schede.idMarca=marchi.id
+LEFT JOIN gestrip.modelli on schede.idModello=modelli.id
+LEFT JOIN gestrip.clienti on schede.idCliente=clienti.id
+LEFT JOIN gestrip.tiporiparazione on schede.idTiporip=tiporiparazione.id
+WHERE schede.id = 1;-- $P{idScheda}
