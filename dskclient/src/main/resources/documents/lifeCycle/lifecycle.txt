@@ -1,3 +1,4 @@
 ## SCM ##
 # cd C:\wip\eclipse\decisyon\RepairsLab
 mvn scm:update
+mvn -Dmessage=commit-log-here scm:checkin
