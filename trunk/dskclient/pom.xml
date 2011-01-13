@@ -1,11 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.repairslab</groupId>
 	<artifactId>RepairsLab</artifactId>
 	<name>RepairsLab</name>
-	<version>1.0.4-SNAPSHOT</version>
-	<description>This system allow to manage the entry and exit of equipment repair in a small workshop for repairs or service center. The application allows the printing of a &quot;Repair sheet&quot; for each device and manage the state of repair.</description>
+	<version>1.0.4</version>
+	<description>This system allow to manage the entry and exit of equipment repair in a small workshop for repairs or service center. The application allows the printing of a "Repair sheet" for each device and manage the state of repair.</description>
 	<url>http://repairslab.sourceforge.net/</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,9 +31,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</connection>
-		<developerConnection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</developerConnection>
-		<url>https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</url>
+		<connection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/tags/RepairsLab-1.0.4</connection>
+		<developerConnection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/tags/RepairsLab-1.0.4</developerConnection>
+		<url>https://repairslab.svn.sourceforge.net/svnroot/repairslab/tags/RepairsLab-1.0.4</url>
 	</scm>
 	<build>
 		<defaultGoal>install</defaultGoal>
