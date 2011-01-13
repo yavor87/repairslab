@@ -3,7 +3,7 @@
 	<groupId>net.sf.repairslab</groupId>
 	<artifactId>RepairsLab</artifactId>
 	<name>RepairsLab</name>
-	<version>1.0.4</version>
+	<version>1.0.5-SNAPSHOT</version>
 	<description>This system allow to manage the entry and exit of equipment repair in a small workshop for repairs or service center. The application allows the printing of a "Repair sheet" for each device and manage the state of repair.</description>
 	<url>http://repairslab.sourceforge.net/</url>
 	<properties>
@@ -31,9 +31,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/tags/RepairsLab-1.0.4</connection>
-		<developerConnection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/tags/RepairsLab-1.0.4</developerConnection>
-		<url>https://repairslab.svn.sourceforge.net/svnroot/repairslab/tags/RepairsLab-1.0.4</url>
+		<connection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</connection>
+		<developerConnection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</developerConnection>
+		<url>https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</url>
 	</scm>
 	<build>
 		<defaultGoal>install</defaultGoal>
