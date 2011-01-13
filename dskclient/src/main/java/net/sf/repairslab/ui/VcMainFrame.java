@@ -105,7 +105,7 @@ public class VcMainFrame extends JFrame {
 		this.setSize(Integer.parseInt(EnvProperties.getInstance().getProperty(EnvProperties.WIDTH)), Integer.parseInt(EnvProperties.getInstance().getProperty(EnvProperties.HEIGHT)));
 		this.setContentPane(getJContentPane());
 		String title = EnvProperties.getInstance().getProperty(EnvProperties.APPNAME);
-		title += CommonMetodBin.getInstance().getCurrentRelease().getStatus().equals(Status.RELEASE) ? "" : " - " + CommonMetodBin.getInstance().getCurrentRelease().getStatus().toString(); 
+		title += CommonMetodBin.getInstance().getCurrentRelease().getStatus().equals(Status.STABLE) ? "" : " - " + CommonMetodBin.getInstance().getCurrentRelease().getStatus().toString(); 
 		this.setTitle(title);
 		this.addWindowListener(new java.awt.event.WindowAdapter() {
 			public void windowClosing(java.awt.event.WindowEvent e) {

@@ -8,8 +8,16 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Singleton to read from file version.properties
+ * @author Fabrizio Ferraiuolo
+ * 13/gen/2011
+ * 15.29.00
+ * Copyright (c)2009 Decisyon S.r.l.
+ */
 public class VersionReader {
 	public static final String	VERSION = "version";
+	public static final String	RELEASE = "release";
 
 	private static Properties	properties;
 	
