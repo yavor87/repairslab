@@ -37,7 +37,7 @@ public class StartApp {
 	public static void main(String[] args) {
 		
 		File f = new File("pippo.txt");
-		System.out.println(f.getAbsolutePath());
+//		System.out.println(f.getAbsolutePath());
 		
 		initLog4j();
 		
@@ -54,12 +54,16 @@ public class StartApp {
         splash.setStatus("Starting...", 10);
         
         splash.setStatus("Get release...", 20);
-        String release = "";
+        BinRelease binRelease = null;
         try {
-        	release = VersionReader.getInstance().getProperty(VersionReader.VERSION);
-        } catch (NullPointerException e) {
+        	String release = VersionReader.getInstance().getProperty(VersionReader.VERSION);
+        	int version = Integer.parseInt(VersionReader.getInstance().getProperty(VersionReader.RELEASE));
+        	binRelease = new BinRelease(release, version);
+        } catch (NullPointerException e) { 
+		} catch (IllegalArgumentException e) { 
 		}
-        CommonMetodBin.getInstance().setCurrentRelease(new BinRelease(release));
+		
+        CommonMetodBin.getInstance().setCurrentRelease(binRelease);
         splash.setRelease(CommonMetodBin.getInstance().getCurrentRelease().toString());
         
         splash.setStatus("Setting locale", 30);
