@@ -339,10 +339,10 @@ public class DbSchedaAction {
 				"pIva,azienda,phone," +
 				"mobilePhone,email," +
 				"indirizzo,city) " +
-				"values ("+binCliente.getId()+",'"+binCliente.getNome()+"','"+binCliente.getCognome()+"'," +
-						"'"+binCliente.getPIva()+"','"+binCliente.getAzienda()+"','"+binCliente.getPhone()+"'," +
-						"'"+binCliente.getMobilePhone()+"','"+binCliente.getEmail()+"'," +
-						"'"+binCliente.getIndirizzo()+"','"+binCliente.getCity()+"')";
+				"values ("+binCliente.getId()+",'"+getParsedString(binCliente.getNome())+"','"+getParsedString(binCliente.getCognome())+"'," +
+						"'"+getParsedString(binCliente.getPIva())+"','"+getParsedString(binCliente.getAzienda())+"','"+getParsedString(binCliente.getPhone())+"'," +
+						"'"+getParsedString(binCliente.getMobilePhone())+"','"+getParsedString(binCliente.getEmail())+"'," +
+						"'"+getParsedString(binCliente.getIndirizzo())+"','"+getParsedString(binCliente.getCity())+"')";
 		//System.out.println(ins);
 		smtpIns.executeUpdate(ins);
 		smtpIns.close();
