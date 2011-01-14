@@ -245,7 +245,7 @@ public class VcJDBCTablePanel extends JPanel {
 						getTxfRecNum().setText(""+(getTblJDBCTable().getSelectedRow()+1));
 					}
 				});
-			getTblJDBCTable().getSelectionModel().setSelectionInterval(0,0);
+			tblJDBCTable.getSelectionModel().setSelectionInterval(0,0);
 		
 		}
 		return tblJDBCTable;

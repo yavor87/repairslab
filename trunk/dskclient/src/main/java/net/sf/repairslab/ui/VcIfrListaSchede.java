@@ -214,6 +214,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					try{
 						int id_scheda = (Integer)getTblList().getValueAt(getTblList().currentRow(), 0);
+//						reserFilter();
 						openDetail(VcDlgDetailScheda.mode.update,id_scheda);
 					}catch(IndexOutOfBoundsException ex){}
 				}
@@ -514,22 +515,26 @@ public class VcIfrListaSchede extends JInternalFrame {
 			btnReset.setBounds(new Rectangle(150, 80, 135, 26));
 			btnReset.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					getTblList().setQuery(QryUtil.QRY_LISTA_SCHEDE_ALL);
-					getTblList().setParameters(null);
-					getTblList().refresh();
-					
-					getTxfNumeroScheda().setText(""); //$NON-NLS-1$
-					getCmbStato().setSelectedIndex(getCmbStato().getModel().getSize()-1);
-					getTxfDataIngresso().setDate(null);
-					getTxfDataUscita().setDate(null);
-					getTxfCognome().setText(""); //$NON-NLS-1$
-					getTxfNome().setText(""); //$NON-NLS-1$
-					getTxfSerial().setText(""); //$NON-NLS-1$
-					getCmbTipoAppa().setSelectedIndex(getCmbTipoAppa().getModel().getSize()-1);
+					reserFilter();
 				}
 			});
 		}
 		return btnReset;
+	}
+	
+	private void reserFilter() {
+		getTblList().setQuery(QryUtil.QRY_LISTA_SCHEDE_ALL);
+		getTblList().setParameters(null);
+		getTblList().refresh();
+		
+		getTxfNumeroScheda().setText(""); //$NON-NLS-1$
+		getCmbStato().setSelectedIndex(getCmbStato().getModel().getSize()-1);
+		getTxfDataIngresso().setDate(null);
+		getTxfDataUscita().setDate(null);
+		getTxfCognome().setText(""); //$NON-NLS-1$
+		getTxfNome().setText(""); //$NON-NLS-1$
+		getTxfSerial().setText(""); //$NON-NLS-1$
+		getCmbTipoAppa().setSelectedIndex(getCmbTipoAppa().getModel().getSize()-1);
 	}
 
 	/**

@@ -111,7 +111,7 @@ public class JDBCTableModel extends AbstractTableModel {
         	size++;
 
         set.beforeFirst();
-
+        
         fireTableDataChanged();
         
     }
