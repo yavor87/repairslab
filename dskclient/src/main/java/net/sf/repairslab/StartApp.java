@@ -23,7 +23,7 @@ import org.apache.log4j.PropertyConfigurator;
 
 public class StartApp {
 	
-	static private Logger  logger = Logger.getLogger(StartApp.class);
+	static private Logger  logger = Logger.getLogger(StartApp.class.getName());
 	
 	/**
 	 * @author ferraf01

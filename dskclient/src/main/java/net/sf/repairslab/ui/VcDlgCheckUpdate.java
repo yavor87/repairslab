@@ -21,6 +21,8 @@ import org.apache.log4j.Logger;
 
 public class VcDlgCheckUpdate  extends JDialog {
 	
+	static private Logger  logger = Logger.getLogger(VcDlgCheckUpdate.class.getName());
+	
 	private static final long serialVersionUID = 1L;
 	private Frame parent = null;
 	private JPanel jContentPane = null;
@@ -39,7 +41,7 @@ public class VcDlgCheckUpdate  extends JDialog {
 	 */
 	public VcDlgCheckUpdate(Frame parent) throws HeadlessException {
 		super(parent, true);
-		Logger.getRootLogger().debug("VcDlgAbout constructor..."); //$NON-NLS-1$
+		logger.debug("VcDlgAbout constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		CheckUpdates.check();
 		initialize();

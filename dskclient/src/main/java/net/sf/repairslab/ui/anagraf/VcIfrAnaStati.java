@@ -19,6 +19,8 @@ import net.sf.repairslab.util.VcJDBCTablePanel;
 import org.apache.log4j.Logger;
 
 public class VcIfrAnaStati extends JInternalFrame {
+	
+	static private Logger  logger = Logger.getLogger(VcIfrAnaStati.class.getName());
 
 	/**
 	 * 
@@ -33,7 +35,7 @@ public class VcIfrAnaStati extends JInternalFrame {
 	 */
 	public VcIfrAnaStati(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("VcIfrAnaStati constructor..."); //$NON-NLS-1$
+		logger.debug("VcIfrAnaStati constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		con = CommonMetodBin.getConn();
 		initialize();
@@ -53,10 +55,10 @@ public class VcIfrAnaStati extends JInternalFrame {
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
-						Logger.getRootLogger().debug("Closing..."); //$NON-NLS-1$
+						logger.debug("Closing..."); //$NON-NLS-1$
 						close();
 					}catch(Exception e1){
-						Logger.getRootLogger().error("Exception in Closing \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+						logger.error("Exception in Closing \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 					}
 				}
@@ -101,7 +103,7 @@ public class VcIfrAnaStati extends JInternalFrame {
 				
 				protected void onDelete(){
 					try {
-						Logger.getRootLogger().debug("Deleting..."); //$NON-NLS-1$
+						logger.debug("Deleting..."); //$NON-NLS-1$
 						Statement smtp = con.createStatement();
 						String query = "select count(*) from schede " + //$NON-NLS-1$
 								"where idStato = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
@@ -120,7 +122,7 @@ public class VcIfrAnaStati extends JInternalFrame {
 						rs.close();
 						smtp.close();
 					} catch (SQLException e) {
-						Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+						logger.error("Exception in Deleting \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 						e.printStackTrace();
 					}					
 				}

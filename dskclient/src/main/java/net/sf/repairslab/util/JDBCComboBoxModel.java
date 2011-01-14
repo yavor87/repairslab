@@ -13,6 +13,8 @@ import org.apache.log4j.Logger;
 
 public class JDBCComboBoxModel extends DefaultComboBoxModel{
 	
+	static private Logger  logger = Logger.getLogger(JDBCComboBoxModel.class.getName());
+	
 	/**
 	 * 
 	 */
@@ -49,7 +51,7 @@ public class JDBCComboBoxModel extends DefaultComboBoxModel{
 		this.addElement(e1);
 		
 		try {
-			Logger.getRootLogger().debug("Inizializing...");
+			logger.debug("Inizializing...");
 			Statement smtp = con.createStatement();
 			ResultSet rs = smtp.executeQuery(this.query);
 			while(rs.next()){
@@ -76,7 +78,7 @@ public class JDBCComboBoxModel extends DefaultComboBoxModel{
 			rs.close();
 			smtp.close();
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Inizializing \n"+e+"\n");
+			logger.error("Exception in Inizializing \n"+e+"\n", e);
 			e.printStackTrace();
 		}
 		

@@ -26,6 +26,8 @@ import org.apache.log4j.Logger;
 import com.toedter.calendar.JDateChooser;
 
 public class VcPnlApparecchio extends JPanel {
+	
+	static private Logger  logger = Logger.getLogger(VcPnlApparecchio.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	private mode modality = null;
@@ -72,7 +74,7 @@ public class VcPnlApparecchio extends JPanel {
 	 */
 	public VcPnlApparecchio(mode modality,BinScheda scheda,VcDlgDetailScheda parent,Connection con) {
 		super();
-		Logger.getRootLogger().debug("VcPnlApparecchio constructor..."); //$NON-NLS-1$
+		logger.debug("VcPnlApparecchio constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.scheda = scheda;
 		this.parent = parent;

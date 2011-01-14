@@ -32,6 +32,8 @@ import net.sf.repairslab.util.ui.WindowUtil;
 import org.apache.log4j.Logger;
 
 public class VcIfrMain extends JInternalFrame implements ActionListener {
+	
+	static private Logger  logger = Logger.getLogger(VcIfrMain.class.getName());
 
 	/**
 	 * 
@@ -54,7 +56,7 @@ public class VcIfrMain extends JInternalFrame implements ActionListener {
 	 */
 	public VcIfrMain(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("Loading Main.."); //$NON-NLS-1$
+		logger.debug("Loading Main.."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = CommonMetodBin.getConn();
 		initialize();
@@ -188,7 +190,7 @@ public class VcIfrMain extends JInternalFrame implements ActionListener {
 										Messages.getString("VcIfrMain.msgWarningTit"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 							}
 						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception in Connectiond DB \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							logger.error("Exception in Connectiond DB \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 							//e1.printStackTrace();
 						}
 						
@@ -236,7 +238,7 @@ public class VcIfrMain extends JInternalFrame implements ActionListener {
 										Messages.getString("VcIfrMain.msgWarningTit"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 							}
 						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception in Connectiond DB \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							logger.error("Exception in Connectiond DB \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 							//e1.printStackTrace();
 						}
 						
@@ -277,7 +279,7 @@ public class VcIfrMain extends JInternalFrame implements ActionListener {
 										Messages.getString("VcIfrMain.msgWarningTit"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 							}
 						} catch (SQLException e1) {
-							Logger.getRootLogger().error("Exception in Connectiond DB \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+							logger.error("Exception in Connectiond DB \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 							//e1.printStackTrace();
 						}
 						
@@ -293,7 +295,7 @@ public class VcIfrMain extends JInternalFrame implements ActionListener {
 	}
 	
 	private void print(int nScheda){
-		Logger.getRootLogger().debug("printing"); //$NON-NLS-1$
+		logger.debug("printing"); //$NON-NLS-1$
 		PrintAction pa = new PrintAction();
 		pa.callReportRicevuta(this.parent,nScheda,con);
 	}
@@ -325,13 +327,13 @@ public class VcIfrMain extends JInternalFrame implements ActionListener {
 			});
 			
 			try {
-				Logger.getRootLogger().debug("Setting main html page..."); //$NON-NLS-1$
+				logger.debug("Setting main html page..."); //$NON-NLS-1$
 				edpMainScreen.setPage(html.toURI().toURL());
 			} catch (MalformedURLException e) {
-				Logger.getRootLogger().error("Exception in Setting main html page\n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.error("Exception in Setting main html page\n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			} catch (IOException e) {
-				Logger.getRootLogger().error("Exception in Setting main html page\n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.error("Exception in Setting main html page\n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			}
 			edpMainScreen.setEditable(false);

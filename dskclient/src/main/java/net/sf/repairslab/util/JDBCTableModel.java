@@ -25,6 +25,8 @@ import org.apache.log4j.Logger;
  * @since 10/24/2002
  */
 public class JDBCTableModel extends AbstractTableModel {
+	
+	static private Logger  logger = Logger.getLogger(JDBCTableModel.class.getName());
 
     static final long serialVersionUID = 2487661888487685951L;
 
@@ -199,12 +201,12 @@ public class JDBCTableModel extends AbstractTableModel {
         }
 
         try {
-        	//Logger.getRootLogger().debug("getValueAt...");
+        	//logger.debug("getValueAt...");
             set.absolute(row + 1);
             return set.getObject(column + 1);
         } catch (SQLException e) {
             //throw new RuntimeException(e);
-        	Logger.getRootLogger().error("Exception in getValueAt \n"+e+"\n");
+        	logger.error("Exception in getValueAt \n"+e+"\n", e);
         	e.printStackTrace();
         	return null;
         }
@@ -220,30 +222,30 @@ public class JDBCTableModel extends AbstractTableModel {
     @Override
     public String getColumnName(int column) {
         try {
-        	//Logger.getRootLogger().debug("getColumnName...");
+        	//logger.debug("getColumnName...");
             return set.getMetaData().getColumnLabel(column + 1);
         } catch (SQLException ex) {
-        	Logger.getRootLogger().error("Exception in getColumnName \n"+ex+"\n");
+        	logger.error("Exception in getColumnName \n"+ex+"\n");
             return super.getColumnName(column);
         }
     }
 
     public String getColumnNameOrig(int column) {
         try {
-        	//Logger.getRootLogger().debug("getColumnNameOrig...");
+        	//logger.debug("getColumnNameOrig...");
             return set.getMetaData().getColumnName(column + 1);
         } catch (SQLException ex) {
-        	Logger.getRootLogger().error("Exception in getColumnNameOrig \n"+ex+"\n");
+        	logger.error("Exception in getColumnNameOrig \n"+ex+"\n");
             return super.getColumnName(column);
         }
     }
 
     public int getColumnPrecision(int column){
     	try {
-    		//Logger.getRootLogger().debug("getColumnPrecision...");
+    		//logger.debug("getColumnPrecision...");
             return set.getMetaData().getColumnDisplaySize(column + 1);
         } catch (SQLException ex) {
-        	Logger.getRootLogger().error("Exception in getColumnPrecision \n"+ex+"\n");
+        	logger.error("Exception in getColumnPrecision \n"+ex+"\n");
         	return 0;
         }
     }
@@ -310,7 +312,7 @@ public class JDBCTableModel extends AbstractTableModel {
 //    	System.out.println(getColumnNameOrig(column));
         if (updateable) {
             try {
-            	//Logger.getRootLogger().debug("setValueAt...");
+            	//logger.debug("setValueAt...");
                 if (row == size) {
                     set.moveToInsertRow();
                     set.updateObject(column + 1, value);
@@ -329,12 +331,12 @@ public class JDBCTableModel extends AbstractTableModel {
 
                 //con.commit();
             } catch (SQLException ex) {
-            	Logger.getRootLogger().error("Exception in setValueAt \n"+ex+"\n");
+            	logger.error("Exception in setValueAt \n"+ex+"\n", ex);
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(parent, ex.getMessage(),
                     ex.getClass().getName(), JOptionPane.ERROR_MESSAGE, null);
             } catch (Exception ex) {
-            	Logger.getRootLogger().error("Exception in setValueAt \n"+ex+"\n");
+            	logger.error("Exception in setValueAt \n"+ex+"\n",ex);
                 ex.printStackTrace();
                 JOptionPane.showMessageDialog(parent, ex.getMessage(),
                     ex.getClass().getName(), JOptionPane.ERROR_MESSAGE, null);
@@ -342,7 +344,7 @@ public class JDBCTableModel extends AbstractTableModel {
                 try {
                     refresh();
                 } catch (SQLException ex) {
-                	Logger.getRootLogger().error("Exception in setValueAt \n"+ex+"\n");
+                	logger.error("Exception in setValueAt \n"+ex+"\n", ex);
                     //ex.printStackTrace();
                     throw new RuntimeException(ex);
                 }
@@ -352,16 +354,16 @@ public class JDBCTableModel extends AbstractTableModel {
 
     public void deleteRow(int row){
     	try {
-    		//Logger.getRootLogger().debug("deleteRow...");
+    		//logger.debug("deleteRow...");
 			set.absolute(row + 1);
 		    set.deleteRow();
     	} catch (SQLException ex) {
-    		Logger.getRootLogger().error("Exception in deleteRow \n"+ex+"\n");
+    		logger.error("Exception in deleteRow \n"+ex+"\n", ex);
             //ex.printStackTrace();
             JOptionPane.showMessageDialog(parent, ex.getMessage(),
                 ex.getClass().getName(), JOptionPane.ERROR_MESSAGE, null);
         } catch (Exception ex) {
-        	Logger.getRootLogger().error("Exception in deleteRow \n"+ex+"\n");
+        	logger.error("Exception in deleteRow \n"+ex+"\n", ex);
             //ex.printStackTrace();
             JOptionPane.showMessageDialog(parent, ex.getMessage(),
                 ex.getClass().getName(), JOptionPane.ERROR_MESSAGE, null);
@@ -369,7 +371,7 @@ public class JDBCTableModel extends AbstractTableModel {
             try {
                 refresh();
             } catch (SQLException ex) {
-            	Logger.getRootLogger().error("Exception in deleteRow \n"+ex+"\n");
+            	logger.error("Exception in deleteRow \n"+ex+"\n", ex);
                 //ex.printStackTrace();
                 throw new RuntimeException(ex);
             }

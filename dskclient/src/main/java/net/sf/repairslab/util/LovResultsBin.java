@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 
 public class LovResultsBin {
 	
+	static private Logger  logger = Logger.getLogger(LovResultsBin.class.getName());
+	
 	public LovResultsBin(){
 	}
 	
@@ -24,7 +26,7 @@ public class LovResultsBin {
 				Object value = table.getValueAt(i, col);// + "";
 				if(value == null) value = "0";
 				try {
-					Logger.getRootLogger().debug("Loading...");
+					logger.debug("Loading...");
 					Statement smtp = con.createStatement();
 					String queryParsed = "";
 					try{
@@ -43,7 +45,7 @@ public class LovResultsBin {
 					rs.close();
 					smtp.close();
 				} catch (SQLException e) {
-					Logger.getRootLogger().error("Exception in Loading \n"+e+"\n");
+					logger.error("Exception in Loading \n"+e+"\n");
 					e.printStackTrace();
 				} 
 			}

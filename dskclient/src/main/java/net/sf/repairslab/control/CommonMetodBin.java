@@ -17,6 +17,8 @@ import org.apache.log4j.Logger;
 
 public class CommonMetodBin {
 	
+	static private Logger  logger = Logger.getLogger(CommonMetodBin.class.getName());
+	
 	private CommonMetodBin(){
 	}
 	
@@ -34,7 +36,7 @@ public class CommonMetodBin {
 	public static Connection getConn(){
 		Connection con = null;
 		try {
-			Logger.getRootLogger().debug("Connecting DB...");
+			logger.debug("Connecting DB...");
 			//if(con == null || con.isClosed()){
 			if(EnvProperties.getInstance().getProperty(EnvProperties.DB_ISEMBEDDED).endsWith("S")){
 				Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();		
@@ -51,25 +53,25 @@ public class CommonMetodBin {
 			}
 			//}
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Connecting DB \n"+e+"\n");
+			logger.error("Exception in Connecting DB \n"+e+"\n", e);
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
 					Messages.getString("Core.connectionErrorMsg") + " "
                     +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		} catch (InstantiationException e) {
-			Logger.getRootLogger().error("Exception in Connecting DB \n"+e+"\n");
+			logger.error("Exception in Connecting DB \n"+e+"\n",e);
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
 					Messages.getString("Core.connectionErrorMsg") + " "
                     +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			Logger.getRootLogger().error("Exception in Connecting DB \n"+e+"\n");
+			logger.error("Exception in Connecting DB \n"+e+"\n", e);
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
 					Messages.getString("Core.connectionErrorMsg") + " "
                     +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			Logger.getRootLogger().error("Exception in Connecting DB \n"+e+"\n");
+			logger.error("Exception in Connecting DB \n"+e+"\n", e);
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
 					Messages.getString("Core.connectionErrorMsg") + " "
                     +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
@@ -81,7 +83,7 @@ public class CommonMetodBin {
 	public String testServerConn(String driver,String url,String user,String psw){
 		String result = Messages.getString("Core.notConnected");
 		try {
-			Logger.getRootLogger().debug("Testing Connection DB...");
+			logger.debug("Testing Connection DB...");
 			Class.forName(driver).newInstance();
 				
 			Connection testCon = DriverManager.getConnection(url, user, psw);
@@ -116,7 +118,7 @@ public class CommonMetodBin {
 	public String testEmbConn(){
 		String result = Messages.getString("Core.notConnected");
 		try {
-			Logger.getRootLogger().debug("Testing Connection Embedded DB...");
+			logger.debug("Testing Connection Embedded DB...");
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
 				
 			Connection testCon = DriverManager.getConnection( "jdbc:derby:db/derby/gestrip");
@@ -151,7 +153,7 @@ public class CommonMetodBin {
 	
 	public static void closeConn(Connection con){
 		try {
-			Logger.getRootLogger().debug("Closing Connection DB...");
+			logger.debug("Closing Connection DB...");
 			if (con != null){
 				if (!con.isClosed()){
 					con.commit();
@@ -159,7 +161,7 @@ public class CommonMetodBin {
 				}
 			}
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Closing Connection DB \n"+e+"\n");
+			logger.error("Exception in Closing Connection DB \n"+e+"\n", e);
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
 					Messages.getString("Core.connCloseErr") + " "
                     +e.getMessage(),Messages.getString("Core.connectionErrorMsg"),JOptionPane.ERROR_MESSAGE);

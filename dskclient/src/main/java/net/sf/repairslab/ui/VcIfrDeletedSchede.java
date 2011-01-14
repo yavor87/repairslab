@@ -35,6 +35,8 @@ import org.apache.log4j.Logger;
 import com.toedter.calendar.JDateChooser;
 
 public class VcIfrDeletedSchede extends JInternalFrame {
+	
+	static private Logger  logger = Logger.getLogger(VcIfrDeletedSchede.class.getName());
 
 	/**
 	 * 
@@ -76,7 +78,7 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	 */
 	public VcIfrDeletedSchede(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("VcIfrListaSchede constructor..."); //$NON-NLS-1$
+		logger.debug("VcIfrListaSchede constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = CommonMetodBin.getConn();
 		initialize();
@@ -96,10 +98,10 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
-						Logger.getRootLogger().debug("Closing..."); //$NON-NLS-1$
+						logger.debug("Closing..."); //$NON-NLS-1$
 						close();
 					}catch(Exception e1){
-						Logger.getRootLogger().error("Exception in Closing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+						logger.error("Exception in Closing \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 					}
 				}
@@ -224,12 +226,12 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 					Messages.getString("VcIfrDeletedSchede.msgTitleInfo"), JOptionPane.OK_CANCEL_OPTION); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
-					Logger.getRootLogger().debug("Removing..."); //$NON-NLS-1$
+					logger.debug("Removing..."); //$NON-NLS-1$
 					DbSchedaAction.removeScheda(con,id_scheda);
 					con.commit();
 					getTblList().refresh();
 				} catch (SQLException e) {
-					Logger.getRootLogger().error("Exception in Removing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					logger.error("Exception in Removing \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 					//e.printStackTrace();
 				}
 			}
@@ -612,12 +614,12 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 					Messages.getString("VcIfrDeletedSchede.msgTitleInfo"), JOptionPane.OK_CANCEL_OPTION); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
-					Logger.getRootLogger().debug("Removing..."); //$NON-NLS-1$
+					logger.debug("Removing..."); //$NON-NLS-1$
 					DbSchedaAction.ripristinaScheda(con,id_scheda);
 					con.commit();
 					getTblList().refresh();
 				} catch (SQLException e) {
-					Logger.getRootLogger().error("Exception in Removing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					logger.error("Exception in Removing \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 					//e.printStackTrace();
 				}
 			}
@@ -649,12 +651,12 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 				Messages.getString("VcIfrDeletedSchede.msgEnptySheet2"), JOptionPane.OK_CANCEL_OPTION); //$NON-NLS-1$
 		if (confirm == JOptionPane.OK_OPTION){
 			try {
-				Logger.getRootLogger().debug("Removing..."); //$NON-NLS-1$
+				logger.debug("Removing..."); //$NON-NLS-1$
 				DbSchedaAction.svuotaCestinoScheda(con);
 				con.commit();
 				getTblList().refresh();
 			} catch (SQLException e) {
-				Logger.getRootLogger().error("Exception in Removing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.error("Exception in Removing \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			}
 		}

@@ -16,6 +16,8 @@ import net.sf.repairslab.util.VcJDBCTablePanel;
 import org.apache.log4j.Logger;
 
 public class VcDlgSelezionaCliente extends JDialog {
+	
+	static private Logger  logger = Logger.getLogger(VcDlgSelezionaCliente.class.getName());
 
 	/**
 	 * 
@@ -34,7 +36,7 @@ public class VcDlgSelezionaCliente extends JDialog {
 	 */
 	public VcDlgSelezionaCliente(JDialog dialog,VcPnlDatiCLiente parent,Connection con) {
 		super(dialog);
-		Logger.getRootLogger().debug("VcDlgSelezionaCliente constructor..."); //$NON-NLS-1$
+		logger.debug("VcDlgSelezionaCliente constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = con;
 		initialize();

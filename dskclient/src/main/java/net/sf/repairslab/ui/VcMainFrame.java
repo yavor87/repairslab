@@ -48,6 +48,8 @@ import net.sf.repairslab.util.ui.WindowUtil;
 import org.apache.log4j.Logger;
 
 public class VcMainFrame extends JFrame {
+	
+	static private Logger  logger = Logger.getLogger(VcMainFrame.class.getName());
 
 	/**
 	 * 
@@ -88,7 +90,7 @@ public class VcMainFrame extends JFrame {
 	 */
 	public VcMainFrame() {
 		super();
-		Logger.getRootLogger().debug("VcMainFrame constructor..."); //$NON-NLS-1$
+		logger.debug("VcMainFrame constructor..."); //$NON-NLS-1$
 		initialize();
 	}
 	

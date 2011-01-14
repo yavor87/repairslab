@@ -18,6 +18,8 @@ import org.apache.log4j.Logger;
  */
 
 public class EnvProperties {
+	
+	static private Logger  logger = Logger.getLogger(EnvProperties.class.getName());
 
 	public static String FILE_SEPARETOR = System.getProperty("file.separator");
 //	public static String LINE_SEPARETOR = System.getProperty("line.separator");
@@ -103,7 +105,7 @@ public class EnvProperties {
 			this.properties.load(new FileInputStream(this.getProperty(EnvProperties.PROP_FILE_NAME)));
 
 		} catch (IOException e) {
-			Logger.getRootLogger().error("Exception in loadProperties \n"+e+"\n");
+			logger.error("Exception in loadProperties \n"+e+"\n", e);
 		}
 	}
 
@@ -127,10 +129,10 @@ public class EnvProperties {
 			this.properties.store(fileProp, null);
 		} catch (FileNotFoundException fnf) {
 			//fnf.printStackTrace();
-			Logger.getRootLogger().error("Exception in saveFileProperty \n"+fnf+"\n");
+			logger.error("Exception in saveFileProperty \n"+fnf+"\n", fnf);
 		} catch (IOException io) {
 			//io.printStackTrace();
-			Logger.getRootLogger().error("Exception in saveFileProperty \n"+io+"\n");
+			logger.error("Exception in saveFileProperty \n"+io+"\n", io);
 		}
 	}
 
