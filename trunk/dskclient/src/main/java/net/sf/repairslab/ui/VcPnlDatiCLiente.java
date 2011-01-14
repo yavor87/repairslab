@@ -59,6 +59,8 @@ public class VcPnlDatiCLiente extends JPanel {
 	private modeCliente modalityCliente = modeCliente.view;  //  @jve:decl-index=0:
 	private Connection con = null;
 	
+	static private Logger logger = Logger.getLogger(VcPnlDatiCLiente.class.getName()); 
+	
 	public static enum modeCliente{
 		insert,update,view;
 	};
@@ -68,7 +70,7 @@ public class VcPnlDatiCLiente extends JPanel {
 	 */
 	public VcPnlDatiCLiente(mode modality,BinScheda scheda,JDialog dialog,Connection con) {
 		super();
-		Logger.getRootLogger().debug("VcPnlDatiCLiente constructor..."); //$NON-NLS-1$
+		logger.debug("VcPnlDatiCLiente constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.scheda = scheda;
 		this.dialog = dialog;
@@ -235,7 +237,7 @@ public class VcPnlDatiCLiente extends JPanel {
 	private void existCliente(){
 		if(modalityCliente != modeCliente.view){
 			try {
-				Logger.getRootLogger().debug("existCliente..."); //$NON-NLS-1$
+				logger.debug("existCliente..."); //$NON-NLS-1$
 				int idCliente = DbSchedaAction.existCliente(con,
 						getTxfNome().getText(), getTxfCognome().getText());
 				if(idCliente>0){
@@ -252,7 +254,7 @@ public class VcPnlDatiCLiente extends JPanel {
 					
 				}
 			} catch (SQLException e) {
-				Logger.getRootLogger().error("Exception existCliente \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.error("Exception existCliente \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			}
 		}
@@ -350,13 +352,13 @@ public class VcPnlDatiCLiente extends JPanel {
 	public void selezionaCliente(int idCliente){
 		DbSchedaAction dbSchedaAction = new DbSchedaAction();
 		try {
-			Logger.getRootLogger().debug("Selecting cliente..."); //$NON-NLS-1$
+			logger.debug("Selecting cliente..."); //$NON-NLS-1$
 			BinCliente binCliente = dbSchedaAction.getCliente(con,idCliente);
 			scheda.setBinCliente(binCliente);
 			refreshData(scheda.getBinCliente());
 			setViewMode();
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception Selecting cliente \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			logger.error("Exception Selecting cliente \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			//e.printStackTrace();
 		}
 	}
@@ -453,14 +455,14 @@ public class VcPnlDatiCLiente extends JPanel {
 	
 	private void inserisciCliente(){
 		try {
-			Logger.getRootLogger().debug("Inserting Cliente..."); //$NON-NLS-1$
+			logger.debug("Inserting Cliente..."); //$NON-NLS-1$
 			//scheda.setBinCliente(DbSchedaAction.addCliente());
 			BinCliente binCliente = DbSchedaAction.addCliente(con);
 			newIdClienteAppo = binCliente.getId();
 			refreshData(binCliente);
 			setInsertMode();
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Inserting Cliente \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			logger.error("Exception in Inserting Cliente \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			//e.printStackTrace();
 		}
 	}
@@ -528,18 +530,18 @@ public class VcPnlDatiCLiente extends JPanel {
 			//inserimento in bin scheda
 			scheda.getBinCliente().setId(newIdClienteAppo);
 			try {
-				Logger.getRootLogger().debug("getBtnOk ins..."); //$NON-NLS-1$
+				logger.debug("getBtnOk ins..."); //$NON-NLS-1$
 				DbSchedaAction.insCliente(con,scheda.getBinCliente());
 			} catch (SQLException e1) {
-				Logger.getRootLogger().error("Exception getBtnOk ins \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.error("Exception getBtnOk ins \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 				//e1.printStackTrace();
 			}
 		} else if (modalityCliente == modeCliente.update){
 			try {
-				Logger.getRootLogger().debug("getBtnOk upd..."); //$NON-NLS-1$
+				logger.debug("getBtnOk upd..."); //$NON-NLS-1$
 				DbSchedaAction.saveCliente(con,scheda.getBinCliente());
 			} catch (SQLException e1) {
-				Logger.getRootLogger().error("Exception getBtnOk upd \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.error("Exception getBtnOk upd \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 				//e1.printStackTrace();
 			}
 		}

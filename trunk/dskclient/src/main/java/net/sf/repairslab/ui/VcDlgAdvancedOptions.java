@@ -21,6 +21,8 @@ import net.sf.repairslab.ui.messages.Messages;
 import org.apache.log4j.Logger;
 
 public class VcDlgAdvancedOptions extends JDialog {
+	
+	static private Logger  logger = Logger.getLogger(VcDlgAdvancedOptions.class.getName());
 
 	/**
 	 * 
@@ -50,7 +52,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	 */
 	public VcDlgAdvancedOptions(Frame owner) {
 		super(owner, true);
-		Logger.getRootLogger().debug("VcDlgAdvancedOptions constructor..."); //$NON-NLS-1$
+		logger.debug("VcDlgAdvancedOptions constructor..."); //$NON-NLS-1$
 		initialize();
 		if(EnvProperties.getInstance().getProperty(
 				EnvProperties.DB_ISEMBEDDED).equalsIgnoreCase("S")){ //$NON-NLS-1$

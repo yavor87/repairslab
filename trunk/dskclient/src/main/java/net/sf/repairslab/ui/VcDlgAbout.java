@@ -26,6 +26,8 @@ import org.apache.log4j.Logger;
  *
  */
 public class VcDlgAbout extends JDialog {
+	
+	static private Logger  logger = Logger.getLogger(VcDlgAbout.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
@@ -42,7 +44,7 @@ public class VcDlgAbout extends JDialog {
 	 */
 	public VcDlgAbout(Frame parent) throws HeadlessException {
 		super(parent, true);
-		Logger.getRootLogger().debug("VcDlgAbout constructor..."); //$NON-NLS-1$
+		logger.debug("VcDlgAbout constructor..."); //$NON-NLS-1$
 		initialize();
 	}
 

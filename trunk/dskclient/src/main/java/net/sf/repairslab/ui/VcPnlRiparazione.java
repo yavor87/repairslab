@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import net.sf.repairslab.control.CommonMetodBin;
 import net.sf.repairslab.model.BinScheda;
 import net.sf.repairslab.ui.VcDlgDetailScheda.mode;
 import net.sf.repairslab.ui.messages.Messages;
@@ -14,6 +15,8 @@ import net.sf.repairslab.ui.messages.Messages;
 import org.apache.log4j.Logger;
 
 public class VcPnlRiparazione extends JPanel {
+	
+	static private Logger  logger = Logger.getLogger(CommonMetodBin.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	private JLabel lblRiparazione = null;
@@ -27,7 +30,7 @@ public class VcPnlRiparazione extends JPanel {
 	 */
 	public VcPnlRiparazione(mode modality,BinScheda scheda) {
 		super();
-		Logger.getRootLogger().debug("VcDlgDetailScheda constructor..."); //$NON-NLS-1$
+		logger.debug("VcDlgDetailScheda constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.scheda = scheda;
 		initialize();

@@ -50,6 +50,8 @@ import org.apache.log4j.Logger;
  *
  */
 public class VcDlgOptions extends JDialog {
+	
+	static private Logger  logger = Logger.getLogger(VcDlgOptions.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
@@ -93,7 +95,7 @@ public class VcDlgOptions extends JDialog {
 	 */
 	public VcDlgOptions(Frame owner) {
 		super(owner, true);
-		Logger.getRootLogger().debug("VcDlgOptions constructor..."); //$NON-NLS-1$
+		logger.debug("VcDlgOptions constructor..."); //$NON-NLS-1$
 		this.parent = owner;
 		initialize();
 	}
@@ -408,7 +410,7 @@ public class VcDlgOptions extends JDialog {
 					});
 			Properties looks = new Properties();
 			try {
-				Logger.getRootLogger().debug("getCmbLookAndFeel..."); //$NON-NLS-1$
+				logger.debug("getCmbLookAndFeel..."); //$NON-NLS-1$
 				TypeCmb seledted = null;
 				
 				/* Caricamento da file di property */
@@ -444,10 +446,10 @@ public class VcDlgOptions extends JDialog {
 					cmbLookAndFeel.setSelectedItem(seledted);
 				loadCmbFlag = false;
 			} catch (FileNotFoundException e) {
-				Logger.getRootLogger().error("Exception getCmbLookAndFeel \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.error("Exception getCmbLookAndFeel \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			} catch (IOException e) {
-				Logger.getRootLogger().error("Exception getCmbLookAndFeel \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.error("Exception getCmbLookAndFeel \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 				//e.printStackTrace();
 			}
 		}

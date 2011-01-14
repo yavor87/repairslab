@@ -38,6 +38,8 @@ import org.apache.log4j.Logger;
 import com.toedter.calendar.JDateChooser;
 
 public class VcIfrListaSchede extends JInternalFrame {
+	
+	static private Logger  logger = Logger.getLogger(CommonMetodBin.class.getName());
 
 	/**
 	 * 
@@ -80,7 +82,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 	 */
 	public VcIfrListaSchede(VcMainFrame parent) {
 		super();
-		Logger.getRootLogger().debug("VcIfrListaSchede constructor..."); //$NON-NLS-1$
+		logger.debug("VcIfrListaSchede constructor..."); //$NON-NLS-1$
 		this.parent = parent;
 		this.con = CommonMetodBin.getConn();
 		initialize();
@@ -100,10 +102,10 @@ public class VcIfrListaSchede extends JInternalFrame {
 			public void internalFrameClosed(
 				javax.swing.event.InternalFrameEvent e) {
 					try{
-						Logger.getRootLogger().debug("Closing..."); //$NON-NLS-1$
+						logger.debug("Closing..."); //$NON-NLS-1$
 						close();
 					}catch(Exception e1){
-						Logger.getRootLogger().error("Exception in Closing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+						logger.error("Exception in Closing \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 					}
 				}
@@ -274,12 +276,12 @@ public class VcIfrListaSchede extends JInternalFrame {
 					Messages.getString("VcIfrListaSchede.msgTitleInfo"), JOptionPane.OK_CANCEL_OPTION); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
-					Logger.getRootLogger().debug("Removing..."); //$NON-NLS-1$
+					logger.debug("Removing..."); //$NON-NLS-1$
 					DbSchedaAction.cestinaScheda(con,id_scheda);
 					con.commit();
 					getTblList().refresh();
 				} catch (SQLException e) {
-					Logger.getRootLogger().error("Exception in Removing \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					logger.error("Exception in Removing \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 					//e.printStackTrace();
 				}
 			}
@@ -660,7 +662,7 @@ public class VcIfrListaSchede extends JInternalFrame {
 	}
 	
 	private void print(int nScheda){
-		Logger.getRootLogger().debug("printing"); //$NON-NLS-1$
+		logger.debug("printing"); //$NON-NLS-1$
 		PrintAction pa = new PrintAction();
 		pa.callReportRicevuta(this.parent,nScheda,con);
 	}

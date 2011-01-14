@@ -39,6 +39,8 @@ import org.apache.log4j.Logger;
 import com.toedter.calendar.JDateChooser;
 
 public class VcDlgDetailScheda extends JDialog {
+	
+	static private Logger  logger = Logger.getLogger(VcDlgDetailScheda.class.getName());
 
 	/**
 	 * 
@@ -81,20 +83,20 @@ public class VcDlgDetailScheda extends JDialog {
 	 */
 	public VcDlgDetailScheda(VcMainFrame parent,VcIfrListaSchede listaSchede,mode modality,int idScheda) {
 		super(parent,true);
-		Logger.getRootLogger().debug("VcDlgDetailScheda constructor..."); //$NON-NLS-1$
+		logger.debug("VcDlgDetailScheda constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.listaSchede = listaSchede;
 		this.con = CommonMetodBin.getConn();
 		DbSchedaAction lsa = new DbSchedaAction();
 		try {
-			Logger.getRootLogger().debug("Set modality..."); //$NON-NLS-1$
+			logger.debug("Set modality..."); //$NON-NLS-1$
 			if(modality == mode.insert || idScheda==0){
 				scheda = lsa.addScheda(con);
 			}else{
 				scheda = lsa.getScheda(con,idScheda);
 			}
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Set modality \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			logger.error("Exception in Set modality \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 			e.printStackTrace();
 		}
 		schedaLastSavepoint = scheda.clone();
@@ -112,7 +114,7 @@ public class VcDlgDetailScheda extends JDialog {
 					Messages.getString("VcDlgDetailScheda.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
-					Logger.getRootLogger().debug("Closing 1..."); //$NON-NLS-1$
+					logger.debug("Closing 1..."); //$NON-NLS-1$
 					if (datiClienteToSave){
 						getPnlDatiCliente().save();
 					}
@@ -122,19 +124,19 @@ public class VcDlgDetailScheda extends JDialog {
 						listaSchede.getTblList().refresh();
 					}
 				} catch (SQLException e1) {
-					Logger.getRootLogger().error("Exception in Closing 1 \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					logger.error("Exception in Closing 1 \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 					//e1.printStackTrace();
 				}
 				disposing = true;
 			}else if (confirm == JOptionPane.NO_OPTION){
 				try {
-					Logger.getRootLogger().debug("Closing 2..."); //$NON-NLS-1$
+					logger.debug("Closing 2..."); //$NON-NLS-1$
 					con.rollback();
 					if(listaSchede!=null){
 						listaSchede.getTblList().refresh();
 					}
 				} catch (SQLException e1) {
-					Logger.getRootLogger().error("Exception in Closing 2 \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					logger.error("Exception in Closing 2 \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 					//e1.printStackTrace();
 				}
 				setVisible(false);
@@ -142,13 +144,13 @@ public class VcDlgDetailScheda extends JDialog {
 			}
 		}else{
 			try {
-				Logger.getRootLogger().debug("Closing 3..."); //$NON-NLS-1$
+				logger.debug("Closing 3..."); //$NON-NLS-1$
 				con.rollback();
 				if(listaSchede!=null){
 					listaSchede.getTblList().refresh();
 				}
 			} catch (SQLException e1) {
-				Logger.getRootLogger().error("Exception in Closing 3 \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+				logger.error("Exception in Closing 3 \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 				//e1.printStackTrace();
 			}
 			disposing = true;
@@ -335,7 +337,7 @@ public class VcDlgDetailScheda extends JDialog {
 						txfNumScheda.commitEdit();
 						int val = (Integer)txfNumScheda.getValue();
 						if (val!=scheda.getId()){
-							Logger.getRootLogger().debug("getTxfNumScheda focus listener..."); //$NON-NLS-1$
+							logger.debug("getTxfNumScheda focus listener..."); //$NON-NLS-1$
 							existScheda = DbSchedaAction.existScheda(con,val);
 							if(existScheda){
 								JOptionPane.showMessageDialog(getParent(), 
@@ -353,7 +355,7 @@ public class VcDlgDetailScheda extends JDialog {
 								Messages.getString("VcDlgDetailScheda.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 						txfNumScheda.setValue(scheda.getId());
 					} catch (SQLException e1) {
-						Logger.getRootLogger().error("Exception in getTxfNumScheda focus listener \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+						logger.error("Exception in getTxfNumScheda focus listener \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 						//e1.printStackTrace();
 						txfNumScheda.setValue(scheda.getId());
 					}
@@ -481,11 +483,11 @@ public class VcDlgDetailScheda extends JDialog {
 	
 	private void save(){
 		try {
-			Logger.getRootLogger().debug("Saving..."); //$NON-NLS-1$
+			logger.debug("Saving..."); //$NON-NLS-1$
 			DbSchedaAction.saveScheda(con,scheda);
 			schedaLastSavepoint = scheda.clone();
 		} catch (SQLException e1) {
-			Logger.getRootLogger().error("Exception in Saving \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			logger.error("Exception in Saving \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 			JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),
                     "Errore: " //$NON-NLS-1$
                     +e1.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
@@ -514,7 +516,7 @@ public class VcDlgDetailScheda extends JDialog {
 	}
 	
 	private void print(){
-		Logger.getRootLogger().debug("printing"); //$NON-NLS-1$
+		logger.debug("printing"); //$NON-NLS-1$
 		PrintAction pa = new PrintAction();
 		if(modality != mode.view && !scheda.sameData(schedaLastSavepoint)){
 			int confirm = JOptionPane.showConfirmDialog(getParent(),
@@ -522,20 +524,20 @@ public class VcDlgDetailScheda extends JDialog {
 					Messages.getString("VcDlgDetailScheda.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 			if (confirm == JOptionPane.OK_OPTION){
 				try {
-					Logger.getRootLogger().debug("Print Save..."); //$NON-NLS-1$
+					logger.debug("Print Save..."); //$NON-NLS-1$
 					save();
 					con.commit();
 					pa.callReportRicevuta(this,scheda.getId(),con);
 				} catch (SQLException e1) {
-					Logger.getRootLogger().error("Exception in Closing 1 \n"+e1+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+					logger.error("Exception in Closing 1 \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 					//e1.printStackTrace();
 				}
 			}else if (confirm == JOptionPane.NO_OPTION){
-				Logger.getRootLogger().debug("Print No Save..."); //$NON-NLS-1$
+				logger.debug("Print No Save..."); //$NON-NLS-1$
 				pa.callReportRicevuta(this,scheda.getId(),con);
 			}
 		}else{
-			Logger.getRootLogger().debug("Print No Save..."); //$NON-NLS-1$
+			logger.debug("Print No Save..."); //$NON-NLS-1$
 			pa.callReportRicevuta(this,scheda.getId(),con);
 		}
 	}

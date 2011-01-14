@@ -23,6 +23,8 @@ import org.apache.log4j.Logger;
  *
  */
 public class VcDlgDataImport extends JDialog {
+	
+	static private Logger  logger = Logger.getLogger(VcDlgDataImport.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
@@ -38,7 +40,7 @@ public class VcDlgDataImport extends JDialog {
 	 */
 	public VcDlgDataImport(Frame parent) throws HeadlessException {
 		super(parent, true);
-		Logger.getRootLogger().debug("VcDlgDataImport constructor..."); //$NON-NLS-1$
+		logger.debug("VcDlgDataImport constructor..."); //$NON-NLS-1$
 		initialize();
 	}
 

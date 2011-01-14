@@ -21,6 +21,8 @@ import net.sf.repairslab.util.CurrencyFormatter;
 import org.apache.log4j.Logger;
 
 public class VcPnlCostiNote extends JPanel {
+	
+	static private Logger  logger = Logger.getLogger(VcPnlCostiNote.class.getName());
 
 	private static final long serialVersionUID = 1L;
 
@@ -47,7 +49,7 @@ public class VcPnlCostiNote extends JPanel {
 	 */
 	public VcPnlCostiNote(mode modality,BinScheda scheda) {
 		super();
-		Logger.getRootLogger().debug("VcPnlCostiNote constructor..."); //$NON-NLS-1$
+		logger.debug("VcPnlCostiNote constructor..."); //$NON-NLS-1$
 		this.modality = modality;
 		this.scheda = scheda;
 		initialize();

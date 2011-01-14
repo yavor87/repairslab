@@ -30,6 +30,8 @@ import org.apache.log4j.Logger;
 import com.toedter.calendar.JDateChooserCellEditor;
 
 public class VcJDBCTablePanel2 extends JPanel {
+	
+	static private Logger  logger = Logger.getLogger(VcJDBCTablePanel2.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	private JScrollPane scpJDBCTable = null;
@@ -110,10 +112,10 @@ public class VcJDBCTablePanel2 extends JPanel {
 	private JDBCTableModel getJtmJDBCTm(){
 		if (jtmJDBCTm == null) {
 			try {
-				Logger.getRootLogger().debug("Calling JDBCTableModel...");
+				logger.debug("Calling JDBCTableModel...");
 				jtmJDBCTm = new JDBCTableModel(con,query,false,updatableColumn,params);
 			} catch (SQLException e) {
-				Logger.getRootLogger().error("Exception in Calling JDBCTableModel \n"+e+"\n");
+				logger.error("Exception in Calling JDBCTableModel \n"+e+"\n", e);
 				//e.printStackTrace();
 			}
 			
@@ -183,7 +185,7 @@ public class VcJDBCTablePanel2 extends JPanel {
 			TableColumn tblCol = tblJDBCTable.getColumnModel().getColumn(column);
 			tblCol.setHeaderValue(value);
 		}catch(ArrayIndexOutOfBoundsException e){
-			Logger.getRootLogger().debug("Non valid column header...");
+			logger.debug("Non valid column header...", e);
 		}
 	}
 	
@@ -411,12 +413,12 @@ public class VcJDBCTablePanel2 extends JPanel {
 	
 	public void refresh(){
 		try {
-			Logger.getRootLogger().debug("refreshing...");
+			logger.debug("refreshing...");
 			int selRow = currentRow();
 			getJtmJDBCTm().refresh();
 			getTblJDBCTable().getSelectionModel().setSelectionInterval(selRow,selRow);
 		} catch (Exception e1) {
-			Logger.getRootLogger().error("Exception in Srefreshing \n"+e1+"\n");
+			logger.error("Exception in Srefreshing \n"+e1+"\n", e1);
 			//e1.printStackTrace();
 		}
 	}
@@ -453,10 +455,10 @@ public class VcJDBCTablePanel2 extends JPanel {
 					getBtnDelete().setEnabled(true);
 					getBtnRollback().setEnabled(true);
 					try {
-						Logger.getRootLogger().debug("Editing...");
+						logger.debug("Editing...");
 						getJtmJDBCTm().refresh();
 					} catch (SQLException e1) {
-						Logger.getRootLogger().error("Exception in Editing \n"+e+"\n");
+						logger.error("Exception in Editing \n"+e1+"\n", e1);
 						//e1.printStackTrace();
 					}
 					getTblJDBCTable().getSelectionModel().
@@ -520,11 +522,11 @@ public class VcJDBCTablePanel2 extends JPanel {
 			getBtnDelete().setEnabled(false);
 			getBtnRollback().setEnabled(false);
 			try {
-				Logger.getRootLogger().debug("Committing...");
+				logger.debug("Committing...");
 				con.commit();
 				getJtmJDBCTm().refresh();
 			} catch (SQLException e1) {
-				Logger.getRootLogger().error("Exception in Committing \n"+e1+"\n");
+				logger.error("Exception in Committing \n"+e1+"\n");
 				//e1.printStackTrace();
 			}
 			getTblJDBCTable().getSelectionModel().
@@ -561,10 +563,10 @@ public class VcJDBCTablePanel2 extends JPanel {
 	public void deleteRow(int rowToDelete){
 		getJtmJDBCTm().deleteRow(rowToDelete);
 		try {
-			Logger.getRootLogger().debug("Deleting...");
+			logger.debug("Deleting...");
 			getJtmJDBCTm().refresh();
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Deleting \n"+e+"\n");
+			logger.error("Exception in Deleting \n"+e+"\n");
 			//e.printStackTrace();
 		}
 		getTblJDBCTable().getSelectionModel().
@@ -612,11 +614,11 @@ public class VcJDBCTablePanel2 extends JPanel {
 			getBtnDelete().setEnabled(false);
 			getBtnRollback().setEnabled(false);
 			try {
-				Logger.getRootLogger().debug("Rolbacking...");
+				logger.debug("Rolbacking...");
 				con.rollback();
 				getJtmJDBCTm().refresh();
 			} catch (SQLException e1) {
-				Logger.getRootLogger().error("Exception in Rolbacking \n"+e1+"\n");
+				logger.error("Exception in Rolbacking \n"+e1+"\n");
 				//e1.printStackTrace();
 			}
 			getTblJDBCTable().getSelectionModel().

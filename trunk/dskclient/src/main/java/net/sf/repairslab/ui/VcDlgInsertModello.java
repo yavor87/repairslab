@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
+import net.sf.repairslab.control.CommonMetodBin;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.JDBCComboBoxModel;
 import net.sf.repairslab.util.ui.cmb.TypeCmb;
@@ -24,6 +25,8 @@ import net.sf.repairslab.util.ui.cmb.TypeCmb;
 import org.apache.log4j.Logger;
 
 public class VcDlgInsertModello extends JDialog {
+	
+	static private Logger  logger = Logger.getLogger(CommonMetodBin.class.getName());
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
@@ -47,7 +50,7 @@ public class VcDlgInsertModello extends JDialog {
 	 */
 	public VcDlgInsertModello(JDialog owner,VcPnlApparecchio parent,String marca,String tipoAppa,Connection con) {
 		super(owner,true);
-		Logger.getRootLogger().debug("VcDlgInsertModello constructor..."); //$NON-NLS-1$
+		logger.debug("VcDlgInsertModello constructor..."); //$NON-NLS-1$
 		this.marca = marca;
 		this.tipoAppa = tipoAppa;
 		this.parent = parent;
@@ -172,7 +175,7 @@ public class VcDlgInsertModello extends JDialog {
 	
 	private void inserisci(){
 		try {
-			Logger.getRootLogger().debug("Inserisci..."); //$NON-NLS-1$
+			logger.debug("Inserisci..."); //$NON-NLS-1$
 			String modello = getTxfModello().getText();
 			String descModello = getTxfDescMod().getText();
 			int idMarca = 0;
@@ -240,7 +243,7 @@ public class VcDlgInsertModello extends JDialog {
 				}
 			}
 		} catch (SQLException e) {
-			Logger.getRootLogger().error("Exception in Inserisci \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			logger.error("Exception in Inserisci \n"+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
 			//e.printStackTrace();
 		}
 

@@ -16,6 +16,9 @@ import org.apache.log4j.Logger;
  * Copyright (c)2009 Decisyon S.r.l.
  */
 public class VersionReader {
+	
+	static private Logger  logger = Logger.getLogger(VersionReader.class.getName());
+	
 	public static final String	VERSION = "version";
 	public static final String	RELEASE = "release";
 
@@ -30,7 +33,7 @@ public class VersionReader {
 	        InputStream is = new FileInputStream(versionFile);
 	        return load(is);
         } catch (Exception e) {
-        	Logger.getRootLogger().error("Exception in check updates: "+e);
+        	logger.error("Exception in check updates: "+e);
         }
 		return null;
 	}
@@ -40,7 +43,7 @@ public class VersionReader {
 	        InputStream is = url.openStream();
 	        return load(is);
 		} catch (Exception e) {
-			Logger.getRootLogger().error("Exception in check updates: "+e);
+			logger.error("Exception in check updates: "+e);
 		}
 		return null;
 	}

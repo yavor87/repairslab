@@ -28,6 +28,8 @@ import net.sf.repairslab.util.ui.WindowUtil;
 import org.apache.log4j.Logger;
 
 public class PrintAction {
+	
+	static private Logger  logger = Logger.getLogger(PrintAction.class.getName());
 
 	public PrintAction() {
 	}
@@ -106,11 +108,10 @@ public class PrintAction {
 			}
 			
 		} catch (JRException e) {
-			e.printStackTrace();
 			JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),
 					Messages.getString("PrintAction.8")+e+"\n", //$NON-NLS-1$ //$NON-NLS-2$
 					Messages.getString("PrintAction.10"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
-			Logger.getRootLogger().error(Messages.getString("PrintAction.11")+e+"\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			logger.error(Messages.getString("PrintAction.11")+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 }
