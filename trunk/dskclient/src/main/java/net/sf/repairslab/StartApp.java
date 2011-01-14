@@ -57,10 +57,13 @@ public class StartApp {
         BinRelease binRelease = null;
         try {
         	String release = VersionReader.getInstance().getProperty(VersionReader.VERSION);
-        	int version = Integer.parseInt(VersionReader.getInstance().getProperty(VersionReader.RELEASE));
-        	binRelease = new BinRelease(release, version);
+        	try {
+        		int version = Integer.parseInt(VersionReader.getInstance().getProperty(VersionReader.RELEASE));
+        		binRelease = new BinRelease(release, version);
+        	} catch (Exception e) {
+        		binRelease = new BinRelease(release);
+			}
         } catch (NullPointerException e) { 
-		} catch (IllegalArgumentException e) { 
 		}
 		
         CommonMetodBin.getInstance().setCurrentRelease(binRelease);
