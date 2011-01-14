@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,14 +57,10 @@ public class NamedParameterStatement {
 	 * @throws SQLException if the statement could not be created
 	 */
 	@SuppressWarnings("unchecked")
-	public NamedParameterStatement(Connection connection, String query, boolean updatable)
-			throws SQLException {
+	public NamedParameterStatement(Connection connection, String query, boolean updatable) throws SQLException {
 		indexMap = new HashMap();
 		String parsedQuery = parse(query, indexMap);
-		statement = connection.prepareStatement(parsedQuery,
-				ResultSet.TYPE_SCROLL_INSENSITIVE, 
-				(updatable ? ResultSet.CONCUR_UPDATABLE
-                        : ResultSet.CONCUR_READ_ONLY));
+		statement = connection.prepareStatement(parsedQuery, ResultSet.TYPE_SCROLL_INSENSITIVE,  (updatable ? ResultSet.CONCUR_UPDATABLE : ResultSet.CONCUR_READ_ONLY));
 	}
 
 	/**
