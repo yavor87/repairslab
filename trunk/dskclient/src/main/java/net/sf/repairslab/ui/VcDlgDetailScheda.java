@@ -139,8 +139,7 @@ public class VcDlgDetailScheda extends JDialog {
 					logger.error("Exception in Closing 2 \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 					//e1.printStackTrace();
 				}
-				setVisible(false);
-				dispose();
+				disposing = true;
 			}
 		}else{
 			try {
@@ -155,8 +154,9 @@ public class VcDlgDetailScheda extends JDialog {
 			}
 			disposing = true;
 		}
-		CommonMetodBin.closeConn(con);
+		
 		if(disposing){
+			CommonMetodBin.closeConn(con);
 			setVisible(false);
 			dispose();
 		}
@@ -486,11 +486,13 @@ public class VcDlgDetailScheda extends JDialog {
 			logger.debug("Saving..."); //$NON-NLS-1$
 			DbSchedaAction.saveScheda(con,scheda);
 			schedaLastSavepoint = scheda.clone();
+			JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),Messages.getString("VcDlgDetailScheda.saveOk"),
+					Messages.getString("VcDlgDetailScheda.msgTitleInfo") + "...",JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
 		} catch (SQLException e1) {
 			logger.error("Exception in Saving \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
 			JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),
-                    "Errore: " //$NON-NLS-1$
-                    +e1.getMessage(),"Errore...",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+                    Messages.getString("VcDlgDetailScheda.msgTitleError") + ": " //$NON-NLS-1$
+                    +e1.getMessage(),Messages.getString("VcDlgDetailScheda.msgTitleError") + "...",JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
 			//e1.printStackTrace();
 		}
 	}
