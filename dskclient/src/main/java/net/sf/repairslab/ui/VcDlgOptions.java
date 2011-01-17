@@ -135,7 +135,7 @@ public class VcDlgOptions extends JDialog {
 		if (pnlSettings == null) {
 			lblPrefixNumber = new JLabel();
 			lblPrefixNumber.setBounds(new Rectangle(11, 146, 156, 16));
-			lblPrefixNumber.setText("Prefix sheet number");
+			lblPrefixNumber.setText(Messages.getString("VcDlgOptions.prexSheetLbl"));
 			lblLanguage = new JLabel();
 			lblLanguage.setBounds(new Rectangle(250, 431, 162, 16));
 			lblLanguage.setText(Messages.getString("VcDlgOptions.language")); //$NON-NLS-1$

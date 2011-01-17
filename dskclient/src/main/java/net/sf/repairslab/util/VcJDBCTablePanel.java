@@ -204,7 +204,9 @@ public class VcJDBCTablePanel extends JPanel {
 	private JTable getTblJDBCTable() {
 		if (tblJDBCTable == null) {
 			tblJDBCTable = new JTable(getJtmJDBCTm());
-			tblJDBCTable.setRowSorter(new TableRowSorter<TableModel>(getJtmJDBCTm()));
+			TableRowSorter sorter = new TableRowSorter<TableModel>(getJtmJDBCTm());
+			sorter.setMaxSortKeys(2);
+			tblJDBCTable.setRowSorter(sorter);
 			tblJDBCTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			tblJDBCTable.setRowHeight(25);
 			for (int i=0;i<getJtmJDBCTm().getColumnCount();i++){
@@ -466,8 +468,7 @@ public class VcJDBCTablePanel extends JPanel {
 						logger.error("Exception in Editing \n"+e+"\n");
 						//e1.printStackTrace();
 					}
-					getTblJDBCTable().getSelectionModel().
-						setSelectionInterval(selRow, selRow);
+					getTblJDBCTable().getSelectionModel().setSelectionInterval(selRow, selRow);
 				}
 			});
 		}
