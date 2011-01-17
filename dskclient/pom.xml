@@ -10,6 +10,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<issueManagement>
+		<system>trac</system>
+		<url>https://sourceforge.net/apps/trac/repairslab/</url>
+	</issueManagement>
 	<inceptionYear>2008</inceptionYear>
 	<licenses>
 		<license>
@@ -122,6 +126,11 @@
 						</manifest>
 					</archive>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.3.1</version>
 			</plugin>
 		</plugins>
 	</build>

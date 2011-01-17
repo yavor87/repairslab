@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="RepairsLab">
+	<bannerLeft>
+		<name>RepairsLab</name>
+		<src>images/RepairsLab.png</src>
+		<href>http://repairslab.sourceforge.net/</href>
+	</bannerLeft>
+	<version position="left" />
+	<publishDate format="d MMM yyyy" position="right" />
+	<body>
+		<links>
+			<item name="RepairsLab Home" href="http://repairslab.sourceforge.net/" />
+			<item name="SouceForge" href="https://sourceforge.net/projects/repairslab/" />
+			<item name="Support"
+				href="https://sourceforge.net/projects/repairslab/support/" />
+			<item name="Download" href="https://sourceforge.net/projects/repairslab/files/" />
+		</links>
+
+		<menu name="Welcome">
+			<item name="Introduction" href="index.html" />
+		</menu>
+
+		<menu name="Getting RepairsLab">
+			<item name="Download" href="download.html" />
+			<item name="Release Notes" href="release-notes.html" />
+			<item name="Licence" href="licence.html" />
+		</menu>
+
+		<menu name="About RepairsLab">
+			<item name="General Information" href="about.html" />
+			<item name="Road Map" href="roadmap.html" />
+		</menu>
+
+		<menu name="Documentation">
+			<item name="JavaDoc" href="/apidocs/ifw2/index.html" />
+		</menu>
+
+		<menu ref="reports" />
+
+		<menu ref="modules" />
+
+	</body>
+
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-stylus-skin</artifactId>
+		<version>1.2</version>
+	</skin>
+
+</project>
