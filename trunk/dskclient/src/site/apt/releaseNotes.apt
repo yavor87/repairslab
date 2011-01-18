@@ -1,0 +1,7 @@
+
+~~ See http://maven.apache.org/doxia/references/apt-format.html
+~~ Maven or better Doxia do not support the \ char to force new-line and also you
+~~ have to specify the extension of the linked image.
+
+RELASE NOTES
+~~~~~~~~~~~~
