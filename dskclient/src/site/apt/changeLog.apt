@@ -1,0 +1,60 @@
+
+~~ See http://maven.apache.org/doxia/references/apt-format.html
+~~ Maven or better Doxia do not support the \ char to force new-line and also you
+~~ have to specify the extension of the linked image.
+
+CHANGE LOG
+~~~~~~~~~~~~
+
+* Version 1.0.4 - Release date 27/12/2010
+  
+** Bug Fixed
+     
+  * UTF-8 convertion of language files
+     
+  * ID: 3125522 fixed
+    
+  * ID: 3125986 fixed
+	 
+  * ID: 3134870 fixed
+	 
+  * ID: 3125347 fixed
+	 
+  * ID: 3137970 fixed
+	 
+** Enhancement
+     
+  * Thai language supported
+     
+  * Finnish language supported
+	 
+  * Greek language supported
+	 
+  * French language supported
+	 
+  * Status bar
+	 
+  * Check for update function
+	 
+  * Export/Import data function for Derby
+	 
+  * ID: 3128741 (Statistics and shortcuts keys)
+	 
+  * ID: 3127086 (Custom print template)
+	 
+
+* Version 1.0.3 - Release date 19/10/2010
+
+** Bug Fixed
+
+  * ID: 3065727 fixed
+
+** Enhancement 
+
+  * Currency by locale
+  
+  * Jasper report 3.7.5
+  
+  * New logo
+  
+  * Installer exe
