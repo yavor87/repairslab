@@ -1,7 +1,6 @@
 package net.sf.repairslab;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -36,10 +35,9 @@ public class StartApp {
 	 */
 	public static void main(String[] args) {
 		
-		File f = new File("pippo.txt");
-//		System.out.println(f.getAbsolutePath());
-		
 		initLog4j();
+		
+		logger.debug("Current working directory : " + System.getProperty("user.dir"));
 		
 		try {
 			logger.debug("Loading look&feel");
@@ -118,6 +116,7 @@ public class StartApp {
 		CommonMetodBin.closeConn(con);
 	}
 	
+	@Deprecated
 	private static void startServer() {
 		//cmd.exe /c mysql_start.bat
 		final String cmd = EnvProperties.getInstance().getProperty(EnvProperties.START_CMD);
@@ -160,11 +159,13 @@ public class StartApp {
         }
     }
 	
+	@Deprecated
 	public static void runInitializer(Runnable r) {
         Thread t = new Thread(r);
         t.start();
     }
 	
+	@Deprecated
 	public static boolean checkProcess(String process){
 		if (process != null && process.equals("")){
 			return false;
@@ -180,6 +181,7 @@ public class StartApp {
 	    return result;
 	}
 	
+	@Deprecated
 	public static List<String> listRunningProcesses() {
 	    List<String> processes = new ArrayList<String>();
 	    try {

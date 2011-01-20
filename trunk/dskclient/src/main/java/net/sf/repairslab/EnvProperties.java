@@ -1,6 +1,5 @@
 package net.sf.repairslab;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -102,8 +101,9 @@ public class EnvProperties {
 		this.properties = new Properties();
 		try {
 			this.properties.put("f2.propFileName", "conf" + System.getProperty("file.separator") + "f2.properties");
-			this.properties.load(new FileInputStream(this.getProperty(EnvProperties.PROP_FILE_NAME)));
-
+//			this.properties.load(new FileInputStream(this.getProperty(EnvProperties.PROP_FILE_NAME)));
+			
+			this.properties.load(getClass().getResourceAsStream("f2.properties"));
 		} catch (IOException e) {
 			logger.error("Exception in loadProperties \n"+e+"\n", e);
 		}
