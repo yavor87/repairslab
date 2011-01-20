@@ -154,7 +154,7 @@ public class BinRelease {
 	public String toString() {
 		
 		if (getMajorVersion() == 0 && getMinorVersion() == 0 && getRevision() == 0)
-			return "";
+			return "Error check...";
 		
 		String status = (getStatus().equals(Status.STABLE)) ? "" : "-"+getStatus().name();
 	    return getMajorVersion() + "." + getMinorVersion() + "." + getRevision() + status + "-r" + getRelease();

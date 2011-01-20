@@ -52,17 +52,8 @@ public class StartApp {
         splash.setStatus("Starting...", 10);
         
         splash.setStatus("Get release...", 20);
-        BinRelease binRelease = null;
-        try {
-        	String release = VersionReader.getInstance().getProperty(VersionReader.VERSION);
-        	try {
-        		int version = Integer.parseInt(VersionReader.getInstance().getProperty(VersionReader.RELEASE));
-        		binRelease = new BinRelease(release, version);
-        	} catch (Exception e) {
-        		binRelease = new BinRelease(release);
-			}
-        } catch (NullPointerException e) { 
-		}
+    	VersionReader versionReader = new VersionReader();
+    	BinRelease binRelease = new BinRelease(versionReader.getVersion(), versionReader.getRelease());
 		
         CommonMetodBin.getInstance().setCurrentRelease(binRelease);
         splash.setRelease(CommonMetodBin.getInstance().getCurrentRelease().toString());

@@ -9,7 +9,6 @@
 	<url>http://repairslab.sourceforge.net/</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<workingDirectory>${project.build.directory}</workingDirectory>
 	</properties>
 	<issueManagement>
 		<system>trac</system>

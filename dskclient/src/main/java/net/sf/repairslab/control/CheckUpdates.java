@@ -1,8 +1,5 @@
 package net.sf.repairslab.control;
 
-import java.net.URL;
-import java.util.Properties;
-
 import net.sf.repairslab.EnvConstants;
 import net.sf.repairslab.VersionReader;
 import net.sf.repairslab.control.CommonMetodBin.CheckStatus;
@@ -35,18 +32,8 @@ public class CheckUpdates {
 	 * @return 
 	 */
 	private static BinRelease getLastBinRelease() {
-		try {
-			Properties p = VersionReader.getInstance(new URL(EnvConstants.LAST_REVISION_CHECK_URL));
-			String version = p.getProperty(VersionReader.VERSION);
-			String release = p.getProperty(VersionReader.RELEASE);
-			if (release != null)
-				return new BinRelease(p.getProperty(VersionReader.VERSION), Integer.parseInt(p.getProperty(VersionReader.RELEASE)));
-			else
-				return new BinRelease(p.getProperty(VersionReader.VERSION));
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	return null;
-        }
+		VersionReader versionReader = new VersionReader(EnvConstants.LAST_REVISION_CHECK_URL);
+    	return new BinRelease(versionReader.getVersion(), versionReader.getRelease());
 	}
 	
 	public static void main (String[] args) {

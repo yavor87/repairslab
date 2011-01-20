@@ -1,6 +1,5 @@
 package net.sf.repairslab;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -9,7 +8,7 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 /**
- * Singleton to read from file version.properties
+ * Read from file version.properties
  * @author Fabrizio Ferraiuolo
  * 13/gen/2011
  * 15.29.00
@@ -19,40 +18,80 @@ public class VersionReader {
 	
 	static private Logger  logger = Logger.getLogger(VersionReader.class.getName());
 	
-	public static final String	VERSION = "version";
-	public static final String	RELEASE = "release";
-
-	private static Properties	properties;
+	private static final String DEFAULT_VERSION_FILE = "version.properties";
+	private static final String	VERSION_PROPERTY = "version";
+	private static final String	RELEASE_PROPERTY = "release";
 	
-	public static Properties getInstance() {
-		return getInstance("version.properties");
+	private String version;
+	private int release;
+	private Properties properties;
+	
+	public VersionReader() {
+		InputStream is = getClass().getResourceAsStream(DEFAULT_VERSION_FILE);
+		load(is);
 	}
 	
-	public static Properties getInstance(String versionFile) {
-		try {
-	        InputStream is = new FileInputStream(versionFile);
-	        return load(is);
-        } catch (Exception e) {
-        	logger.error("Exception in check updates: "+e);
-        }
-		return null;
-	}
-	
-	public static Properties getInstance(URL url) {
-		try {
-	        InputStream is = url.openStream();
-	        return load(is);
-		} catch (Exception e) {
-			logger.error("Exception in check updates: "+e);
+	public VersionReader(String urlString) {
+        try {
+        	URL url = new URL(EnvConstants.LAST_REVISION_CHECK_URL);
+        	InputStream is = url.openStream();
+	        load(is);
+        } catch (IOException e) {
+        	logger.error("Exception in load version file: "+e, e);
+        	setVersion("");
+        	setRelease(0);
 		}
-		return null;
 	}
 	
-	private static Properties load(InputStream is) throws IOException {
-		VersionReader.properties = new Properties();
-		VersionReader.properties.load(is);
-		return VersionReader.properties;
+	private void load(InputStream is) {
+        try {
+        	properties = new Properties();
+	        properties.load(is);
+	        setVersion(properties.getProperty(VERSION_PROPERTY));
+	        String releaseString = properties.getProperty(RELEASE_PROPERTY);
+	        try {
+	        	setRelease(Integer.parseInt(releaseString));
+	        } catch (NumberFormatException e) {
+	        	logger.error("Exception in load version file: "+e, e);
+	        	setRelease(0);
+	        }
+        } catch (IOException e) {
+        	logger.error("Exception in load version file: "+e, e);
+        	setVersion("");
+        	setRelease(0);
+		} catch (NullPointerException e) {
+			logger.error("Exception in load version file: "+e, e);
+			setVersion("");
+        	setRelease(0);
+		}
 	}
-	
-	private VersionReader() {}
+
+	/**
+     * @return the version
+     */
+    public String getVersion() {
+    	return this.version;
+    }
+
+	/**
+     * @return the release
+     */
+    public int getRelease() {
+    	return this.release;
+    }
+
+	/**
+     * @param version the version to set
+     */
+    public void setVersion(String version) {
+    	this.version = version;
+    }
+
+	/**
+     * @param release the release to set
+     */
+    public void setRelease(int release) {
+    	this.release = release;
+    }
+
 }
