@@ -1,7 +1,6 @@
 package net.sf.repairslab;
 
 import static org.junit.Assert.assertNotNull;
-import net.sf.repairslab.EnvProperties;
 
 import org.junit.Test;
 
