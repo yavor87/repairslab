@@ -1,0 +1,89 @@
+
+~~ See http://maven.apache.org/doxia/references/apt-format.html
+~~ Maven or better Doxia do not support the \ char to force new-line and also you
+~~ have to specify the extension of the linked image.
+
+Developer Setup Guide
+~~~~~~~~~~~~
+
+* Installing Eclipse
+
+  These instructions were written using Eclipse 3.5 - others will probably work, but these instructions assume you will be using version 3.5.  You can download a copy of Eclipse JEE (Java Enterprise Edition) {{{http://www.eclipse.org/downloads/} here}}.  
+  
+  Once again, be sure to download the "JEE" version.  Extract it, and run "eclipse" file located beneath the extraction directory.  
+
+  Eclipse can be memory-intensive when you use m2eclipse, so it would be good to give it some more memory beyond the defaults.  To do this, launch eclipse with the following command each time you start it:
+
++-----------------------------------------------
+./eclipse -vmargs -Xmx512m -XX:MaxPermSize=256m
++-----------------------------------------------
+
+* Installing SubClipse
+
+  The next step is to configure an update site in Eclipse so that it can find and install Subclipse.  As of this writing the latest version of Subclipse available from tigris.org is 1.6.x.  The main site for Subclipse - where you can find a download link - is [http://subclipse.tigris.org/ here] and the Eclipse update site for Subclipse is [http://subclipse.tigris.org/update_1.6.x here].  To install Subclipse 1.6.x into Eclipse, follow these steps:
+  
+  [[1]] In Eclipse, access "Help" -> "Install New Software".
+  
+  [[2]] In the "Work With" text field, enter the following URL:
+  
++-----------------------------------------------
+http://subclipse.tigris.org/update_1.6.x
++-----------------------------------------------
+  
+  [[3]] Click the "Add" button and give the site a name such as "Eclipse 1.6.x".
+  
+  [[4]] Click "Ok" to add the update site.
+ 
+  [[5]] Check all of the checkboxes to install all Subclipse components.
+  
+  [[6]] Click "Next" and follow instructions until you can click "Finish"
+
+* Installing M2Eclipse
+
+  To install the m2eclipse plugin in Eclipse, you should configure another update site as was done previously for the Subclipse plugin.  This can be done by following these steps:
+  
+  [[1]] In Eclipse, access "Help" -> "Install New Software".
+  
+  [[2]] In the "Work With" text field, enter the following URL:
+
++-----------------------------------------------
+http://m2eclipse.sonatype.org/sites/m2e
++-----------------------------------------------
+
+  [[3]] Click the "Add" button and give the site a name such as "M2Eclipse".
+ 
+  [[4]] Click "Ok" to add the update site.
+ 
+  [[5]] Check the checkbox for "Maven Integration"
+ 
+  [[6]] Click "Next" and follow instructions until you can click "Finish"
+
+    This gets you the core m2eclipse plugin, but there are some additional optional components that offer better integration with subclipse.  Follow the steps above this time using the following URL:
+
++-----------------------------------------------
+http://m2eclipse.sonatype.org/sites/m2e-extras
++-----------------------------------------------
+
+  [[7]] Choose all of the optional components when prompted.
+
+* Checking out Source Code from RepairsLab Subversion Repository
+
+  type or select a site
+
+  Follow these steps:
+
+  [[1]] "File" -> "New" -> "Project..."
+ 
+  [[2]] In the "New Project" dialog, expand the "Maven" folder and choose "Checkout Maven Projects from SCM", and click "Next".
+  
+  [[3]] In the "SCM URL:" drop-down dialog, choose "svn" (If there are no options available in this drop-down menu, it indicates that m2e-extras is not installed; see above)
+  
+  [[4]] To the right of then "svn" drop-down there is another text-field to enter the following URL:
+
++--------------------------------------------------------------------------
+https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient
++--------------------------------------------------------------------------
+ 
+  [[5]] Click "Next"
+  
+  [[6]] Click "Finish"

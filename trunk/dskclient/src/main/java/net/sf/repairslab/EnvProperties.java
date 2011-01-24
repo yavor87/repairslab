@@ -22,7 +22,7 @@ public class EnvProperties {
 
 	public static String FILE_SEPARETOR = System.getProperty("file.separator");
 //	public static String LINE_SEPARETOR = System.getProperty("line.separator");
-	public static String PROP_FILE_NAME = "f2.propFileName";
+	public static String PROP_FILE_NAME = "f2.properties";
 	public static String DEFAULT_LANGUAGE = "f2.language.file";
 	public static String LOOK = "f2.lookandfeel";
 	public static String WIDTH = "f2.width";
@@ -100,10 +100,10 @@ public class EnvProperties {
 	public void loadProperties() {
 		this.properties = new Properties();
 		try {
-			this.properties.put("f2.propFileName", "conf" + System.getProperty("file.separator") + "f2.properties");
+//			this.properties.put("f2.propFileName", "conf" + System.getProperty("file.separator") + "f2.properties");
 //			this.properties.load(new FileInputStream(this.getProperty(EnvProperties.PROP_FILE_NAME)));
 			
-			this.properties.load(getClass().getResourceAsStream("f2.properties"));
+			this.properties.load(getClass().getResourceAsStream(PROP_FILE_NAME));
 		} catch (IOException e) {
 			logger.error("Exception in loadProperties \n"+e+"\n", e);
 		}
@@ -120,7 +120,7 @@ public class EnvProperties {
 	}
 
 	/**
-	 * Questo metodo effettua il salvataggio di tutte le proprietï¿½
+	 * Questo metodo effettua il salvataggio di tutte le proprietà
 	 * sul file di property.
 	 */
 	public void saveFileProperty() {
@@ -144,7 +144,7 @@ public class EnvProperties {
 
 	/**
 	 * Questo metodo pulisce, cancella tutti i valori
-	 * giÃ  settati.
+	 * già  settati.
 	 */
 	public void clear() {
 		this.properties = null;
