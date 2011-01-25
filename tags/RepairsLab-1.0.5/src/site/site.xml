@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="RepairsLab">
+	<bannerLeft>
+		<name>RepairsLab</name>
+		<src>images/RepairsLab.png</src>
+		<href>http://repairslab.sourceforge.net/</href>
+	</bannerLeft>
+	<version position="left" />
+	<publishDate format="d MMM yyyy" position="right" />
+	<body>
+		<links>
+			<item name="RepairsLab Home" href="http://repairslab.sourceforge.net/" />
+			<item name="SouceForge" href="https://sourceforge.net/projects/repairslab/" />
+			<item name="Support" href="https://sourceforge.net/projects/repairslab/support/" />
+			<item name="Download" href="https://sourceforge.net/projects/repairslab/files/" />
+		</links>
+
+		<menu name="Welcome">
+			<item name="About" href="index.html" />
+			<item name="Project Summary" href="project-summary.html" />
+		</menu>
+
+		<menu name="Getting RepairsLab">
+			<item name="Download" href="https://sourceforge.net/projects/repairslab/files/" />
+			<item name="Release Notes" href="releaseNotes.html" />
+			<item name="Licence" href="license.html" />
+		</menu>
+
+		<menu name="About RepairsLab">
+			<item name="About" href="index.html" />
+			<item name="Release Note" href="releaseNotes.html" />
+			<item name="Change Log" href="changeLog.html" />
+		</menu>
+		
+		<menu name="Community">
+			<item name="Project Team" href="team-list.html" />
+			<item name="Developer Setup Guide" href="developerSetupGuide.html" />
+			<item name="Mailing Lists" href="mail-lists.html" />
+			<item name="Issue Tracking" href="issue-tracking.html" />
+			<item name="Source Repository" href="source-repository.html" />
+		</menu>
+		
+		<menu name="Project Documentation">
+			<item name="Continuous Integration" href="integration.html" />
+			<item name="Dependencies" href="dependencies.html" />
+			<item name="Distribution Management" href="distribution-management.html" />
+			<item name="Plugin Management" href="plugin-management.html" />
+			<item name="Project Plugins" href="plugins.html" />
+			<item name="Project Information" href="project-info.html" />
+			<item name="Unit Test Execution" href="surefire-report.html" />
+		</menu>
+
+		<!-- <menu ref="reports" /> -->
+
+	</body>
+
+	<skin>
+		<groupId>org.apache.maven.skins</groupId>
+		<artifactId>maven-stylus-skin</artifactId>
+		<version>1.2</version>
+	</skin>
+
+</project>

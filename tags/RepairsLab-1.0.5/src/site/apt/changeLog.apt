@@ -1,0 +1,88 @@
+
+~~ See http://maven.apache.org/doxia/references/apt-format.html
+~~ Maven or better Doxia do not support the \ char to force new-line and also you
+~~ have to specify the extension of the linked image.
+
+CHANGE LOG
+~~~~~~~~~~~~
+
+* Version 1.0.5 - Release date 25/01/2011
+  
+** Bug Fixed
+     
+  * ID: 3140870 - Error insert new user from sheet with special character
+  
+  * ID: 3141260 - Error closing db connection
+  
+  * ID: 3131584 - For embedded derby db set TransactionIsolation as Connection.TRANSACTION_READ_UNCOMMITTED
+  
+  * Trac#11 - Logger modified
+  
+  * Trac#2 - Prefix sheet number in language manager 
+	 
+** Enhancement
+     
+  * Trac#10 - Romanian language supported
+  
+  * Trac#3 - Lifecycle automation with Maven
+  
+  * Trac#4 - JUnit and Maven integration
+  
+  * Trac#5 - Site documentation with Maven
+  
+  * Trac#8 - Revision automation with Maven
+  
+  * Trac#7 - Release automation with Maven
+
+* Version 1.0.4 - Release date 27/12/2010
+  
+** Bug Fixed
+     
+  * UTF-8 convertion of language files
+     
+  * ID: 3125522 fixed
+    
+  * ID: 3125986 fixed
+	 
+  * ID: 3134870 fixed
+	 
+  * ID: 3125347 fixed
+	 
+  * ID: 3137970 fixed
+	 
+** Enhancement
+     
+  * Thai language supported
+     
+  * Finnish language supported
+	 
+  * Greek language supported
+	 
+  * French language supported
+	 
+  * Status bar
+	 
+  * Check for update function
+	 
+  * Export/Import data function for Derby
+	 
+  * ID: 3128741 (Statistics and shortcuts keys)
+	 
+  * ID: 3127086 (Custom print template)
+	 
+
+* Version 1.0.3 - Release date 19/10/2010
+
+** Bug Fixed
+
+  * ID: 3065727 fixed
+
+** Enhancement 
+
+  * Currency by locale
+  
+  * Jasper report 3.7.5
+  
+  * New logo
+  
+  * Installer exe
