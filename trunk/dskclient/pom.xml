@@ -1,10 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sf.repairslab</groupId>
 	<artifactId>RepairsLab</artifactId>
 	<name>RepairsLab</name>
-	<version>1.0.5-SNAPSHOT</version>
+	<version>1.0.5</version>
 	<description>This system allow to manage the entry and exit of equipment repair in a small workshop for repairs or service center. The application allows the printing of a "Repair sheet" for each device and manage the state of repair.</description>
 	<url>http://repairslab.sourceforge.net/</url>
 	<properties>
@@ -45,65 +44,65 @@
 		</contributor>
 		<contributor>
 			<name>Gustavo Ruiz</name>
-			<email></email>
+			<email />
 			<roles>
 				<role>Spanish Translation</role>
 			</roles>
 		</contributor>
 		<contributor>
 			<name>Michael Buys</name>
-			<email></email>
+			<email />
 			<roles>
 				<role>Nederland Translation</role>
 			</roles>
 		</contributor>
 		<contributor>
 			<name>Silapin Sangsit</name>
-			<email></email>
+			<email />
 			<roles>
 				<role>Thai Translation</role>
 			</roles>
 		</contributor>
 		<contributor>
 			<name>Rui Ribeiro</name>
-			<email></email>
+			<email />
 			<roles>
 				<role>Portuguese Translation</role>
 			</roles>
 		</contributor>
 		<contributor>
 			<name>Dot Com</name>
-			<email></email>
+			<email />
 			<roles>
 				<role>Grech Translation</role>
 			</roles>
 		</contributor>
 		<contributor>
 			<name>Mikko Kaseva</name>
-			<email></email>
+			<email />
 			<roles>
 				<role>Finnish Translation</role>
 			</roles>
 		</contributor>
 		<contributor>
 			<name>Theogene Leblanc</name>
-			<email></email>
+			<email />
 			<roles>
 				<role>French Translation</role>
 			</roles>
 		</contributor>
 		<contributor>
 			<name>Gabriel</name>
-			<email></email>
+			<email />
 			<roles>
 				<role>Romanian Translation</role>
 			</roles>
 		</contributor>
 	</contributors>
 	<scm>
-		<connection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</connection>
-		<developerConnection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</developerConnection>
-		<url>https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</url>
+		<connection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/tags/RepairsLab-1.0.5</connection>
+		<developerConnection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/tags/RepairsLab-1.0.5</developerConnection>
+		<url>https://repairslab.svn.sourceforge.net/svnroot/repairslab/tags/RepairsLab-1.0.5</url>
 	</scm>
 	<build>
 		<defaultGoal>install</defaultGoal>
