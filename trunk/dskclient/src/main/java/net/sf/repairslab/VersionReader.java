@@ -21,9 +21,11 @@ public class VersionReader {
 	private static final String DEFAULT_VERSION_FILE = "version.properties";
 	private static final String	VERSION_PROPERTY = "version";
 	private static final String	RELEASE_PROPERTY = "release";
+	private static final String	APPNAME_PROPERTY = "appname";
 	
 	private String version;
 	private int release;
+	private String appname;
 	private Properties properties;
 	
 	public VersionReader() {
@@ -48,6 +50,7 @@ public class VersionReader {
         	properties = new Properties();
 	        properties.load(is);
 	        setVersion(properties.getProperty(VERSION_PROPERTY));
+	        setAppname(properties.getProperty(APPNAME_PROPERTY));
 	        String releaseString = properties.getProperty(RELEASE_PROPERTY);
 	        try {
 	        	setRelease(Integer.parseInt(releaseString));
@@ -92,6 +95,20 @@ public class VersionReader {
      */
     public void setRelease(int release) {
     	this.release = release;
+    }
+
+	/**
+     * @return the appname
+     */
+    public String getAppname() {
+    	return appname;
+    }
+
+	/**
+     * @param appname the appname to set
+     */
+    public void setAppname(String appname) {
+    	this.appname = appname;
     }
 
 }

@@ -33,7 +33,7 @@ public class CheckUpdates {
 	 */
 	private static BinRelease getLastBinRelease() {
 		VersionReader versionReader = new VersionReader(EnvConstants.LAST_REVISION_CHECK_URL);
-    	return new BinRelease(versionReader.getVersion(), versionReader.getRelease());
+    	return new BinRelease(versionReader.getAppname(), versionReader.getVersion(), versionReader.getRelease());
 	}
 	
 	public static void main (String[] args) {
