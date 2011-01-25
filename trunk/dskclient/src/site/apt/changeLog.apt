@@ -6,6 +6,34 @@
 CHANGE LOG
 ~~~~~~~~~~~~
 
+* Version 1.0.5 - Release date 25/01/2011
+  
+** Bug Fixed
+     
+  * ID: 3140870 - Error insert new user from sheet with special character
+  
+  * ID: 3141260 - Error closing db connection
+  
+  * ID: 3131584 - For embedded derby db set TransactionIsolation as Connection.TRANSACTION_READ_UNCOMMITTED
+  
+  * Trac#11 - Logger modified
+  
+  * Trac#2 - Prefix sheet number in language manager 
+	 
+** Enhancement
+     
+  * Trac#10 - Romanian language supported
+  
+  * Trac#3 - Lifecycle automation with Maven
+  
+  * Trac#4 - JUnit and Maven integration
+  
+  * Trac#5 - Site documentation with Maven
+  
+  * Trac#8 - Revision automation with Maven
+  
+  * Trac#7 - Release automation with Maven
+
 * Version 1.0.4 - Release date 27/12/2010
   
 ** Bug Fixed
