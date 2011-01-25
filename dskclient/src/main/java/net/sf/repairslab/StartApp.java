@@ -53,7 +53,7 @@ public class StartApp {
         
         splash.setStatus("Get release...", 20);
     	VersionReader versionReader = new VersionReader();
-    	BinRelease binRelease = new BinRelease(versionReader.getVersion(), versionReader.getRelease());
+    	BinRelease binRelease = new BinRelease(versionReader.getAppname(), versionReader.getVersion(), versionReader.getRelease());
 		
         CommonMetodBin.getInstance().setCurrentRelease(binRelease);
         splash.setRelease(CommonMetodBin.getInstance().getCurrentRelease().toString());
@@ -62,11 +62,6 @@ public class StartApp {
         String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LOCALE);
         Locale.setDefault(new Locale(selVal.split("-")[0],selVal.split("-")[1]));
 
-        if(!checkProcess(EnvProperties.getInstance().getProperty(EnvProperties.SERVER_PROCESS))){
-        	splash.setStatus("Start Server...", 40);
-            startServer();
-        }
-        
         splash.setStatus("Check for updates...", 50);
         CheckUpdates.check();
         
@@ -107,26 +102,6 @@ public class StartApp {
 		CommonMetodBin.closeConn(con);
 	}
 	
-	@Deprecated
-	private static void startServer() {
-		//cmd.exe /c mysql_start.bat
-		final String cmd = EnvProperties.getInstance().getProperty(EnvProperties.START_CMD);
-		if(cmd!=null && !cmd.equals("")){
-			new Thread(new Runnable() {
-		          public void run() {
-					try {
-						Runtime rt = Runtime.getRuntime();
-						Process proc = rt.exec(cmd);
-						splash.setStatus("Server Started...", 70);
-						proc.waitFor();
-					} catch (Throwable t) {
-						t.printStackTrace();
-					}
-		          }
-	        }).start();
-		}
-	}
-
 	private static VcSplashScreen splash;
 
 	public static VcSplashScreen showSplash() {

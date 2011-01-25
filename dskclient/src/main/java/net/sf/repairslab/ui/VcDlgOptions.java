@@ -35,6 +35,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import net.sf.repairslab.EnvProperties;
+import net.sf.repairslab.control.CommonMetodBin;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.ui.WindowUtil;
 import net.sf.repairslab.util.ui.cmb.TypeCmb;
@@ -469,8 +470,7 @@ public class VcDlgOptions extends JDialog {
 						cmb.getValue());
 				JOptionPane.showMessageDialog(getParent(),
 						Messages.getString("VcDlgOptions.msgRestart1") //$NON-NLS-1$
-								+ EnvProperties.getInstance().getProperty(
-										EnvProperties.APPNAME)
+								+ CommonMetodBin.getInstance().getCurrentRelease().getAppname()
 								+ Messages.getString("VcDlgOptions.msgRestart2"), //$NON-NLS-1$
 						Messages.getString("VcDlgOptions.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 			}

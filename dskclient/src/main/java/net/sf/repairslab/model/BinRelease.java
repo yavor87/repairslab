@@ -9,6 +9,7 @@ package net.sf.repairslab.model;
  */
 public class BinRelease {
 	
+	private String appname = "RepairsLab";
 	private int majorVersion = 0;
 	private int minorVersion = 0;
 	private int revision = 0;
@@ -53,7 +54,10 @@ public class BinRelease {
 	 * @param version
 	 * @param release
 	 */
-	public BinRelease(String version, int release) {
+	public BinRelease(String appname, String version, int release) {
+		
+		if (appname != null && !"".equals(appname))
+			setAppname(appname);
 		
 		if (version!=null && !"".equals(version)) {
 			
@@ -216,6 +220,20 @@ public class BinRelease {
      */
     public void setStatus(Status status) {
     	this.status = status;
+    }
+
+	/**
+     * @return the appname
+     */
+    public String getAppname() {
+    	return appname;
+    }
+
+	/**
+     * @param appname the appname to set
+     */
+    public void setAppname(String appname) {
+    	this.appname = appname;
     }
 
 }
