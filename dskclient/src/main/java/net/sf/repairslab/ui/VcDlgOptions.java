@@ -8,12 +8,8 @@ import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -35,7 +31,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import net.sf.repairslab.EnvProperties;
-import net.sf.repairslab.control.CommonMetodBin;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.ui.WindowUtil;
 import net.sf.repairslab.util.ui.cmb.TypeCmb;
@@ -393,6 +388,7 @@ public class VcDlgOptions extends JDialog {
 		EnvProperties.getInstance().setProperty(EnvProperties.JASPER, getTxpJasper().getText());
 		EnvProperties.getInstance().saveFileProperty();
 		close();
+		JOptionPane.showMessageDialog(getParent(),Messages.getString("VcDlgOptions.msgRestart"),Messages.getString("VcDlgOptions.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 	}
 
 	/**
@@ -410,49 +406,22 @@ public class VcDlgOptions extends JDialog {
 						}
 					});
 			Properties looks = new Properties();
-			try {
-				logger.debug("getCmbLookAndFeel..."); //$NON-NLS-1$
-				TypeCmb seledted = null;
-				
-				/* Caricamento da file di property */
-				String path = "conf" + System.getProperty("file.separator") + "LookAndFeel.properties"; //$NON-NLS-1$
-				FileInputStream in = new FileInputStream(path);
-				looks.load(in);
-				Enumeration<?> enumeration = looks.propertyNames();
-				loadCmbFlag = true;
-				while (enumeration.hasMoreElements()) {
-					String propName = (String) enumeration.nextElement();
-					String[] propVals = looks.getProperty(propName).split("~"); //$NON-NLS-1$
-					TypeCmb cmb1 = new TypeCmb();
-					cmb1.setDesc(propVals[0]);
-					cmb1.setValue(propVals[1]);
-					cmbLookAndFeel.addItem(cmb1);
-					if (EnvProperties.getInstance().getProperty(
-							EnvProperties.LOOK).equals(cmb1.getValue()))
-						seledted = cmb1;
-				}
-				/* Caricamento look di sistema */
-				UIManager.LookAndFeelInfo[] info = UIManager
-						.getInstalledLookAndFeels();
-				for (int i = 0; i < info.length; i++) {
-					TypeCmb cmb2 = new TypeCmb();
-					cmb2.setDesc(info[i].getName());
-					cmb2.setValue(info[i].getClassName());
-					if (EnvProperties.getInstance().getProperty(
-							EnvProperties.LOOK).equals(cmb2.getValue()))
-						seledted = cmb2;
-					cmbLookAndFeel.addItem(cmb2);
-				}
-				if (seledted != null)
-					cmbLookAndFeel.setSelectedItem(seledted);
-				loadCmbFlag = false;
-			} catch (FileNotFoundException e) {
-				logger.error("Exception getCmbLookAndFeel \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
-				//e.printStackTrace();
-			} catch (IOException e) {
-				logger.error("Exception getCmbLookAndFeel \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
-				//e.printStackTrace();
+			logger.debug("getCmbLookAndFeel..."); //$NON-NLS-1$
+			TypeCmb selected = null;
+			
+			/* Caricamento look di sistema */
+			UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
+			for (int i = 0; i < info.length; i++) {
+				TypeCmb cmb2 = new TypeCmb();
+				cmb2.setDesc(info[i].getName());
+				cmb2.setValue(info[i].getClassName());
+				if (EnvProperties.getInstance().getProperty(EnvProperties.LOOK).equals(cmb2.getValue()))
+					selected = cmb2;
+				cmbLookAndFeel.addItem(cmb2);
 			}
+			if (selected != null)
+				cmbLookAndFeel.setSelectedItem(selected);
+			loadCmbFlag = false;
 		}
 		return cmbLookAndFeel;
 	}
@@ -464,15 +433,8 @@ public class VcDlgOptions extends JDialog {
 	 */
 	private void setLookAndFeel(TypeCmb cmb) {
 		if (!loadCmbFlag) {
-			if (!EnvProperties.getInstance().getProperty(EnvProperties.LOOK)
-					.equals(cmb.getValue())) {
-				EnvProperties.getInstance().setProperty(EnvProperties.LOOK,
-						cmb.getValue());
-				JOptionPane.showMessageDialog(getParent(),
-						Messages.getString("VcDlgOptions.msgRestart1") //$NON-NLS-1$
-								+ CommonMetodBin.getInstance().getCurrentRelease().getAppname()
-								+ Messages.getString("VcDlgOptions.msgRestart2"), //$NON-NLS-1$
-						Messages.getString("VcDlgOptions.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
+			if (!EnvProperties.getInstance().getProperty(EnvProperties.LOOK).equals(cmb.getValue())) {
+				EnvProperties.getInstance().setProperty(EnvProperties.LOOK,cmb.getValue());
 			}
 		}
 	}
