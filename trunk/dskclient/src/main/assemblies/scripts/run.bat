@@ -1,2 +1,2 @@
 ${atChar}echo off
-java -jar ${project.build.finalName}.jar %*
+javaw -jar lib/${project.artifactId}-${project.version}.jar %*

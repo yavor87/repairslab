@@ -169,11 +169,10 @@
 					</excludes>
 					<archive>
 						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>net.sf.repairslab.StartApp</mainClass>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
 						</manifest>
-						<manifestEntries>
-							<Implementation-Build>${buildNumber}</Implementation-Build>
-						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
