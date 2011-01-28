@@ -9,6 +9,7 @@
 	<url>http://repairslab.sourceforge.net/</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<atChar>@</atChar>
 	</properties>
 	<issueManagement>
 		<system>trac</system>
@@ -124,6 +125,15 @@
 					<exclude>**/version.properties</exclude>
 				</excludes>
 			</resource>
+			<resource> 
+				<directory>${project.basedir}/src/main/assemblies/scripts</directory>
+				<filtering>true</filtering>
+   				<includes>
+					<include>run.bat</include>
+					<include>run.sh</include>
+    			</includes>
+    			<targetPath>${project.basedir}/target</targetPath>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>
@@ -141,8 +151,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -150,6 +160,13 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.3.1</version>
 				<configuration>
+					<excludes>
+						<exclude>conf/**</exclude>
+						<exclude>db/**</exclude>
+						<exclude>documents/**</exclude>
+						<exclude>log/**</exclude>
+						<exclude>resource/**</exclude>
+					</excludes>
 					<archive>
 						<manifest>
 							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
@@ -181,16 +198,22 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2</version>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-					<archive>
-						<manifest>
-							<mainClass>net.sf.repairslab.StartApp</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
+				<executions>
+					<execution>
+						<id>create-executable-jar</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<descriptors>
+								<descriptor>src/main/assemblies/bin.xml</descriptor>
+							</descriptors>
+							<outputDirectory>target/assembly</outputDirectory>
+							<appendAssemblyId>true</appendAssemblyId>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -212,6 +235,33 @@
 								</plugin>
 							</reportPlugins>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- <plugin> <groupId>org.codehaus.izpack</groupId> <artifactId>izpack-maven-plugin</artifactId> 
+				<version>5.0.0-beta5</version> <executions> <execution> <phase>package</phase> 
+				<goals> <goal>izpack</goal> </goals> <configuration> <izpackBasedir>${basedir}</izpackBasedir> 
+				</configuration> </execution> </executions> </plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.8</version>
+				<configuration>
+					<downloadJavadocs>true</downloadJavadocs>
+					<wtpversion>2.0</wtpversion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.3</version>
+				<executions> 
+					<execution> 
+						<id>filter</id>
+						<phase>generate-resources</phase> 
+						<goals> 
+							<goal>resources</goal> 
+						</goals>
 					</execution>
 				</executions>
 			</plugin>
