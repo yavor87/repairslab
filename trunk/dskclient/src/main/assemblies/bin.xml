@@ -16,7 +16,7 @@
 	</dependencySets>
 	<fileSets>
 		<fileSet>
-			<directory>src/main/resources/conf</directory>
+			<directory>src/main/assemblies/conf</directory>
       		<outputDirectory>conf</outputDirectory>
 		</fileSet>
 		<fileSet>
@@ -28,7 +28,7 @@
       		<outputDirectory>documents</outputDirectory>
 		</fileSet>
 		<fileSet>
-			<directory>src/main/resources/log</directory>
+			<directory>src/main/assemblies/log</directory>
       		<outputDirectory>log</outputDirectory>
 		</fileSet>
 		<fileSet>
