@@ -125,15 +125,9 @@
 					<exclude>**/version.properties</exclude>
 				</excludes>
 			</resource>
-			<resource> 
-				<directory>${project.basedir}/src/main/assemblies/scripts</directory>
-				<filtering>true</filtering>
-   				<includes>
-					<include>run.bat</include>
-					<include>run.sh</include>
-    			</includes>
-    			<targetPath>${project.basedir}/target</targetPath>
-			</resource>
+			<!-- <resource> <directory>${project.basedir}/src/main/assemblies/scripts</directory> 
+				<filtering>true</filtering> <includes> <include>run.bat</include> <include>run.sh</include> 
+				</includes> <targetPath>${project.basedir}/target</targetPath> </resource> -->
 		</resources>
 		<plugins>
 			<plugin>
@@ -189,8 +183,12 @@
 					</execution>
 				</executions>
 				<configuration>
-					<doCheck>true</doCheck>
-					<doUpdate>true</doUpdate>
+					<!-- doCheck and doUpdate a false to skip for svn modification -->
+					<doCheck>false</doCheck>
+					<doUpdate>false</doUpdate>
+					<providerImplementations>
+						<svn>javasvn</svn>
+					</providerImplementations>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -254,12 +252,12 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.4.3</version>
-				<executions> 
-					<execution> 
+				<executions>
+					<execution>
 						<id>filter</id>
-						<phase>generate-resources</phase> 
-						<goals> 
-							<goal>resources</goal> 
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>resources</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -314,4 +312,19 @@
 			</plugin>
 		</plugins>
 	</reporting>
+	<!-- http://illuminatedcomputing.com/tools/launch4j.php -->
+	<repositories>
+		<repository>
+			<id>akathist-repository</id>
+			<name>Akathist Repository</name>
+			<url>http://www.9stmaryrd.com/maven</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+    	<pluginRepository>
+	        <id>akathist-repository</id>
+	        <name>Akathist Repository</name>
+	        <url>http://www.9stmaryrd.com/maven</url>
+	    </pluginRepository>
+	</pluginRepositories>
 </project>
