@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 
 /**
  * Questa classe ha patern Singleton e valorizza le costanti e
- * proprietï¿½ da utilizzare in tutta l'applicazione.
+ * proprietÃ  da utilizzare in tutta l'applicazione.
  * 
  * @author ferraf01
  *
@@ -62,7 +62,7 @@ public class EnvProperties {
 	}
 
 	/**
-	 * Questo metodo ritorna il valore della proprietï¿½ richiesto.
+	 * Questo metodo ritorna il valore della proprietÃ  richiesto.
 	 * 
 	 * @param propName
 	 * @return
@@ -93,8 +93,8 @@ public class EnvProperties {
 	}
 
 	/**
-	 * Questo metodo effettua il caricamento di tutte le proprietà
-	 * sia da file di property che da proprietÃ  di sistema.
+	 * Questo metodo effettua il caricamento di tutte le proprietï¿½
+	 * sia da file di property che da proprietï¿½ di sistema.
 	 */
 	public void loadProperties() {
 		this.properties = new Properties();
@@ -116,7 +116,7 @@ public class EnvProperties {
 	}
 
 	/**
-	 * Questo metodo effettua il salvataggio di tutte le proprietà
+	 * Questo metodo effettua il salvataggio di tutte le proprietÃ 
 	 * sul file di property.
 	 */
 	public void saveFileProperty() {
@@ -140,7 +140,7 @@ public class EnvProperties {
 
 	/**
 	 * Questo metodo pulisce, cancella tutti i valori
-	 * già  settati.
+	 * giÃ  settati.
 	 */
 	public void clear() {
 		this.properties = null;

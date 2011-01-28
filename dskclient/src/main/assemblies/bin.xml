@@ -14,5 +14,31 @@
 			<outputDirectory>lib</outputDirectory>
 		</dependencySet>
 	</dependencySets>
-
+	<fileSets>
+		<fileSet>
+			<directory>src/main/resources/conf</directory>
+      		<outputDirectory>conf</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources/db</directory>
+      		<outputDirectory>db</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources/documents</directory>
+      		<outputDirectory>documents</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources/log</directory>
+      		<outputDirectory>log</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/resources/resource</directory>
+      		<outputDirectory>resource</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>src/main/assemblies/scripts</directory>
+			<outputDirectory>/</outputDirectory>
+			<filtered>true</filtered>
+		</fileSet>
+	</fileSets> 
 </assembly>
