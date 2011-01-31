@@ -1,5 +1,6 @@
 package net.sf.repairslab;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -93,13 +94,13 @@ public class EnvProperties {
 	}
 
 	/**
-	 * Questo metodo effettua il caricamento di tutte le propriet�
-	 * sia da file di property che da propriet� di sistema.
+	 * Questo metodo effettua il caricamento di tutte le proprietà
+	 * sia da file di property che da proprietà di sistema.
 	 */
 	public void loadProperties() {
 		this.properties = new Properties();
 		try {
-			this.properties.load(getClass().getResourceAsStream(PROP_FILE_NAME));
+			this.properties.load(new FileInputStream("conf" + FILE_SEPARETOR + PROP_FILE_NAME));
 		} catch (IOException e) {
 			logger.error("Exception in loadProperties \n"+e+"\n", e);
 		}
@@ -121,7 +122,7 @@ public class EnvProperties {
 	 */
 	public void saveFileProperty() {
 		try {
-			FileOutputStream fileProp = new FileOutputStream(getClass().getResource(PROP_FILE_NAME).getFile());
+			FileOutputStream fileProp = new FileOutputStream("conf" + FILE_SEPARETOR + PROP_FILE_NAME);
 			this.properties.store(fileProp, "--- RepairsLab Saving ---");
 		} catch (FileNotFoundException fnf) {
 			//fnf.printStackTrace();

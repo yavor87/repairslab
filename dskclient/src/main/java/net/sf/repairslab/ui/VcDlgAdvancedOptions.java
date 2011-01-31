@@ -41,10 +41,6 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JLabel lblDBOptions = null;
 	private JButton btnCanc = null;
 	private JButton btnOk = null;
-	private JLabel lblStartCmd = null;
-	private JTextField txfStartCmd = null;
-	private JTextField txfServeProc = null;
-	private JLabel lblServerProc = null;
 	private JCheckBox ckbEmbedded = null;
 	private JButton btnTestConn = null;
 	/**
@@ -68,7 +64,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(524, 398);
+		this.setSize(535, 322);
 		this.setContentPane(getJContentPane());
 	}
 
@@ -79,29 +75,23 @@ public class VcDlgAdvancedOptions extends JDialog {
 	 */
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
-			lblServerProc = new JLabel();
-			lblServerProc.setBounds(new Rectangle(7, 63, 132, 15));
-			lblServerProc.setText("Processo Server"); //$NON-NLS-1$
-			lblStartCmd = new JLabel();
-			lblStartCmd.setBounds(new Rectangle(8, 13, 126, 16));
-			lblStartCmd.setText("Comando di avvio"); //$NON-NLS-1$
 			lblDBOptions = new JLabel();
-			lblDBOptions.setBounds(new Rectangle(46, 126, 119, 16));
+			lblDBOptions.setBounds(new Rectangle(43, 11, 119, 16));
 			lblDBOptions.setText(Messages.getString("VcDlgAdvancedOptions.lblDbConfig")); //$NON-NLS-1$
 			LblJdbcPsw = new JLabel();
-			LblJdbcPsw.setBounds(new Rectangle(7, 249, 90, 16));
+			LblJdbcPsw.setBounds(new Rectangle(4, 134, 90, 16));
 			LblJdbcPsw.setText(Messages.getString("VcDlgAdvancedOptions.lblJDBCPassw")); //$NON-NLS-1$
 			lblJdbcUser = new JLabel();
-			lblJdbcUser.setBounds(new Rectangle(7, 219, 90, 16));
+			lblJdbcUser.setBounds(new Rectangle(4, 104, 90, 16));
 			lblJdbcUser.setText(Messages.getString("VcDlgAdvancedOptions.lblJDBCUser")); //$NON-NLS-1$
 			lblJdbcUrl = new JLabel();
-			lblJdbcUrl.setBounds(new Rectangle(7, 189, 90, 16));
+			lblJdbcUrl.setBounds(new Rectangle(4, 74, 90, 16));
 			lblJdbcUrl.setText(Messages.getString("VcDlgAdvancedOptions.lblJDBCUrl")); //$NON-NLS-1$
 			lblJdbcDriver = new JLabel();
-			lblJdbcDriver.setBounds(new Rectangle(7, 159, 90, 16));
+			lblJdbcDriver.setBounds(new Rectangle(4, 44, 90, 16));
 			lblJdbcDriver.setText(Messages.getString("VcDlgAdvancedOptions.lblJDBCDriver")); //$NON-NLS-1$
 			lblGenerali = new JLabel();
-			lblGenerali.setBounds(new Rectangle(8, 120, 30, 30));
+			lblGenerali.setBounds(new Rectangle(5, 5, 30, 30));
 			lblGenerali.setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/Options30.png"))); //$NON-NLS-1$
 			lblGenerali.setText(""); //$NON-NLS-1$
 			lblGenerali.setHorizontalAlignment(SwingConstants.CENTER);
@@ -119,10 +109,6 @@ public class VcDlgAdvancedOptions extends JDialog {
 			jContentPane.add(lblDBOptions, null);
 			jContentPane.add(getBtnCanc(), null);
 			jContentPane.add(getBtnOk(), null);
-			jContentPane.add(lblStartCmd, null);
-			jContentPane.add(getTxfStartCmd(), null);
-			jContentPane.add(getTxfServeProc(), null);
-			jContentPane.add(lblServerProc, null);
 			jContentPane.add(getCkbEmbedded(), null);
 			jContentPane.add(getBtnTestConn(), null);
 		}
@@ -137,7 +123,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JTextField getTxpJdbcDriver() {
 		if (txpJdbcDriver == null) {
 			txpJdbcDriver = new JTextField();
-			txpJdbcDriver.setBounds(new Rectangle(100, 158, 409, 25));
+			txpJdbcDriver.setBounds(new Rectangle(97, 43, 409, 25));
 			txpJdbcDriver.setText(EnvProperties.getInstance().getProperty(
 					EnvProperties.DB_DRIVER));
 		}
@@ -152,7 +138,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JTextField getTxpJdbcUrl() {
 		if (txpJdbcUrl == null) {
 			txpJdbcUrl = new JTextField();
-			txpJdbcUrl.setBounds(new Rectangle(100, 188, 409, 25));
+			txpJdbcUrl.setBounds(new Rectangle(97, 73, 409, 25));
 			txpJdbcUrl.setText(EnvProperties.getInstance().getProperty(
 					EnvProperties.DB_URL));
 		}
@@ -167,7 +153,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JTextField getTxpJdbcUser() {
 		if (txpJdbcUser == null) {
 			txpJdbcUser = new JTextField();
-			txpJdbcUser.setBounds(new Rectangle(100, 218, 191, 25));
+			txpJdbcUser.setBounds(new Rectangle(97, 103, 191, 25));
 			txpJdbcUser.setText(EnvProperties.getInstance().getProperty(
 					EnvProperties.DB_USER));
 		}
@@ -182,7 +168,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JPasswordField getTxpJdbcPsw() {
 		if (txpJdbcPsw == null) {
 			txpJdbcPsw = new JPasswordField();
-			txpJdbcPsw.setBounds(new Rectangle(100, 248, 191, 25));
+			txpJdbcPsw.setBounds(new Rectangle(97, 133, 191, 25));
 			txpJdbcPsw.setText(EnvProperties.getInstance().getProperty(
 					EnvProperties.DB_PASSW));
 		}
@@ -197,7 +183,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JButton getBtnCanc() {
 		if (btnCanc == null) {
 			btnCanc = new JButton();
-			btnCanc.setBounds(new Rectangle(210, 328, 96, 25));
+			btnCanc.setBounds(new Rectangle(207, 213, 96, 25));
 			btnCanc.setText(Messages.getString("VcDlgAdvancedOptions.btnCanc")); //$NON-NLS-1$
 			btnCanc.setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
@@ -217,7 +203,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JButton getBtnOk() {
 		if (btnOk == null) {
 			btnOk = new JButton();
-			btnOk.setBounds(new Rectangle(310, 328, 85, 25));
+			btnOk.setBounds(new Rectangle(307, 213, 85, 25));
 			btnOk.setText(Messages.getString("VcDlgAdvancedOptions.btnSave")); //$NON-NLS-1$
 			btnOk.setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/filesave.png"))); //$NON-NLS-1$
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
@@ -273,62 +259,23 @@ public class VcDlgAdvancedOptions extends JDialog {
 	
 	@SuppressWarnings("deprecation")
 	private void updateConf(){
-		EnvProperties.getInstance().setProperty(
-				EnvProperties.START_CMD,getTxfStartCmd().getText());
-		EnvProperties.getInstance().setProperty(
-				EnvProperties.SERVER_PROCESS,getTxfServeProc().getText());
-		EnvProperties.getInstance().setProperty(
-				EnvProperties.DB_DRIVER,getTxpJdbcDriver().getText());
-		EnvProperties.getInstance().setProperty(
-				EnvProperties.DB_URL,getTxpJdbcUrl().getText());
-		EnvProperties.getInstance().setProperty(
-				EnvProperties.DB_USER,getTxpJdbcUser().getText());
+		EnvProperties.getInstance().setProperty(EnvProperties.DB_DRIVER,getTxpJdbcDriver().getText());
+		EnvProperties.getInstance().setProperty(EnvProperties.DB_URL,getTxpJdbcUrl().getText());
+		EnvProperties.getInstance().setProperty(EnvProperties.DB_USER,getTxpJdbcUser().getText());
 		String psw = getTxpJdbcPsw().getText();
 		//System.out.println("updateConf:"+psw);
 		if (psw == null) psw = ""; //$NON-NLS-1$
 		//System.out.println("updateConf:"+psw);
-		EnvProperties.getInstance().setProperty(
-				EnvProperties.DB_PASSW,psw);
+		EnvProperties.getInstance().setProperty(EnvProperties.DB_PASSW,psw);
 				
 		String emb = "N"; //$NON-NLS-1$
 		if(getCkbEmbedded().isSelected()) emb = "S"; //$NON-NLS-1$
-		EnvProperties.getInstance().setProperty(
-				EnvProperties.DB_ISEMBEDDED,emb);
+		EnvProperties.getInstance().setProperty(EnvProperties.DB_ISEMBEDDED,emb);
 		
 		EnvProperties.getInstance().saveFileProperty();
 		JOptionPane.showMessageDialog(getParent(),
 				Messages.getString("VcDlgAdvancedOptions.msgRestart"), //$NON-NLS-1$
 				Messages.getString("VcDlgAdvancedOptions.msgTitleInfo"), JOptionPane.INFORMATION_MESSAGE); //$NON-NLS-1$
-	}
-
-	/**
-	 * This method initializes txfStartCmd	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */
-	private JTextField getTxfStartCmd() {
-		if (txfStartCmd == null) {
-			txfStartCmd = new JTextField();
-			txfStartCmd.setBounds(new Rectangle(8, 32, 500, 25));
-			txfStartCmd.setText(EnvProperties.getInstance().getProperty(
-					EnvProperties.START_CMD));
-		}
-		return txfStartCmd;
-	}
-
-	/**
-	 * This method initializes txfServeProc	
-	 * 	
-	 * @return javax.swing.JTextField	
-	 */
-	private JTextField getTxfServeProc() {
-		if (txfServeProc == null) {
-			txfServeProc = new JTextField();
-			txfServeProc.setBounds(new Rectangle(8, 83, 500, 25));
-			txfServeProc.setText(EnvProperties.getInstance().getProperty(
-					EnvProperties.SERVER_PROCESS));
-		}
-		return txfServeProc;
 	}
 
 	/**
@@ -339,7 +286,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JCheckBox getCkbEmbedded() {
 		if (ckbEmbedded == null) {
 			ckbEmbedded = new JCheckBox();
-			ckbEmbedded.setBounds(new Rectangle(6, 285, 178, 24));
+			ckbEmbedded.setBounds(new Rectangle(3, 170, 178, 24));
 			ckbEmbedded.setText(Messages.getString("VcDlgAdvancedOptions.lblEmbeddedServer")); //$NON-NLS-1$
 			ckbEmbedded.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
@@ -362,7 +309,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JButton getBtnTestConn() {
 		if (btnTestConn == null) {
 			btnTestConn = new JButton();
-			btnTestConn.setBounds(new Rectangle(91, 328, 87, 25));
+			btnTestConn.setBounds(new Rectangle(88, 213, 87, 25));
 			btnTestConn.setText(Messages.getString("VcDlgAdvancedOptions.btnlTest")); //$NON-NLS-1$
 			btnTestConn.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -389,4 +336,4 @@ public class VcDlgAdvancedOptions extends JDialog {
 		this.getCkbEmbedded().setSelected(false);
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="10,10"
+}  //  @jve:decl-index=0:visual-constraint="10,6"

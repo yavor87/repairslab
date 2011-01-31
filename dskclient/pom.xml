@@ -125,9 +125,6 @@
 					<exclude>**/version.properties</exclude>
 				</excludes>
 			</resource>
-			<!-- <resource> <directory>${project.basedir}/src/main/assemblies/scripts</directory> 
-				<filtering>true</filtering> <includes> <include>run.bat</include> <include>run.sh</include> 
-				</includes> <targetPath>${project.basedir}/target</targetPath> </resource> -->
 		</resources>
 		<plugins>
 			<plugin>
@@ -199,9 +196,7 @@
 					<execution>
 						<id>create-executable-jar</id>
 						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
+						<goals><goal>single</goal></goals>
 						<configuration>
 							<descriptors>
 								<descriptor>src/main/assemblies/bin.xml</descriptor>
@@ -235,10 +230,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- <plugin> <groupId>org.codehaus.izpack</groupId> <artifactId>izpack-maven-plugin</artifactId> 
-				<version>5.0.0-beta5</version> <executions> <execution> <phase>package</phase> 
-				<goals> <goal>izpack</goal> </goals> <configuration> <izpackBasedir>${basedir}</izpackBasedir> 
-				</configuration> </execution> </executions> </plugin> -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
@@ -312,19 +303,4 @@
 			</plugin>
 		</plugins>
 	</reporting>
-	<!-- http://illuminatedcomputing.com/tools/launch4j.php -->
-	<repositories>
-		<repository>
-			<id>akathist-repository</id>
-			<name>Akathist Repository</name>
-			<url>http://www.9stmaryrd.com/maven</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-    	<pluginRepository>
-	        <id>akathist-repository</id>
-	        <name>Akathist Repository</name>
-	        <url>http://www.9stmaryrd.com/maven</url>
-	    </pluginRepository>
-	</pluginRepositories>
 </project>
