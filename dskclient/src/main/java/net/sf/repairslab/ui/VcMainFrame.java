@@ -84,6 +84,7 @@ public class VcMainFrame extends JFrame {
 	private JMenuItem mniImport = null;
 	private int lastSelectedIndex = 0;
 	private boolean checking = false;
+	private VcPnlStatusBar statusBar = null;
 	
 	/**
 	 * This is the default constructor
@@ -125,9 +126,16 @@ public class VcMainFrame extends JFrame {
 			jContentPane = new JPanel();
 			jContentPane.setLayout(new BorderLayout());
 			jContentPane.add(getTbpMain(), java.awt.BorderLayout.CENTER);
-			jContentPane.add(new VcPnlStatusBar(this), java.awt.BorderLayout.SOUTH);
+			jContentPane.add(getStatusBar(), java.awt.BorderLayout.SOUTH);
 		}
 		return jContentPane;
+	}
+	
+	public VcPnlStatusBar getStatusBar() {
+		if (statusBar == null) {
+			statusBar = new VcPnlStatusBar(this);
+		}
+		return statusBar;
 	}
 
 	/**

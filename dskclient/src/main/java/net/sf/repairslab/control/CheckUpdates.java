@@ -4,6 +4,7 @@ import net.sf.repairslab.EnvConstants;
 import net.sf.repairslab.VersionReader;
 import net.sf.repairslab.control.CommonMetodBin.CheckStatus;
 import net.sf.repairslab.model.BinRelease;
+import net.sf.repairslab.ui.VcMainFrame;
 
 /**
  * Verifica se stai utilizzando l'ultima versione del programma
@@ -18,10 +19,15 @@ public class CheckUpdates {
 		BinRelease lastBinRelease = getLastBinRelease();
 		CommonMetodBin.getInstance().setActualRelease(lastBinRelease);
 		if (lastBinRelease == null) {
-			CommonMetodBin.getInstance().setStatusUpdate(CheckStatus.LAST_UPDATE);
+			CommonMetodBin.getInstance().setStatusUpdate(CheckStatus.NOT_CHECKED);
 			CommonMetodBin.getInstance().setActualRelease(new BinRelease());
 		} else {
-			CommonMetodBin.getInstance().setStatusUpdate(CommonMetodBin.getInstance().getCurrentRelease().isMajor(lastBinRelease) ? CheckStatus.LAST_UPDATE : CheckStatus.NEW_UPDATE);
+			if (!lastBinRelease.isMajor(CommonMetodBin.getInstance().getCurrentRelease()))
+				CommonMetodBin.getInstance().setStatusUpdate(CheckStatus.LAST_UPDATE);
+			else {
+				CommonMetodBin.getInstance().setStatusUpdate(CheckStatus.NEW_UPDATE);
+				((VcMainFrame)CommonMetodBin.getInstance().getMainFrame()).getStatusBar().setStatusNewUpdate();
+			}
 			CommonMetodBin.getInstance().setActualRelease(lastBinRelease);
 		}
 	}
