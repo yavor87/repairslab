@@ -1,15 +1,15 @@
 package net.sf.repairslab.ui;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Frame;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sf.repairslab.control.CommonMetodBin;
-import net.sf.repairslab.control.CommonMetodBin.CheckStatus;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.ui.WindowUtil;
 
@@ -18,6 +18,7 @@ public class VcPnlStatusBar extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton btnUpgrade = null;
 	private Frame parent;
+	private JLabel lblStatus = null;
 	
 	public VcPnlStatusBar(Frame parent) {
 		this.parent = parent;
@@ -26,11 +27,18 @@ public class VcPnlStatusBar extends JPanel {
 	
 	private void initialize() {
 		this.setSize(300, 16);
-//		JLabel lblStatus = new JLabel();
-//		lblStatus.setText(CommonMetodBin.getInstance().getStatusUpdate().name());
-		this.setLayout(new BorderLayout());
-//		this.add(lblStatus, BorderLayout.CENTER);
-	    add(getBtnUpgrade(), BorderLayout.EAST);
+		this.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		this.add(getLableStatus());
+	    add(getBtnUpgrade());
+	}
+	
+	private JLabel getLableStatus() {
+		if (lblStatus == null) {
+			lblStatus = new JLabel();
+			lblStatus.setText(CommonMetodBin.getInstance().getStatusUpdate().name());
+			lblStatus.setHorizontalTextPosition(JLabel.RIGHT);
+		}
+		return lblStatus;
 	}
 	
 	/**
@@ -42,13 +50,7 @@ public class VcPnlStatusBar extends JPanel {
 		if (btnUpgrade == null) {
 			btnUpgrade = new JButton();
 			btnUpgrade.setPreferredSize(new Dimension(22,22));
-			if (CommonMetodBin.getInstance().getStatusUpdate().equals(CheckStatus.NEW_UPDATE)) {
-				btnUpgrade.setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/software-update-available.png")));
-				btnUpgrade.setToolTipText(Messages.getString("VcPnlStatusBar.tltNewVersion"));
-			} else {
-				btnUpgrade.setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/system-software-update.png"))); 
-				btnUpgrade.setToolTipText(Messages.getString("VcPnlStatusBar.tltCheckUpdate"));
-			}
+			setStatusLastUpdate();
 			btnUpgrade.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					VcDlgCheckUpdate dialog = new VcDlgCheckUpdate(parent);
@@ -58,5 +60,17 @@ public class VcPnlStatusBar extends JPanel {
 			});
 		}
 		return btnUpgrade;
+	}
+	
+	public void setStatusNewUpdate() {
+		getBtnUpgrade().setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/software-update-available.png")));
+		getBtnUpgrade().setToolTipText(Messages.getString("VcPnlStatusBar.tltNewVersion"));
+		getLableStatus().setText(Messages.getString("VcPnlStatusBar.tltNewVersion"));
+	}
+	
+	private void setStatusLastUpdate() {
+		getBtnUpgrade().setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/system-software-update.png")));
+		getBtnUpgrade().setToolTipText(Messages.getString("VcPnlStatusBar.tltCheckUpdate"));
+		getLableStatus().setText("");
 	}
 }

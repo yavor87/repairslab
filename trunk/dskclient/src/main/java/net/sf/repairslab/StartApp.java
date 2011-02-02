@@ -1,11 +1,6 @@
 package net.sf.repairslab;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 
 import javax.swing.UIManager;
@@ -62,13 +57,10 @@ public class StartApp {
         String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LOCALE);
         Locale.setDefault(new Locale(selVal.split("-")[0],selVal.split("-")[1]));
 
-        splash.setStatus("Check for updates...", 50);
-        CheckUpdates.check();
-        
-        splash.setStatus("Testing Connection...", 80);
+        splash.setStatus("Testing Connection...", 50);
         testConn();
         
-        splash.setStatus("Loading App...", 90);
+        splash.setStatus("Loading App...", 80);
 		VcMainFrame frame = new VcMainFrame();
 		logger.debug("Application loaded...");
 		
@@ -76,6 +68,8 @@ public class StartApp {
 		splash.setStatus("Started...", 100);
 		frame.setVisible(true);
 		hideSplash();
+		
+        startChekForUpdate();
 	}
 	
 	private static void initLog4j(){
@@ -125,48 +119,20 @@ public class StartApp {
         }
     }
 	
-	@Deprecated
-	public static void runInitializer(Runnable r) {
-        Thread t = new Thread(r);
-        t.start();
-    }
-	
-	@Deprecated
-	public static boolean checkProcess(String process){
-		if (process != null && process.equals("")){
-			return false;
-		}
-		boolean result = false;
-		List<String> processes = listRunningProcesses();
-	    Iterator<String> it = processes.iterator();
-	    while (it.hasNext()) {
-	    	String pr = it.next();
-	    	if(pr.equalsIgnoreCase(process))
-	    		return true;
-	    }
-	    return result;
+	/**
+	 * Thread to search new update
+	 * @author Fabrizio Ferraiuolo 02/feb/2011 12.46.12 
+	 */
+	public static void startChekForUpdate() {
+		logger.debug("Start  ChekForUpdate...");
+		Thread t = new Thread(){
+			@Override
+			public void run() {
+				CheckUpdates.check();
+				logger.debug("End  ChekForUpdate...");
+			}
+		};
+		t.run();
 	}
-	
-	@Deprecated
-	public static List<String> listRunningProcesses() {
-	    List<String> processes = new ArrayList<String>();
-	    try {
-	      String line;
-	      Process p = Runtime.getRuntime().exec("tasklist.exe /nh");
-	      BufferedReader input = new BufferedReader
-	          (new InputStreamReader(p.getInputStream()));
-	      while ((line = input.readLine()) != null) {
-	          if (!line.trim().equals("")) {
-	              processes.add(line.substring(0, line.indexOf("  ")));
-	          }
-	      }
-	      input.close();
-	    }
-	    catch (Exception err) {
-	    	//err.printStackTrace();
-	    	logger.error("Exception in Remove process running \n"+err+"\n");
-	    }
-	    return processes;
-	  }
 	
 }

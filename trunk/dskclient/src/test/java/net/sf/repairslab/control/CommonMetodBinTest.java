@@ -10,4 +10,6 @@ public class CommonMetodBinTest {
 //		assertEquals("Db connection error.","Ok", connResult);
 	}
 	
+	
+	
 }
