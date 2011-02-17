@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import net.sf.repairslab.control.CommonMetodBin;
 import net.sf.repairslab.control.DbSchedaAction;
 import net.sf.repairslab.model.BinCliente;
 import net.sf.repairslab.model.BinScheda;
@@ -532,22 +533,29 @@ public class VcPnlDatiCLiente extends JPanel {
 			try {
 				logger.debug("getBtnOk ins..."); //$NON-NLS-1$
 				DbSchedaAction.insCliente(con,scheda.getBinCliente());
-			} catch (SQLException e1) {
-				logger.error("Exception getBtnOk ins \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
+				setViewMode();
+			} catch (SQLException e) {
+				logger.error("Exception getBtnOk ins \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
+				JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),
+						Messages.getString("VcPnlDatiCLiente.savingError")+e+"\n", //$NON-NLS-1$ //$NON-NLS-2$
+						Messages.getString("VcPnlCostiNote.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 				//e1.printStackTrace();
 			}
 		} else if (modalityCliente == modeCliente.update){
 			try {
 				logger.debug("getBtnOk upd..."); //$NON-NLS-1$
 				DbSchedaAction.saveCliente(con,scheda.getBinCliente());
-			} catch (SQLException e1) {
-				logger.error("Exception getBtnOk upd \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
+				setViewMode();
+			} catch (SQLException e) {
+				logger.error("Exception getBtnOk upd \n"+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
+				JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),
+						Messages.getString("VcPnlDatiCLiente.savingError")+e+"\n", //$NON-NLS-1$ //$NON-NLS-2$
+						Messages.getString("VcPnlCostiNote.msgTitleWarning"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
 				//e1.printStackTrace();
 			}
 		}
-		
-		setViewMode();
 		refreshData(scheda.getBinCliente());
+		
 	}
 
 	/**
@@ -565,6 +573,13 @@ public class VcPnlDatiCLiente extends JPanel {
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					setViewMode();
+					DbSchedaAction dbSchedaAction = new DbSchedaAction();
+					try {
+	                    scheda = dbSchedaAction.getScheda(con,scheda.getId());
+                    } catch (SQLException e1) {
+                    	logger.error("Exception getBtnCanc \n"+e1+"\n", e1); //$NON-NLS-1$ //$NON-NLS-2$
+//	                    e1.printStackTrace();
+                    }
 					refreshData(scheda.getBinCliente());
 				}
 			});
