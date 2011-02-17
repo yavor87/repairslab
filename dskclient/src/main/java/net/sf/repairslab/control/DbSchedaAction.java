@@ -23,38 +23,43 @@ public class DbSchedaAction {
 				"pagatoDalCliente,dataInserimento,dataChiusura,imei,serial," +
 				"idTipoApparecchiatura,idModello,idMarca,numeroDatiAcq,dataDatiAcq,idTipoDatiAcq " +
 				"from schede where id = " + nrScheda;
-		ResultSet rs = smtp.executeQuery(qry);
-		while (rs.next()) {
-			binScheda = new BinScheda();
-			int id = rs.getInt("id");
-			binScheda.setOrigId(id);
-			binScheda.setId(id);
-			binScheda.setBinCliente(getCliente(con,rs.getInt("idCliente")));
-			binScheda.setIdStato(rs.getInt("idStato"));
-			binScheda.setIdTipoRiparazione(rs.getInt("idTipoRip"));
-			binScheda.setAccessoriConsegnati(rs.getString("accessoriConsegnati"));
-			binScheda.setStatoGenerale(rs.getString("statoGenerale"));
-			binScheda.setDifettoSegnalato(rs.getString("difettoSegnalato"));
-			binScheda.setNonConformita(rs.getString("nonConform"));
-			binScheda.setDescrizioneRiparazione(rs.getString("descrizioneRiparazione"));
-			binScheda.setNoteStampa(rs.getString("noteStampa"));
-			binScheda.setNoteUsoInterno(rs.getString("noteUsoInterno"));
-			binScheda.setCostoPreventivo(rs.getFloat("costoPreventivato"));
-			binScheda.setCostoInterno(rs.getFloat("costoInterno"));
-			binScheda.setPagatoDalCliente(rs.getFloat("pagatoDalCliente"));
-			binScheda.setDataInserimento(rs.getDate("dataInserimento"));
-			binScheda.setDataChiusura(rs.getDate("dataChiusura"));
-			//binScheda.setImei(rs.getString("imei"));
-			binScheda.setSerial(rs.getString("serial"));
-			binScheda.setIdTipoApparecchiature(rs.getInt("idTipoApparecchiatura"));
-			binScheda.setIdModelli(rs.getInt("idModello"));
-			binScheda.setIdMarchi(rs.getInt("idMarca"));
-			binScheda.setNumDatiAcq(rs.getString("numeroDatiAcq"));
-			binScheda.setDataDatiAcq(rs.getDate("dataDatiAcq"));
-			binScheda.setIdTipoDatiAcq(rs.getInt("idTipoDatiAcq"));
+		try {
+			ResultSet rs = smtp.executeQuery(qry);
+			while (rs.next()) {
+				binScheda = new BinScheda();
+				int id = rs.getInt("id");
+				binScheda.setOrigId(id);
+				binScheda.setId(id);
+				binScheda.setBinCliente(getCliente(con,rs.getInt("idCliente")));
+				binScheda.setIdStato(rs.getInt("idStato"));
+				binScheda.setIdTipoRiparazione(rs.getInt("idTipoRip"));
+				binScheda.setAccessoriConsegnati(rs.getString("accessoriConsegnati"));
+				binScheda.setStatoGenerale(rs.getString("statoGenerale"));
+				binScheda.setDifettoSegnalato(rs.getString("difettoSegnalato"));
+				binScheda.setNonConformita(rs.getString("nonConform"));
+				binScheda.setDescrizioneRiparazione(rs.getString("descrizioneRiparazione"));
+				binScheda.setNoteStampa(rs.getString("noteStampa"));
+				binScheda.setNoteUsoInterno(rs.getString("noteUsoInterno"));
+				binScheda.setCostoPreventivo(rs.getFloat("costoPreventivato"));
+				binScheda.setCostoInterno(rs.getFloat("costoInterno"));
+				binScheda.setPagatoDalCliente(rs.getFloat("pagatoDalCliente"));
+				binScheda.setDataInserimento(rs.getDate("dataInserimento"));
+				binScheda.setDataChiusura(rs.getDate("dataChiusura"));
+				//binScheda.setImei(rs.getString("imei"));
+				binScheda.setSerial(rs.getString("serial"));
+				binScheda.setIdTipoApparecchiature(rs.getInt("idTipoApparecchiatura"));
+				binScheda.setIdModelli(rs.getInt("idModello"));
+				binScheda.setIdMarchi(rs.getInt("idMarca"));
+				binScheda.setNumDatiAcq(rs.getString("numeroDatiAcq"));
+				binScheda.setDataDatiAcq(rs.getDate("dataDatiAcq"));
+				binScheda.setIdTipoDatiAcq(rs.getInt("idTipoDatiAcq"));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtp.close();
 		}
-		rs.close();
-		smtp.close();
 		return binScheda;
 	}
 	
@@ -64,40 +69,45 @@ public class DbSchedaAction {
 		String qry = "select id,nome,cognome,pIva,azienda,phone,mobilePhone," +
 				"email,indirizzo,city " +
 				"from clienti where id = " + idCliente;
-		ResultSet rs = smtp.executeQuery(qry);
-		while (rs.next()) {
-			binCliente = new BinCliente();
-			binCliente.setId(rs.getInt("id"));
-			String nome = rs.getString("nome");
-			if (nome == null) nome = "";
-			binCliente.setNome(nome);
-			String cognome = rs.getString("cognome");
-			if (cognome == null) cognome = "";
-			binCliente.setCognome(cognome);
-			String pIva = rs.getString("pIva");
-			if (pIva == null) pIva = "";
-			binCliente.setPIva(pIva);
-			String azienda = rs.getString("azienda");
-			if (azienda == null) azienda = "";
-			binCliente.setAzienda(azienda);
-			String phone = rs.getString("phone");
-			if (phone == null) phone = "";
-			binCliente.setPhone(phone);
-			String mobilePhone = rs.getString("mobilePhone");
-			if (mobilePhone == null) mobilePhone = "";
-			binCliente.setMobilePhone(mobilePhone);
-			String email = rs.getString("email");
-			if (email == null) email = "";
-			binCliente.setEmail(email);
-			String indirizzo = rs.getString("indirizzo");
-			if (indirizzo == null) indirizzo = "";
-			binCliente.setIndirizzo(indirizzo);
-			String city = rs.getString("city");
-			if (city == null) city = "";
-			binCliente.setCity(city);
+		try {
+			ResultSet rs = smtp.executeQuery(qry);
+			while (rs.next()) {
+				binCliente = new BinCliente();
+				binCliente.setId(rs.getInt("id"));
+				String nome = rs.getString("nome");
+				if (nome == null) nome = "";
+				binCliente.setNome(nome);
+				String cognome = rs.getString("cognome");
+				if (cognome == null) cognome = "";
+				binCliente.setCognome(cognome);
+				String pIva = rs.getString("pIva");
+				if (pIva == null) pIva = "";
+				binCliente.setPIva(pIva);
+				String azienda = rs.getString("azienda");
+				if (azienda == null) azienda = "";
+				binCliente.setAzienda(azienda);
+				String phone = rs.getString("phone");
+				if (phone == null) phone = "";
+				binCliente.setPhone(phone);
+				String mobilePhone = rs.getString("mobilePhone");
+				if (mobilePhone == null) mobilePhone = "";
+				binCliente.setMobilePhone(mobilePhone);
+				String email = rs.getString("email");
+				if (email == null) email = "";
+				binCliente.setEmail(email);
+				String indirizzo = rs.getString("indirizzo");
+				if (indirizzo == null) indirizzo = "";
+				binCliente.setIndirizzo(indirizzo);
+				String city = rs.getString("city");
+				if (city == null) city = "";
+				binCliente.setCity(city);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtp.close();
 		}
-		rs.close();
-		smtp.close();
 		if(binCliente==null){
 			binCliente = addVoidCliente();
 		}
@@ -151,8 +161,13 @@ public class DbSchedaAction {
 			"idTipoDatiAcq="+scheda.getIdTipoDatiAcq()+" " +
 			"where id = " + scheda.getOrigId();
 		//System.out.println(updScheda);
-		smtpScheda.executeUpdate(updScheda);
-		smtpScheda.close();
+		try {
+			smtpScheda.executeUpdate(updScheda);
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpScheda.close();
+		}
 		con.commit();
 	}
 	
@@ -162,13 +177,18 @@ public class DbSchedaAction {
 		int id = 0;
 		Statement smtpMaxId = con.createStatement();
 		String qryMaxId = "select max(id) from schede ";
-		ResultSet rsMaxId = smtpMaxId.executeQuery(qryMaxId);
-		while (rsMaxId.next()) {
-			id = rsMaxId.getInt(1);
+		try {
+			ResultSet rsMaxId = smtpMaxId.executeQuery(qryMaxId);
+			while (rsMaxId.next()) {
+				id = rsMaxId.getInt(1);
+			}
+			rsMaxId.close();
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpMaxId.close();
 		}
-		rsMaxId.close();
-		smtpMaxId.close();
-		
+			
 		id++;
 		binScheda.setOrigId(id);
 		binScheda.setId(id);
@@ -196,40 +216,46 @@ public class DbSchedaAction {
 		binScheda.setIdTipoDatiAcq(0);
 		
 		Statement smtpIns = con.createStatement();
-		String ins = "insert into schede " +
-				"(id,idCliente,idStato," +
-				"idTipoRip,accessoriConsegnati,statoGenerale," +
-				"difettoSegnalato,nonConform,descrizioneRiparazione," +
-				"noteStampa,noteUsoInterno,costoPreventivato," +
-				"costoInterno,pagatoDalCliente,dataInserimento," +
-				"dataChiusura,serial," +
-				"idTipoApparecchiatura,idModello,idMarca," +
-				"numeroDatiAcq,dataDatiAcq,idTipoDatiAcq) " +
-				"values ("+binScheda.getId()+","+
-						binScheda.getBinCliente().getId()+","+
-						binScheda.getIdStato()+"," +
-						binScheda.getIdTipoRiparazione()+",'"+
-						binScheda.getAccessoriConsegnati()+"'," +
-						"'"+binScheda.getStatoGenerale()+"'," +
-						"'"+binScheda.getDifettoSegnalato()+"'," +
-						"'"+binScheda.getNonConformita()+"'," +
-						"'"+binScheda.getDescrizioneRiparazione()+"'," +
-						"'"+binScheda.getNoteStampa()+"'," +
-						"'"+binScheda.getNoteUsoInterno()+"',"+
-						binScheda.getCostoPreventivo()+"," +
-						binScheda.getCostoInterno()+","+
-						binScheda.getPagatoDalCliente()+"," +
-						"'"+binScheda.getDataInserimento()+"'," +
-						binScheda.getDataChiusura()+"," +
-						"'"+binScheda.getSerial()+"'," +
-						binScheda.getIdTipoApparecchiature()+","+
-						binScheda.getIdModelli()+","+
-						binScheda.getIdMarchi()+"," +
-						"'"+binScheda.getNumDatiAcq()+"',"+
-						binScheda.getDataDatiAcq()+","+
-						binScheda.getIdTipoDatiAcq()+")";
-		//System.out.println(ins);
-		smtpIns.executeUpdate(ins);
+		try {
+			String ins = "insert into schede " +
+					"(id,idCliente,idStato," +
+					"idTipoRip,accessoriConsegnati,statoGenerale," +
+					"difettoSegnalato,nonConform,descrizioneRiparazione," +
+					"noteStampa,noteUsoInterno,costoPreventivato," +
+					"costoInterno,pagatoDalCliente,dataInserimento," +
+					"dataChiusura,serial," +
+					"idTipoApparecchiatura,idModello,idMarca," +
+					"numeroDatiAcq,dataDatiAcq,idTipoDatiAcq) " +
+					"values ("+binScheda.getId()+","+
+							binScheda.getBinCliente().getId()+","+
+							binScheda.getIdStato()+"," +
+							binScheda.getIdTipoRiparazione()+",'"+
+							binScheda.getAccessoriConsegnati()+"'," +
+							"'"+binScheda.getStatoGenerale()+"'," +
+							"'"+binScheda.getDifettoSegnalato()+"'," +
+							"'"+binScheda.getNonConformita()+"'," +
+							"'"+binScheda.getDescrizioneRiparazione()+"'," +
+							"'"+binScheda.getNoteStampa()+"'," +
+							"'"+binScheda.getNoteUsoInterno()+"',"+
+							binScheda.getCostoPreventivo()+"," +
+							binScheda.getCostoInterno()+","+
+							binScheda.getPagatoDalCliente()+"," +
+							"'"+binScheda.getDataInserimento()+"'," +
+							binScheda.getDataChiusura()+"," +
+							"'"+binScheda.getSerial()+"'," +
+							binScheda.getIdTipoApparecchiature()+","+
+							binScheda.getIdModelli()+","+
+							binScheda.getIdMarchi()+"," +
+							"'"+binScheda.getNumDatiAcq()+"',"+
+							binScheda.getDataDatiAcq()+","+
+							binScheda.getIdTipoDatiAcq()+")";
+			//System.out.println(ins);
+			smtpIns.executeUpdate(ins);
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpIns.close();
+		}
 		smtpIns.close();
 		
 		return binScheda;
@@ -240,8 +266,13 @@ public class DbSchedaAction {
 		String del = "delete from schede " +
 				"where id = "+idScheda;
 		//System.out.println(del);
-		smtpDel.executeUpdate(del);
-		smtpDel.close();
+		try {
+			smtpDel.executeUpdate(del);
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpDel.close();
+		}
 	}
 	
 	public static void svuotaCestinoScheda(Connection con) throws SQLException{
@@ -249,8 +280,13 @@ public class DbSchedaAction {
 		String del = "delete from schede " +
 				"where deleted = 'S' ";
 		//System.out.println(del);
-		smtpDel.executeUpdate(del);
-		smtpDel.close();
+		try {
+			smtpDel.executeUpdate(del);
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpDel.close();
+		}
 	}
 	
 	public static void cestinaScheda(Connection con,int idScheda) throws SQLException{
@@ -259,8 +295,13 @@ public class DbSchedaAction {
 				"set deleted = 'S' " +
 				"where id = "+idScheda;
 		//System.out.println(upd);
-		smtpDel.executeUpdate(upd);
-		smtpDel.close();
+		try {
+			smtpDel.executeUpdate(upd);
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpDel.close();
+		}
 	}
 	
 	public static void ripristinaScheda(Connection con,int idScheda) throws SQLException{
@@ -269,24 +310,35 @@ public class DbSchedaAction {
 				"set deleted = null " +
 				"where id = "+idScheda;
 		//System.out.println(upd);
-		smtpDel.executeUpdate(upd);
-		smtpDel.close();
+		try {
+			smtpDel.executeUpdate(upd);
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpDel.close();
+		}
 	}
 	
 	public static boolean existScheda(Connection con,int idScheda) throws SQLException{
 		Statement smtp = con.createStatement();
 		String qry = "select count(id) " +
 				"from schede where id = " + idScheda;
-		ResultSet rs = smtp.executeQuery(qry);
-		int c = 0;
-		while (rs.next()) {
-			c = rs.getInt(1);
+		try {
+			ResultSet rs = smtp.executeQuery(qry);
+			int c = 0;
+			while (rs.next()) {
+				c = rs.getInt(1);
+			}
+			rs.close();
+			if(c>0)
+				return true;
+			else
+				return false;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtp.close();
 		}
-		rs.close();
-		if(c>0)
-			return true;
-		else
-			return false;
 	}
 	
 	public static BinCliente addVoidCliente() throws SQLException{
@@ -310,12 +362,17 @@ public class DbSchedaAction {
 		int id = 0;
 		Statement smtpMaxId = con.createStatement();
 		String qryMaxId = "select max(id) from clienti ";
-		ResultSet rsMaxId = smtpMaxId.executeQuery(qryMaxId);
-		while (rsMaxId.next()) {
-			id = rsMaxId.getInt(1);
+		try {
+			ResultSet rsMaxId = smtpMaxId.executeQuery(qryMaxId);
+			while (rsMaxId.next()) {
+				id = rsMaxId.getInt(1);
+			}
+			rsMaxId.close();
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpMaxId.close();
 		}
-		rsMaxId.close();
-		smtpMaxId.close();
 		id++;
 		
 		binCliente.setId(id);
@@ -344,11 +401,18 @@ public class DbSchedaAction {
 						"'"+getParsedString(binCliente.getMobilePhone())+"','"+getParsedString(binCliente.getEmail())+"'," +
 						"'"+getParsedString(binCliente.getIndirizzo())+"','"+getParsedString(binCliente.getCity())+"')";
 		//System.out.println(ins);
-		smtpIns.executeUpdate(ins);
+		try {
+			smtpIns.executeUpdate(ins);
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpIns.close();
+		}
 		smtpIns.close();
 	}
 	
 	public static void saveCliente(Connection con,BinCliente binCliente) throws SQLException{
+		
 		Statement smtpIns = con.createStatement();
 		String ins = "update clienti set " +
 				"pIva='"+getParsedString(binCliente.getPIva())+"'," +
@@ -360,8 +424,14 @@ public class DbSchedaAction {
 				"city='"+getParsedString(binCliente.getCity())+"' " +
 				"where id = "+binCliente.getId();
 		//System.out.println(ins);
-		smtpIns.executeUpdate(ins);
-		smtpIns.close();
+		try {
+			smtpIns.executeUpdate(ins);
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtpIns.close();
+		}
+		
 	}
 	
 	public static int existCliente(Connection con,String nome,String cognome) throws SQLException{
@@ -370,13 +440,19 @@ public class DbSchedaAction {
 				"from clienti " +
 				"where nome = '"+nome+"' " +
 				"and cognome = '"+cognome+"' ";
-		ResultSet rs = smtp.executeQuery(qry);
-		int c = 0;
-		while (rs.next()) {
-			c = rs.getInt(1);
+		try {
+			ResultSet rs = smtp.executeQuery(qry);
+			int c = 0;
+			while (rs.next()) {
+				c = rs.getInt(1);
+			}
+			rs.close();
+			return c;
+		} catch (SQLException e) {
+			throw e;
+		} finally {
+			smtp.close();
 		}
-		rs.close();
-		return c;
 	}
 
 	private static String getParsedString(String stringToParse){
