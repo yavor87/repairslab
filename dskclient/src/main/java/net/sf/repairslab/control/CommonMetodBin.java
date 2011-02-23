@@ -1,6 +1,9 @@
 package net.sf.repairslab.control;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -86,9 +89,14 @@ public class CommonMetodBin {
 		try {
 			logger.debug("Testing Connection DB...");
 			Class.forName(driver).newInstance();
-				
-			Connection testCon = DriverManager.getConnection(url, user, psw);
 			
+			
+			URL u = new URL("jar:file:C:\\Users\\fferraiu\\.m2\\repository\\org\\apache\\derby\\derby\\10.7.1.1\\derby-10.7.1.1.jar!");
+			URLClassLoader ucl = new URLClassLoader(new URL[] { u });
+			Driver d = (Driver)Class.forName(driver, true, ucl).newInstance();
+			DriverManager.registerDriver(new DriverShim(d));
+			Connection testCon = DriverManager.getConnection(url, user, psw);
+
 			Statement smtp = testCon.createStatement();
 			ResultSet rs = smtp.executeQuery("select count(*) as countSchede from schede");
 			

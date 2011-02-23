@@ -109,4 +109,11 @@ CREATE TABLE marchi (
   PRIMARY KEY(id)
 );
 
+drop table info;
+
+CREATE TABLE info (
+  version VARCHAR(100)
+);
+
+INSERT INTO info (version) VALUES ('1.0.6');
 

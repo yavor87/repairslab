@@ -183,7 +183,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JButton getBtnCanc() {
 		if (btnCanc == null) {
 			btnCanc = new JButton();
-			btnCanc.setBounds(new Rectangle(207, 213, 96, 25));
+			btnCanc.setBounds(new Rectangle(206, 241, 96, 25));
 			btnCanc.setText(Messages.getString("VcDlgAdvancedOptions.btnCanc")); //$NON-NLS-1$
 			btnCanc.setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/button_cancel.png"))); //$NON-NLS-1$
 			btnCanc.addActionListener(new java.awt.event.ActionListener() {
@@ -203,7 +203,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JButton getBtnOk() {
 		if (btnOk == null) {
 			btnOk = new JButton();
-			btnOk.setBounds(new Rectangle(307, 213, 85, 25));
+			btnOk.setBounds(new Rectangle(306, 241, 85, 25));
 			btnOk.setText(Messages.getString("VcDlgAdvancedOptions.btnSave")); //$NON-NLS-1$
 			btnOk.setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/filesave.png"))); //$NON-NLS-1$
 			btnOk.addActionListener(new java.awt.event.ActionListener() {
@@ -242,7 +242,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 					msg,Messages.getString("VcDlgAdvancedOptions.msgTitleInfo"),  //$NON-NLS-1$
 					JOptionPane.YES_NO_OPTION,
 					JOptionPane.INFORMATION_MESSAGE);
-		}else{
+		} else {
 			msg = Messages.getString("VcDlgAdvancedOptions.msgTestFailed1")+testConnection+ //$NON-NLS-1$
 				Messages.getString("VcDlgAdvancedOptions.msgTestFailed2"); //$NON-NLS-1$
 			confirm = JOptionPane.showConfirmDialog(getParent(),
@@ -309,7 +309,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JButton getBtnTestConn() {
 		if (btnTestConn == null) {
 			btnTestConn = new JButton();
-			btnTestConn.setBounds(new Rectangle(88, 213, 87, 25));
+			btnTestConn.setBounds(new Rectangle(87, 241, 87, 25));
 			btnTestConn.setText(Messages.getString("VcDlgAdvancedOptions.btnlTest")); //$NON-NLS-1$
 			btnTestConn.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
