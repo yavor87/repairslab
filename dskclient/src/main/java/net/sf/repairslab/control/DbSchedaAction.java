@@ -256,7 +256,6 @@ public class DbSchedaAction {
 		} finally {
 			smtpIns.close();
 		}
-		smtpIns.close();
 		
 		return binScheda;
 	}
