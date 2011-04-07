@@ -2,17 +2,20 @@ package net.sf.repairslab.ui;
 
 import java.awt.Frame;
 import java.awt.Rectangle;
+import java.io.File;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import net.sf.repairslab.EnvProperties;
 import net.sf.repairslab.control.CommonMetodBin;
@@ -43,6 +46,13 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JButton btnOk = null;
 	private JCheckBox ckbEmbedded = null;
 	private JButton btnTestConn = null;
+
+	private JLabel LblJdbcClasspath = null;
+
+	private JButton btnAddClasspath = null;
+
+	private JTextField txpJdbcClasspath = null;
+
 	/**
 	 * This is the xxx default constructor
 	 */
@@ -75,6 +85,9 @@ public class VcDlgAdvancedOptions extends JDialog {
 	 */
 	private JPanel getJContentPane() {
 		if (jContentPane == null) {
+			LblJdbcClasspath = new JLabel();
+			LblJdbcClasspath.setBounds(new Rectangle(4, 170, 90, 16));
+			LblJdbcClasspath.setText(Messages.getString("VcDlgAdvancedOptions.lblDbClasspath"));
 			lblDBOptions = new JLabel();
 			lblDBOptions.setBounds(new Rectangle(43, 11, 119, 16));
 			lblDBOptions.setText(Messages.getString("VcDlgAdvancedOptions.lblDbConfig")); //$NON-NLS-1$
@@ -111,6 +124,9 @@ public class VcDlgAdvancedOptions extends JDialog {
 			jContentPane.add(getBtnOk(), null);
 			jContentPane.add(getCkbEmbedded(), null);
 			jContentPane.add(getBtnTestConn(), null);
+			jContentPane.add(LblJdbcClasspath, null);
+			jContentPane.add(getBtnAddClasspath(), null);
+			jContentPane.add(getTxpJdbcClasspath(), null);
 		}
 		return jContentPane;
 	}
@@ -124,8 +140,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 		if (txpJdbcDriver == null) {
 			txpJdbcDriver = new JTextField();
 			txpJdbcDriver.setBounds(new Rectangle(97, 43, 409, 25));
-			txpJdbcDriver.setText(EnvProperties.getInstance().getProperty(
-					EnvProperties.DB_DRIVER));
+			txpJdbcDriver.setText(EnvProperties.getInstance().getProperty(EnvProperties.DB_DRIVER));
 		}
 		return txpJdbcDriver;
 	}
@@ -139,8 +154,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 		if (txpJdbcUrl == null) {
 			txpJdbcUrl = new JTextField();
 			txpJdbcUrl.setBounds(new Rectangle(97, 73, 409, 25));
-			txpJdbcUrl.setText(EnvProperties.getInstance().getProperty(
-					EnvProperties.DB_URL));
+			txpJdbcUrl.setText(EnvProperties.getInstance().getProperty(EnvProperties.DB_URL));
 		}
 		return txpJdbcUrl;
 	}
@@ -154,8 +168,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 		if (txpJdbcUser == null) {
 			txpJdbcUser = new JTextField();
 			txpJdbcUser.setBounds(new Rectangle(97, 103, 191, 25));
-			txpJdbcUser.setText(EnvProperties.getInstance().getProperty(
-					EnvProperties.DB_USER));
+			txpJdbcUser.setText(EnvProperties.getInstance().getProperty(EnvProperties.DB_USER));
 		}
 		return txpJdbcUser;
 	}
@@ -169,8 +182,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 		if (txpJdbcPsw == null) {
 			txpJdbcPsw = new JPasswordField();
 			txpJdbcPsw.setBounds(new Rectangle(97, 133, 191, 25));
-			txpJdbcPsw.setText(EnvProperties.getInstance().getProperty(
-					EnvProperties.DB_PASSW));
+			txpJdbcPsw.setText(EnvProperties.getInstance().getProperty(EnvProperties.DB_PASSW));
 		}
 		return txpJdbcPsw;
 	}
@@ -259,9 +271,10 @@ public class VcDlgAdvancedOptions extends JDialog {
 	
 	@SuppressWarnings("deprecation")
 	private void updateConf(){
-		EnvProperties.getInstance().setProperty(EnvProperties.DB_DRIVER,getTxpJdbcDriver().getText());
-		EnvProperties.getInstance().setProperty(EnvProperties.DB_URL,getTxpJdbcUrl().getText());
-		EnvProperties.getInstance().setProperty(EnvProperties.DB_USER,getTxpJdbcUser().getText());
+		EnvProperties.getInstance().setProperty(EnvProperties.DB_DRIVER, getTxpJdbcDriver().getText());
+		EnvProperties.getInstance().setProperty(EnvProperties.DB_URL, getTxpJdbcUrl().getText());
+		EnvProperties.getInstance().setProperty(EnvProperties.DB_USER, getTxpJdbcUser().getText());
+		EnvProperties.getInstance().setProperty(EnvProperties.DB_CLASSPATH, getTxpJdbcClasspath().getText());
 		String psw = getTxpJdbcPsw().getText();
 		//System.out.println("updateConf:"+psw);
 		if (psw == null) psw = ""; //$NON-NLS-1$
@@ -286,7 +299,7 @@ public class VcDlgAdvancedOptions extends JDialog {
 	private JCheckBox getCkbEmbedded() {
 		if (ckbEmbedded == null) {
 			ckbEmbedded = new JCheckBox();
-			ckbEmbedded.setBounds(new Rectangle(3, 170, 178, 24));
+			ckbEmbedded.setBounds(new Rectangle(2, 211, 178, 24));
 			ckbEmbedded.setText(Messages.getString("VcDlgAdvancedOptions.lblEmbeddedServer")); //$NON-NLS-1$
 			ckbEmbedded.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
@@ -335,5 +348,58 @@ public class VcDlgAdvancedOptions extends JDialog {
 		this.getTxpJdbcUser().setEnabled(true);
 		this.getCkbEmbedded().setSelected(false);
 	}
+
+	/**
+     * This method initializes btnAddClasspath	
+     * 	
+     * @return javax.swing.JButton	
+     */
+    private JButton getBtnAddClasspath() {
+    	if (btnAddClasspath == null) {
+    		btnAddClasspath = new JButton();
+    		btnAddClasspath.setBounds(new Rectangle(478, 165, 28, 26));
+    		btnAddClasspath.setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/edit_add.png"))); //$NON-NLS-1$
+    		btnAddClasspath.addActionListener(new java.awt.event.ActionListener() {
+    			public void actionPerformed(java.awt.event.ActionEvent e) {
+    				openClassPathSelection();
+    			}
+    		});
+    	}
+    	return btnAddClasspath;
+    }
+    
+    private void openClassPathSelection() {
+    	JFileChooser fc = new JFileChooser();
+		fc.setApproveButtonText("Select");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Jar file", "jar");
+		fc.setFileFilter(filter);
+		File f = new File(getTxpJdbcClasspath().getText());
+		fc.setCurrentDirectory(f.getParentFile());
+		int returnVal = fc.showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            try {
+            	getTxpJdbcClasspath().setText(file.getPath());
+            } catch (Exception ex) {
+            	JOptionPane.showMessageDialog(this, Messages.getString("VcMainFrame.importErr") + ex.getMessage(), Messages.getString("VcMainFrame.importAction"), JOptionPane.ERROR_MESSAGE);
+            	ex.printStackTrace();
+			}
+        }
+    }
+
+	/**
+     * This method initializes txpJdbcClasspath	
+     * 	
+     * @return javax.swing.JTextField	
+     */
+    private JTextField getTxpJdbcClasspath() {
+    	if (txpJdbcClasspath == null) {
+    		txpJdbcClasspath = new JTextField();
+    		txpJdbcClasspath.setBounds(new Rectangle(97, 167, 380, 20));
+    		txpJdbcClasspath.setEditable(false);
+    		txpJdbcClasspath.setText(EnvProperties.getInstance().getProperty(EnvProperties.DB_CLASSPATH));
+    	}
+    	return txpJdbcClasspath;
+    }
 
 }  //  @jve:decl-index=0:visual-constraint="10,6"

@@ -1,5 +1,6 @@
 package net.sf.repairslab.control;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -48,39 +49,51 @@ public class CommonMetodBin {
 				con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 				con.setAutoCommit(false);
 			}else{
-				Class.forName(EnvProperties.getInstance().getProperty(EnvProperties.DB_DRIVER)).newInstance();			
+				URL u = new URL("jar:file:" + EnvProperties.getInstance().getProperty(EnvProperties.DB_CLASSPATH) + "!/");
+				URLClassLoader ucl = new URLClassLoader(new URL[] { u });
+				Driver d = (Driver)Class.forName(EnvProperties.getInstance().getProperty(EnvProperties.DB_DRIVER), true, ucl).newInstance();
+				DriverManager.registerDriver(new DriverShim(d));
+				
+//				Class.forName(EnvProperties.getInstance().getProperty(EnvProperties.DB_DRIVER)).newInstance();			
 				con = DriverManager.getConnection(
 						EnvProperties.getInstance().getProperty(EnvProperties.DB_URL), 
 						EnvProperties.getInstance().getProperty(EnvProperties.DB_USER), 
 						EnvProperties.getInstance().getProperty(EnvProperties.DB_PASSW));
+				con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
 				con.setAutoCommit(false);
 			}
 			//}
 		} catch (SQLException e) {
-			logger.error("Exception in Connecting DB \n"+e+"\n", e);
+			logger.error("SQLException in Connecting DB \n"+e+"\n", e);
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
 					Messages.getString("Core.connectionErrorMsg") + " "
                     +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		} catch (InstantiationException e) {
-			logger.error("Exception in Connecting DB \n"+e+"\n",e);
+			logger.error("InstantiationException in Connecting DB \n"+e+"\n",e);
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
 					Messages.getString("Core.connectionErrorMsg") + " "
                     +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			logger.error("Exception in Connecting DB \n"+e+"\n", e);
+			logger.error("IllegalAccessException in Connecting DB \n"+e+"\n", e);
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
 					Messages.getString("Core.connectionErrorMsg") + " "
                     +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			logger.error("Exception in Connecting DB \n"+e+"\n", e);
+			logger.error("ClassNotFoundException in Connecting DB \n"+e+"\n", e);
 			JOptionPane.showMessageDialog(getInstance().mainFrame,
 					Messages.getString("Core.connectionErrorMsg") + " "
                     +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
 			//e.printStackTrace();
-		}
+		} catch (MalformedURLException e) {
+			logger.error("MalformedURLException in Connecting DB \n"+e+"\n", e);
+			JOptionPane.showMessageDialog(getInstance().mainFrame,
+					Messages.getString("Core.connectionErrorMsg") + " "
+                    +e.getMessage(),Messages.getString("Core.connectionError"),JOptionPane.ERROR_MESSAGE);
+			//e.printStackTrace();
+        }
 		return con;
 	}
 	
@@ -88,10 +101,8 @@ public class CommonMetodBin {
 		String result = Messages.getString("Core.notConnected");
 		try {
 			logger.debug("Testing Connection DB...");
-			Class.forName(driver).newInstance();
 			
-			
-			URL u = new URL("jar:file:C:\\Users\\fferraiu\\.m2\\repository\\org\\apache\\derby\\derby\\10.7.1.1\\derby-10.7.1.1.jar!");
+			URL u = new URL("jar:file:C:\\Users\\fferraiu\\Downloads\\firebird\\Jaybird-2.1.6JDK_1.6\\jaybird-full-2.1.6.jar!/");
 			URLClassLoader ucl = new URLClassLoader(new URL[] { u });
 			Driver d = (Driver)Class.forName(driver, true, ucl).newInstance();
 			DriverManager.registerDriver(new DriverShim(d));
@@ -111,14 +122,19 @@ public class CommonMetodBin {
 			result = "Ok";
 			
 		} catch (SQLException e) {
+			logger.warn("SQLException in Connecting DB \n"+e+"\n", e);
 			result = Messages.getString("Core.connectionErrorMsg")+e.getErrorCode()+":"+e.getMessage();
 		} catch (InstantiationException e) {
+			logger.warn("InstantiationException in Connecting DB \n"+e+"\n", e);
 			result = e.getMessage();
 		} catch (IllegalAccessException e) {
+			logger.warn("IllegalAccessException in Connecting DB \n"+e+"\n", e);
 			result = e.getMessage();
 		} catch (ClassNotFoundException e) {
+			logger.warn("ClassNotFoundException in Connecting DB \n"+e+"\n", e);
 			result = e.getMessage();
 		} catch (Exception e) {
+			logger.warn("Exception in Connecting DB \n"+e+"\n", e);
 			result = e.getMessage();
 		}
 		return result;

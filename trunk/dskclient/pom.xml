@@ -99,6 +99,13 @@
 				<role>Romanian Translation</role>
 			</roles>
 		</contributor>
+		<contributor>
+			<name>Anna Perczyńska</name>
+			<email />
+			<roles>
+				<role>Polish Translation</role>
+			</roles>
+		</contributor>
 	</contributors>
 	<scm>
 		<connection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</connection>
