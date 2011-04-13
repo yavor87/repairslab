@@ -106,6 +106,13 @@
 				<role>Polish Translation</role>
 			</roles>
 		</contributor>
+		<contributor>
+			<name>Igor Brkarić</name>
+			<email />
+			<roles>
+				<role>Croatian Translation</role>
+			</roles>
+		</contributor>
 	</contributors>
 	<scm>
 		<connection>scm:svn:https://repairslab.svn.sourceforge.net/svnroot/repairslab/trunk/dskclient</connection>
