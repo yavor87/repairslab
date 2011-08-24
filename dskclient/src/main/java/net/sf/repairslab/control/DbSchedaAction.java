@@ -22,7 +22,7 @@ public class DbSchedaAction {
 				"noteStampa,noteUsoInterno,costoPreventivato,costoInterno," +
 				"pagatoDalCliente,dataInserimento,dataChiusura,imei,serial," +
 				"idTipoApparecchiatura,idModello,idMarca,numeroDatiAcq,dataDatiAcq,idTipoDatiAcq " +
-				"from schede where id = " + nrScheda;
+				"from " + QryUtil.TABLE_PREFIX + "schede where id = " + nrScheda;
 		try {
 			ResultSet rs = smtp.executeQuery(qry);
 			while (rs.next()) {
@@ -68,7 +68,7 @@ public class DbSchedaAction {
 		Statement smtp = con.createStatement();
 		String qry = "select id,nome,cognome,pIva,azienda,phone,mobilePhone," +
 				"email,indirizzo,city " +
-				"from clienti where id = " + idCliente;
+				"from " + QryUtil.TABLE_PREFIX + "clienti where id = " + idCliente;
 		try {
 			ResultSet rs = smtp.executeQuery(qry);
 			while (rs.next()) {
@@ -135,7 +135,7 @@ public class DbSchedaAction {
 		else
 			updDataDAScheda = "dataDatiAcq='"+scheda.getDataDatiAcq()+"',";
 		
-		String updScheda = "update schede set " +
+		String updScheda = "update " + QryUtil.TABLE_PREFIX + "schede set " +
 			"id="+scheda.getId()+"," +
 			"idCliente="+scheda.getBinCliente().getId()+"," +
 			"idStato="+scheda.getIdStato()+"," +
@@ -176,7 +176,7 @@ public class DbSchedaAction {
 		
 		int id = 0;
 		Statement smtpMaxId = con.createStatement();
-		String qryMaxId = "select max(id) from schede ";
+		String qryMaxId = "select max(id) from " + QryUtil.TABLE_PREFIX + "schede ";
 		try {
 			ResultSet rsMaxId = smtpMaxId.executeQuery(qryMaxId);
 			while (rsMaxId.next()) {
@@ -217,7 +217,7 @@ public class DbSchedaAction {
 		
 		Statement smtpIns = con.createStatement();
 		try {
-			String ins = "insert into schede " +
+			String ins = "insert into " + QryUtil.TABLE_PREFIX + "schede " +
 					"(id,idCliente,idStato," +
 					"idTipoRip,accessoriConsegnati,statoGenerale," +
 					"difettoSegnalato,nonConform,descrizioneRiparazione," +
@@ -262,7 +262,7 @@ public class DbSchedaAction {
 	
 	public static void removeScheda(Connection con,int idScheda) throws SQLException{
 		Statement smtpDel = con.createStatement();
-		String del = "delete from schede " +
+		String del = "delete from " + QryUtil.TABLE_PREFIX + "schede " +
 				"where id = "+idScheda;
 		//System.out.println(del);
 		try {
@@ -276,7 +276,7 @@ public class DbSchedaAction {
 	
 	public static void svuotaCestinoScheda(Connection con) throws SQLException{
 		Statement smtpDel = con.createStatement();
-		String del = "delete from schede " +
+		String del = "delete from " + QryUtil.TABLE_PREFIX + "schede " +
 				"where deleted = 'S' ";
 		//System.out.println(del);
 		try {
@@ -290,7 +290,7 @@ public class DbSchedaAction {
 	
 	public static void cestinaScheda(Connection con,int idScheda) throws SQLException{
 		Statement smtpDel = con.createStatement();
-		String upd = "update schede " +
+		String upd = "update " + QryUtil.TABLE_PREFIX + "schede " +
 				"set deleted = 'S' " +
 				"where id = "+idScheda;
 		//System.out.println(upd);
@@ -305,7 +305,7 @@ public class DbSchedaAction {
 	
 	public static void ripristinaScheda(Connection con,int idScheda) throws SQLException{
 		Statement smtpDel = con.createStatement();
-		String upd = "update schede " +
+		String upd = "update " + QryUtil.TABLE_PREFIX + "schede " +
 				"set deleted = null " +
 				"where id = "+idScheda;
 		//System.out.println(upd);
@@ -321,7 +321,7 @@ public class DbSchedaAction {
 	public static boolean existScheda(Connection con,int idScheda) throws SQLException{
 		Statement smtp = con.createStatement();
 		String qry = "select count(id) " +
-				"from schede where id = " + idScheda;
+				"from " + QryUtil.TABLE_PREFIX + "schede where id = " + idScheda;
 		try {
 			ResultSet rs = smtp.executeQuery(qry);
 			int c = 0;
@@ -360,7 +360,7 @@ public class DbSchedaAction {
 		
 		int id = 0;
 		Statement smtpMaxId = con.createStatement();
-		String qryMaxId = "select max(id) from clienti ";
+		String qryMaxId = "select max(id) from " + QryUtil.TABLE_PREFIX + "clienti ";
 		try {
 			ResultSet rsMaxId = smtpMaxId.executeQuery(qryMaxId);
 			while (rsMaxId.next()) {
@@ -390,7 +390,7 @@ public class DbSchedaAction {
 	
 	public static void insCliente(Connection con,BinCliente binCliente) throws SQLException{
 		Statement smtpIns = con.createStatement();
-		String ins = "insert into clienti " +
+		String ins = "insert into " + QryUtil.TABLE_PREFIX + "clienti " +
 				"(id,nome,cognome," +
 				"pIva,azienda,phone," +
 				"mobilePhone,email," +
@@ -413,7 +413,7 @@ public class DbSchedaAction {
 	public static void saveCliente(Connection con,BinCliente binCliente) throws SQLException{
 		
 		Statement smtpIns = con.createStatement();
-		String ins = "update clienti set " +
+		String ins = "update " + QryUtil.TABLE_PREFIX + "clienti set " +
 				"pIva='"+getParsedString(binCliente.getPIva())+"'," +
 				"azienda='"+getParsedString(binCliente.getAzienda())+"'," +
 				"phone='"+getParsedString(binCliente.getPhone())+"'," +
@@ -436,7 +436,7 @@ public class DbSchedaAction {
 	public static int existCliente(Connection con,String nome,String cognome) throws SQLException{
 		Statement smtp = con.createStatement();
 		String qry = "select id " +
-				"from clienti " +
+				"from " + QryUtil.TABLE_PREFIX + "clienti " +
 				"where nome = '"+nome+"' " +
 				"and cognome = '"+cognome+"' ";
 		try {

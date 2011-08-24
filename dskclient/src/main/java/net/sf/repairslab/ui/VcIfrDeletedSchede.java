@@ -437,7 +437,7 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 	private JComboBox getCmbStato() {
 		if (cmbStato == null) {
 			cmbStato = new JComboBox();
-			String qry = "select id,nomeStato,flagAttivo from anastati"; //$NON-NLS-1$
+			String qry = "select id,nomeStato,flagAttivo from " + QryUtil.TABLE_PREFIX + "anastati"; //$NON-NLS-1$
 			cmbStato.setModel(new JDBCComboBoxModel(
 					con,qry,0+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			cmbStato.setBounds(new Rectangle(123, 50, 87, 25));
@@ -560,7 +560,7 @@ public class VcIfrDeletedSchede extends JInternalFrame {
 		if (cmbTipoAppa == null) {
 			cmbTipoAppa = new JComboBox();
 			cmbTipoAppa.setBounds(new Rectangle(733, 50, 120, 25));
-			String qry = "select id,nome,flagAttivo from tipoapparecchiature"; //$NON-NLS-1$
+			String qry = "select id,nome,flagAttivo from " + QryUtil.TABLE_PREFIX + "tipoapparecchiature"; //$NON-NLS-1$
 			cmbTipoAppa.setModel(new JDBCComboBoxModel(
 					con,qry,"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			TypeCmb tAll = new TypeCmb();

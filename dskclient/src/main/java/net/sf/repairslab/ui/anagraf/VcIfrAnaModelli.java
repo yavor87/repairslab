@@ -101,7 +101,7 @@ public class VcIfrAnaModelli extends JInternalFrame {
 					logger.debug("Deleting..."); //$NON-NLS-1$
 					try {
 						Statement smtp = con.createStatement();
-						String query = "select count(*) from schede " + //$NON-NLS-1$
+						String query = "select count(*) from " + QryUtil.TABLE_PREFIX + "schede " + //$NON-NLS-1$
 								"where idModello = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
@@ -132,15 +132,15 @@ public class VcIfrAnaModelli extends JInternalFrame {
 			pnlTableAnaModelli.createControlPanel();
 			pnlTableAnaModelli.setCheckBoxColumn(5,"S","N"); //$NON-NLS-1$ //$NON-NLS-2$
 			
-			String qryLovModelli = "select id,nome,descrizione from marchi " + //$NON-NLS-1$
+			String qryLovModelli = "select id,nome,descrizione from " + QryUtil.TABLE_PREFIX + "marchi " + //$NON-NLS-1$
 					"where flagAttivo = 'S'"; //$NON-NLS-1$
-			String qryRenderModelli = "select nome from marchi " + //$NON-NLS-1$
+			String qryRenderModelli = "select nome from " + QryUtil.TABLE_PREFIX + "marchi " + //$NON-NLS-1$
 					"where id = "; //$NON-NLS-1$
 			pnlTableAnaModelli.setLovColumn(3,qryLovModelli,qryRenderModelli,"id","nome",50); //$NON-NLS-1$ //$NON-NLS-2$
 			
-			String qryLovTipoApp = "select id,nome,descrizione from tipoapparecchiature " + //$NON-NLS-1$
+			String qryLovTipoApp = "select id,nome,descrizione from " + QryUtil.TABLE_PREFIX + "tipoapparecchiature " + //$NON-NLS-1$
 					"where flagAttivo = 'S'"; //$NON-NLS-1$
-			String qryRenderTipoApp = "select nome from tipoapparecchiature " + //$NON-NLS-1$
+			String qryRenderTipoApp = "select nome from " + QryUtil.TABLE_PREFIX + "tipoapparecchiature " + //$NON-NLS-1$
 					"where id = "; //$NON-NLS-1$
 			pnlTableAnaModelli.setLovColumn(4,qryLovTipoApp,qryRenderTipoApp,"id","nome",50); //$NON-NLS-1$ //$NON-NLS-2$
 		}

@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
+import net.sf.repairslab.control.QryUtil;
 import net.sf.repairslab.model.BinScheda;
 import net.sf.repairslab.ui.VcDlgDetailScheda.mode;
 import net.sf.repairslab.ui.messages.Messages;
@@ -209,16 +210,16 @@ public class VcPnlApparecchio extends JPanel {
 			marca = 0;
 		}
 		if(tipoApp==0 && marca==0){
-			qry = "select id,nome,flagAttivo from modelli"; //$NON-NLS-1$
+			qry = "select id,nome,flagAttivo from " + QryUtil.TABLE_PREFIX + "modelli"; //$NON-NLS-1$
 		}else if(tipoApp!=0 && marca!=0){
-			qry = "select id,nome,flagAttivo from modelli" + //$NON-NLS-1$
+			qry = "select id,nome,flagAttivo from " + QryUtil.TABLE_PREFIX + "modelli" + //$NON-NLS-1$
 					" where idTipoApp = " + tipoApp + //$NON-NLS-1$
 					" and idMarchi = " + marca; //$NON-NLS-1$
 		}else if(tipoApp!=0 && marca==0){
-			qry = "select id,nome,flagAttivo from modelli" + //$NON-NLS-1$
+			qry = "select id,nome,flagAttivo from " + QryUtil.TABLE_PREFIX + "modelli" + //$NON-NLS-1$
 			" where idTipoApp = " + tipoApp; //$NON-NLS-1$
 		}else if(tipoApp==0 && marca!=0){
-			qry = "select id,nome,flagAttivo from modelli" + //$NON-NLS-1$
+			qry = "select id,nome,flagAttivo from " + QryUtil.TABLE_PREFIX + "modelli" + //$NON-NLS-1$
 			" where idMarchi = " + marca; //$NON-NLS-1$
 		}
 		getCmbModello().setModel(new JDBCComboBoxModel(con,qry,scheda.getIdModelli()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -233,7 +234,7 @@ public class VcPnlApparecchio extends JPanel {
 		if (cmbMarca == null) {
 			cmbMarca = new JComboBox();
 			cmbMarca.setBounds(new Rectangle(505, 75, 130, 25));
-			String qry = "select id,nome,flagAttivo from marchi order by nome"; //$NON-NLS-1$
+			String qry = "select id,nome,flagAttivo from " + QryUtil.TABLE_PREFIX + "marchi order by nome"; //$NON-NLS-1$
 			cmbMarca.setModel(new JDBCComboBoxModel(con,qry,scheda.getIdMarchi()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			cmbMarca.addItemListener(new java.awt.event.ItemListener() {
 				public void itemStateChanged(java.awt.event.ItemEvent e) {
@@ -258,7 +259,7 @@ public class VcPnlApparecchio extends JPanel {
 		if (cmbTipoAppa == null) {
 			cmbTipoAppa = new JComboBox();
 			cmbTipoAppa.setBounds(new Rectangle(363, 75, 130, 25));
-			String qry = "select id,nome,flagAttivo from tipoapparecchiature"; //$NON-NLS-1$
+			String qry = "select id,nome,flagAttivo from " + QryUtil.TABLE_PREFIX + "tipoapparecchiature"; //$NON-NLS-1$
 			cmbTipoAppa.setModel(new JDBCComboBoxModel(
 					con,qry,scheda.getIdTipoApparecchiature()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			if(modality == mode.view){
@@ -446,7 +447,7 @@ public class VcPnlApparecchio extends JPanel {
 	private JComboBox getCmbTipoRip() {
 		if (cmbTipoRip == null) {
 			cmbTipoRip = new JComboBox();
-			String qry = "select id,nomeTipoRip,flagAttivo from tiporiparazione"; //$NON-NLS-1$
+			String qry = "select id,nomeTipoRip,flagAttivo from " + QryUtil.TABLE_PREFIX + "tiporiparazione"; //$NON-NLS-1$
 			cmbTipoRip.setModel(new JDBCComboBoxModel(
 					con,qry,scheda.getIdTipoRiparazione()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			cmbTipoRip.setBounds(new Rectangle(13, 42, 185, 25));
@@ -472,7 +473,7 @@ public class VcPnlApparecchio extends JPanel {
 		if (cmbStato == null) {
 			cmbStato = new JComboBox();
 			cmbStato.setBounds(new Rectangle(14, 114, 184, 25));
-			String qry = "select id,nomeStato,flagAttivo from anastati"; //$NON-NLS-1$
+			String qry = "select id,nomeStato,flagAttivo from " + QryUtil.TABLE_PREFIX + "anastati"; //$NON-NLS-1$
 			cmbStato.setModel(new JDBCComboBoxModel(
 					con,qry,scheda.getIdStato()+"","S")); //$NON-NLS-1$ //$NON-NLS-2$
 			if (modality == mode.view) {
@@ -544,7 +545,7 @@ public class VcPnlApparecchio extends JPanel {
 	private JComboBox getCmbTipoDA() {
 		if (cmbTipoDA == null) {
 			cmbTipoDA = new JComboBox();
-			String qry = "select id,tipo from tpodatiacquisto"; //$NON-NLS-1$
+			String qry = "select id,tipo from " + QryUtil.TABLE_PREFIX + "tpodatiacquisto"; //$NON-NLS-1$
 			cmbTipoDA.setModel(new JDBCComboBoxModel(
 					con,qry,scheda.getIdTipoDatiAcq()+"")); //$NON-NLS-1$
 			cmbTipoDA.setBounds(new Rectangle(83, 208, 180, 25));

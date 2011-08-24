@@ -122,7 +122,7 @@ public class VcIfrAnaClienti extends JInternalFrame {
 					try {
 						logger.debug("Deleting..."); //$NON-NLS-1$
 						Statement smtp = con.createStatement();
-						String query = "select count(*) from schede " + //$NON-NLS-1$
+						String query = "select count(*) from " + QryUtil.TABLE_PREFIX + "schede " + //$NON-NLS-1$
 								"where idCliente = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){

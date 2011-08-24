@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import net.sf.repairslab.control.CommonMetodBin;
+import net.sf.repairslab.control.QryUtil;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.JDBCComboBoxModel;
 import net.sf.repairslab.util.ui.cmb.TypeCmb;
@@ -119,7 +120,7 @@ public class VcDlgInsertModello extends JDialog {
 		if (cmbTipoAppa == null) {
 			cmbTipoAppa = new JComboBox();
 			cmbTipoAppa.setBounds(new Rectangle(145, 27, 190, 25));
-			String qry = "select id,nome,flagAttivo from tipoapparecchiature"; //$NON-NLS-1$
+			String qry = "select id,nome,flagAttivo from " + QryUtil.TABLE_PREFIX + "tipoapparecchiature"; //$NON-NLS-1$
 			cmbTipoAppa.setModel(new JDBCComboBoxModel(con,qry,tipoAppa,"S")); //$NON-NLS-1$
 		}
 		return cmbTipoAppa;
@@ -134,7 +135,7 @@ public class VcDlgInsertModello extends JDialog {
 		if (cmbMarca == null) {
 			cmbMarca = new JComboBox();
 			cmbMarca.setBounds(new Rectangle(145, 58, 190, 25));
-			String qry = "select id,nome,flagAttivo from marchi"; //$NON-NLS-1$
+			String qry = "select id,nome,flagAttivo from " + QryUtil.TABLE_PREFIX + "marchi"; //$NON-NLS-1$
 			cmbMarca.setModel(new JDBCComboBoxModel(con,qry,marca,"S")); //$NON-NLS-1$
 		}
 		return cmbMarca;
@@ -199,7 +200,7 @@ public class VcDlgInsertModello extends JDialog {
 				//verifica esistenza modello
 				int id = 0;
 				Statement smtpMod = con.createStatement();
-				String qryMod = "select id from modelli " + //$NON-NLS-1$
+				String qryMod = "select id from " + QryUtil.TABLE_PREFIX + "modelli " + //$NON-NLS-1$
 						"where idMarchi = "+idMarca+" " + //$NON-NLS-1$ //$NON-NLS-2$
 						"and idTipoApp = "+idAppa+" " + //$NON-NLS-1$ //$NON-NLS-2$
 						"and nome = '"+modello+"'"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -220,7 +221,7 @@ public class VcDlgInsertModello extends JDialog {
 				}else{
 					//reperimento id
 					Statement smtpId = con.createStatement();
-					String qryId = "select max(id) from modelli"; //$NON-NLS-1$
+					String qryId = "select max(id) from " + QryUtil.TABLE_PREFIX + "modelli"; //$NON-NLS-1$
 					ResultSet rsId = smtpId.executeQuery(qryId);
 					while (rsId.next()) {
 						id = rsId.getInt(1);
@@ -231,7 +232,7 @@ public class VcDlgInsertModello extends JDialog {
 					
 					//inserimento
 					Statement smtpIns = con.createStatement();
-					String ins = "insert into modelli " + //$NON-NLS-1$
+					String ins = "insert into " + QryUtil.TABLE_PREFIX + "modelli " + //$NON-NLS-1$
 							"(id,nome,descModello,idMarchi,idTipoApp,flagAttivo) " + //$NON-NLS-1$
 							"values("+id+",'"+modello+"','"+descModello+"',"+idMarca+","+idAppa+",'S') "; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$
 					//System.out.println(ins);

@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
+import net.sf.repairslab.control.QryUtil;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.VcJDBCTablePanel;
 
@@ -78,7 +79,7 @@ public class VcDlgSelezionaCliente extends JDialog {
 			pnlTblCliente = new VcJDBCTablePanel(
 					con,
 					"select id,nome,cognome,azienda,city " + //$NON-NLS-1$
-					"from clienti", //$NON-NLS-1$
+					"from " + QryUtil.TABLE_PREFIX + "clienti", //$NON-NLS-1$
 					false);
 			pnlTblCliente.createControlPanel();
 		}

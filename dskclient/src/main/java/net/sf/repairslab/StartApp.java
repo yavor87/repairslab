@@ -32,7 +32,7 @@ public class StartApp {
 		
 		initLog4j();
 		
-		logger.debug("Current working directory : " + System.getProperty("user.dir"));
+		logger.debug("Current working directory + : " + System.getProperty("user.dir"));
 		
 		try {
 			logger.debug("Loading look&feel");
@@ -94,6 +94,9 @@ public class StartApp {
 	private static void testConn(){
 		Connection con = CommonMetodBin.getConn();
 		CommonMetodBin.closeConn(con);
+		
+//		MySqlFileScriptExec mySqlFileScriptExec = new MySqlFileScriptExec();
+//		mySqlFileScriptExec.execute();
 	}
 	
 	private static VcSplashScreen splash;
