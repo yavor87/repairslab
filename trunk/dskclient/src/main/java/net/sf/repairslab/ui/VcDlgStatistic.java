@@ -2,16 +2,12 @@ package net.sf.repairslab.ui;
 
 import java.awt.BorderLayout;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import net.sf.repairslab.control.CommonMetodBin;
-import net.sf.repairslab.control.QryUtil;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.VcJDBCTablePanel2;
 
@@ -120,47 +116,47 @@ public class VcDlgStatistic extends JInternalFrame {
 	private VcJDBCTablePanel2 getPnlStatistic() {
 		if (pnlStatic == null) {
 			
-			pnlStatic = new VcJDBCTablePanel2(con, QryUtil.QRY_STATISTIC) {
-				
-				/**
-				 * 
-				 */
-				private static final long	serialVersionUID	= 1L;
-				
-				protected void onDelete() {
-					boolean referenziato = false;
-					try {
-						logger.debug("Deleting..."); //$NON-NLS-1$
-						Statement smtp = con.createStatement();
-						String query = "select count(*) from schede " + //$NON-NLS-1$
-						        "where idCliente = " + getValueAt(currentRow(), 0); //$NON-NLS-1$
-						ResultSet rs = smtp.executeQuery(query);
-						while (rs.next()) {
-							int fk = rs.getInt(1);
-							if (fk > 0) {
-								referenziato = true;
-							}
-						}
-						rs.close();
-						smtp.close();
-						if (referenziato) {
-							JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgStatistic.msgReferenced"), //$NON-NLS-1$
-							        Messages.getString("VcDlgStatistic.msgTitleError"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-						} else {
-							deleteRow(currentRow());
-						}
-					} catch (SQLException e) {
-						logger.error("Exception in Deleting \n" + e + "\n", e); //$NON-NLS-1$ //$NON-NLS-2$
-						e.printStackTrace();
-					}
-				}
-				
-			};
-			pnlStatic.setColumnLabel(0, Messages.getString("VcDlgStatistic.qryId"));
-			pnlStatic.setColumnLabel(1, Messages.getString("VcIfrListaSchede.qryInsDate"));
-			pnlStatic.setColumnLabel(2, Messages.getString("VcDlgStatistic.qrypagatoDalCliente"));
-			pnlStatic.setColumnLabel(3, Messages.getString("VcDlgStatistic.qrycostoInterno"));
-			pnlStatic.createControlPanel();
+//			pnlStatic = new VcJDBCTablePanel2(con, QryUtil.QRY_STATISTIC) {
+//				
+//				/**
+//				 * 
+//				 */
+//				private static final long	serialVersionUID	= 1L;
+//				
+//				protected void onDelete() {
+//					boolean referenziato = false;
+//					try {
+//						logger.debug("Deleting..."); //$NON-NLS-1$
+//						Statement smtp = con.createStatement();
+//						String query = "select count(*) from schede " + //$NON-NLS-1$
+//						        "where idCliente = " + getValueAt(currentRow(), 0); //$NON-NLS-1$
+//						ResultSet rs = smtp.executeQuery(query);
+//						while (rs.next()) {
+//							int fk = rs.getInt(1);
+//							if (fk > 0) {
+//								referenziato = true;
+//							}
+//						}
+//						rs.close();
+//						smtp.close();
+//						if (referenziato) {
+//							JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgStatistic.msgReferenced"), //$NON-NLS-1$
+//							        Messages.getString("VcDlgStatistic.msgTitleError"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+//						} else {
+//							deleteRow(currentRow());
+//						}
+//					} catch (SQLException e) {
+//						logger.error("Exception in Deleting \n" + e + "\n", e); //$NON-NLS-1$ //$NON-NLS-2$
+//						e.printStackTrace();
+//					}
+//				}
+//				
+//			};
+//			pnlStatic.setColumnLabel(0, Messages.getString("VcDlgStatistic.qryId"));
+//			pnlStatic.setColumnLabel(1, Messages.getString("VcIfrListaSchede.qryInsDate"));
+//			pnlStatic.setColumnLabel(2, Messages.getString("VcDlgStatistic.qrypagatoDalCliente"));
+//			pnlStatic.setColumnLabel(3, Messages.getString("VcDlgStatistic.qrycostoInterno"));
+//			pnlStatic.createControlPanel();
 			
 		}
 		return pnlStatic;
@@ -169,42 +165,42 @@ public class VcDlgStatistic extends JInternalFrame {
 	private VcJDBCTablePanel2 getPnlStatistic2() {
 		if (pnlStatic2 == null) {
 			
-			pnlStatic2 = new VcJDBCTablePanel2(con, QryUtil.QRY_STATISTIC2) {
+//			pnlStatic2 = new VcJDBCTablePanel2(con, QryUtil.QRY_STATISTIC2) {
+//				
+//				/**
+//				 * 
+//				 */
+//				private static final long	serialVersionUID	= 1L;
+//				
+//				protected void onDelete() {
+//					boolean referenziato = false;
+//					try {
+//						logger.debug("Deleting..."); //$NON-NLS-1$
+//						Statement smtp = con.createStatement();
+//						String query = "select count(*) from schede " + //$NON-NLS-1$
+//						        "where idCliente = " + getValueAt(currentRow(), 0); //$NON-NLS-1$
+//						ResultSet rs = smtp.executeQuery(query);
+//						while (rs.next()) {
+//							int fk = rs.getInt(1);
+//							if (fk > 0) {
+//								referenziato = true;
+//							}
+//						}
+//						rs.close();
+//						smtp.close();
+//						if (referenziato) {
+//							JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgStatistic.msgReferenced"), //$NON-NLS-1$
+//							        Messages.getString("VcDlgStatistic.msgTitleError"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
+//						} else {
+//							deleteRow(currentRow());
+//						}
+//					} catch (SQLException e) {
+//						logger.error("Exception in Deleting \n" + e + "\n", e); //$NON-NLS-1$ //$NON-NLS-2$
+//						e.printStackTrace();
+//					}
+//				}
 				
-				/**
-				 * 
-				 */
-				private static final long	serialVersionUID	= 1L;
-				
-				protected void onDelete() {
-					boolean referenziato = false;
-					try {
-						logger.debug("Deleting..."); //$NON-NLS-1$
-						Statement smtp = con.createStatement();
-						String query = "select count(*) from schede " + //$NON-NLS-1$
-						        "where idCliente = " + getValueAt(currentRow(), 0); //$NON-NLS-1$
-						ResultSet rs = smtp.executeQuery(query);
-						while (rs.next()) {
-							int fk = rs.getInt(1);
-							if (fk > 0) {
-								referenziato = true;
-							}
-						}
-						rs.close();
-						smtp.close();
-						if (referenziato) {
-							JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgStatistic.msgReferenced"), //$NON-NLS-1$
-							        Messages.getString("VcDlgStatistic.msgTitleError"), JOptionPane.ERROR_MESSAGE); //$NON-NLS-1$
-						} else {
-							deleteRow(currentRow());
-						}
-					} catch (SQLException e) {
-						logger.error("Exception in Deleting \n" + e + "\n", e); //$NON-NLS-1$ //$NON-NLS-2$
-						e.printStackTrace();
-					}
-				}
-				
-			};
+//			};
 			
 //			pnlStatic2.setColumnLabel(0, Messages.getString("VcDlgStatistic.qryincasso"));
 //			pnlStatic2.setColumnLabel(1, Messages.getString("VcDlgStatistic.qryspese"));

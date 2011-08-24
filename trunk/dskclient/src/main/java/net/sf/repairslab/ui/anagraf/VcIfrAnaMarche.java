@@ -100,7 +100,7 @@ public class VcIfrAnaMarche extends JInternalFrame {
 					try {
 						logger.debug("Deleting..."); //$NON-NLS-1$
 						Statement smtp = con.createStatement();
-						String query = "select count(*) from modelli " + //$NON-NLS-1$
+						String query = "select count(*) from " + QryUtil.TABLE_PREFIX + "modelli " + //$NON-NLS-1$
 								"where idMarchi = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						ResultSet rs = smtp.executeQuery(query);
 						while(rs.next()){
@@ -112,7 +112,7 @@ public class VcIfrAnaMarche extends JInternalFrame {
 						rs.close();
 						smtp.close();
 						smtp = con.createStatement();
-						query = "select count(*) from schede " + //$NON-NLS-1$
+						query = "select count(*) from " + QryUtil.TABLE_PREFIX + "schede " + //$NON-NLS-1$
 								"where idMarca = "+getValueAt(currentRow(), 0); //$NON-NLS-1$
 						rs = smtp.executeQuery(query);
 						while(rs.next()){

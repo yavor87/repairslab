@@ -6,6 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -16,6 +19,7 @@ import javax.swing.JOptionPane;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -86,7 +90,12 @@ public class PrintAction {
 			parameters.put(JRParameter.REPORT_LOCALE, Locale.getDefault());
 			parameters.put(JRParameter.REPORT_RESOURCE_BUNDLE, Messages.getRESOURCE_BUNDLE());
 			
-			JasperPrint jp = JasperFillManager.fillReport(getReportRicevuta(), parameters, con);
+			Connection conn = CommonMetodBin.getConn();
+			Statement smtp = conn.createStatement();
+			ResultSet rs = smtp.executeQuery(QryUtil.QRY_REPORT + nScheda);
+		    JRResultSetDataSource datasource = new JRResultSetDataSource(rs);
+			
+			JasperPrint jp = JasperFillManager.fillReport(getReportRicevuta(), parameters, datasource);
 			
 			// Lancio JasperViewer
 			if (jp.getPages() != null && jp.getPages().size() > 0) {
@@ -107,7 +116,16 @@ public class PrintAction {
                 repDlg.setVisible(true);
 			}
 			
+			rs.close();
+			smtp.close();
+			CommonMetodBin.closeConn(conn);
+			
 		} catch (JRException e) {
+			JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),
+					Messages.getString("PrintAction.8")+e+"\n", //$NON-NLS-1$ //$NON-NLS-2$
+					Messages.getString("PrintAction.10"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
+			logger.error(Messages.getString("PrintAction.11")+e+"\n", e); //$NON-NLS-1$ //$NON-NLS-2$
+		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(CommonMetodBin.getInstance().getMainFrame(),
 					Messages.getString("PrintAction.8")+e+"\n", //$NON-NLS-1$ //$NON-NLS-2$
 					Messages.getString("PrintAction.10"), JOptionPane.WARNING_MESSAGE); //$NON-NLS-1$
