@@ -14,34 +14,68 @@ import net.sf.repairslab.control.CommonMetodBin;
 
 import org.apache.log4j.Logger;
 
+/**
+ * Abstract class for execution of sql files
+ * @author Fabrizio Ferraiuolo
+ * 24/ago/2011
+ * 16:05:03
+ */
 public abstract class AbstractFileScriptExec {
 	
 	private static final String NEWLINE = System.getProperty("line.separator");
 	private static final String PREFIX_STRING = "&PREF&"; 
 	
+	/**
+	 * String with install files
+	 * @author Fabrizio Ferraiuolo 24/ago/2011 16:06:29
+	 * @return 
+	 */
 	public abstract String getInstallFile();
+	
+	/**
+	 * Logger class
+	 * @author Fabrizio Ferraiuolo 24/ago/2011 16:06:51
+	 * @return 
+	 */
 	public abstract Logger getLogger();
+	
+	/**
+	 * Prefix to replace to PREFIX_STRING
+	 * @author Fabrizio Ferraiuolo 24/ago/2011 16:07:03
+	 * @return 
+	 */
 	public abstract String getPrefix();
 	
+	/**
+	 * Execution of file
+	 * @author Fabrizio Ferraiuolo 24/ago/2011 16:07:46 
+	 */
 	public void execute() {
 		
 		getLogger().debug("Start file execution..."); //$NON-NLS-1$
 		try {
 			for (String instr : getInstallInstructions()) {
 				try {
+					getLogger().debug("Script in execution: " + instr);
 	                executeInstruction(instr);
                 } catch (SQLException e) {
-	                // TODO Auto-generated catch block
-	                e.printStackTrace();
+//	                e.printStackTrace();
+	                getLogger().error(e+"\n", e); 
                 }
 			}
         } catch (IOException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
+//	        e.printStackTrace();
+        	getLogger().error(e+"\n", e); 
         }
 		
 	}
 	
+	/**
+	 * Execution instruction
+	 * @author Fabrizio Ferraiuolo 24/ago/2011 16:10:32
+	 * @param instruction
+	 * @throws SQLException 
+	 */
 	private void executeInstruction(String instruction) throws SQLException {
 		Connection con = CommonMetodBin.getConn();
 		try {
@@ -50,13 +84,19 @@ public abstract class AbstractFileScriptExec {
 			smtp.close();
 		} catch (SQLException e) {
 			getLogger().error("Exception in executing instruction \n"+e+"\n", e); //$NON-NLS-1$
-			e.printStackTrace();
+//			e.printStackTrace();
 			throw e;
 		} finally {
 			CommonMetodBin.closeConn(con);
 		}
 	}
 	
+	/**
+	 * Return the list of instruction in sql file
+	 * @author Fabrizio Ferraiuolo 24/ago/2011 16:11:06
+	 * @return
+	 * @throws IOException 
+	 */
 	private List<String> getInstallInstructions() throws IOException {
         FileReader fr = new FileReader(new File(getInstallFile()));
         

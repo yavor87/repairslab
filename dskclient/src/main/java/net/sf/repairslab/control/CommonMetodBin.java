@@ -22,6 +22,8 @@ import org.apache.log4j.Logger;
 public class CommonMetodBin {
 	
 	static private Logger  logger = Logger.getLogger(CommonMetodBin.class.getName());
+	static public String  MYSQL_DRIVER = "com.mysql.jdbc.Driver";
+	static public String  DERBYEMBEDDED_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
 	
 	private CommonMetodBin(){
 	}
@@ -43,7 +45,7 @@ public class CommonMetodBin {
 			logger.debug("Connecting DB...");
 			//if(con == null || con.isClosed()){
 			if(EnvProperties.getInstance().getProperty(EnvProperties.DB_ISEMBEDDED).endsWith("S")){
-				Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();		
+				Class.forName(DERBYEMBEDDED_DRIVER).newInstance();		
 //				con = DriverManager.getConnection("jdbc:derby:"+EnvProperties.getInstance().getProperty(EnvProperties.DB_DERBYDIR)+System.getProperty("file.separator")+"gestrip");
 				con = DriverManager.getConnection("jdbc:derby:db/derby/gestrip");
 				con.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
@@ -102,21 +104,20 @@ public class CommonMetodBin {
 		try {
 			logger.debug("Testing Connection DB...");
 			
-			URL u = new URL("jar:file:C:\\Users\\fferraiu\\Downloads\\firebird\\Jaybird-2.1.6JDK_1.6\\jaybird-full-2.1.6.jar!/");
-			URLClassLoader ucl = new URLClassLoader(new URL[] { u });
-			Driver d = (Driver)Class.forName(driver, true, ucl).newInstance();
-			DriverManager.registerDriver(new DriverShim(d));
+//			URL u = new URL("jar:file:C:\\Users\\fferraiu\\Downloads\\firebird\\Jaybird-2.1.6JDK_1.6\\jaybird-full-2.1.6.jar!/");
+//			URLClassLoader ucl = new URLClassLoader(new URL[] { u });
+//			Driver d = (Driver)Class.forName(driver, true, ucl).newInstance();
+//			DriverManager.registerDriver(new DriverShim(d));
 			Connection testCon = DriverManager.getConnection(url, user, psw);
 
 			Statement smtp = testCon.createStatement();
-			ResultSet rs = smtp.executeQuery("select count(*) as countSchede from schede");
-			
-			while (rs.next()) {
-				System.out.println(rs.getInt("countSchede"));
-			}
-			
-			rs.close();
+			smtp.executeUpdate("CREATE TABLE TEST (id VARCHAR(100) NOT NULL) ENGINE = InnoDB");
 			smtp.close();
+
+			Statement smtp2 = testCon.createStatement();
+			smtp2.executeUpdate("DROP TABLE TEST");
+			smtp2.close();
+			
 			testCon.close();
 			
 			result = "Ok";
@@ -124,15 +125,15 @@ public class CommonMetodBin {
 		} catch (SQLException e) {
 			logger.warn("SQLException in Connecting DB \n"+e+"\n", e);
 			result = Messages.getString("Core.connectionErrorMsg")+e.getErrorCode()+":"+e.getMessage();
-		} catch (InstantiationException e) {
-			logger.warn("InstantiationException in Connecting DB \n"+e+"\n", e);
-			result = e.getMessage();
-		} catch (IllegalAccessException e) {
-			logger.warn("IllegalAccessException in Connecting DB \n"+e+"\n", e);
-			result = e.getMessage();
-		} catch (ClassNotFoundException e) {
-			logger.warn("ClassNotFoundException in Connecting DB \n"+e+"\n", e);
-			result = e.getMessage();
+//		} catch (InstantiationException e) {
+//			logger.warn("InstantiationException in Connecting DB \n"+e+"\n", e);
+//			result = e.getMessage();
+//		} catch (IllegalAccessException e) {
+//			logger.warn("IllegalAccessException in Connecting DB \n"+e+"\n", e);
+//			result = e.getMessage();
+//		} catch (ClassNotFoundException e) {
+//			logger.warn("ClassNotFoundException in Connecting DB \n"+e+"\n", e);
+//			result = e.getMessage();
 		} catch (Exception e) {
 			logger.warn("Exception in Connecting DB \n"+e+"\n", e);
 			result = e.getMessage();
