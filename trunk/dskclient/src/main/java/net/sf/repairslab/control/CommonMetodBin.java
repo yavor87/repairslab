@@ -141,6 +141,11 @@ public class CommonMetodBin {
 		return result;
 	}
 	
+	public String getInstalledMetadata() {
+		
+		return "";
+	}
+	
 	public String testEmbConn(){
 		String result = Messages.getString("Core.notConnected");
 		try {

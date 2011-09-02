@@ -8,27 +8,39 @@ import java.awt.Frame;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
+import net.sf.repairslab.EnvConstants;
+import net.sf.repairslab.EnvProperties;
 import net.sf.repairslab.control.CommonMetodBin;
+import net.sf.repairslab.control.install.InstallUtil;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.ui.txf.NumericTextField;
 
-public class VcDlgSettingStartValue extends JDialog {
+import org.apache.log4j.Logger;
+
+public class VcDlgMetadataSetting extends JDialog {
+	
+	static private Logger  logger = Logger.getLogger(VcDlgMetadataSetting.class.getName());
 	
 	private static final long	serialVersionUID	= 1L;
 	private JPanel	          jContentPane	     = null;
@@ -60,12 +72,20 @@ public class VcDlgSettingStartValue extends JDialog {
 	private JRadioButton rdbtnDefaultSo;
 	private JRadioButton rdbtnPortable;
 	private JRadioButton rdbtnCustom;
+	private JTable confirmTableOptions;
+	
+	
+	private boolean isDbEmbedded = true;
+	private String metadataLocation = EnvConstants.USER_HOME_DIR;
+	private JTextField txfLocation;
+	private JButton btnSelectLocation;
 	
 	/**
 	 * @param owner
 	 */
-	public VcDlgSettingStartValue(Frame owner) {
-		super(owner);
+	public VcDlgMetadataSetting(Frame owner) {
+		super(owner, true);
+		logger.debug("init");
 		initialize();
 	}
 	
@@ -124,15 +144,31 @@ public class VcDlgSettingStartValue extends JDialog {
 			navigationPanel.add(btnNext);
 			
 			JButton btnCancel = new JButton("Cancel");
+			btnCancel.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					confirmCancel();
+				}
+			});
 			navigationPanel.add(btnCancel);
 			
 			btnInstall = new JButton("Install");
+			btnInstall.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					install();
+				}
+			});
 			btnInstall.setEnabled(false);
 			navigationPanel.add(btnInstall);
 			
 			setNextPanel();
 		}
 		return jContentPane;
+	}
+	
+	private void confirmCancel() {
+		int confirm = JOptionPane.showConfirmDialog(this, "Sei sicuro di annullare l'operazione?", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		if (confirm == JOptionPane.OK_OPTION)
+			dispose();
 	}
 	
 	private void setNextPanel() {
@@ -151,6 +187,7 @@ public class VcDlgSettingStartValue extends JDialog {
 			btnNext.setEnabled(false);
 			btnInstall.setEnabled(true);
 			setCurrentPanel(CONFIRM_PANEL);
+			setConfirmOptions();
 		}
 	}
 	
@@ -223,20 +260,27 @@ public class VcDlgSettingStartValue extends JDialog {
 		    derbyOptionPanel.setLayout(null);
 		    
 		    typeMetadataPanel.add(getMysqlOptionPanel());
-		    setEnableMysqlOptionPanel(false);
-			
-			JLabel lblInstallType = new JLabel("Selezionare il tipo di installazione:");
+
+		    JLabel lblInstallType = new JLabel("Selezionare il tipo di installazione:");
 			lblInstallType.setBounds(26, 11, 385, 14);
 			typeMetadataPanel.add(lblInstallType);
 			
+			String isEmbParam = EnvProperties.getInstance().getProperty(EnvProperties.DB_ISEMBEDDED);
+			if (isEmbParam != null && isEmbParam.equals("N"))
+				isDbEmbedded = false;
+			
+			setEnableMysqlOptionPanel(!isDbEmbedded);
+		    setEnableDerbyOptionPanel(isDbEmbedded);
+
 			JRadioButton rdbtnLocal = new JRadioButton("Utilizzo utente singolo (database Derby su pc locale)");
 			rdbtnLocal.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setEnableMysqlOptionPanel(false);
 					setEnableDerbyOptionPanel(true);
+					isDbEmbedded = true;
 				}
 			});
-			rdbtnLocal.setSelected(true);
+			rdbtnLocal.setSelected(isDbEmbedded);
 			rdbtnLocal.setBounds(51, 32, 418, 23);
 			typeMetadataPanel.add(rdbtnLocal);
 			
@@ -245,8 +289,10 @@ public class VcDlgSettingStartValue extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					setEnableMysqlOptionPanel(true);
 					setEnableDerbyOptionPanel(false);
+					isDbEmbedded = false;
 				}
 			});
+			rdbtnMySql.setSelected(!isDbEmbedded);
 			rdbtnMySql.setBounds(51, 58, 418, 23);
 			typeMetadataPanel.add(rdbtnMySql);
 			
@@ -277,25 +323,80 @@ public class VcDlgSettingStartValue extends JDialog {
 		    lblInserireLaLocazione.setBounds(10, 0, 252, 14);
 		    derbyOptionPanel.add(lblInserireLaLocazione);
 		    
+		    metadataLocation = EnvProperties.getInstance().getProperty(EnvProperties.DB_DERBYDIR);
+		    if (metadataLocation == null || metadataLocation.equals(""))
+		    	metadataLocation = EnvConstants.USER_HOME_DIR;
+		    
 		    rdbtnDefaultSo = new JRadioButton("Default (Consigliato)");
+		    rdbtnDefaultSo.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		    		metadataLocation = EnvConstants.USER_HOME_DIR;
+		    		txfLocation.setEnabled(false);
+		    		btnSelectLocation.setEnabled(false);
+		    	}
+		    });
 		    rdbtnDefaultSo.setBounds(22, 25, 212, 23);
-		    rdbtnDefaultSo.setSelected(true);
+		    rdbtnDefaultSo.setSelected(metadataLocation.equals(EnvConstants.USER_HOME_DIR));
 		    derbyOptionPanel.add(rdbtnDefaultSo);
 		    
 		    rdbtnPortable = new JRadioButton("Portable");
+		    rdbtnPortable.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		    		metadataLocation = EnvConstants.PORTABLE_HOME_DIR;
+		    		txfLocation.setEnabled(false);
+		    		btnSelectLocation.setEnabled(false);
+		    	}
+		    });
 		    rdbtnPortable.setBounds(22, 51, 212, 23);
+		    rdbtnPortable.setSelected(metadataLocation.equals(EnvConstants.PORTABLE_HOME_DIR));
 		    derbyOptionPanel.add(rdbtnPortable);
 		    
+		    boolean isCustomLocation = !metadataLocation.equals(EnvConstants.USER_HOME_DIR) && !metadataLocation.equals(EnvConstants.PORTABLE_HOME_DIR);
 		    rdbtnCustom = new JRadioButton("Custom");
-		    rdbtnCustom.setBounds(22, 77, 212, 23);
+		    rdbtnCustom.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		    		txfLocation.setEnabled(true);
+		    		btnSelectLocation.setEnabled(true);
+		    	}
+		    });
+		    rdbtnCustom.setBounds(22, 77, 115, 23);
+		    rdbtnCustom.setSelected(isCustomLocation);
 		    derbyOptionPanel.add(rdbtnCustom);
 		    
 		    ButtonGroup groupLocation = new ButtonGroup();
 		    groupLocation.add(rdbtnDefaultSo);
 		    groupLocation.add(rdbtnPortable);
 		    groupLocation.add(rdbtnCustom);
+		    
+		    txfLocation = new JTextField();
+		    txfLocation.setEnabled(isCustomLocation);
+		    txfLocation.setBounds(22, 107, 212, 20);
+		    derbyOptionPanel.add(txfLocation);
+		    txfLocation.setColumns(10);
+		    
+		    txfLocation.setText(metadataLocation);
+		    
+		    btnSelectLocation = new JButton("Select");
+		    btnSelectLocation.addActionListener(new ActionListener() {
+		    	public void actionPerformed(ActionEvent e) {
+		    		setCustomLocation();
+		    	}
+		    });
+		    btnSelectLocation.setEnabled(isCustomLocation);
+		    btnSelectLocation.setBounds(164, 81, 70, 23);
+		    derbyOptionPanel.add(btnSelectLocation);
 		}
 		return derbyOptionPanel;
+	}
+	
+	private void setCustomLocation() {
+		JFileChooser chooser = new JFileChooser(EnvConstants.USER_HOME_DIR);
+		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		chooser.setAcceptAllFileFilterUsed(false);
+		if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			txfLocation.setText(chooser.getSelectedFile().getAbsolutePath());
+			metadataLocation = chooser.getSelectedFile().getAbsolutePath();
+		}
 	}
 	
 	private void setEnableMysqlOptionPanel(boolean enabled) {
@@ -349,6 +450,10 @@ public class VcDlgSettingStartValue extends JDialog {
 		    
 		    txpPsw = new JPasswordField();
 		    txpPsw.setBounds(89, 120, 164, 20);
+		    String psw = EnvProperties.getInstance().getProperty(EnvProperties.DB_PASSW);
+		    if (psw == null)
+		    	psw = "";
+		    txpPsw.setText(psw);
 		    mysqlOptionPanel.add(txpPsw);
 		    
 		    txfTablrPrefix = new JTextField();
@@ -416,15 +521,104 @@ public class VcDlgSettingStartValue extends JDialog {
 			lblFootConfirm.setBounds(26, 294, 537, 14);
 			confirmPanel.add(lblFootConfirm);
 			
-			JTextArea txaOptions = new JTextArea();
-			txaOptions.setBounds(26, 36, 526, 88);
-			confirmPanel.add(txaOptions);
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(36, 36, 480, 224);
+			confirmPanel.add(scrollPane);
+
+			confirmTableOptions = new JTable();
+			
+			scrollPane.setViewportView(confirmTableOptions);
 			
 		}
 		return confirmPanel;
 	}
 	
-	private void saveSettings() {
+	private void setConfirmOptions() {
 		
+		Vector confirmOptions = new Vector();
+		
+		Vector v1_dbEmbedded = new Vector();
+		v1_dbEmbedded.add("Utente Singolo");
+		v1_dbEmbedded.add(isDbEmbedded);
+		confirmOptions.add(v1_dbEmbedded);
+		
+		Vector v2_metadataLocation = new Vector();
+		v2_metadataLocation.add("Locazione database embedded");
+		v2_metadataLocation.add(metadataLocation);
+		confirmOptions.add(v2_metadataLocation);
+		
+		Vector v3_txfHost = new Vector();
+		v3_txfHost.add("MySql Host");
+		v3_txfHost.add(txfHost.getText());
+		confirmOptions.add(v3_txfHost);
+		
+		Vector v4_txfPort = new Vector();
+		v4_txfPort.add("MySql Port");
+		v4_txfPort.add(txfPort.getText());
+		confirmOptions.add(v4_txfPort);
+		
+		Vector v5_txfDbName = new Vector();
+		v5_txfDbName.add("MySql Db Name");
+		v5_txfDbName.add(txfDbName.getText());
+		confirmOptions.add(v5_txfDbName);
+		
+		Vector v6_txfUrer = new Vector();
+		v6_txfUrer.add("MySql User");
+		v6_txfUrer.add(txfUrer.getText());
+		confirmOptions.add(v6_txfUrer);
+		
+		Vector v7_txfTablrPrefix = new Vector();
+		v7_txfTablrPrefix.add("MySql Table Prefix");
+		v7_txfTablrPrefix.add(txfTablrPrefix.getText());
+		confirmOptions.add(v7_txfTablrPrefix);
+		
+		Vector<String> colname = new Vector<String>();
+		colname.add("Opzione");
+		colname.add("Valore");
+		TableModel dataModel = new DefaultTableModel(confirmOptions, colname);
+		
+		confirmTableOptions.setModel(dataModel);
 	}
+	
+	private void install() {
+		
+		logger.debug("install");
+		
+		// Test connessione
+        String url = "jdbc:mysql://" + txfHost.getText() + ":" + txfPort.getText() + "/" + txfDbName.getText();
+        String result = CommonMetodBin.getInstance().testServerConn(CommonMetodBin.MYSQL_DRIVER, url, txfUrer.getText(), txpPsw.getText());
+		
+		if (isDbEmbedded || result.equals("Ok")) {
+			
+			logger.debug("is setting properties");
+			
+			// Set properties parameters
+	        EnvProperties.getInstance().setProperty(EnvProperties.DB_ISEMBEDDED, isDbEmbedded ? "S" : "N");
+	        EnvProperties.getInstance().setProperty(EnvProperties.DB_DRIVER, isDbEmbedded ? CommonMetodBin.DERBYEMBEDDED_DRIVER : CommonMetodBin.MYSQL_DRIVER);
+	        EnvProperties.getInstance().setProperty(EnvProperties.DB_DERBYDIR, metadataLocation);
+	        EnvProperties.getInstance().setProperty(EnvProperties.DB_URL, url);
+	        EnvProperties.getInstance().setProperty(EnvProperties.DB_USER, txfUrer.getText());
+	        EnvProperties.getInstance().setProperty(EnvProperties.DB_PASSW, txpPsw.getText());
+	        EnvProperties.getInstance().setProperty(EnvProperties.DB_TABLE_PREFIX, txfTablrPrefix.getText());
+	        EnvProperties.getInstance().saveFileProperty();
+			
+	        // Installazione database
+	        try {
+	        	logger.debug("is installing db");
+		        InstallUtil.installDb(isDbEmbedded);
+		        
+		        JOptionPane.showMessageDialog(getParent(), "Installazione completa", "Info", JOptionPane.INFORMATION_MESSAGE);
+		        logger.debug("is ok");
+		        dispose();
+		        
+	        } catch (Exception e) {
+	        	logger.error(e+"\n", e); 
+	        	JOptionPane.showMessageDialog(getParent(), "Errore installazione: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	        }
+	        
+		} else {
+			logger.error("Db connection error:" + result); 
+			JOptionPane.showMessageDialog(getParent(), "Errore installazione, connessione database non disponobile", "Error", JOptionPane.ERROR_MESSAGE);
+		}
+    }
 }

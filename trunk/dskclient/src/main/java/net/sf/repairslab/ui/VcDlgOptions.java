@@ -31,6 +31,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import net.sf.repairslab.EnvProperties;
+import net.sf.repairslab.ui.installwizard.VcDlgMetadataSetting;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.ui.WindowUtil;
 import net.sf.repairslab.util.ui.cmb.TypeCmb;
@@ -536,9 +537,12 @@ public class VcDlgOptions extends JDialog {
 			btnAdvOpt.setText(Messages.getString("VcDlgOptions.btnAdvOpt")); //$NON-NLS-1$
 			btnAdvOpt.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					VcDlgAdvancedOptions dlgAo = new VcDlgAdvancedOptions(parent);
-					WindowUtil.centerWindow(dlgAo);
-					dlgAo.setVisible(true);
+//					VcDlgAdvancedOptions dlgAo = new VcDlgAdvancedOptions(parent);
+//					WindowUtil.centerWindow(dlgAo);
+//					dlgAo.setVisible(true);
+					VcDlgMetadataSetting dialog = new VcDlgMetadataSetting(parent);
+					WindowUtil.centerWindow(dialog);
+					dialog.setVisible(true);
 				}
 			});
 		}
