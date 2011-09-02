@@ -18,4 +18,7 @@ public class EnvConstants {
 	public static String FILE_USER_GUIDE_PREFIX = "documents"+File.separator+CommonMetodBin.getInstance().getCurrentRelease().getVersion()
 		+File.separator+"UserGuide"+File.separator+"pdf"+File.separator+"RepairsLabUserGuide-";
 	public static String FILE_USER_GUIDE_SUFFIX = ".pdf";
+	
+	public static String USER_HOME_DIR = System.getProperty("user.home")+File.separator+".repairslab";
+	public static String PORTABLE_HOME_DIR = "metadata";
 }

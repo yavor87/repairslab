@@ -50,7 +50,7 @@ public abstract class AbstractFileScriptExec {
 	 * Execution of file
 	 * @author Fabrizio Ferraiuolo 24/ago/2011 16:07:46 
 	 */
-	public void execute() {
+	public void execute() throws Exception {
 		
 		getLogger().debug("Start file execution..."); //$NON-NLS-1$
 		try {
@@ -61,11 +61,13 @@ public abstract class AbstractFileScriptExec {
                 } catch (SQLException e) {
 //	                e.printStackTrace();
 	                getLogger().error(e+"\n", e); 
+	                throw e;
                 }
 			}
         } catch (IOException e) {
 //	        e.printStackTrace();
         	getLogger().error(e+"\n", e); 
+        	throw e;
         }
 		
 	}

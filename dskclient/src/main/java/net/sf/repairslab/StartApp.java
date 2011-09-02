@@ -10,7 +10,6 @@ import net.sf.repairslab.control.CommonMetodBin;
 import net.sf.repairslab.model.BinRelease;
 import net.sf.repairslab.ui.VcMainFrame;
 import net.sf.repairslab.ui.VcSplashScreen;
-import net.sf.repairslab.ui.installwizard.VcDlgSettingStartValue;
 import net.sf.repairslab.util.ui.WindowUtil;
 
 import org.apache.log4j.Logger;
@@ -70,9 +69,9 @@ public class StartApp {
 		frame.setVisible(true);
 		hideSplash();
 		
-		VcDlgSettingStartValue dialog = new VcDlgSettingStartValue(frame);
-		WindowUtil.centerWindow(dialog);
-		dialog.setVisible(true);
+//		VcDlgMetadataSetting dialog = new VcDlgMetadataSetting(frame);
+//		WindowUtil.centerWindow(dialog);
+//		dialog.setVisible(true);
 		
         startChekForUpdate();
 	}
@@ -99,10 +98,6 @@ public class StartApp {
 	private static void testConn(){
 		Connection con = CommonMetodBin.getConn();
 		CommonMetodBin.closeConn(con);
-		
-//		MySqlFileScriptExec mySqlFileScriptExec = new MySqlFileScriptExec();
-//		mySqlFileScriptExec.execute();
-		
 	}
 	
 	private static VcSplashScreen splash;
