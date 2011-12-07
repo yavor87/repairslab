@@ -10,6 +10,7 @@ import net.sf.repairslab.control.CommonMetodBin;
 import net.sf.repairslab.model.BinRelease;
 import net.sf.repairslab.ui.VcMainFrame;
 import net.sf.repairslab.ui.VcSplashScreen;
+import net.sf.repairslab.ui.installwizard.VcDlgMetadataSetting;
 import net.sf.repairslab.util.ui.WindowUtil;
 
 import org.apache.log4j.Logger;
@@ -56,22 +57,22 @@ public class StartApp {
         splash.setStatus("Setting locale", 30);
         String selVal = EnvProperties.getInstance().getProperty(EnvProperties.LOCALE);
         Locale.setDefault(new Locale(selVal.split("-")[0],selVal.split("-")[1]));
-
-        splash.setStatus("Testing Connection...", 50);
-        testConn();
         
-        splash.setStatus("Loading App...", 80);
+        splash.setStatus("Loading App...", 50);
 		VcMainFrame frame = new VcMainFrame();
 		logger.debug("Application loaded...");
+		
+		splash.setStatus("Testing Connection & metadata version...", 80);
+        if (!testConn() || !currentMetadataVersion()) {
+        	VcDlgMetadataSetting dialog = new VcDlgMetadataSetting(frame);
+        	WindowUtil.centerWindow(dialog);
+        	dialog.setVisible(true);
+        }
 		
 		CommonMetodBin.getInstance().setMainFrame(frame);
 		splash.setStatus("Started...", 100);
 		frame.setVisible(true);
 		hideSplash();
-		
-//		VcDlgMetadataSetting dialog = new VcDlgMetadataSetting(frame);
-//		WindowUtil.centerWindow(dialog);
-//		dialog.setVisible(true);
 		
         startChekForUpdate();
 	}
@@ -95,9 +96,18 @@ public class StartApp {
 
 	}
 	
-	private static void testConn(){
+	private static boolean testConn(){
 		Connection con = CommonMetodBin.getConn();
-		CommonMetodBin.closeConn(con);
+		if (con == null) {
+			return false;
+		} else {
+			CommonMetodBin.closeConn(con);
+			return true;
+		}
+	}
+	
+	private static boolean currentMetadataVersion() {
+		return CommonMetodBin.getInstance().getCurrentRelease().getVersion().equals(CommonMetodBin.getInstance().getInstalledMetadata());
 	}
 	
 	private static VcSplashScreen splash;

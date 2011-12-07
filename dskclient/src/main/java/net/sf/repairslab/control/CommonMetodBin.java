@@ -142,8 +142,24 @@ public class CommonMetodBin {
 	}
 	
 	public String getInstalledMetadata() {
-		
-		return "";
+		String result = "";
+		Connection con = getConn();
+		try {
+			logger.debug("Get Current metadata...");
+			
+			Statement smtp = con.createStatement();
+			ResultSet rs = smtp.executeQuery(QryUtil.QRY_METADATA_VERSION);
+			while (rs.next())
+				result = rs.getString(1);
+			
+			smtp.close();
+			
+		} catch (SQLException e) {
+			logger.warn("SQLException in Connecting DB \n"+e+"\n", e);
+		} finally {
+			closeConn(con);
+		}
+		return result;
 	}
 	
 	public String testEmbConn(){
