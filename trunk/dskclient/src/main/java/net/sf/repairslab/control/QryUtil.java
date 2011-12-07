@@ -8,6 +8,8 @@ public class QryUtil {
 	
 	public static String TABLE_PREFIX = EnvProperties.getInstance().getProperty(EnvProperties.DB_TABLE_PREFIX);
 	
+	public static String QRY_METADATA_VERSION = "select value from " + TABLE_PREFIX + "info where id = 'metadata_version'";
+	
 	public static String QRY_ANA_STATI = 
 		"select " +
 		" id," +

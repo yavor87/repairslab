@@ -1,4 +1,4 @@
-CREATE TABLE &PREF&_tipoapparecchiature (
+CREATE TABLE &PREF&tipoapparecchiature (
   id INTEGER NOT NULL,
   nome VARCHAR(200),
   descrizione VARCHAR(4000),
@@ -6,7 +6,7 @@ CREATE TABLE &PREF&_tipoapparecchiature (
   PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE &PREF&_schede (
+CREATE TABLE &PREF&schede (
   id INTEGER NOT NULL,
   idCliente INTEGER,
   idStato INTEGER,
@@ -36,13 +36,13 @@ CREATE TABLE &PREF&_schede (
   PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE &PREF&_tpodatiacquisto (
+CREATE TABLE &PREF&tpodatiacquisto (
   id INTEGER NOT NULL,
   tipo VARCHAR(200),
   PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE &PREF&_tiporiparazione (
+CREATE TABLE &PREF&tiporiparazione (
   id INTEGER NOT NULL,
   nomeTipoRip VARCHAR(200),
   descTipoRip VARCHAR(4000),
@@ -50,7 +50,7 @@ CREATE TABLE &PREF&_tiporiparazione (
   PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE &PREF&_clienti (
+CREATE TABLE &PREF&clienti (
   id INTEGER NOT NULL,
   nome VARCHAR(200),
   cognome VARCHAR(200),
@@ -64,7 +64,7 @@ CREATE TABLE &PREF&_clienti (
   PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE &PREF&_anastati (
+CREATE TABLE &PREF&anastati (
   id INTEGER NOT NULL,
   nomeStato VARCHAR(200),
   descStato VARCHAR(4000),
@@ -72,7 +72,7 @@ CREATE TABLE &PREF&_anastati (
   PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE &PREF&_modelli (
+CREATE TABLE &PREF&modelli (
   id INTEGER NOT NULL,
   nome VARCHAR(200),
   descModello VARCHAR(4000),
@@ -82,7 +82,7 @@ CREATE TABLE &PREF&_modelli (
   PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE &PREF&_marchi (
+CREATE TABLE &PREF&marchi (
   id INTEGER NOT NULL,
   nome VARCHAR(200),
   descrizione VARCHAR(4000),
@@ -90,10 +90,10 @@ CREATE TABLE &PREF&_marchi (
   PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
-CREATE TABLE &PREF&_info (
+CREATE TABLE &PREF&info (
   id VARCHAR(100) NOT NULL,
   value VARCHAR(300) NOT NULL,
   PRIMARY KEY(id)
 ) ENGINE = InnoDB;
 
-INSERT INTO &PREF&_info (id, value) VALUES ('metadata_version', '1.0.6');
+INSERT INTO &PREF&info (id, value) VALUES ('metadata_version', '1.0.6');

@@ -27,7 +27,7 @@ public class MySqlFileScriptExec extends AbstractFileScriptExec {
 	 */
 	@Override
     public String getInstallFile() {
-	    return "net/sf/repairslab/install/mysql/install.sql";
+	    return "net/sf/repairslab/metadata/install/mysql/install.sql";
     }
 	
 	/**

@@ -20,9 +20,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -60,6 +62,9 @@ public class VcDlgMetadataSetting extends JDialog {
 	private static String 	  CONFIRM_PANEL = "CONFIRM_PANEL";
 	private JPanel 			  confirmPanel = null;
 	
+	private static String 	  LOG_PANEL = "LOG_PANEL";
+	private static JPanel 	  logPanel = null;
+	
 	private JPanel mysqlOptionPanel = null;
 	private JPanel derbyOptionPanel = null;
 	private JTextField txfHost;
@@ -73,12 +78,21 @@ public class VcDlgMetadataSetting extends JDialog {
 	private JRadioButton rdbtnPortable;
 	private JRadioButton rdbtnCustom;
 	private JTable confirmTableOptions;
+	private JLabel lblCurrentAction = new JLabel("Starting...");
+	private JProgressBar progressBar = new JProgressBar();
+	private JTextArea textAreaLog = new JTextArea();
 	
 	
 	private boolean isDbEmbedded = true;
 	private String metadataLocation = EnvConstants.USER_HOME_DIR;
 	private JTextField txfLocation;
 	private JButton btnSelectLocation;
+	
+	public VcDlgMetadataSetting() {
+		super();
+		logger.debug("init");
+		initialize();
+	}
 	
 	/**
 	 * @param owner
@@ -97,6 +111,7 @@ public class VcDlgMetadataSetting extends JDialog {
 	private void initialize() {
 		this.setSize(601, 454);
 		this.setContentPane(getJContentPane());
+		this.setResizable(false);
 	}
 	
 	/**
@@ -117,7 +132,7 @@ public class VcDlgMetadataSetting extends JDialog {
 			lblRepairslabImg.setIcon(new ImageIcon(getClass().getResource("/net/sf/repairslab/ui/img/logo64.png")));
 			headerPanel.add(lblRepairslabImg);
 			
-			JLabel lblConfigurazionWizard = new JLabel("Configurazion Wizard          \t                          -");
+			JLabel lblConfigurazionWizard = new JLabel(Messages.getString("VcDlgMetadataSetting.title") + "          \t                          -");
 			lblConfigurazionWizard.setFont(new Font("Tahoma", Font.BOLD, 16));
 			lblConfigurazionWizard.setHorizontalAlignment(SwingConstants.CENTER);
 			headerPanel.add(lblConfigurazionWizard, BorderLayout.EAST);
@@ -127,7 +142,7 @@ public class VcDlgMetadataSetting extends JDialog {
 			JPanel navigationPanel = new JPanel();
 			jContentPane.add(navigationPanel, BorderLayout.SOUTH);
 			
-			btnBack = new JButton("Back");
+			btnBack = new JButton(Messages.getString("VcDlgMetadataSetting.back"));
 			btnBack.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setBackPanel();
@@ -135,7 +150,7 @@ public class VcDlgMetadataSetting extends JDialog {
 			});
 			navigationPanel.add(btnBack);
 			
-			btnNext = new JButton("Next");
+			btnNext = new JButton(Messages.getString("VcDlgMetadataSetting.next"));
 			btnNext.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setNextPanel();
@@ -143,7 +158,7 @@ public class VcDlgMetadataSetting extends JDialog {
 			});
 			navigationPanel.add(btnNext);
 			
-			JButton btnCancel = new JButton("Cancel");
+			JButton btnCancel = new JButton(Messages.getString("VcDlgMetadataSetting.cancel"));
 			btnCancel.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					confirmCancel();
@@ -151,7 +166,7 @@ public class VcDlgMetadataSetting extends JDialog {
 			});
 			navigationPanel.add(btnCancel);
 			
-			btnInstall = new JButton("Install");
+			btnInstall = new JButton(Messages.getString("VcDlgMetadataSetting.install"));
 			btnInstall.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					install();
@@ -166,7 +181,7 @@ public class VcDlgMetadataSetting extends JDialog {
 	}
 	
 	private void confirmCancel() {
-		int confirm = JOptionPane.showConfirmDialog(this, "Sei sicuro di annullare l'operazione?", "Warning", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		int confirm = JOptionPane.showConfirmDialog(this, Messages.getString("VcDlgMetadataSetting.confirmCancel"), Messages.getString("VcDlgMetadataSetting.warn"), JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 		if (confirm == JOptionPane.OK_OPTION)
 			dispose();
 	}
@@ -212,6 +227,7 @@ public class VcDlgMetadataSetting extends JDialog {
 	private void setCurrentPanel(String currentPanelId) {
 		cardLayout.show(getDesctiptorPanel(), currentPanelId);
 		this.currentPanel = currentPanelId;
+		this.repaint();
 	}
 	
 	private JPanel getDesctiptorPanel() {
@@ -222,6 +238,7 @@ public class VcDlgMetadataSetting extends JDialog {
 			descriptorPanel.add(getInitialPanel(), INITIAL_PANEL);
 			descriptorPanel.add(getTypeMetadataPanel(), TYPEMETADATA_PANEL);
 			descriptorPanel.add(getConfirmPanel(), CONFIRM_PANEL);
+			descriptorPanel.add(getLogPanel(), LOG_PANEL);
 		}
 		return descriptorPanel;
 	}
@@ -231,19 +248,19 @@ public class VcDlgMetadataSetting extends JDialog {
 			initialPanel = new JPanel();
 			
 			initialPanel.setLayout(null);
-			JLabel lblRow1 = new JLabel("Welcome to configurazion wizard.");
+			JLabel lblRow1 = new JLabel(Messages.getString("VcDlgMetadataSetting.welcome1"));
 			lblRow1.setBounds(26, 11, 537, 14);
 			initialPanel.add(lblRow1);
 			
-			JLabel lblRow1_1 = new JLabel("Impostazioni di configurazione iniziali per la gestione dei dati.");
+			JLabel lblRow1_1 = new JLabel(Messages.getString("VcDlgMetadataSetting.welcome2"));
 			lblRow1_1.setBounds(47, 36, 409, 14);
 			initialPanel.add(lblRow1_1);
 			
-			JLabel lblRow2 = new JLabel("Seguire le istruzioni per configurare il sistema.");
+			JLabel lblRow2 = new JLabel(Messages.getString("VcDlgMetadataSetting.welcome3"));
 			lblRow2.setBounds(26, 276, 537, 14);
 			initialPanel.add(lblRow2);
 			
-			JLabel lblRow3 = new JLabel("Premere \"continua\" per proseguire.");
+			JLabel lblRow3 = new JLabel(Messages.getString("VcDlgMetadataSetting.welcome4"));
 			lblRow3.setBounds(26, 294, 537, 14);
 			initialPanel.add(lblRow3);
 		}
@@ -261,7 +278,7 @@ public class VcDlgMetadataSetting extends JDialog {
 		    
 		    typeMetadataPanel.add(getMysqlOptionPanel());
 
-		    JLabel lblInstallType = new JLabel("Selezionare il tipo di installazione:");
+		    JLabel lblInstallType = new JLabel(Messages.getString("VcDlgMetadataSetting.metaPanel1"));
 			lblInstallType.setBounds(26, 11, 385, 14);
 			typeMetadataPanel.add(lblInstallType);
 			
@@ -272,7 +289,7 @@ public class VcDlgMetadataSetting extends JDialog {
 			setEnableMysqlOptionPanel(!isDbEmbedded);
 		    setEnableDerbyOptionPanel(isDbEmbedded);
 
-			JRadioButton rdbtnLocal = new JRadioButton("Utilizzo utente singolo (database Derby su pc locale)");
+			JRadioButton rdbtnLocal = new JRadioButton(Messages.getString("VcDlgMetadataSetting.metaPanel2"));
 			rdbtnLocal.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setEnableMysqlOptionPanel(false);
@@ -284,7 +301,7 @@ public class VcDlgMetadataSetting extends JDialog {
 			rdbtnLocal.setBounds(51, 32, 418, 23);
 			typeMetadataPanel.add(rdbtnLocal);
 			
-			JRadioButton rdbtnMySql = new JRadioButton("Multiutente (database MySql)");
+			JRadioButton rdbtnMySql = new JRadioButton(Messages.getString("VcDlgMetadataSetting.metaPanel3"));
 			rdbtnMySql.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setEnableMysqlOptionPanel(true);
@@ -300,11 +317,37 @@ public class VcDlgMetadataSetting extends JDialog {
 		    group.add(rdbtnLocal);
 		    group.add(rdbtnMySql);
 		    
-		    JLabel label = new JLabel("Premere \"continua\" per proseguire.");
+		    JLabel label = new JLabel(Messages.getString("VcDlgMetadataSetting.metaPanel3"));
 		    label.setBounds(26, 294, 537, 14);
 		    typeMetadataPanel.add(label);
 		}
 		return typeMetadataPanel;
+	}
+	
+	private JPanel getLogPanel() {
+
+		if (logPanel == null) {
+			logPanel = new JPanel();
+			
+			logPanel.setLayout(null);
+			
+			progressBar.setBounds(12, 62, 571, 20);
+			logPanel.add(progressBar);
+			
+			JLabel lblInstallationInProgress = new JLabel("Installation in progress...");
+			lblInstallationInProgress.setBounds(12, 13, 571, 16);
+			logPanel.add(lblInstallationInProgress);
+			
+			lblCurrentAction.setBounds(12, 42, 571, 16);
+			logPanel.add(lblCurrentAction);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(12, 94, 571, 220);
+			logPanel.add(scrollPane);
+			scrollPane.setViewportView(textAreaLog);
+		}
+		return logPanel;
+
 	}
 	
 	private void setEnableDerbyOptionPanel(boolean enabled) {
@@ -319,7 +362,7 @@ public class VcDlgMetadataSetting extends JDialog {
 			derbyOptionPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		    derbyOptionPanel.setBounds(26, 88, 263, 201);
 		    
-		    JLabel lblInserireLaLocazione = new JLabel("Inserire la locazione dei metadati");
+		    JLabel lblInserireLaLocazione = new JLabel(Messages.getString("VcDlgMetadataSetting.derbyOpt1"));
 		    lblInserireLaLocazione.setBounds(10, 0, 252, 14);
 		    derbyOptionPanel.add(lblInserireLaLocazione);
 		    
@@ -327,7 +370,7 @@ public class VcDlgMetadataSetting extends JDialog {
 		    if (metadataLocation == null || metadataLocation.equals(""))
 		    	metadataLocation = EnvConstants.USER_HOME_DIR;
 		    
-		    rdbtnDefaultSo = new JRadioButton("Default (Consigliato)");
+		    rdbtnDefaultSo = new JRadioButton(Messages.getString("VcDlgMetadataSetting.derbyOpt2"));
 		    rdbtnDefaultSo.addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
 		    		metadataLocation = EnvConstants.USER_HOME_DIR;
@@ -339,7 +382,7 @@ public class VcDlgMetadataSetting extends JDialog {
 		    rdbtnDefaultSo.setSelected(metadataLocation.equals(EnvConstants.USER_HOME_DIR));
 		    derbyOptionPanel.add(rdbtnDefaultSo);
 		    
-		    rdbtnPortable = new JRadioButton("Portable");
+		    rdbtnPortable = new JRadioButton(Messages.getString("VcDlgMetadataSetting.derbyOpt3"));
 		    rdbtnPortable.addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
 		    		metadataLocation = EnvConstants.PORTABLE_HOME_DIR;
@@ -352,7 +395,7 @@ public class VcDlgMetadataSetting extends JDialog {
 		    derbyOptionPanel.add(rdbtnPortable);
 		    
 		    boolean isCustomLocation = !metadataLocation.equals(EnvConstants.USER_HOME_DIR) && !metadataLocation.equals(EnvConstants.PORTABLE_HOME_DIR);
-		    rdbtnCustom = new JRadioButton("Custom");
+		    rdbtnCustom = new JRadioButton(Messages.getString("VcDlgMetadataSetting.derbyOpt4"));
 		    rdbtnCustom.addActionListener(new ActionListener() {
 		    	public void actionPerformed(ActionEvent e) {
 		    		txfLocation.setEnabled(true);
@@ -457,38 +500,38 @@ public class VcDlgMetadataSetting extends JDialog {
 		    mysqlOptionPanel.add(txpPsw);
 		    
 		    txfTablrPrefix = new JTextField();
-		    txfTablrPrefix.setText("_rl");
+		    txfTablrPrefix.setText(EnvProperties.getInstance().getProperty(EnvProperties.DB_TABLE_PREFIX));
 		    txfTablrPrefix.setBounds(89, 145, 164, 20);
 		    mysqlOptionPanel.add(txfTablrPrefix);
 		    txfTablrPrefix.setColumns(10);
 		    btnTestConnection.setBounds(72, 170, 128, 23);
 		    mysqlOptionPanel.add(btnTestConnection);
 		    
-		    JLabel lblInserireIParametri = new JLabel("Inserire i parametri di connessione MySql");
+		    JLabel lblInserireIParametri = new JLabel(Messages.getString("VcDlgMetadataSetting.mysqlOpt1"));
 		    lblInserireIParametri.setBounds(10, 0, 243, 14);
 		    mysqlOptionPanel.add(lblInserireIParametri);
 		    
-		    JLabel lblHost = new JLabel("Host:");
+		    JLabel lblHost = new JLabel(Messages.getString("VcDlgMetadataSetting.mysqlOpt2"));
 		    lblHost.setBounds(10, 24, 79, 14);
 		    mysqlOptionPanel.add(lblHost);
 		    
-		    JLabel lblPort = new JLabel("Port:");
+		    JLabel lblPort = new JLabel(Messages.getString("VcDlgMetadataSetting.mysqlOpt3"));
 		    lblPort.setBounds(10, 48, 79, 14);
 		    mysqlOptionPanel.add(lblPort);
 		    
-		    JLabel lblDbName = new JLabel("DB Name:");
+		    JLabel lblDbName = new JLabel(Messages.getString("VcDlgMetadataSetting.mysqlOpt4"));
 		    lblDbName.setBounds(10, 73, 79, 14);
 		    mysqlOptionPanel.add(lblDbName);
 		    
-		    JLabel lblUser = new JLabel("User:");
+		    JLabel lblUser = new JLabel(Messages.getString("VcDlgMetadataSetting.mysqlOpt5"));
 		    lblUser.setBounds(10, 98, 79, 14);
 		    mysqlOptionPanel.add(lblUser);
 		    
-		    JLabel lblPassword = new JLabel("Password:");
+		    JLabel lblPassword = new JLabel(Messages.getString("VcDlgMetadataSetting.mysqlOpt6"));
 		    lblPassword.setBounds(10, 123, 79, 14);
 		    mysqlOptionPanel.add(lblPassword);
 		    
-		    JLabel lblTablePrefix = new JLabel("Table Prefix:");
+		    JLabel lblTablePrefix = new JLabel(Messages.getString("VcDlgMetadataSetting.mysqlOpt7"));
 		    lblTablePrefix.setBounds(10, 148, 79, 14);
 		    mysqlOptionPanel.add(lblTablePrefix);
 		    
@@ -513,11 +556,11 @@ public class VcDlgMetadataSetting extends JDialog {
 			confirmPanel = new JPanel();
 			confirmPanel.setLayout(null);
 			
-			JLabel lblTitConfirm = new JLabel("Confermare le ipostazioni selezionate");
+			JLabel lblTitConfirm = new JLabel(Messages.getString("VcDlgMetadataSetting.confirmPnl1"));
 			lblTitConfirm.setBounds(26, 11, 385, 14);
 			confirmPanel.add(lblTitConfirm);
 			
-			JLabel lblFootConfirm = new JLabel("Premere \"Installa\" per completare l'operazione.");
+			JLabel lblFootConfirm = new JLabel(Messages.getString("VcDlgMetadataSetting.confirmPnl2"));
 			lblFootConfirm.setBounds(26, 294, 537, 14);
 			confirmPanel.add(lblFootConfirm);
 			
@@ -538,12 +581,12 @@ public class VcDlgMetadataSetting extends JDialog {
 		Vector confirmOptions = new Vector();
 		
 		Vector v1_dbEmbedded = new Vector();
-		v1_dbEmbedded.add("Utente Singolo");
+		v1_dbEmbedded.add(Messages.getString("VcDlgMetadataSetting.confirmOpt1"));
 		v1_dbEmbedded.add(isDbEmbedded);
 		confirmOptions.add(v1_dbEmbedded);
 		
 		Vector v2_metadataLocation = new Vector();
-		v2_metadataLocation.add("Locazione database embedded");
+		v2_metadataLocation.add(Messages.getString("VcDlgMetadataSetting.confirmOpt2"));
 		v2_metadataLocation.add(metadataLocation);
 		confirmOptions.add(v2_metadataLocation);
 		
@@ -573,14 +616,16 @@ public class VcDlgMetadataSetting extends JDialog {
 		confirmOptions.add(v7_txfTablrPrefix);
 		
 		Vector<String> colname = new Vector<String>();
-		colname.add("Opzione");
-		colname.add("Valore");
+		colname.add(Messages.getString("VcDlgMetadataSetting.confirmOpt3"));
+		colname.add(Messages.getString("VcDlgMetadataSetting.confirmOpt4"));
 		TableModel dataModel = new DefaultTableModel(confirmOptions, colname);
 		
 		confirmTableOptions.setModel(dataModel);
 	}
 	
 	private void install() {
+		
+		setCurrentPanel(LOG_PANEL);
 		
 		logger.debug("install");
 		
@@ -600,25 +645,29 @@ public class VcDlgMetadataSetting extends JDialog {
 	        EnvProperties.getInstance().setProperty(EnvProperties.DB_USER, txfUrer.getText());
 	        EnvProperties.getInstance().setProperty(EnvProperties.DB_PASSW, txpPsw.getText());
 	        EnvProperties.getInstance().setProperty(EnvProperties.DB_TABLE_PREFIX, txfTablrPrefix.getText());
-	        EnvProperties.getInstance().saveFileProperty();
 			
-	        // Installazione database
+	        
+	        
 	        try {
-	        	logger.debug("is installing db");
-		        InstallUtil.installDb(isDbEmbedded);
+	        	// Installazione database
+		        InstallUtil install = new InstallUtil(isDbEmbedded, progressBar, lblCurrentAction, textAreaLog);
+		        install.run();
 		        
-		        JOptionPane.showMessageDialog(getParent(), "Installazione completa", "Info", JOptionPane.INFORMATION_MESSAGE);
+		        JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgMetadataSetting.installComplete"), Messages.getString("VcDlgMetadataSetting.info"), JOptionPane.INFORMATION_MESSAGE);
+		        EnvProperties.getInstance().saveFileProperty();
+		        
 		        logger.debug("is ok");
-		        dispose();
+//		        dispose();
 		        
 	        } catch (Exception e) {
 	        	logger.error(e+"\n", e); 
-	        	JOptionPane.showMessageDialog(getParent(), "Errore installazione: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	        	EnvProperties.getInstance().loadProperties();
+	        	JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgMetadataSetting.installError1") + e.getMessage(), Messages.getString("VcDlgMetadataSetting.error"), JOptionPane.ERROR_MESSAGE);
 	        }
 	        
 		} else {
 			logger.error("Db connection error:" + result); 
-			JOptionPane.showMessageDialog(getParent(), "Errore installazione, connessione database non disponobile", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgMetadataSetting.installError2"), Messages.getString("VcDlgMetadataSetting.error"), JOptionPane.ERROR_MESSAGE);
 		}
     }
 }

@@ -47,38 +47,12 @@ public abstract class AbstractFileScriptExec {
 	public abstract String getPrefix();
 	
 	/**
-	 * Execution of file
-	 * @author Fabrizio Ferraiuolo 24/ago/2011 16:07:46 
-	 */
-	public void execute() throws Exception {
-		
-		getLogger().debug("Start file execution..."); //$NON-NLS-1$
-		try {
-			for (String instr : getInstallInstructions()) {
-				try {
-					getLogger().debug("Script in execution: " + instr);
-	                executeInstruction(instr);
-                } catch (SQLException e) {
-//	                e.printStackTrace();
-	                getLogger().error(e+"\n", e); 
-	                throw e;
-                }
-			}
-        } catch (IOException e) {
-//	        e.printStackTrace();
-        	getLogger().error(e+"\n", e); 
-        	throw e;
-        }
-		
-	}
-	
-	/**
 	 * Execution instruction
 	 * @author Fabrizio Ferraiuolo 24/ago/2011 16:10:32
 	 * @param instruction
 	 * @throws SQLException 
 	 */
-	private void executeInstruction(String instruction) throws SQLException {
+	public void executeInstruction(String instruction) throws SQLException {
 		Connection con = CommonMetodBin.getConn();
 		try {
 			Statement smtp = con.createStatement();
@@ -99,7 +73,7 @@ public abstract class AbstractFileScriptExec {
 	 * @return
 	 * @throws IOException 
 	 */
-	private List<String> getInstallInstructions() throws IOException {
+	public List<String> getInstallInstructions() throws IOException {
         FileReader fr = new FileReader(new File(getInstallFile()));
         
 		String fileContent = new String();
