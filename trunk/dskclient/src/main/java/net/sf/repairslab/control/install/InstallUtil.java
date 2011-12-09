@@ -45,10 +45,7 @@ public class InstallUtil {
 				for (String instr : instInstrs) {
 					try {
 						logger.debug("Script in execution: " + instr);
-//						setInstallInstruction(instr);
 						percent = percent + increment;
-//						setInstallPercent(Math.round(percent));
-						
 						instruction.setText(instr);
 						logArea.append(instr + "\n\n");
 						progress.setValue(Math.round(percent));

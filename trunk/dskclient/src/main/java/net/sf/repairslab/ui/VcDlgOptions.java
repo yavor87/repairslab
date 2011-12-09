@@ -534,7 +534,7 @@ public class VcDlgOptions extends JDialog {
 		if (btnAdvOpt == null) {
 			btnAdvOpt = new JButton();
 			btnAdvOpt.setBounds(new Rectangle(335, 588, 140, 29));
-			btnAdvOpt.setText(Messages.getString("VcDlgOptions.btnAdvOpt")); //$NON-NLS-1$
+			btnAdvOpt.setText(Messages.getString("VcDlgOptions.btnMetadataSetting")); //$NON-NLS-1$
 			btnAdvOpt.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 //					VcDlgAdvancedOptions dlgAo = new VcDlgAdvancedOptions(parent);
