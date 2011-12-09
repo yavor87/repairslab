@@ -8,6 +8,9 @@ import java.awt.Frame;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -27,6 +30,7 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -34,7 +38,7 @@ import javax.swing.table.TableModel;
 import net.sf.repairslab.EnvConstants;
 import net.sf.repairslab.EnvProperties;
 import net.sf.repairslab.control.CommonMetodBin;
-import net.sf.repairslab.control.install.InstallUtil;
+import net.sf.repairslab.control.install.MySqlFileScriptExec;
 import net.sf.repairslab.ui.messages.Messages;
 import net.sf.repairslab.util.ui.txf.NumericTextField;
 
@@ -650,11 +654,53 @@ public class VcDlgMetadataSetting extends JDialog {
 	        
 	        try {
 	        	// Installazione database
-		        InstallUtil install = new InstallUtil(isDbEmbedded, progressBar, lblCurrentAction, textAreaLog);
-		        install.run();
-		        
-		        JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgMetadataSetting.installComplete"), Messages.getString("VcDlgMetadataSetting.info"), JOptionPane.INFORMATION_MESSAGE);
-		        EnvProperties.getInstance().saveFileProperty();
+//		        InstallUtil install = new InstallUtil(isDbEmbedded, progressBar, lblCurrentAction, textAreaLog);
+//		        install.run();
+	        	if (isDbEmbedded) {
+	    			logger.debug("Embedded installazion");
+	    			
+	    		} else {
+	    			logger.debug("Server installazion");
+	    			final MySqlFileScriptExec mySqlFileScriptExec = new MySqlFileScriptExec();
+	    			progressBar.setStringPainted(true);
+	    			setProgressStatus(0);
+//	    			Thread t = new Thread(){
+//	    				@Override
+//	    				public void run() {
+	    					try {
+	    	    				List<String> instInstrs = mySqlFileScriptExec.getInstallInstructions();
+	    	    				float increment = 100 / instInstrs.size();
+	    	    				float percent = 0;
+	    	    				for (String instr : instInstrs) {
+	    	    					try {
+	    	    						logger.debug("Script in execution: " + instr);
+	    	    						percent = percent + increment;
+//	    	    						lblCurrentAction.setText(instr);
+//	    	    						textAreaLog.append(instr + "\n\n");
+//	    	    						progressBar.setValue(Math.round(percent));
+	    	    						mySqlFileScriptExec.executeInstruction(instr);
+	    	    						
+	    	    						setProgressStatus(Math.round(percent));
+	    	    	                } catch (SQLException e) {
+	    	    		                logger.error(e+"\n", e); 
+//	    	    		                throw e;
+	    	    	                }
+	    	    				}
+	    	    				
+	    	    				JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgMetadataSetting.installComplete"), Messages.getString("VcDlgMetadataSetting.info"), JOptionPane.INFORMATION_MESSAGE);
+	    	    		        EnvProperties.getInstance().saveFileProperty();
+	    	    				
+	    	    	        } catch (IOException e) {
+	    	    	        	logger.error(e+"\n", e); 
+//	    	    	        	throw e;
+	    	    	        }
+//	    				}
+//	    			};
+//	    			t.run();
+//	    			SwingUtilities.invokeLater(t);
+	    			
+	    			
+	    		}
 		        
 		        logger.debug("is ok");
 //		        dispose();
@@ -669,5 +715,15 @@ public class VcDlgMetadataSetting extends JDialog {
 			logger.error("Db connection error:" + result); 
 			JOptionPane.showMessageDialog(getParent(), Messages.getString("VcDlgMetadataSetting.installError2"), Messages.getString("VcDlgMetadataSetting.error"), JOptionPane.ERROR_MESSAGE);
 		}
+    }
+	
+	public void setProgressStatus(int status) {
+        final int value = (status > 0 ? status : progressBar.getMaximum());
+        Runnable setProgressBar = new Runnable() {
+            public void run() {
+                progressBar.setValue(value);
+            }
+        };
+        SwingUtilities.invokeLater(setProgressBar);
     }
 }
