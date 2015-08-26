@@ -2,7 +2,9 @@
 
 This system allow to manage the entry and exit of equipment repair in a small workshop for repairs or service center. The application allows the printing of a "Repair sheet" for each device and manage the state of repair.
 
-Features
+This is a clone of the official SourceForge [repo](https://sourceforge.net/projects/repairslab/).
+
+## Features
 * Repair sheet management
 * Printing sheet
 * Repair status monitoring
@@ -27,6 +29,9 @@ Contributors
 * Gabriel [Romanian Translation]
 * Anna Perczyńska [Polish Translation]
 * Igor Brkarić [Croatian Translation]
+
+## Translations
+Do you want to collaborate to translate RepairsLab? Check out [this](https://poeditor.com/join/project/J2mE6PmmqX) POEditor page.
 
 
 ## License
