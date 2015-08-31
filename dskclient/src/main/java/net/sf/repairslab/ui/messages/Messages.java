@@ -25,6 +25,7 @@ public class Messages {
 	private static final String BUNDLE_NAME_pl = "net.sf.repairslab.ui.messages.Messages_pl_enc"; //$NON-NLS-1$
 	private static final String BUNDLE_NAME_hr = "net.sf.repairslab.ui.messages.Messages_hr_enc"; //$NON-NLS-1$
 	private static final String BUNDLE_NAME_ru = "net.sf.repairslab.ui.messages.Messages_ru_enc"; //$NON-NLS-1$
+	private static final String BUNDLE_NAME_bg = "net.sf.repairslab.ui.messages.Messages_bg_enc"; //$NON-NLS-1$
 
 	private static ResourceBundle RESOURCE_BUNDLE = null;
 
@@ -72,6 +73,9 @@ public class Messages {
 			}else if(language.equals("ru")){	
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_ru,new Locale("ru","RU"));
 				Locale.setDefault(new Locale("ru","RU"));
+			}else if(language.equals("bg")){	
+				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_bg,new Locale("bg","BG"));
+				Locale.setDefault(new Locale("bg","BG"));
 			}else {
 				RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME_en,Locale.ENGLISH);
 				Locale.setDefault(Locale.ENGLISH);
@@ -113,6 +117,7 @@ public class Messages {
 		result.put("pl", new Locale("pl","PL").getDisplayLanguage()); //"Polish"
 		result.put("hr", new Locale("hr","HR").getDisplayLanguage()); //"Croatian"
 		result.put("ru", new Locale("ru","RU").getDisplayLanguage()); //"Russian"
+		result.put("bg", new Locale("bg","BG").getDisplayLanguage()); //"Bulgarian"
 		return result;
 	}
 
