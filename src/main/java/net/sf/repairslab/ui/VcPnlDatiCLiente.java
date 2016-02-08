@@ -205,11 +205,6 @@ public class VcPnlDatiCLiente extends JPanel {
 			txfCognome.setText(scheda.getBinCliente().getCognome());
 			txfCognome.setBounds(new Rectangle(220, 95, 300, 25));
 			txfCognome.setEditable(false);
-			txfCognome.addFocusListener(new java.awt.event.FocusAdapter() {
-				public void focusLost(java.awt.event.FocusEvent e) {
-					existCliente();
-				}
-			});
 		}
 		return txfCognome;
 	}
@@ -225,21 +220,15 @@ public class VcPnlDatiCLiente extends JPanel {
 			txfNome.setText(scheda.getBinCliente().getNome());
 			txfNome.setBounds(new Rectangle(220, 65, 300, 25));
 			txfNome.setEditable(false);
-			txfNome.addFocusListener(new java.awt.event.FocusAdapter() {
-				public void focusLost(java.awt.event.FocusEvent e) {
-					existCliente();
-				}
-			});
 		}
 		return txfNome;
 	}
 	
-	private void existCliente(){
+	private void existCliente(String mobilePhone){
 		if(modalityCliente != modeCliente.view){
 			try {
 				logger.debug("existCliente..."); //$NON-NLS-1$
-				int idCliente = DbSchedaAction.existCliente(con,
-						getTxfNome().getText(), getTxfCognome().getText());
+				int idCliente = DbSchedaAction.existCliente(con, mobilePhone);
 				if(idCliente>0){
 					
 					int confirm = JOptionPane.showConfirmDialog(getParent(),
@@ -248,8 +237,7 @@ public class VcPnlDatiCLiente extends JPanel {
 					if (confirm == JOptionPane.OK_OPTION){
 						selezionaCliente(idCliente);
 					}else if (confirm == JOptionPane.NO_OPTION){
-						getTxfNome().setText(""); //$NON-NLS-1$
-						getTxfCognome().setText(""); //$NON-NLS-1$
+						getTxfMobile().setText(""); //$NON-NLS-1$
 					}
 					
 				}
@@ -316,6 +304,11 @@ public class VcPnlDatiCLiente extends JPanel {
 			txfMobile.setText(scheda.getBinCliente().getMobilePhone());
 			txfMobile.setBounds(new Rectangle(220, 155, 300, 25));
 			txfMobile.setEditable(false);
+			txfMobile.addFocusListener(new java.awt.event.FocusAdapter() {
+				public void focusLost(java.awt.event.FocusEvent e) {
+					existCliente(txfMobile.getText());
+				}
+			});
 		}
 		return txfMobile;
 	}

@@ -364,12 +364,11 @@ public class DbSchedaAction {
 		smtpIns.close();
 	}
 	
-	public static int existCliente(Connection con,String nome,String cognome) throws SQLException{
+	public static int existCliente(Connection con,String phone) throws SQLException{
 		Statement smtp = con.createStatement();
 		String qry = "select id " +
 				"from clienti " +
-				"where nome = '"+nome+"' " +
-				"and cognome = '"+cognome+"' ";
+				"where mobilePhone = '"+phone+"'";
 		ResultSet rs = smtp.executeQuery(qry);
 		int c = 0;
 		while (rs.next()) {
